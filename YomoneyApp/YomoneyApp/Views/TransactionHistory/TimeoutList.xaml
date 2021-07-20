@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.TransactionHistory.TimeoutList" 
+            
+    xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"    
+     NavigationPage.HasNavigationBar="False"
+	IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
+                <StackLayout.Orientation>
+                    <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
+                </StackLayout.Orientation>
+                <ActivityIndicator  HorizontalOptions="Center"
+								   IsRunning="{Binding IsBusy}"
+								   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+			    	 VerticalOptions="Center"
+			    	 Text="Loading..."/>
+            </StackLayout>
+            <ListView
+				x:Name="StoreList"
+                SelectedItem="{Binding SelectedRetry, Mode=TwoWay}"
+				ItemsSource="{Binding PendingTransactions}"
+				IsGroupingEnabled="false"
+            	HasUnevenRows="true"
+                RefreshCommand="{Binding ForceRefreshCommand}"
+                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                IsPullToRefreshEnabled="false"
+                SeparatorVisibility="None"
+                RowHeight="40">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.Height>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                            </ViewCell.Height>
+                            <local:GroupHeaderView/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame CornerRadius="5 " BackgroundColor="#F5F5F5">
+                                <StackLayout  Padding="8" Spacing="4" VerticalOptions="Center">
+                                    <Label Text="{Binding Title}" TextColor="Black" FontSize="Medium" LineBreakMode="WordWrap"/>
+                                    <Label Text="{Binding Description}" TextColor="Gray" HorizontalOptions="Start" FontSize="Small" LineBreakMode="WordWrap"/>
+                                    <Label Text="{Binding date}" TextColor="Green" HorizontalOptions="End" FontSize="Small" LineBreakMode="WordWrap"/>
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Spani.SearchPage">
+    <ContentPage.Content>
+        <StackLayout  BackgroundColor="White" >
+            <StackLayout  Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                           VerticalOptions="Center"
+                           Text="Job Request" 
+                           FontSize="Medium"  
+                           TextColor="White"  
+                           LineBreakMode="NoWrap"/>
+                    <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+			        x:Name="ButtonClose"
+			        BackgroundColor="Transparent"
+			        BorderRadius="6"
+			        TextColor="White" 
+                    FontAttributes="Bold"
+			        Image="back.png"
+                    HorizontalOptions="Start"  
+			        />
+
+                </Grid>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand" Padding="10" BackgroundColor="White">
+                <StackLayout  VerticalOptions="FillAndExpand">
+
+                    <Label
+			        FontSize="Small"
+			        Text="Request for a service you need a consultant/freelancer to assist you on."
+			        TextColor="#169F85"/>
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Start"   
+			        Text="Category"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+                     VerticalOptions="End"
+			        />
+
+                    <Label  
+			        FontSize="Small"
+                    VerticalTextAlignment="Start" 
+			        Text="Service"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerSubcategory"
+                     VerticalOptions="End"
+			        />
+
+                   
+
+                </StackLayout>
+
+            </ScrollView>
+            <StackLayout Padding="10">
+                <Button 
+                
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Search"
+			Command="{Binding SearchRequestCommand}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

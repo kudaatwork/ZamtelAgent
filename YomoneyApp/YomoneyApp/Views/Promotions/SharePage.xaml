@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Services.SharePage"
+             Title="{Binding Title}"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout 
+                    Padding="8"
+                    Spacing="4"
+                    VerticalOptions="Center" IsVisible="{Binding IsAdvert}">
+                <Grid RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image}" HorizontalOptions="FillAndExpand"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding Title}" FontSize="Medium" LineBreakMode="NoWrap"/>
+                    <Label Grid.Row="2" Grid.Column="0" Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="{Binding WebLink}"  TextColor="Blue" FontSize="Small" LineBreakMode="WordWrap">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ClickCommand"
+                                              CommandParameter="{Binding WebLink}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Button
+                        IsVisible="{Binding IsShare}"
+                        Grid.Row="4" 
+			            BackgroundColor="#e2762b"
+			            BorderRadius="6"
+			            TextColor="White" 
+			            Text="Share Advert"
+			            CommandParameter="{Binding}" 
+                        Clicked="AdvertClicked"/>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

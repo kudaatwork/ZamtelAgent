@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xWebService="clr-namespace:YomoneyApp.Views.Promotions;assembly=YomoneyApp" 
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:me="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="YomoneyApp.Views.Promotions.PromotionHome"
+             NavigationPage.HasNavigationBar="False"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                           VerticalOptions="Center" 
+                           Text="Promotions" 
+                           FontSize="Medium"  
+                           TextColor="White"  
+                           LineBreakMode="NoWrap"/>
+                    <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+			        x:Name="ButtonClose"
+			        BackgroundColor="Transparent"
+			        BorderRadius="6"
+			        TextColor="White" 
+			        Image="back.png"
+                    HorizontalOptions="Start" 
+			      />
+                        <Button 
+                        Grid.Row="0"
+                        Grid.Column="2"
+			            x:Name="ButtonSearch"
+			            BackgroundColor="Transparent"
+			            BorderRadius="6"
+			            TextColor="White" 
+			            Image="search.png"
+                        HorizontalOptions="End" 
+			             />
+
+                </Grid>
+            </StackLayout>
+            <StackLayout HeightRequest="100">
+                <xWebService:PromotionCategory Padding="0,-5" x:Name="PromotionCategory"/>
+            </StackLayout>
+            <ListView
+				x:Name="StoreList"
+                SelectionMode="None"
+				ItemsSource="{Binding ServiceList}"
+				IsGroupingEnabled="false"
+            	HasUnevenRows="true"
+                >
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.Height>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                            </ViewCell.Height>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Grid IsVisible="{Binding IsAdvert}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="65"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="65"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+                                    <controls:CircleImage 
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center" 
+                                            BorderThickness="2"
+                                             Aspect="AspectFit">
+                                        <controls:CircleImage.WidthRequest>
+                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                        </controls:CircleImage.WidthRequest>
+                                        <controls:CircleImage.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                        </controls:CircleImage.HeightRequest>
+                                        <controls:CircleImage.Source>
+                                            <UriImageSource Uri="{Binding UserImage}" CacheValidity="14" CachingEnabled="true"/>
+                                        </controls:CircleImage.Source>
+                                    </controls:CircleImage>
+                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"  Padding="10,3"  Text="{Binding Note}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#e2762b"  LineBreakMode="WordWrap" />
+                                    <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"  Source="{Binding Image}" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
+                                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"  Padding="10,3" Text="{Binding Title}" TextColor="Black" FontSize="Medium" LineBreakMode="NoWrap"/>
+                                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"  Padding="10,3" Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                    <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="0"
+                                        Padding="10,3" 
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="like.png"/>
+                                    <Label Grid.Row="4" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="End"  Text="{Binding Count}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                    <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="1"
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="Promoshare.png"/>
+                                    <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="End"  Text="Share" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                    <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="3"
+                                        Grid.ColumnSpan="1"
+                                        CornerRadius="8"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="Green"
+                                        TextColor="White"
+                                        Text=" More"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Learn_Clicked"/>
+                                </Grid>
+
+                                <Grid IsVisible="{Binding IsNotAdvert}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="65"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="60"/>
+                                        <RowDefinition Height="220" />
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+                                    <controls:CircleImage 
+                                         Grid.Row="0"
+                                        Grid.Column="0"
+                                        VerticalOptions="Center"
+                                          HorizontalOptions="Center" 
+                                              BorderThickness="2"
+                                               Aspect="AspectFit">
+                                        <controls:CircleImage.WidthRequest>
+                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                        </controls:CircleImage.WidthRequest>
+                                        <controls:CircleImage.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                        </controls:CircleImage.HeightRequest>
+                                        <controls:CircleImage.Source>
+                                            <UriImageSource Uri="{Binding UserImage}" CacheValidity="14" CachingEnabled="true"/>
+                                        </controls:CircleImage.Source>
+                                    </controls:CircleImage>
+                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"   Text="{Binding Note}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#e2762b"  LineBreakMode="WordWrap" />
+                                    <me:MediaElement Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Source="{Binding Media}" MediaFailed="MediaElement_MediaFailed" ShowsPlaybackControls="True"  Aspect="AspectFill" HorizontalOptions="FillAndExpand" AutoPlay="True" />
+                                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Padding="5,3" Text="{Binding Title}" TextColor="Black" FontSize="Medium" LineBreakMode="NoWrap"/>
+                                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Padding="5,3"  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                    <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="0"
+                                        Padding="10,3" 
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="like.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Like_Clicked"/>
+                                    <Label Grid.Row="4" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="End"  Text="{Binding Count}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                    <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="1"
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="Promoshare.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Share_Clicked"/>
+                                    <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="End"  Text="Share" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                    <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="3"
+                                        Grid.ColumnSpan="1"
+                                        CornerRadius="8"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="Green"
+                                        TextColor="White"
+                                        Text=" More"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Learn_Clicked"/>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

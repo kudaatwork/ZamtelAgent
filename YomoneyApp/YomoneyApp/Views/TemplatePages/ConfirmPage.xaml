@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.TemplatePages.ConfirmPage"
+             xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             Title="{Binding Title}"
+             
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand" Padding="10">
+            
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
+                <StackLayout.Orientation>
+                    <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
+                </StackLayout.Orientation>
+                <ActivityIndicator  HorizontalOptions="Center"
+								   IsRunning="{Binding IsBusy}"
+								   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+			    	 VerticalOptions="Center"
+			    	 Text="{Binding Message}"/>
+            </StackLayout>
+
+            <StackLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand"  Orientation="Horizontal" Spacing="10" Padding="10" >
+                <ListView
+				x:Name="StoreList"
+                SelectedItem="{Binding SelectedToCopy, Mode=TwoWay}"
+				ItemsSource="{Binding Stores}"
+				IsGroupingEnabled="false"
+            	HasUnevenRows="true"
+                RefreshCommand="{Binding ForceRefreshCommand}"
+                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                IsPullToRefreshEnabled="True"
+                RowHeight="80">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.Height>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                            </ViewCell.Height>
+                            <local:GroupHeaderView/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#FFF">
+                                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#FFF">
+                                    <Label Text="{Binding Description}" FontSize="Medium"  HorizontalOptions="Center"   LineBreakMode="WordWrap" />
+                                </StackLayout>
+                             </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+              </StackLayout>
+            <Grid Margin="0,0,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+             
+                <Button 
+                Grid.Row="0"
+                Grid.Column="0"
+			    x:Name="ButtonYes"
+                IsVisible="{Binding IsConfirm}"
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="Yes"
+                Command ="{Binding GetTokenCommand}"
+			   />
+                <Button 
+                 Grid.Row="0"
+                 Grid.Column="1"
+			     x:Name="ButtonNo"
+                 IsVisible="{Binding IsConfirm}"
+			     BackgroundColor="#e2762b"
+			     BorderRadius="6"
+			     TextColor="White" 
+			     Text="No"
+                 Clicked="CancelClicked"/>
+                <Button 
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+			    x:Name="ButtonShare"
+                IsVisible="{Binding Share}"
+                 IsEnabled="{Binding Share}"
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="Click to Share"
+                CommandParameter="{Binding Stores}"
+                Clicked="ShareClicked"
+			   />
+                <Button 
+                Grid.Row="0"
+                Grid.Column="0"
+			    x:Name="ButtonRetry"
+                IsVisible="{Binding Retry}"
+                IsEnabled="{Binding Retry}"
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="{Binding RetryText}"
+                Command ="{Binding GetRetryTokenCommand}"
+			   />
+                <Button 
+                 Grid.Row="0"
+                 Grid.Column="1"
+			     x:Name="ButtonCancel"
+                 IsVisible="{Binding Retry}"
+                 IsEnabled="{Binding Retry}"
+			     BackgroundColor="#e2762b"
+			     BorderRadius="6"
+			     TextColor="White" 
+			     Text="Cancel"
+                 Clicked="CancelClicked"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

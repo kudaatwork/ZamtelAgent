@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Services.Offline">
+    <ContentPage.Content>
+        <StackLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                           VerticalOptions="Center"
+                           Text="Offline" 
+                           FontSize="Medium"  
+                           TextColor="White"  
+                           LineBreakMode="NoWrap"/>
+                    <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+			        x:Name="ButtonClose"
+			        BackgroundColor="Transparent"
+			        BorderRadius="6"
+			        TextColor="White" 
+                    FontAttributes="Bold"
+			        Image="back.png"
+                    HorizontalOptions="Start"  
+			        />
+
+                </Grid>
+            </StackLayout>
+            
+                <Image HorizontalOptions="Center" VerticalOptions="Start" Source="ic_launcher.gif"/>
+            <Label
+			        FontSize="40" 
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center" 
+			        Text="ERROR"
+			        TextColor="#e2762b"/>
+                    <Label
+			        FontSize="Large" 
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center" 
+			        Text="Internet Connection Failed"
+			        TextColor="#e2762b"/>
+          
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

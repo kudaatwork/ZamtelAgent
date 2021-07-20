@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.ViewModels.Login.NewAccount"
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             xmlns:local="clr-namespace:YomoneyApp"  
+             Title="Create Account"
+             IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+
+        <StackLayout Padding="10" BackgroundColor="White">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand">
+                  <Label
+			        FontSize="Large"
+                    HorizontalOptions="Center" 
+			        Text="Join"
+			        TextColor="Gray"/>
+                  <Label
+			        FontSize="Small" 
+                    VerticalTextAlignment="Start"
+			        Text="Account Name"
+			        TextColor="#e2762b"
+                    BackgroundColor="Transparent"
+			          />
+
+                    <Entry 
+			        Text="{Binding Name}"
+                    VerticalOptions="End"
+			        Placeholder="Enter the name people will see" 
+			        Keyboard="Default"/>
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Start"
+			        Text="Firstname and Surname"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding ContactName}"
+                    VerticalOptions="End"
+			        Placeholder="e.g Tetenda Doe" 
+			        Keyboard="Default"/>
+
+
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Start"
+			        Text="Cellphone"
+			        TextColor="#e2762b"
+			         />
+
+                    <Entry 
+			        Text="{Binding PhoneNumber}" 
+                     VerticalOptions="End"
+			        Placeholder="e.g 263772712732"
+			        Keyboard="Telephone" />
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Start"
+			        Text="Password"
+			        TextColor="#e2762b"
+			         />
+
+                    <Entry x:Name="password"
+			        Text="{Binding Password}"
+                    IsPassword="true" 
+                    VerticalOptions="End"
+			        Placeholder="Password"
+			        Keyboard="Default"/>
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Start"
+			        Text="Confirm Password"
+			        TextColor="#e2762b"
+			         />
+
+                    <Entry 
+                    x:Name="confirmPassword"
+			        Text="{Binding ConfirmPassword}"
+                    IsPassword="true" 
+                    VerticalOptions="End"
+			        Placeholder="Confirm Password"
+			        Keyboard="Default" />
+
+                </StackLayout>
+            </ScrollView>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Create Account"
+			Command="{Binding JoinCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

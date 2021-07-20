@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Spend.TockenPage"
+             xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
+            
+               Title="Transaction Token"
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" BackgroundColor="White">
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
+                <StackLayout.Orientation>
+                    <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
+                </StackLayout.Orientation>
+                <ActivityIndicator  HorizontalOptions="Center"
+								   IsRunning="{Binding IsBusy}"
+								   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+			    	 VerticalOptions="Center"
+			    	 Text="Loading..."/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand"  Orientation="Horizontal" Spacing="10" Padding="10" >
+                <ListView
+				x:Name="StoreList"
+                SelectedItem="{Binding SelectedToCopy, Mode=TwoWay}"
+				ItemsSource="{Binding Stores}"
+				IsGroupingEnabled="false"
+            	HasUnevenRows="true"
+                RefreshCommand="{Binding ForceRefreshCommand}"
+                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                IsPullToRefreshEnabled="True"
+                RowHeight="80">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.Height>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                            </ViewCell.Height>
+                            <local:GroupHeaderView/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.Padding>
+                                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
+                                </Grid.Padding>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="0"
+                                             Grid.ColumnSpan="2"
+                                             Padding="8"
+                                             Spacing="4"
+                                             BackgroundColor="#F3F3F3"
+                                             VerticalOptions="Center">
+                                        <Label Text="{Binding Description}" FontSize="Medium"  TextColor="Black" LineBreakMode="WordWrap" />
+                                        <zxing:ZXingBarcodeImageView x:Name="qrDisplay" 
+                                            BarcodeFormat="QR_CODE" 
+                                            HorizontalOptions="FillAndExpand"  VerticalOptions="StartAndExpand"                                
+                                            BarcodeValue="{Binding Image}"
+                                            HeightRequest="150" MinimumHeightRequest="150" InputTransparent="True" >        
+                                            <zxing:ZXingBarcodeImageView.BarcodeOptions>
+                                                <zxcm:EncodingOptions  Height="150"  Width="150" PureBarcode="False"  />
+                                            </zxing:ZXingBarcodeImageView.BarcodeOptions>
+                                        </zxing:ZXingBarcodeImageView>
+                                    </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            </StackLayout>
+            
+            <Button 
+			    x:Name="ButtonShare"        
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="Click to Share"
+                CommandParameter="{Binding Stores}"
+                Clicked="ShareClicked"
+			   />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

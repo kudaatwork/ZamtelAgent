@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Services.AmountPopup"
+             Title="Service Payment"
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#e2762b">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#e2762b" IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                    <Label HorizontalOptions="Center"
+	    	        VerticalOptions="Center" 
+	    	        Text="{Binding Message}"/>
+                </StackLayout>
+                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#e2762b">
+                    <Label Text="{Binding Balance}" HorizontalOptions="Center" FontSize="40" TextColor="White"  LineBreakMode="NoWrap"/>
+                    <Label Text="{Binding Section}" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="NoWrap"/>
+                    <Label Text="{Binding Title}" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="WordWrap"/>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout Padding="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <Label
+			    FontSize="Small"
+			    Text="Payment Currency"
+                VerticalTextAlignment="Center"
+                            HorizontalOptions="FillAndExpand"
+                BackgroundColor="Transparent"
+			    TextColor="#e2762b" />
+
+                    <Picker 
+			    x:Name="PickerCurrency"
+                VerticalOptions="End" 
+                HorizontalOptions="FillAndExpand"
+			    />
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Amount"
+                        HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Transparent"
+                    
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding Budget}" 
+                    VerticalOptions="End"
+			        Placeholder="{Binding Ptitle}"
+                    HorizontalOptions="FillAndExpand"
+			        Keyboard="Telephone"/>
+                </StackLayout>
+            
+
+            <Button 
+			    x:Name="ButtonPayment"
+			    BackgroundColor="#e2762b"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="Done"
+                CommandParameter="{Binding}"
+			    Command="{Binding GetAmountCommand}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

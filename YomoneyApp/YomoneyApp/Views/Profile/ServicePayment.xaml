@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Spend.ServicePayment"
+             Title="{Binding Title}"
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+                <Grid VerticalOptions="FillAndExpand">
+                    <Grid.ColumnSpacing>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>20</OnIdiom.Phone>
+                            <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.ColumnSpacing>
+
+                    <Grid.Padding>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>5,5,5,0</OnIdiom.Phone>
+                            <OnIdiom.Tablet>20,20,20,0</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.Padding>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+			        Grid.Row="0"
+			        FontSize="Small"
+			        Text="Biller"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+                    VerticalOptions="End" 
+			        Grid.Row="0"
+			        Grid.Column="0">
+                    </Picker>
+
+                    <Label
+			        Grid.Row="1"
+			        FontSize="Small"
+			        Text="Account Number"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Grid.Row="1"
+			        Text="{Binding AccountNumber}" 
+                     VerticalOptions="End"
+			        Placeholder="Billing Account"
+			        Keyboard="Telephone" />
+
+                    <Label
+			        Grid.Row="2"
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Amount"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Grid.Row="2"
+			        Text="{Binding Budget}" 
+                    VerticalOptions="End"
+			        Placeholder="Payment Amount"
+			        Keyboard="Telephone" />
+                    <Label
+			        Grid.Row="3"
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Send Sms Response"
+                    BackgroundColor="Transparent"
+                    
+			        TextColor="#e2762b" />
+                    <Switch  Grid.Row="3" HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendSms,Mode=TwoWay}"/>
+
+                    <Label
+			        Grid.Row="4"
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Mobile Number"
+                    BackgroundColor="Transparent"
+                    IsVisible="{Binding SendSms}"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Grid.Row="4"
+			        Text="{Binding PhoneNumber}" 
+                    VerticalOptions="End"
+			        Placeholder="mobile number for sms"
+                    IsVisible="{Binding SendSms}"
+			        Keyboard="Telephone" />
+
+                </Grid>
+            </ScrollView>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Pay Bill"
+			Command="{Binding CheckAccountCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

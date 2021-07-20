@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Spani.RequestBids"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+   
+    NavigationPage.HasNavigationBar="False"
+	IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout  BackgroundColor="White">
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
+                <StackLayout.Orientation>
+                    <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
+                </StackLayout.Orientation>
+                <ActivityIndicator  HorizontalOptions="Center"
+								   IsRunning="{Binding IsBusy}"
+								   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+			    	 VerticalOptions="Center"
+			    	 Text="Loading..."/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                           VerticalOptions="Center" 
+                           Text="Job Quotes" 
+                           FontSize="Medium"  
+                           TextColor="White"  
+                           LineBreakMode="NoWrap"/>
+                    <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+			        x:Name="ButtonClose"
+			        BackgroundColor="Transparent"
+			        BorderRadius="6"
+			        TextColor="White" 
+			        Image="back.png"
+              HorizontalOptions="Start" 
+			        />
+            </Grid>
+            </StackLayout>
+            <ListView
+				x:Name="BidList"
+				ItemsSource="{Binding Stores}"
+				IsGroupingEnabled="false"
+            	HasUnevenRows="true"
+                RefreshCommand="{Binding ForceRefreshCommand}"
+                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                IsPullToRefreshEnabled="True"
+                SeparatorColor="Green"
+                 RowHeight="50">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.Height>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                            </ViewCell.Height>
+                            <local:GroupHeaderView/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid >
+                                <Grid.Padding>
+                                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
+                                </Grid.Padding>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackLayout Grid.Column="0"
+                                        HorizontalOptions="CenterAndExpand" 
+                                        BackgroundColor="#FFF" 
+                                        IsVisible="{Binding IsEmptyList}">
+                                    <controls:CircleImage VerticalOptions="Center"
+                                          HorizontalOptions="Center" 
+                                              BorderColor="#e2762b"
+                                              BorderThickness="2"
+                                              Aspect="AspectFill">
+                                        <controls:CircleImage.WidthRequest>
+                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                        </controls:CircleImage.WidthRequest>
+                                        <controls:CircleImage.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                        </controls:CircleImage.HeightRequest>
+                                        <controls:CircleImage.Source>
+                                            <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
+                                        </controls:CircleImage.Source>
+                                    </controls:CircleImage>
+                                    <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#e2762b"  LineBreakMode="WordWrap" />
+                                </StackLayout>
+
+                                <StackLayout Grid.Column="0"
+                                             Padding="8"
+                                             Spacing="4"
+                                             VerticalOptions="Center"
+                                             IsVisible="{Binding IsAdvert}">
+                                    
+                                        <Image  Source="{Binding Image}" HorizontalOptions="FillAndExpand"/>
+                                        <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b"  LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                         <Button
+			                                 BackgroundColor="#e2762b"
+			                                 BorderRadius="6"
+			                                 TextColor="White" 
+			                                 Text="{Binding SupplierId}"
+			                                 CommandParameter="{Binding}" 
+                                             Clicked="AdvertClicked"/>
+                                </StackLayout>
+
+                                <StackLayout Grid.Column="0"
+                                             Padding="8"
+                                             Spacing="4"
+                                             VerticalOptions="Center"
+                                             IsVisible="{Binding IsNotAdvert}">
+                                   
+                                        <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b"  LineBreakMode="NoWrap"/>
+                                        <Label Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
+                                        <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                        <Label  Text="{Binding Amount}" TextColor="#169F85"  FontSize="Small" LineBreakMode="NoWrap"/>
+                                    
+                                    <Grid RowSpacing="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                           
+                                        </Grid.ColumnDefinitions>
+                                       
+                                        <Button
+                                            Grid.Row="0" Grid.Column="0"                      
+			                                BackgroundColor="#69ad05"
+			                                BorderRadius="6"
+			                                TextColor="White" 
+			                                Text="Award"
+			                                CommandParameter="{Binding }" 
+                                            Clicked="AwardClicked"/>
+                                        <Button
+                                            Grid.Row="0" Grid.Column="1"
+			                                BackgroundColor="#e2762b"
+			                                BorderRadius="6"
+			                                TextColor="White" 
+			                                Text="Profile"
+                                            CommandParameter="{Binding SupplierId}" 
+                                            Clicked="ProfileClicked"
+			                                />
+                                        
+                                    </Grid>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:YomoneyApp.Views.Spani;assembly=YomoneyApp"
+             x:Class="YomoneyApp.Views.Spani.SpaniCreatePage"
+             Title="Work Space">
+    <!--Pages can be added as references or inline-->
+    <NavigationPage Title="Profile">
+        <x:Arguments>
+            <local:CreateSpaniProfile />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Request">
+        <x:Arguments>
+            <local:JobRequest />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="My Requests">
+        <x:Arguments>
+            <local:Jobs />
+        </x:Arguments>
+    </NavigationPage>
+   
+</TabbedPage>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Spend.AccountEntry"
+             Title="{Binding Title}"
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" BackgroundColor="White">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand">
+                    
+
+                    <Label
+			        
+			        FontSize="Medium" 
+			        Text="{Binding Ptitle}"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			         />
+
+                    <Label
+			       
+			        FontSize="Small"
+			        Text="Account Number"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			    
+			        Text="{Binding AccountNumber}" 
+                    VerticalOptions="End"
+			        Placeholder="Billing Account"
+			        Keyboard="Telephone" />
+
+                    <Switch  HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendSms,Mode=TwoWay}"/>
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Mobile Number"
+                    BackgroundColor="Transparent"
+                    IsVisible="{Binding SendSms}"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding PhoneNumber}" 
+                    VerticalOptions="End"
+			        Placeholder="mobile number for sms"
+                    IsVisible="{Binding SendSms}"
+			        Keyboard="Telephone" />
+
+                </StackLayout>
+            </ScrollView>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Pay Bill"
+			Command="{Binding CheckAccountCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

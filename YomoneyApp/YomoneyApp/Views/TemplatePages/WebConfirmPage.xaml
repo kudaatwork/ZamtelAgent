@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.TemplatePages.WebConfirmPage"
+
+             Title="{Binding Title}"
+             IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout>
+            <ProgressBar Progress="0.2" HorizontalOptions="FillAndExpand" x:Name="progress" IsVisible="True"/>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+                <WebView x:Name="ConfirmWebview"
+                     HeightRequest="500"
+                     WidthRequest="1000"
+                     IsVisible="{Binding IsNotBusy}"
+                     VerticalOptions= "FillAndExpand" 
+                     Navigating="webOnNavigating"
+                     Navigated="webOnEndNavigating"/>
+            </ScrollView>
+            <Label HorizontalOptions="Center"
+	    	      VerticalOptions="Center" 
+                  IsVisible="{Binding Error404}"
+                   TextColor="#e2762b"
+                   FontSize="Medium"
+	    	      Text="Sorry Page Failed To Load Check Your Internet Connection"/>
+            <Grid Margin="0,0,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button 
+                Grid.Row="0"
+                Grid.Column="0"
+			    x:Name="ButtonYes"
+                IsVisible="{Binding IsConfirm}"
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="Yes"
+                Command ="{Binding GetTokenCommand}"
+                IsEnabled="{Binding IsConfirmed}"
+			   />
+                <Button 
+                 Grid.Row="0"
+                 Grid.Column="1"
+			     x:Name="ButtonNo"
+                 IsVisible="{Binding IsConfirm}"
+			     BackgroundColor="#e2762b"
+			     BorderRadius="6"
+			     TextColor="White" 
+			     Text="No"
+                 Clicked="CancelClicked"/>
+                <Button 
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+			    x:Name="ButtonShare"
+                IsVisible="{Binding Share}"
+                IsEnabled="{Binding Share}"
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="Click to Share"
+                CommandParameter="{Binding Stores}"
+                Clicked="ShareClicked"
+			   />
+                <Button 
+                Grid.Row="0"
+                Grid.Column="0"
+			    x:Name="ButtonRetry"
+                IsVisible="{Binding Retry}"
+                IsEnabled="{Binding Retry}"
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="{Binding RetryText}"
+                Command ="{Binding GetRetryTokenCommand}"
+			   />
+                <Button 
+                 Grid.Row="0"
+                 Grid.Column="1"
+			     x:Name="ButtonCancel"
+                 IsVisible="{Binding Retry}"
+                 IsEnabled="{Binding Retry}"
+			     BackgroundColor="#e2762b"
+			     BorderRadius="6"
+			     TextColor="White" 
+			     Text="Cancel"
+                 Clicked="CancelClicked"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

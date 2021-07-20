@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.SpendMenu.Recharge"
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+    NavigationPage.HasNavigationBar="False"
+	IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+                <Grid VerticalOptions="FillAndExpand">
+                    <Grid.ColumnSpacing>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>20</OnIdiom.Phone>
+                            <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.ColumnSpacing>
+                    <Grid.RowSpacing>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>10</OnIdiom.Phone>
+                            <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.RowSpacing>
+                    <Grid.Padding>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>10,10,10,0</OnIdiom.Phone>
+                            <OnIdiom.Tablet>20,20,20,0</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.Padding>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                    Grid.Row="0"
+			        FontSize="Small"
+			        Text="Request for a service you need a consultant/ freelancer to assist you on."
+			        TextColor="Gray"/>
+                    <Label
+			        Grid.Row="1"
+			        FontSize="Medium"
+			        Text="Request Title"
+			        TextColor="#e2762b"
+                    BackgroundColor="Transparent"
+			        VerticalOptions="Center"  />
+
+                    <Entry 
+			        Grid.Row="2"
+			        Text="{Binding Ptitle}"
+			        Placeholder="The title of your request" 
+			        Keyboard="Default"/>
+
+                    <Label
+			        Grid.Row="3"
+			        FontSize="Medium"
+			        Text="Category"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+			        Grid.Row="4"
+			        Grid.Column="0">
+                    </Picker>
+
+                    <Label
+			        Grid.Row="5"
+			        FontSize="Medium"
+			        Text="Service"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerSubcategory"
+			        Grid.Row="6">
+                    </Picker>
+
+                    <Label
+			        Grid.Row="7"
+			        FontSize="Medium"
+			        Text="Budget $"
+			        TextColor="#e2762b"
+			        VerticalOptions="Center" />
+
+                    <Entry 
+			        Grid.Row="8"
+			        Text="{Binding Budget}" 
+			        Placeholder="Amount on offer"
+			        Keyboard="Telephone" />
+
+                    <Label
+			        Grid.Row="9"
+			        FontAttributes="Bold"
+			        FontSize="Medium"
+			        Text="Date:"
+			        TextColor="#3498DB"
+			        VerticalOptions="Center" />
+
+                    <DatePicker 
+			        Grid.Row="10"
+			        Date="{Binding Date, Mode=TwoWay}"/>
+
+                    <Label
+			        Grid.Row="11"
+			        FontSize="Medium"
+			        Text="Description"
+			        TextColor="#e2762b"
+                    BackgroundColor="Transparent"
+			        VerticalOptions="Center"  />
+
+                    <Editor 
+			        Grid.Row="12"
+                    Grid.RowSpan="2"
+			        HeightRequest="100"
+                    
+			        Text="{Binding Description}"
+			        BackgroundColor="#103498DB"/>
+
+                </Grid>
+
+            </ScrollView>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Submit"
+			Command="{Binding SaveRequestCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

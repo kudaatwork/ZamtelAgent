@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:YomoneyApp.Views.TransactionHistory;assembly=YomoneyApp"
+             x:Class="YomoneyApp.Views.TransactionHistory.Transactions"
+            Title="Transaction History">
+  <!--Pages can be added as references or inline-->
+    <NavigationPage Title="Successful" IconImageSource="transsuccess_icon.png">
+        <x:Arguments>
+            <local:SearchByAccount />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Pending" IconImageSource="transpending_icon.png">
+        <x:Arguments>
+            <local:TimeoutList />
+        </x:Arguments>
+    </NavigationPage>
+</TabbedPage>

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="YomoneyApp.Views.TransactionHistory.HistoryRequestPage"
+    xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+    BindingContext="{Binding TransactionViewModel}"
+	Title="{Binding Title}"
+    NavigationPage.HasNavigationBar="False"
+	IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout >
+            <Image HorizontalOptions="FillAndExpand" Source="{Binding BannerImage}"/>
+            <StackLayout VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" Padding="10">
+           
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand"  BackgroundColor="White">
+               
+                    <Label
+			       
+			        FontSize="Small"
+			        Text="Service"
+                    VerticalTextAlignment="Start" 
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+                    VerticalOptions="End" 
+			       />
+
+
+                     <Label
+			           
+			            FontSize="Small"
+			            Text="Start Date"
+			            TextColor="#e2762b"
+			            VerticalTextAlignment="Start" />
+                    <DatePicker 
+			 
+			       Date="{Binding Date, Mode=TwoWay}"/>
+                    
+                    <Label
+			    
+			            FontSize="Small" 
+			            Text="End Date"
+			            TextColor="#e2762b"
+			            />
+                    <DatePicker 
+			      
+			        Date="{Binding EndDate, Mode=TwoWay}"/>
+
+
+                
+
+            </StackLayout>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Submit"
+			Command="{Binding GetTransactionCommand}"/>
+        </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

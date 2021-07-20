@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="YomoneyApp.Views.Spani.BidDetails"
+    xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+    NavigationPage.HasNavigationBar="True" 
+	IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+                <StackLayout Padding="10" BackgroundColor="white">
+                <Grid VerticalOptions="FillAndExpand">
+                    <Grid.ColumnSpacing>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>20</OnIdiom.Phone>
+                            <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.ColumnSpacing>
+                    <Grid.RowSpacing>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>10</OnIdiom.Phone>
+                            <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.RowSpacing>
+                    <Grid.Padding>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>10,10,10,0</OnIdiom.Phone>
+                            <OnIdiom.Tablet>20,20,20,0</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Grid.Padding>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+			        Grid.Row="0"
+			        FontSize="Large" 
+			        Text="{Binding Title}"
+			        TextColor="#e2762b" />
+                    
+                    <Label
+			        Grid.Row="2"
+			        FontSize="Medium"
+			        Text="{Binding Description}"
+			        TextColor="Gray"
+                    BackgroundColor="Transparent"
+			        />
+                    
+                    <Label
+			        Grid.Row="3"
+			        FontSize="Medium"
+			        Text="{Binding Budget}"
+			        TextColor="Gray"
+                    BackgroundColor="Transparent"
+			       />
+                    <Label
+			        Grid.Row="4"
+                    Grid.Column="1"
+			        FontSize="Medium"
+			        Text="{Binding Status}"
+			        TextColor="Gray"
+                    BackgroundColor="Transparent"
+			       />
+                </Grid>
+              
+                </StackLayout>
+            </ScrollView>
+            <Grid VerticalOptions="FillAndExpand" BackgroundColor="#e2762b">
+                <Grid.ColumnSpacing>
+                    <OnIdiom x:TypeArguments="x:Double">
+                        <OnIdiom.Phone>20</OnIdiom.Phone>
+                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                    </OnIdiom>
+                </Grid.ColumnSpacing>
+                <Grid.RowSpacing>
+                    <OnIdiom x:TypeArguments="x:Double">
+                        <OnIdiom.Phone>10</OnIdiom.Phone>
+                        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                    </OnIdiom>
+                </Grid.RowSpacing>
+                <Grid.Padding>
+                    <OnIdiom x:TypeArguments="Thickness">
+                        <OnIdiom.Phone>10,10,10,0</OnIdiom.Phone>
+                        <OnIdiom.Tablet>20,20,20,0</OnIdiom.Tablet>
+                    </OnIdiom>
+                </Grid.Padding>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button 
+			    x:Name="ButtonNewOffer"
+			    BackgroundColor="#e2762b"
+                Grid.Row="1"
+                Grid.Column="0"
+			    BorderRadius="5"
+			    TextColor="White" 
+			    Text="New Offer"
+			    />
+                
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

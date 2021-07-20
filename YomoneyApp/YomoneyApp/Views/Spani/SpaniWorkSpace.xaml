@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:YomoneyApp.Views.Spani;assembly=YomoneyApp"
+             x:Class="YomoneyApp.Views.Spani.SpaniWorkSpace"
+             Title="Work Space">
+  <!--Pages can be added as references or inline-->
+    <NavigationPage Title="Oppotunities" IconImageSource="opportunities_icon.png">
+        <x:Arguments>
+            <local:Oppotunities />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="My Bids" IconImageSource="bids_icon.png">
+        <x:Arguments>
+            <local:JobBids />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Requests" IconImageSource="requests_icon.png">
+        <x:Arguments>
+            <local:Jobs />
+        </x:Arguments>
+    </NavigationPage>
+</TabbedPage>

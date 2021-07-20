@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Chat.MassagingPagexaml"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             NavigationPage.HasNavigationBar="False"
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="Transparent"  VerticalOptions="FillAndExpand" >
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  BackgroundColor="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="#e2762b">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="1" 
+                           Text="{Binding Title}"
+                               VerticalOptions="Center" 
+                           FontSize="Medium"  
+                           TextColor="White"  
+                           LineBreakMode="NoWrap"/>
+                        <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+			        x:Name="ButtonClose"
+			        BackgroundColor="Transparent"
+			        BorderRadius="6"
+			        TextColor="White" 
+                    FontAttributes="Bold"
+			        Image="back.png"
+                    HorizontalOptions="Start" 
+			        />
+
+                    </Grid>
+                </StackLayout>
+               
+                <ListView
+				        x:Name="MessageList"
+                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+				        ItemsSource="{Binding Messages}"
+				        IsGroupingEnabled="false"
+            	        HasUnevenRows="true"
+                        RefreshCommand="{Binding ForceRefreshCommand}"
+                        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                        IsPullToRefreshEnabled="False"
+                        SeparatorVisibility="None" >
+                        <ListView.GroupHeaderTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.Height>
+                                            <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                                        </ViewCell.Height>
+                                        <local:GroupHeaderView/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.GroupHeaderTemplate>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.Padding>
+                                                <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
+                                            </Grid.Padding>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Frame
+                                               Grid.Column="0" Grid.ColumnSpan="3"  
+                                               IsVisible="{Binding Received}"
+                                                CornerRadius="10"
+                                                Padding="1"
+                                                 BackgroundColor="Green"
+                                                AbsoluteLayout.LayoutFlags="XProportional">
+                                                
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="0"    RowSpacing="0"   IsVisible="{Binding Received} ">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="1*"/>
+                                                            <RowDefinition Height="1*"/>
+                                                            <RowDefinition Height="1*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="1*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding SenderName}" FontSize="Default"   FontAttributes="Bold"  LineBreakMode="NoWrap"/>
+                                                        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding message}"   FontSize="Default"  LineBreakMode="WordWrap"/>
+                                                        <Label Grid.Row="2" Grid.Column="0"   Text="{Binding time}" TextColor="WhiteSmoke"   HorizontalOptions="End"  FontSize="Default"   LineBreakMode="NoWrap"/>
+                                                        <Image Grid.Row="2" Grid.Column="1"  WidthRequest="10"  HeightRequest="10" Source="{Binding image}"/>
+                                                    </Grid>
+
+                                                </Grid>
+                                            </Frame>
+                                    <Frame
+                                             IsVisible="{Binding Sent}"
+                                                Grid.Column="1" Grid.ColumnSpan="3" 
+                                                CornerRadius="10"
+                                                Padding="1"
+                                                BackgroundColor="#EFF0F1"
+                                                AbsoluteLayout.LayoutFlags="XProportional">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="0"   RowSpacing="0"  IsVisible="{Binding Sent}">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="1*"/>
+                                                            <RowDefinition Height="1*"/>
+
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding message}"  FontSize="Default"  LineBreakMode="WordWrap"/>
+                                                        <Label  Grid.Row="1" Grid.Column="0" Text="{Binding time}" TextColor="Gray"  HorizontalOptions="End"  FontSize="Default"   LineBreakMode="NoWrap"/>
+                                                        <Image Grid.Row="1" Grid.Column="1"  WidthRequest="10"  HeightRequest="10" Source="{Binding image}"/>
+                                                    </Grid>
+                                                </Grid>
+                                            </Frame>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+                    
+                
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Entry 
+			        Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalOptions="End" 
+                    IsSpellCheckEnabled="True"
+                      
+			        Text="{Binding ChatText}" 
+			        Placeholder="Message"
+			         />
+                    
+                    <Entry 
+			        Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalOptions="End" 
+			        Text="{Binding ChatMessage.ReceiverId}" 
+                    IsVisible="False" 
+			         />
+                    <Button 
+                    Grid.Row="0"
+                    Grid.Column="1"
+			        x:Name="ButtonSubmitFeedback"
+			        BackgroundColor="#e2762b"
+			        BorderRadius="6"
+			        TextColor="White" 
+			        Text="Send"
+                    CommandParameter="{Binding ChatMessage.ReceiverId}" 
+			        Command="{Binding SendMessageCommand}"/>
+
+                </Grid>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

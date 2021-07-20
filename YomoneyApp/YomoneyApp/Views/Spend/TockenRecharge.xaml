@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Spend.TockenRecharge"
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             Title="Token Recharge"
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" BackgroundColor="#ffffff">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand">
+                    
+
+                    <Label
+			        FontSize="Small"
+			        Text="Service Provider"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+                    VerticalOptions="End" 
+			       />
+
+
+                    <Label
+			       
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Amount"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerAmount"
+                    VerticalOptions="End" 
+			        />
+
+                    <Label
+			        
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Send Sms Response"
+                    BackgroundColor="Transparent" 
+			        TextColor="#e2762b" />
+                    <Switch   HorizontalOptions="Start"  VerticalOptions="End" IsToggled="{Binding SendSms}"/>
+
+                    <Label
+			      
+			        FontSize="Small"
+			        Text="Subscriber Number"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" 
+                    IsVisible="{Binding SendSms}"/>
+
+                    <Entry 
+			
+			        Text="{Binding PhoneNumber}" 
+                    VerticalOptions="End"
+			        Placeholder="Enter number to send sms"
+                    IsVisible="{Binding SendSms}"
+			        Keyboard="Telephone" />
+
+
+                </StackLayout>
+            </ScrollView>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Recharge"
+			Command="{Binding GetRechargeCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

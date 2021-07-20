@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:local="MyShop"
+             xmlns:controls="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms"
+             x:Class="YomoneyApp.Views.Services.SignaturePage"
+              Title="SIGN HERE">
+    <StackLayout>
+        <StackLayout HorizontalOptions="CenterAndExpand"  Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
+            <StackLayout.Orientation>
+                <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
+            </StackLayout.Orientation>
+            <ActivityIndicator  HorizontalOptions="Center"
+								   IsRunning="{Binding IsBusy}"
+								   IsVisible="{Binding IsBusy}"/>
+            <Label HorizontalOptions="Center"
+			    	 VerticalOptions="Center"
+			    	 Text="Loading..."/>
+        </StackLayout>
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+            x:Name="LayoutRoot" Padding="12" BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ContentView Padding="1" BackgroundColor="#B8860B">
+                <controls:SignaturePadView
+                x:Name="signatureView" StrokeCompleted="SignatureChanged" Cleared="SignatureChanged"
+                CaptionTextColor="#B8860B" ClearTextColor="#B8860B" PromptTextColor="#B8860B"
+                SignatureLineColor="#B8860B" BackgroundColor="#FAFAD2" />
+            </ContentView>
+        </Grid>
+        <StackLayout Padding="5">
+        <Button
+            x:Name="btnSaveImage"
+                Text="Save Signature" 
+                Clicked="SaveImageClicked"
+                BackgroundColor="#e2762b"
+               TextColor="White" 
+            HorizontalOptions="FillAndExpand"  VerticalOptions="End" Grid.Row="2" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

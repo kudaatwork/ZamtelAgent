@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Login.NewEmail" 
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             Title="Email Address"
+             IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" BackgroundColor="White">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                    
+
+                    <Label
+			        FontSize="Large" 
+                    HorizontalTextAlignment="Center" 
+			        Text="Account Email"
+			        TextColor="#e2762b"/>
+                    <Label
+			        FontSize="Small" 
+			        Text="{Binding Subtitle}"   
+			        TextColor="#169F85"
+                    BackgroundColor="Transparent"
+			         />
+                    <Label
+			        FontSize="Small" 
+			        Text="Email Address"    
+			        TextColor="#e2762b"
+                    BackgroundColor="Transparent"
+			         />
+
+                    <Entry 
+			        Text="{Binding Email}"
+                    VerticalOptions="End"
+			        Placeholder="Enter Email Address" 
+			       />
+
+                    <Entry 
+			            Text="{Binding PhoneNumber}"
+                        VerticalOptions="End"
+			            Placeholder="Phone number" 
+                        IsVisible="False"
+			            Keyboard="Telephone"/>
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Start"  
+			        Text="{Binding ResponseDescription}"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b"/>
+                </StackLayout>
+
+            </ScrollView>
+            <Button 
+			x:Name="ButtonSignIn"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Reset Password"
+			Command="{Binding ResetCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

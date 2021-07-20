@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Services.BuyVoucher" 
+             Title="{Binding Title}"
+	         IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" BackgroundColor="White">
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#e2762b">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#e2762b" IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                    <Label HorizontalOptions="Center"
+	    	        VerticalOptions="Center" 
+	    	        Text="{Binding Message}"/>
+                </StackLayout>
+               
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <Frame HasShadow="True" CornerRadius="6" >
+                        <Label
+			            FontSize="Small"
+			            Text="{Binding Description}"
+                        VerticalTextAlignment="Center"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="Transparent"
+			            TextColor="#69ad05" />
+                    </Frame>
+                    <Label
+			        FontSize="Small"
+			        Text="Currency of the voucher"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerCurrency"
+                    VerticalOptions="End" 
+                    HorizontalOptions="FillAndExpand"
+			        />
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Amount"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding Amount}" 
+                    VerticalOptions="End"
+			        Placeholder="Value of the voucher"
+                     />
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Receiver's Phonenumber"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding PhoneNumber}" 
+                    VerticalOptions="End"
+			        Placeholder="cellphone number"
+                    Keyboard="Telephone" 
+			         />
+
+                    <Label
+			        FontSize="Small"
+			        Text="Receiver's Full Name/s "
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding ReceiverName}" 
+			        Placeholder="First name/s as on ID or Passport"
+			         />
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Receiver's Surname"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding ReceiverSurname}" 
+                    VerticalOptions="End"
+			        Placeholder="Surname"
+                     />
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Id/Passport Number"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding Id}" 
+                    VerticalOptions="End"
+			        Placeholder="ID or Passport Number"
+                     />
+                </StackLayout>
+            </ScrollView>
+            <Button 
+			x:Name="ButtonPayment"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Make Payment"
+            CommandParameter="{Binding}"
+			 Clicked="Voucher_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

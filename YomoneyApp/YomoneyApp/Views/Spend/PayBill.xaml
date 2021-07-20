@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Spend.PayBill"
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" 
+             Title="Bill Payment"
+	  IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <StackLayout Padding="10" VerticalOptions="FillAndExpand">
+                   
+                    <Label 
+			        FontSize="Small"
+			        Text="Select Biller"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+			        />
+
+                    <Label
+			        FontSize="Small"
+			        Text="Account Number"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding AccountNumber}" 
+			        Placeholder="Billing Account"
+			        Keyboard="Telephone" />
+                
+                    <Label
+			        FontSize="Small"
+			        Text="Select Package"
+                    IsVisible="{Binding HasProducts}"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+                     
+			        x:Name="PickerProducts"
+                    IsVisible="{Binding HasProducts}"
+			        />
+
+
+                    <Label
+			        FontSize="Small"
+                    IsVisible="{Binding IsConfirm}"
+			        Text="Amount"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			       
+			        Text="{Binding Budget}" 
+                    IsVisible="{Binding IsConfirm}"
+			        Placeholder="Payment Amount"
+			        Keyboard="Telephone" />
+                    
+                    <Label
+			        FontSize="Small"
+			        Text="Send Fiscal Invoice By Email"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+                   
+                    <Switch HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendEmail,Mode=TwoWay}"/>
+                    
+                    <Label   
+			        FontSize="Small"
+                  
+			        Text="Email Address"
+                    BackgroundColor="Transparent"
+                    IsVisible="{Binding SendEmail}"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding Email}" 
+                   
+			        Placeholder="Email Address"
+                    IsVisible="{Binding SendEmail}"
+			        Keyboard="Default" />
+
+
+                    <Label
+			        
+			        FontSize="Small"
+                    
+			        Text="Send Sms Response"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Switch   HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendSms,Mode=TwoWay}"/>
+
+                    <Label
+			        
+			        FontSize="Small"
+                     VerticalTextAlignment="Center"
+			        Text="Mobile Number"
+                    BackgroundColor="Transparent"
+                    IsVisible="{Binding SendSms}"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			       
+			        Text="{Binding PhoneNumber}" 
+                 
+			        Placeholder="mobile number for sms"
+                    IsVisible="{Binding SendSms}"
+			        Keyboard="Telephone" />
+                    
+                </StackLayout>
+            <StackLayout  Padding="10" BackgroundColor="White">
+
+                <Button 
+			    x:Name="ButtonSubmitFeedback"
+			    BackgroundColor="#69ad05"
+			    BorderRadius="6"
+			    TextColor="White" 
+			    Text="Pay Bill"
+			    Command="{Binding CheckAccountCommand}"/>
+           
+            </StackLayout>
+            <xWebService:footer x:Name="FooterView"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

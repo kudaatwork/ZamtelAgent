@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Profile.TopupPage"
+              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             Title="Account Topup"
+	  IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="White">
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#e2762b">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#e2762b" IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                    <Label HorizontalOptions="Center"
+	    	        VerticalOptions="Center" 
+	    	        Text="{Binding Message}"/>
+                </StackLayout>
+                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#e2762b">
+                    <Label Text="{Binding Balance}" HorizontalOptions="Center"   FontSize="45" TextColor="White"  LineBreakMode="NoWrap"/>
+                    <Label Text="Credit Balance" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="NoWrap"/>
+                </StackLayout>
+            </StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand">
+
+                <StackLayout VerticalOptions="FillAndExpand">
+                    
+                    <Label
+			        
+			        FontSize="Small"
+			        Text="Payment Option"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+                    VerticalOptions="End" 
+			        />
+
+                    <Label
+			        FontSize="Small"
+			        Text="Topup Amount $"
+                    VerticalTextAlignment="Center"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding Budget}" 
+                     VerticalOptions="End"
+			        Placeholder="Payment amount"
+			        Keyboard="Telephone" />
+
+                    <Label
+			        FontSize="Small"
+                    VerticalTextAlignment="Center"
+			        Text="Account Number"
+                    BackgroundColor="Transparent"
+                    IsVisible="{Binding ShowNavigation}"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			        Text="{Binding PhoneNumber}" 
+                    VerticalOptions="End"
+			        Placeholder="{Binding Ptitle}"
+                    IsVisible="{Binding ShowNavigation}"
+			         />
+                </StackLayout>
+            </ScrollView>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Topup Account"
+			Command="{Binding GetPaymentCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

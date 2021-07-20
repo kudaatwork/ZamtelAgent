@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.Services.CommingSoon"
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             Title="Coming Soon">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#e2762b" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                           VerticalOptions="Center"
+                           Text="Coming Soon" 
+                           FontSize="Medium"  
+                           TextColor="White"  
+                           LineBreakMode="NoWrap"/>
+                    <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+			        x:Name="ButtonClose"
+			        BackgroundColor="Transparent"
+			        BorderRadius="6"
+			        TextColor="White" 
+                    FontAttributes="Bold"
+			        Image="back.png"
+                    HorizontalOptions="Start"  
+			        />
+                </Grid>
+            </StackLayout>
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid.ColumnSpacing>
+                    <OnIdiom x:TypeArguments="x:Double">
+                        <OnIdiom.Phone>20</OnIdiom.Phone>
+                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                    </OnIdiom>
+                </Grid.ColumnSpacing>
+                <Grid.Padding>
+                    <OnIdiom x:TypeArguments="Thickness">
+                        <OnIdiom.Phone>10,10,10,0</OnIdiom.Phone>
+                        <OnIdiom.Tablet>20,20,20,0</OnIdiom.Tablet>
+                    </OnIdiom>
+                </Grid.Padding>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image HorizontalOptions="Center" VerticalOptions="Start" Source="gears.gif"/>
+                <Grid Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                    Grid.Row="0"
+			        FontSize="Large" 
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center" 
+			        Text="Service Coming Soon"
+			        TextColor="White"/>
+                </Grid>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

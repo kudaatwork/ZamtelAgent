@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YomoneyApp.Views.TransactionHistory.SearchByAccount" xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+    BindingContext="{Binding TransactionViewModel}"
+              NavigationPage.HasNavigationBar="False"
+	IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand" Padding="10">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal"  IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand">
+               
+                    <Label
+			        FontSize="Small"
+			        Text="Select Service"      
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+
+                    <Picker 
+			        x:Name="PickerStore"
+                    >
+                    </Picker>
+
+                    <Label
+			    
+			        FontSize="Small"
+                   
+			        Text="Search By Account"
+                    BackgroundColor="Transparent"
+			        TextColor="#e2762b" />
+                    <Switch  Grid.Row="1" HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SearchByAccount,Mode=TwoWay}"/>
+
+                    <Label
+			   
+			        FontSize="Small"
+			        Text="Account Number"
+                  
+                    BackgroundColor="Transparent"
+                    IsVisible="{Binding SearchByAccount}"
+			        TextColor="#e2762b" />
+
+                    <Entry 
+			  
+			        Text="{Binding Account}" 
+                 
+			        Placeholder="Billing Account"
+                    IsVisible="{Binding SearchByAccount}"
+			        Keyboard="Telephone" />
+                    
+                    <Label
+			          
+			            FontSize="Small"
+			            Text="Start Date"
+			            TextColor="#e2762b"
+			          />
+                    
+                    <DatePicker 
+			      
+			   
+			        Date="{Binding Date, Mode=TwoWay}"/>
+
+                    <Label
+			          
+			            FontSize="Small" 
+			            Text="End Date"
+			            TextColor="#e2762b"
+			            />
+                    <DatePicker 
+			        Grid.Row="4"
+			     
+			        Date="{Binding EndDate, Mode=TwoWay}"/>
+				</StackLayout>
+            <Button 
+			x:Name="ButtonSubmitFeedback"
+			BackgroundColor="#e2762b"
+			BorderRadius="6"
+			TextColor="White" 
+			Text="Submit"
+			Command="{Binding GetTransactionCommand}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

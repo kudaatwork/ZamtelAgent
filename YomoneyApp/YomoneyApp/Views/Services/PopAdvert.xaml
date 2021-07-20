@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+             x:Class="YomoneyApp.Views.Services.PopAdvert">
+        <ContentView.Content>
+            <StackLayout>
+                <controls:CarouselViewControl 
+                                    x:Name="topCorousel"               
+                                    Orientation="Horizontal" 
+                                    InterPageSpacing="10"
+                                    ShowIndicators="True" 
+                                    CurrentPageIndicatorTintColor="#51C706"
+                                    ItemsSource="{Binding myItemsSource}"                     
+                                    BackgroundColor="White"
+                                    Grid.Row="0" 
+                                    Grid.Column="1" 
+                                    Grid.ColumnSpan="7"
+                                    VerticalOptions="FillAndExpand" 
+                                    HorizontalOptions="FillAndExpand">
+                    <controls:CarouselViewControl.ItemTemplate>
+                        <DataTemplate>
+
+                            <StackLayout VerticalOptions="FillAndExpand">
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding IsAdvert}" >
+                                    <StackLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                        <Image  VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" Source="{Binding Image}"/>
+                                        <Label
+			                                        FontSize="Medium"
+                                                    HorizontalOptions="FillAndExpand"   
+			                                        Text="{Binding Description}"
+			                                        />
+                                        <Button 
+                                                    IsVisible="{Binding IsShare}"
+                                                    Text="View Detail" 
+                                                    CornerRadius="5"
+                                                    HorizontalOptions="Center"
+				                                    BackgroundColor="#69ad05"
+                                                    FontAttributes="None" 
+				                                    BorderRadius="6"
+				                                    TextColor="White"
+                                                    CommandParameter ="{Binding}"
+                                                    Clicked="Advert_Clicked"
+				                                    />
+                                    </StackLayout>
+                                </Grid>
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding IsNotAdvert}">
+                                    <Image  VerticalOptions="FillAndExpand" Source="{Binding Image}"/>
+                                </Grid>
+                            </StackLayout>
+
+                        </DataTemplate>
+                    </controls:CarouselViewControl.ItemTemplate>
+                </controls:CarouselViewControl>
+            </StackLayout>
+
+        </ContentView.Content>
+</ContentView>

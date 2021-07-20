@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             x:Class="YomoneyApp.Views.TemplatePages.EmptyList"
+             Title="{Binding Title}"
+             NavigationPage.HasNavigationBar="{Binding HasProducts}"
+	         IsBusy="{Binding IsBusy}">
+     <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="1" Grid.Column="1" 
+                           Text="{Binding Title}" 
+                           VerticalOptions="Center"
+                           FontSize="Medium"  
+                           TextColor="White"  
+                           LineBreakMode="NoWrap"/>
+                    <Button 
+                    Grid.Row="1"
+                    Grid.Column="0"
+			        x:Name="ButtonClose"
+			        BackgroundColor="Transparent"
+			        BorderRadius="6"
+			        TextColor="White" 
+                    FontAttributes="Bold"
+			        Image="back.png"
+                    HorizontalOptions="Start"  
+			        />
+
+
+                </Grid>
+            </StackLayout>
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
+                <StackLayout.Orientation>
+                    <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
+                </StackLayout.Orientation>
+             
+            </StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#FFF">
+                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#FFF">
+                    <controls:CircleImage VerticalOptions="Center"
+                                          HorizontalOptions="Center" 
+                                              BorderColor="#e2762b"
+                                              BorderThickness="2"
+                                              Aspect="AspectFill">
+                        <controls:CircleImage.WidthRequest>
+                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                        </controls:CircleImage.WidthRequest>
+                        <controls:CircleImage.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                        </controls:CircleImage.HeightRequest>
+                        <controls:CircleImage.Source>
+                            <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
+                        </controls:CircleImage.Source>
+                    </controls:CircleImage>
+                    <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#e2762b"  LineBreakMode="WordWrap" />
+                </StackLayout>
+            </StackLayout>
+          
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
