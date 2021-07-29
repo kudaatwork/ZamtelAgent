@@ -17,7 +17,7 @@ namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
         public AccountViewModel(Page page) : base(page)
@@ -40,7 +40,10 @@ namespace YomoneyApp
         async Task ExecuteLoginCommand()
         {
             if (IsBusy)
+            {
                 return;
+            }
+
             if (string.IsNullOrWhiteSpace(PhoneNumber))
             {
                 await page.DisplayAlert("Enter Mobile Number", "Please enter a valid mobile number. e.g 263775555000", "OK");
@@ -241,7 +244,7 @@ namespace YomoneyApp
                             }
                             else
                             {
-                                await page.DisplayAlert("Join Error", response.Description, "OK");
+                                await page.DisplayAlert("Error", response.Description, "OK");
                                 //ResponseDescription = "Invalid Username or Password";
                             }
 

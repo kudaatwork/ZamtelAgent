@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels.Login;
 
 namespace YomoneyApp.Views.Login
 {
@@ -21,6 +22,9 @@ namespace YomoneyApp.Views.Login
             viewModel.GetVerificationAsync();
         }
 
-      
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NewAccount());
+        }
     }
 }

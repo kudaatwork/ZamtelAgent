@@ -1,109 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YomoneyApp.ViewModels.Login.NewAccount"
-             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
-             xmlns:local="clr-namespace:YomoneyApp"  
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" 
+             NavigationPage.HasNavigationBar="False"
+             x:Class="YomoneyApp.ViewModels.Login.NewAccount"             
+             xmlns:local="clr-namespace:YomoneyApp" xmlns:local1="clr-namespace:YomoneyApp.CustomeRenderer"
              Title="Create Account"
-             IsBusy="{Binding IsBusy}">
-    <ContentPage.Content>
+             IsBusy="{Binding IsBusy}"
+             >
 
-        <StackLayout Padding="10" BackgroundColor="White">
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
-                <ActivityIndicator  HorizontalOptions="Center"
+    <StackLayout Padding="0">
+        <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+            <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
-                <Label HorizontalOptions="Center"
+            <Label HorizontalOptions="Center"
 	    	 VerticalOptions="Center" 
 	    	 Text="{Binding Message}"/>
-            </StackLayout>
-            <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <StackLayout VerticalOptions="FillAndExpand">
-                  <Label
-			        FontSize="Large"
-                    HorizontalOptions="Center" 
-			        Text="Join"
-			        TextColor="Gray"/>
-                  <Label
-			        FontSize="Small" 
-                    VerticalTextAlignment="Start"
-			        Text="Account Name"
-			        TextColor="#e2762b"
-                    BackgroundColor="Transparent"
-			          />
-
-                    <Entry 
-			        Text="{Binding Name}"
-                    VerticalOptions="End"
-			        Placeholder="Enter the name people will see" 
-			        Keyboard="Default"/>
-
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Start"
-			        Text="Firstname and Surname"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
-
-                    <Entry 
-			        Text="{Binding ContactName}"
-                    VerticalOptions="End"
-			        Placeholder="e.g Tetenda Doe" 
-			        Keyboard="Default"/>
-
-
-
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Start"
-			        Text="Cellphone"
-			        TextColor="#e2762b"
-			         />
-
-                    <Entry 
-			        Text="{Binding PhoneNumber}" 
-                     VerticalOptions="End"
-			        Placeholder="e.g 263772712732"
-			        Keyboard="Telephone" />
-
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Start"
-			        Text="Password"
-			        TextColor="#e2762b"
-			         />
-
-                    <Entry x:Name="password"
-			        Text="{Binding Password}"
-                    IsPassword="true" 
-                    VerticalOptions="End"
-			        Placeholder="Password"
-			        Keyboard="Default"/>
-
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Start"
-			        Text="Confirm Password"
-			        TextColor="#e2762b"
-			         />
-
-                    <Entry 
-                    x:Name="confirmPassword"
-			        Text="{Binding ConfirmPassword}"
-                    IsPassword="true" 
-                    VerticalOptions="End"
-			        Placeholder="Confirm Password"
-			        Keyboard="Default" />
-
-                </StackLayout>
-            </ScrollView>
-            <Button 
-			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#e2762b"
-			BorderRadius="6"
-			TextColor="White" 
-			Text="Create Account"
-			Command="{Binding JoinCommand}"/>
         </StackLayout>
-    </ContentPage.Content>
+        <Grid>
+            <StackLayout Padding="0" Margin="0">
+                <Frame BackgroundColor="#df782d" HeightRequest="220" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Image Source="image6.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout Margin="12,140,12,0">
+                <Frame BackgroundColor="White" HasShadow="True" HeightRequest="525" HorizontalOptions="FillAndExpand">
+                    <StackLayout>
+                        <StackLayout HorizontalOptions="CenterAndExpand">
+                            <Label Text="SIGN UP" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
+                        </StackLayout>
+
+                        <StackLayout Margin="0,20,0,0">
+                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Image Source="accountname.png" Aspect="AspectFill" Margin="0"/>
+                                    </Frame>
+                                    <local1:MyCustomeEntry Text="{Binding Name}" FontAttributes="None" Placeholder="Username e.g. John Doe" Keyboard="Default" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,15,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Image Source="namesure.png" Aspect="AspectFill" Margin="0"/>
+                                    </Frame>
+                                    <local1:MyCustomeEntry Text="{Binding ContactName}" FontAttributes="None" Keyboard="Default" Placeholder="Name and Surname" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,15,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Image Source="keypad3.png" Aspect="AspectFill" Margin="0"/>
+                                    </Frame>
+                                    <local1:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Phone e.g. 2634445555" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,15,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Image Source="password2.png" Aspect="AspectFill" Margin="0"/>
+                                    </Frame>
+                                    <local1:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Password" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,15,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Image Source="password2.png" Aspect="AspectFill" Margin="0"/>
+                                    </Frame>
+                                    <local1:MyCustomeEntry Text="{Binding ConfirmPassword}" FontAttributes="None" Keyboard="Default" Placeholder="Confirm Password" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+                        <Button x:Name="ButtonSubmitFeedback" Command="{Binding JoinCommand}" Text="SIGN UP" BackgroundColor="#2f6a10" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,15,0,0">
+                            <Label Text="Already have an account?" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                            <Label Text="Sign In" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <Image Source="yoapp.png" Aspect="AspectFit" Margin="0,40,0,0" HeightRequest="90" WidthRequest="20"></Image>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
+    </StackLayout>
 </ContentPage>

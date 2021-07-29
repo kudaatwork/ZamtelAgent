@@ -18,12 +18,17 @@ namespace YomoneyApp.ViewModels.Login
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
-
-            ButtonForgot.Clicked += async (sender, e) =>
-            {
-                await Navigation.PushAsync(new ForgotPassword());
-            };
+            
         }
 
+        async void OnTapGestureRecognizerTapped(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new ForgotPasswordOptionPage());
+        }
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NewAccount());
+        }
     }
 }

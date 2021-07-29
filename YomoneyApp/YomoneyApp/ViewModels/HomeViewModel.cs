@@ -18,7 +18,7 @@ namespace YomoneyApp
 {
     public class HomeViewModel : ViewModelBase
     {
-        readonly string HostDomain = "http://192.168.100.150:5000";
+        readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";
@@ -180,8 +180,7 @@ namespace YomoneyApp
                         ac.DeleteCredentials();
                         await page.Navigation.PushAsync(new AccountMain());
 
-                    }
-                  
+                    }                  
                 }
 
             }

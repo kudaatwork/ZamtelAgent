@@ -14,9 +14,7 @@ namespace YomoneyApp.Views.NavigationBar
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class footer : ContentView
-    {
-
-        public footer()
+    {        public footer()
         {
             InitializeComponent();
 
@@ -66,7 +64,7 @@ namespace YomoneyApp.Views.NavigationBar
                 AccessSettings acnt = new AccessSettings();
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
-                await Navigation.PushAsync(new WebviewPage("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
+                await Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
             };
 
             btnMyServices.Clicked += async (sender, e) =>

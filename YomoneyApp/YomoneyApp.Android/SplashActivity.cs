@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -15,8 +15,7 @@ using YomoneyApp.Droid;
 namespace MyShop.Droid
 {
    // [Activity(Label = "SplashActivity")]
-    [Activity(Label = "Yomoney", Theme = "@style/Theme.Splash",
-        MainLauncher = true,
+    [Activity(Label = "YoApp", Theme = "@style/Theme.Splash", MainLauncher = true,
          ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
         NoHistory = true)]
     public class SplashActivity : Activity
@@ -25,6 +24,6 @@ namespace MyShop.Droid
         {
             base.OnCreate(savedInstanceState);
             StartActivity(typeof(MainActivity));
-        }
+        }                
     }
 }

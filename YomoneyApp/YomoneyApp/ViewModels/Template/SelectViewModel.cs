@@ -20,7 +20,7 @@ namespace YomoneyApp
 {
     public class SelectViewModel : ViewModelBase
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.ymoneyservice.com";
         string ProcessingCode = "350000";
         readonly IDataStore dataStore;
         public bool ForceSync { get; set; }

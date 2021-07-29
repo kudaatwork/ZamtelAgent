@@ -78,7 +78,7 @@ namespace YomoneyApp.Views.Services
             string uname = acnt.UserName;
             ByteArrayContent byteArrayContent = new ByteArrayContent(File.ReadAllBytes(_mediaFile.Path));
 
-            Uri webService = new Uri("http://192.168.100.150:5000/api/vend/Upload");
+            Uri webService = new Uri("https://www.yomoneyservice.com/api/vend/Upload");
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, webService);
             requestMessage.Headers.ExpectContinue = false;
 
@@ -134,7 +134,7 @@ namespace YomoneyApp.Views.Services
                 formData.Add(new StreamContent(_mediaFile.GetStream()),
            "\"file\"",
            $"\"{_mediaFile.Path}\"");
-                var uploadBaseAddress = "http://192.168.100.150:5000/api/Vend/Upload";
+                var uploadBaseAddress = "https://www.yomoneyservice.com/api/Vend/Upload";
 
                // content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
                 //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;

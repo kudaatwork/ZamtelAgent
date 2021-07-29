@@ -13,7 +13,9 @@ namespace YomoneyApp.Views
     public partial class WaletServices : ContentPage
     {
         WalletServicesViewModel viewModel;
-       
+
+        
+
         public Action<MenuItem> ItemSelected
         {
             get { return viewModel.ItemSelected; }
@@ -23,7 +25,7 @@ namespace YomoneyApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new YomoneyApp.WalletServicesViewModel(this);
-            Title = "My Services";
+            Title = "Dashboard";
         }
 
         protected override void OnAppearing()
@@ -33,6 +35,11 @@ namespace YomoneyApp.Views
                 return;
 
             viewModel.GetStoresCommand.Execute(null);
+        }
+
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new HomePage());
         }
     }
 }

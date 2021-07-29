@@ -5,6 +5,7 @@
     <color name="accent">#1dd669</color>
     <color name="window_background">#FFFFFF</color>
     <color name="launcher_background">#FFFFFF</color>
+    <color name="splash_background">#FFFFFF</color>
     <color name="colorPrimary">#e2762b</color>
     <color name="colorPrimaryDark">#d6691d</color>
     <color name="colorAccent">#1dd669</color>

@@ -16,7 +16,12 @@ namespace YomoneyApp.ViewModels.Login
         public NewAccount()
         {
             InitializeComponent();
-            BindingContext = viewModel = new AccountViewModel(this);
+            BindingContext = viewModel = new AccountViewModel(this);            
+        }
+      
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SignIn());
         }
     }
 }
