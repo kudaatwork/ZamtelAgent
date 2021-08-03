@@ -3,12 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Spend.Recharge"
               xmlns:xviews="clr-namespace:YomoneyApp.Views.Services;assembly=YomoneyApp"
-              xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" 
-    Title="Recharge"
+              xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
+             Title="Recharge Services"
 	IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-            
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
@@ -17,73 +16,44 @@
 	    	 VerticalOptions="Center" 
 	    	 Text="{Binding Message}"/>
             </StackLayout>
-            <StackLayout Padding="10" BackgroundColor="White">
-            <xviews:PopAdvert x:Name="Ads" />
-            </StackLayout>
             <StackLayout Padding="10" VerticalOptions="FillAndExpand">
-                    <Label
-			        FontSize="Small"
-			        Text="Service Provider"
-                    VerticalTextAlignment="Center"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
 
-                    <Picker 
-			        x:Name="PickerStore"
-                    VerticalOptions="End" 
-			       />
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="PickerStore" Title="Select Service Provider" WidthRequest="330"/>
+                    </StackLayout>
+                </Frame>
 
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="keypad.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Subscriber Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
 
-                    <Label
-			        
-			        FontSize="Small"
-			        Text="Subscriber Number"
-                    VerticalTextAlignment="Center"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
-
-                    <Entry 
-			        Text="{Binding AccountNumber}" 
-                    VerticalOptions="End"
-			        Placeholder="Billing Account"
-			        Keyboard="Telephone" />
-
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Center"
-                    IsVisible="{Binding IsConfirm}"
-			        Text="Amount"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
-
-                    <Entry 
-			        Text="{Binding Budget}" 
-                    IsVisible="{Binding IsConfirm}"
-                    VerticalOptions="End"
-			        Placeholder="Payment Amount"
-			        Keyboard="Telephone" />
-                </StackLayout>
-            <StackLayout Padding="10" >
-             <Button 
-			x:Name="ButtonNonPay"
-			BackgroundColor="#69ad05" 
-			BorderRadius="6"
-			TextColor="White" 
-			Text="{Binding RetryText}"
-            IsVisible="{Binding Retry}"
-			Command="{Binding GetRetryRechargeCommand}"/>
-
-             <Button 
-			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#69ad05"
-			BorderRadius="6"
-			TextColor="White" 
-			Text="Recharge"
-            IsVisible="{Binding IsConfirm}"
-			Command="{Binding GetRechargeCommand}"/>
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding IsConfirm}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" IsVisible="{Binding IsConfirm}" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="amount.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Budget}" FontAttributes="None" Keyboard="Numeric" Placeholder="Payment Amount" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+                                
             </StackLayout>
-            
-        <xWebService:footer x:Name="FooterView"/>
-      </StackLayout>
+
+            <StackLayout  Padding="10" BackgroundColor="White">
+
+                <Button x:Name="ButtonNonPay" BackgroundColor="#2f6a10" Text="{Binding RetryText}" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" IsVisible="{Binding Retry}" Command="{Binding GetRetryRechargeCommand}"/>
+
+                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#2f6a10" Text="RECHARGE" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" IsVisible="{Binding IsConfirm}" Command="{Binding GetRechargeCommand}"/>
+            </StackLayout>
+            <xWebService:footer x:Name="FooterView"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

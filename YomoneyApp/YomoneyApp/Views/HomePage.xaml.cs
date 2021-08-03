@@ -39,9 +39,7 @@ namespace YomoneyApp
                // HeroImage.Source = ImageSource.FromFile("herotablet.jpg");
             }
             MenuItem selectedAction = new MenuItem { Title = "Transaction History", Description = "View your spending history", Image = "Paymenu.png", Section = "Yomoney", ServiceId = 7, SupplierId = "All", TransactionType = 3 };
-
-
-            
+                        
             var Profile = new ToolbarItem
             {
                 Command = new Command(() =>

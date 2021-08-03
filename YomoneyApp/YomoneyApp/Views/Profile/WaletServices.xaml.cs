@@ -12,9 +12,7 @@ namespace YomoneyApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WaletServices : ContentPage
     {
-        WalletServicesViewModel viewModel;
-
-        
+        WalletServicesViewModel viewModel;        
 
         public Action<MenuItem> ItemSelected
         {

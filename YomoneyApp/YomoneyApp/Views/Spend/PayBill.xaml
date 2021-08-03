@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Spend.PayBill"
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
-             xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" 
+             xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
              Title="Bill Payment"
 	  IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
@@ -17,118 +17,82 @@
 	    	 Text="{Binding Message}"/>
             </StackLayout>
             <StackLayout Padding="10" VerticalOptions="FillAndExpand">
-                   
-                    <Label 
-			        FontSize="Small"
-			        Text="Select Biller"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
 
-                    <Picker 
-			        x:Name="PickerStore"
-			        />
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="PickerStore" Title="Select Biller" WidthRequest="330"/>
+                    </StackLayout>
+                </Frame>
 
-                    <Label
-			        FontSize="Small"
-			        Text="Account Number"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None"  Keyboard="Numeric" Placeholder="Account Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
 
-                    <Entry 
-			        Text="{Binding AccountNumber}" 
-			        Placeholder="Billing Account"
-			        Keyboard="Telephone" />
-                
-                    <Label
-			        FontSize="Small"
-			        Text="Select Package"
-                    IsVisible="{Binding HasProducts}"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding HasProducts}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" IsVisible="{Binding HasProducts}" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="PickerProducts" Title="Select Package" WidthRequest="330" IsVisible="{Binding HasProducts}"/>
+                    </StackLayout>
+                </Frame>
 
-                    <Picker 
-                     
-			        x:Name="PickerProducts"
-                    IsVisible="{Binding HasProducts}"
-			        />
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="amount.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Budget}" FontAttributes="None" IsVisible="{Binding IsConfirm}" Keyboard="Numeric" Placeholder="Payment Amount" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
 
+                <Label FontSize="Small" Text="Send Fiscal Invoice By Email" BackgroundColor="Transparent" TextColor="#e2762b" />
 
-                    <Label
-			        FontSize="Small"
-                    IsVisible="{Binding IsConfirm}"
-			        Text="Amount"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">                        
+                        <Switch HorizontalOptions="Start" VerticalOptions="FillAndExpand" IsToggled="{Binding SendEmail, Mode=TwoWay}"/>                        
+                    </StackLayout>
+                </Frame>
 
-                    <Entry 
-			       
-			        Text="{Binding Budget}" 
-                    IsVisible="{Binding IsConfirm}"
-			        Placeholder="Payment Amount"
-			        Keyboard="Telephone" />
-                    
-                    <Label
-			        FontSize="Small"
-			        Text="Send Fiscal Invoice By Email"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
-                   
-                    <Switch HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendEmail,Mode=TwoWay}"/>
-                    
-                    <Label   
-			        FontSize="Small"
-                  
-			        Text="Email Address"
-                    BackgroundColor="Transparent"
-                    IsVisible="{Binding SendEmail}"
-			        TextColor="#e2762b" />
+                <Frame BackgroundColor="Transparent" IsVisible="{Binding SendEmail}" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" IsVisible="{Binding SendEmail}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="email2.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Keyboard="Email" IsVisible="{Binding SendEmail}" Placeholder="Email Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+                               
+                <Label FontSize="Small" Text="Send Sms Response" BackgroundColor="Transparent" TextColor="#e2762b" />
 
-                    <Entry 
-			        Text="{Binding Email}" 
-                   
-			        Placeholder="Email Address"
-                    IsVisible="{Binding SendEmail}"
-			        Keyboard="Default" />
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Switch HorizontalOptions="Start" VerticalOptions="FillAndExpand" IsToggled="{Binding SendSms, Mode=TwoWay}"/>
+                    </StackLayout>
+                </Frame>
 
-
-                    <Label
-			        
-			        FontSize="Small"
-                    
-			        Text="Send Sms Response"
-                    BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
-
-                    <Switch   HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendSms,Mode=TwoWay}"/>
-
-                    <Label
-			        
-			        FontSize="Small"
-                     VerticalTextAlignment="Center"
-			        Text="Mobile Number"
-                    BackgroundColor="Transparent"
-                    IsVisible="{Binding SendSms}"
-			        TextColor="#e2762b" />
-
-                    <Entry 
-			       
-			        Text="{Binding PhoneNumber}" 
-                 
-			        Placeholder="mobile number for sms"
-                    IsVisible="{Binding SendSms}"
-			        Keyboard="Telephone" />
-                    
-                </StackLayout>
+                <Frame BackgroundColor="Transparent" IsVisible="{Binding SendSms}" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" IsVisible="{Binding SendSms}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="email.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Email" IsVisible="{Binding SendSms}" Placeholder="Mobile Number for SMS" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>              
+            </StackLayout>
+            
             <StackLayout  Padding="10" BackgroundColor="White">
 
-                <Button 
-			    x:Name="ButtonSubmitFeedback"
-			    BackgroundColor="#69ad05"
-			    BorderRadius="6"
-			    TextColor="White" 
-			    Text="Pay Bill"
-			    Command="{Binding CheckAccountCommand}"/>
-           
+                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#2f6a10" Text="PAY BILL" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" Command="{Binding CheckAccountCommand}"/>
+
             </StackLayout>
             <xWebService:footer x:Name="FooterView"/>
         </StackLayout>

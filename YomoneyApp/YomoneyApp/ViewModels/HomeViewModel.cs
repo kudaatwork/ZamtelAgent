@@ -639,6 +639,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 showAlert = true;
             }
             finally

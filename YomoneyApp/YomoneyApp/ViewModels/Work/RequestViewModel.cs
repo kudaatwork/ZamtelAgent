@@ -1323,13 +1323,13 @@ namespace YomoneyApp
                             if (itm.SupplierId == "non")
                             {
                                 itm.SupplierId = "Share Post";
-                                itm.ThemeColor = "#79c606";
+                                itm.ThemeColor = "#2f6a10";
                                 //itm.WebLink = "share.png";
                             }
                             else
                             {
                                 itm.SupplierId = "Post Quote";
-                                itm.ThemeColor = "#e2762b";
+                                itm.ThemeColor = "#df782d";
                                 //itm.WebLink = "bid.png";
                             }
                         }

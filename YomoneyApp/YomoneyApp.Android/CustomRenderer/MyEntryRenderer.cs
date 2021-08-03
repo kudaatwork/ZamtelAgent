@@ -22,6 +22,7 @@ namespace YomoneyApp.Droid.CustomRenderer
         {
 
         }
+        
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {

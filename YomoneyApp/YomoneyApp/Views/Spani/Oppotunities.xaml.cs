@@ -27,7 +27,6 @@ namespace YomoneyApp.Views.Spani
         {
             InitializeComponent();
             BindingContext = viewModel = new RequestViewModel(this);
-
         }
         
         public void PlaceClicked(object sender, EventArgs e)

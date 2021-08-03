@@ -72,17 +72,24 @@ namespace YomoneyApp.Views.Spend
             try
             {
                 var view = sender as Xamarin.Forms.Button;
+
                 MenuItem mn = new YomoneyApp.MenuItem();
+
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
+
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
+                
                 viewModel.Category = mn.Title;
+                
                 var biller = viewModel.Categories.Where(u => u.Title.Trim() == viewModel.Category.Trim()).FirstOrDefault();
+                
                 if (biller.HasProducts)
                 {
                     viewModel.IsConfirm = false;
                     viewModel.HasProducts = true;
                     var stores = await viewModel.GetProductsAsync();
                     foreach (var store in stores)
+                        
                         PickerProducts.Items.Add(store.Title.Trim() + " $" + store.Amount);
                 }
                 else

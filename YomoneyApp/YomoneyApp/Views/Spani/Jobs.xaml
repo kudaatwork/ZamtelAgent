@@ -21,17 +21,19 @@
 			    	 VerticalOptions="Center"
 			    	 Text="Loading..."/>
             </StackLayout>
-            <StackLayout Padding="5">
+            <StackLayout HeightRequest="180" WidthRequest="200" Padding="0" Margin="15,20,15,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
+                   
                     <Button
                     Grid.Column="0"
                     HorizontalOptions="FillAndExpand"
-			        BackgroundColor="#69ad05"
+			        BackgroundColor="#2f6a10"
 			        BorderRadius="6"
+                    
 			        TextColor="White" 
 			        Text="Job Request"
                     CommandParameter="{Binding Id}"
@@ -40,9 +42,10 @@
                     <Button
                     Grid.Column="1"
                     HorizontalOptions="FillAndExpand"
-			         BackgroundColor="#69ad05"
+			         BackgroundColor="#2f6a10"
 			        BorderRadius="6"
 			        TextColor="White" 
+                   
 			        Text="Active Jobs"
                     CommandParameter="{Binding Id}"
                     Clicked="AwardedClicked"/>
@@ -58,7 +61,7 @@
                 RefreshCommand="{Binding JobsRefreshCommand}"
                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                 IsPullToRefreshEnabled="True"
-                SeparatorColor="Green"
+                SeparatorColor="LightGray"
                 >
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
@@ -89,7 +92,7 @@
                                         IsVisible="{Binding IsEmptyList}">
                                         <controls:CircleImage VerticalOptions="Center"
                                           HorizontalOptions="Center" 
-                                              BorderColor="#e2762b"
+                                              BorderColor="#df782d"
                                               BorderThickness="2"
                                               Aspect="AspectFill">
                                             <controls:CircleImage.WidthRequest>
@@ -102,21 +105,21 @@
                                                 <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
                                             </controls:CircleImage.Source>
                                         </controls:CircleImage>
-                                        <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#e2762b"  LineBreakMode="WordWrap" />
+                                        <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#df782d"  LineBreakMode="WordWrap" />
                                     </StackLayout>
 
                                     <StackLayout Grid.Column="0"
-                                             Padding="8"
+                                             Padding="15"
                                              Spacing="4"
                                              VerticalOptions="Center"
                                              IsVisible="{Binding IsAdvert}">
                                        
                                             <Image  Source="{Binding Image}" HorizontalOptions="FillAndExpand"/>
-                                            <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b"  LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
                                             <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
 
                                             <Button
-			                                 BackgroundColor="#e2762b"
+			                                 BackgroundColor="#df782d"
 			                                 BorderRadius="6"
 			                                 TextColor="White" 
 			                                 Text="{Binding SupplierId}"
@@ -126,13 +129,13 @@
                                     </StackLayout>
 
                                     <StackLayout Grid.Column="0"
-                                             Padding="8"
+                                             Padding="15"
                                              Spacing="4"
                                              VerticalOptions="Center"
                                              IsVisible="{Binding IsNotAdvert}">
-                                       
-                                            <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b"  LineBreakMode="NoWrap"/>
-                                            <Label  Text="{Binding Section}" TextColor="#169F85"  FontSize="Default"  LineBreakMode="WordWrap"/>
+
+                                            <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
+                                            <Label  Text="{Binding Section}" TextColor="#2f6a10"  FontSize="Default"  LineBreakMode="WordWrap"/>
                                             <Label  Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                             <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                             <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
@@ -147,12 +150,12 @@
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="1*"/>
                                          </Grid.ColumnDefinitions>
-                                           
-                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Amount}" TextColor="#169F85"  FontSize="Small" LineBreakMode="NoWrap"/>
-                                            <Button
+
+                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Amount}" TextColor="#2e6910"  FontSize="Small" LineBreakMode="NoWrap"/>
+                                            <Button                                                
                                              Grid.Row="1" 
                                              Grid.Column="2"
-			                                 BackgroundColor="#ff1a1a"
+			                                 BackgroundColor="#8B0000"
 			                                 BorderRadius="6"
 			                                 TextColor="White" 
 			                                 Text="Remove"
@@ -162,7 +165,7 @@
                                              Grid.Row="1" 
                                              Grid.Column="0"
                                              Grid.ColumnSpan="2"
-			                                 BackgroundColor="#e2762b"
+			                                 BackgroundColor="#df782d"
 			                                 BorderRadius="6"
 			                                 TextColor="White" 
 			                                 Text="{Binding SupplierId}"
