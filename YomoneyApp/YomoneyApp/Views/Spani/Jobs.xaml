@@ -21,7 +21,7 @@
 			    	 VerticalOptions="Center"
 			    	 Text="Loading..."/>
             </StackLayout>
-            <StackLayout HeightRequest="180" WidthRequest="200" Padding="0" Margin="15,20,15,0">
+            <StackLayout HeightRequest="80" WidthRequest="200" Padding="0" Margin="15,20,15,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -31,9 +31,8 @@
                     <Button
                     Grid.Column="0"
                     HorizontalOptions="FillAndExpand"
-			        BackgroundColor="#2f6a10"
-			        BorderRadius="6"
-                    
+			        BackgroundColor="#79c606"
+			        BorderRadius="6"                    
 			        TextColor="White" 
 			        Text="Job Request"
                     CommandParameter="{Binding Id}"
@@ -42,10 +41,9 @@
                     <Button
                     Grid.Column="1"
                     HorizontalOptions="FillAndExpand"
-			         BackgroundColor="#2f6a10"
+			         BackgroundColor="#79c606"
 			        BorderRadius="6"
-			        TextColor="White" 
-                   
+			        TextColor="White"                    
 			        Text="Active Jobs"
                     CommandParameter="{Binding Id}"
                     Clicked="AwardedClicked"/>
@@ -135,7 +133,7 @@
                                              IsVisible="{Binding IsNotAdvert}">
 
                                             <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
-                                            <Label  Text="{Binding Section}" TextColor="#2f6a10"  FontSize="Default"  LineBreakMode="WordWrap"/>
+                                            <Label  Text="{Binding Section}" TextColor="#79c606"  FontSize="Default" FontAttributes="Bold" LineBreakMode="WordWrap"/>
                                             <Label  Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                             <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                             <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
@@ -151,11 +149,11 @@
                                             <ColumnDefinition Width="1*"/>
                                          </Grid.ColumnDefinitions>
 
-                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Amount}" TextColor="#2e6910"  FontSize="Small" LineBreakMode="NoWrap"/>
+                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Amount}" TextColor="#79c606" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
                                             <Button                                                
                                              Grid.Row="1" 
                                              Grid.Column="2"
-			                                 BackgroundColor="#8B0000"
+			                                 BackgroundColor="#ff0000"
 			                                 BorderRadius="6"
 			                                 TextColor="White" 
 			                                 Text="Remove"

@@ -38,7 +38,17 @@ namespace YomoneyApp
             {
                // HeroImage.Source = ImageSource.FromFile("herotablet.jpg");
             }
-            MenuItem selectedAction = new MenuItem { Title = "Transaction History", Description = "View your spending history", Image = "Paymenu.png", Section = "Yomoney", ServiceId = 7, SupplierId = "All", TransactionType = 3 };
+
+            MenuItem selectedAction = new MenuItem 
+            { 
+                Title = "Transaction History", 
+                Description = "View your spending history", 
+                Image = "Paymenu.png", 
+                Section = "Yomoney", 
+                ServiceId = 7, 
+                SupplierId = "All", 
+                TransactionType = 3 
+            };
                         
             var Profile = new ToolbarItem
             {
@@ -53,6 +63,7 @@ namespace YomoneyApp
                 Priority = 0,
                 Order = ToolbarItemOrder.Secondary
             };
+
             var PImage = new ToolbarItem
             {
                 Command = new Command(() =>
@@ -65,6 +76,7 @@ namespace YomoneyApp
                 Priority = 0,
                 Order = ToolbarItemOrder.Secondary
             };
+
             var Dashboard = new ToolbarItem
             {
                 Command = new Command(() =>
@@ -77,10 +89,10 @@ namespace YomoneyApp
                 Priority = 0,
                 Order = ToolbarItemOrder.Secondary
             };
+
             ToolbarItems.Add(Dashboard);
             ToolbarItems.Add(Profile);
-            ToolbarItems.Add(PImage);
-            
+            ToolbarItems.Add(PImage);            
 
             //topCorousel.GestureRecognizers.Add(gesture);
 
@@ -232,9 +244,12 @@ namespace YomoneyApp
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
             await viewModel.ExecuteGetMenusCommand();//.Execute(null);
+
            // await viewModel.ExecuteGetAccountCommand();//.Execute(null);
             await viewModel.ExecuteGetStoresCommand();// viewModel.GetAccountCommand.Execute(null);
+
             try
             {
                 AccessSettings ac = new AccessSettings();
@@ -247,8 +262,10 @@ namespace YomoneyApp
                         await viewM.ExecuteGetContactsCommand();
                     }
             }
-            catch
-            { }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             
         }
     }

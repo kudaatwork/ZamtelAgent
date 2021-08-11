@@ -99,10 +99,10 @@
                                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
                                         <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                         <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
-                                        <Label Grid.Row="3" Grid.Column="0" Text="{Binding Amount}" TextColor="#2f6a10"  FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Row="3" Grid.Column="0" Text="{Binding Amount}" TextColor="#79c606"  FontSize="Small" LineBreakMode="NoWrap"/>
                                         <Button
                                             Grid.Row="4" Grid.Column="0"                      
-			                                 BackgroundColor="#2f6a10"
+			                                 BackgroundColor="#79c606"
 			                                BorderRadius="5" 
                                             Margin="0,10,0,0" 
                                             Padding="0,15,0,15" 
@@ -125,7 +125,7 @@
 			                                />
                                         <Button
                                             Grid.Row="4" Grid.Column="2"
-			                                BackgroundColor="#2f6a10"			                                
+			                                BackgroundColor="#79c606"			                                
                                             BorderRadius="5" 
                                             Margin="0,10,0,0" 
                                             Padding="0,15,0,15" 

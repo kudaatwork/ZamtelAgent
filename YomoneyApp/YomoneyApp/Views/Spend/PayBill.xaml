@@ -91,7 +91,7 @@
             </StackLayout>
             
             <StackLayout  Padding="10" BackgroundColor="White">
-                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#2f6a10" Text="PAY BILL" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" Command="{Binding CheckAccountCommand}"/>
+                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#79c606" Text="PAY BILL" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" Command="{Binding CheckAccountCommand}"/>
             </StackLayout>
             
             <xWebService:footer x:Name="FooterView"/>

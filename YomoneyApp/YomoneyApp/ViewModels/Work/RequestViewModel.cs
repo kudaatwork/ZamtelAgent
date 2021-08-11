@@ -1322,7 +1322,7 @@ namespace YomoneyApp
                             if (itm.SupplierId == "non")
                             {
                                 itm.SupplierId = "Share Post";
-                                itm.ThemeColor = "#2f6a10";
+                                itm.ThemeColor = "#79c606";
                                 //itm.WebLink = "share.png";
                             }
                             else
@@ -2168,7 +2168,7 @@ namespace YomoneyApp
                 JobPost jp = new YomoneyApp.JobPost();
                 jp.CustomerName = Ptitle;
                 jp.Category  = Subcategory;
-                jp.Description = Description;
+                jp.Description = Description;               
                 jp.Title = Category;
                 jp.Budget  = decimal.Parse(Budget);
                 

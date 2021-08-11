@@ -23,7 +23,7 @@
               
             </StackLayout>
             <StackLayout Padding="15,10,15,0" VerticalOptions="FillAndExpand" >
-                <Button x:Name="ButtonNonPay" HorizontalOptions="FillAndExpand" BackgroundColor="#2f6a10" Clicked="newSkill" Text="ADD SKILL" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"  CommandParameter="{Binding Id}"/>               
+                <Button x:Name="ButtonNonPay" HorizontalOptions="FillAndExpand" BackgroundColor="#79c606" Clicked="newSkill" Text="ADD SKILL" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"  CommandParameter="{Binding Id}"/>               
             </StackLayout>
            
             <ListView
@@ -104,7 +104,7 @@
                                              VerticalOptions="Center" IsVisible="{Binding IsNotAdvert}">
 
                                             <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
-                                            <Label  Text="{Binding Section}" TextColor="#2f6a10"  FontSize="Default"  LineBreakMode="WordWrap"/>
+                                            <Label  Text="{Binding Section}" TextColor="#79c606"  FontSize="Default"  LineBreakMode="WordWrap"/>
                                             <Label  Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                             <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                             <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
@@ -118,7 +118,7 @@
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
 
-                                        <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Amount}" TextColor="#2f6a10"  FontSize="Small" FontAttributes="Bold" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Row="0" Grid.Column="0"  Text="{Binding Amount}" TextColor="#79c606"  FontSize="Small" FontAttributes="Bold" LineBreakMode="NoWrap"/>
                                             
                                             <Button
                                              Grid.Row="0" Grid.Column="1"

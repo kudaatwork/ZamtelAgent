@@ -72,9 +72,6 @@
 			        x:Name="PickerSubcategory"
                      VerticalOptions="End"
 			        />
-
-                   
-
                 </StackLayout>
 
             </ScrollView>
