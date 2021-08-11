@@ -11,22 +11,22 @@
         <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
             <Grid>
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="450" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Frame BackgroundColor="#df782d" HeightRequest="400" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                         <Image Source="image4.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,350,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="310" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="360" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label Text="Security Questions" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
-                                <Label Text="Select any 3 of the questions below and answer them with answers you are likely not to forget. This is for your own security" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                <Label Text="Provide the answer to the question you chose" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                             </StackLayout>
 
                             <StackLayout Margin="0,15,0,0">
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Vertical">
                                         <Label Text="1. What is your favourite meal?" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                                         
                                     </StackLayout>
@@ -35,12 +35,11 @@
                                 <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
                                         <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                            <Image Source="keypad3.png" Aspect="AspectFill" Margin="0"/>
+                                            <Image Source="email3.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
-                                        <local:MyCustomeEntry Text="{Binding Answer}" FontAttributes="None" Placeholder="Email e.g example@exmple.com" Keyboard="Default" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
+                                        <local:MyCustomeEntry Text="{Binding Answer}" FontAttributes="None" Placeholder="Answer e.g Sushi" Keyboard="Default" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
                                     </StackLayout>
                                 </Frame>
-
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
@@ -50,23 +49,12 @@
                                 </Frame>
                             </StackLayout>
 
-                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" BackgroundColor="#2f6a10" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button Text="SUBMIT ANSWER" x:Name="btnSecurityQtnOption" BackgroundColor="#2f6a10" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-
-                <StackLayout 
-             AbsoluteLayout.LayoutFlags="All"
-             AbsoluteLayout.LayoutBounds="1,1,0.25,0.25">
-
-                    <Label Text="Skip" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
-                        </Label.GestureRecognizers>
-                    </Label>
-
-                </StackLayout>
+                
 
             </Grid>
 

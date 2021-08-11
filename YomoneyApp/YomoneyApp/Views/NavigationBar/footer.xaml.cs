@@ -9,18 +9,21 @@ using Xamarin.Forms.Xaml;
 using YomoneyApp.Services;
 using YomoneyApp.Views.TransactionHistory;
 using YomoneyApp.Views.Webview;
+using YomoneyApp.Views.Spani;
 
 namespace YomoneyApp.Views.NavigationBar
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class footer : ContentView
-    {        public footer()
+    {        
+        public footer()
         {
-            InitializeComponent();
+            InitializeComponent();           
 
             btnHome.Clicked += async (sender, e) =>
             {
                 var existingPages = Navigation.NavigationStack.ToList();
+
                 int cnt = 2;
                 foreach (var page in existingPages)
                 {
@@ -61,16 +64,20 @@ namespace YomoneyApp.Views.NavigationBar
                     }
                     cnt++;
                 }
+
                 AccessSettings acnt = new AccessSettings();
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
+
                 await Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
             };
 
             btnMyServices.Clicked += async (sender, e) =>
             {
                 var existingPages = Navigation.NavigationStack.ToList();
+
                 int cnt = 2;
+
                 foreach (var page in existingPages)
                 {
                     if (cnt < existingPages.Count)
@@ -79,10 +86,9 @@ namespace YomoneyApp.Views.NavigationBar
                     }
                     cnt++;
                 }
+
                 await  Navigation.PushAsync(new WaletServices());
             };
         }
-
-
     }
 }

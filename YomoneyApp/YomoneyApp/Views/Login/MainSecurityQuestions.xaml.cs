@@ -12,14 +12,22 @@ namespace YomoneyApp.Views.Login
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainSecurityQuestions : ContentPage
     {
-        public MainSecurityQuestions()
+        AccountViewModel viewModel;
+
+        MenuItem mn = new MenuItem();
+
+        public MainSecurityQuestions(MenuItem mnu)
         {
             InitializeComponent();
+            BindingContext = viewModel = new AccountViewModel(this);
+            viewModel.PhoneNumber = mnu.Note;
+            viewModel.Subtitle = mnu.Description;
+            viewModel.Email = mnu.Title;
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void btnSecurityQtnOption_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new SecurityQuestion());
         }
     }
 }

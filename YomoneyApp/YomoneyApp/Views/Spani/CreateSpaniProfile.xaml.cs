@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,8 @@ namespace YomoneyApp.Views.Spani
         string googleurl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=formatted_address,name,rating,opening_hours,geometry&key=AIzaSyDWd6uSjjohKOWKMa5tefGw30Uk3CkbeJ0";
         public CreateSpaniProfile()
         {
-            InitializeComponent();
+            InitializeComponent();           
+
             BindingContext = viewModel = new RequestViewModel(this);
 
             PickerStore.SelectedIndexChanged += async (sender, e) =>
@@ -28,25 +30,26 @@ namespace YomoneyApp.Views.Spani
                     PickerSubcategory.Items.Add(store.Title.Trim());
             };
 
-
             PickerSubcategory.SelectedIndexChanged += (sender, e) =>
             {
                 viewModel.Subcategory = PickerSubcategory.Items[PickerSubcategory.SelectedIndex];
             };
+
             ButtonClose.Clicked += async (sender, e) =>
             {
                 await App.Current.MainPage.Navigation.PopModalAsync();
                // await Navigation.PopModalAsync();
             };
+
             EditorAddress.TextChanged += async (sender, e) =>
             {
                 if (e.NewTextValue.Length > 5)
                 {
-                     await viewModel.GetGeoAddressAsync(e.NewTextValue);
-                    
+                     await viewModel.GetGeoAddressAsync(e.NewTextValue);                    
                 }
             };
         }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -60,10 +63,8 @@ namespace YomoneyApp.Views.Spani
             }
             catch (Exception ex)
             {
-             
+                Console.WriteLine(ex.Message);
             }
-            
-
         }
     }
 }

@@ -24,29 +24,26 @@ namespace YomoneyApp
             ChatServices sigChat = new ChatServices();
            
             if (!string.IsNullOrEmpty(pass))
-            {
-               
+            {               
                 // cvm.GetSupportCommand.Execute(null);
                 MainPage = new NavigationPage(new HomePage())
                 {
                     BarTextColor = Color.White,
-                    BarBackgroundColor = Color.FromHex("#e2762b")
+                    BarBackgroundColor = Color.FromHex("#df782d")
                 };
+
                 Device.StartTimer(TimeSpan.FromSeconds(30), () => {
                     if (!sigChat.IsConnectedOrConnecting)
                         cvm = new ChatViewModel(pg);
-
                     return true;
                 });
-
             }
             else
-            {
-               
+            {               
                 MainPage = new NavigationPage(new AccountMain())
                 {
                     BarTextColor = Color.White,
-                    BarBackgroundColor = Color.FromHex("#e2762b")
+                    BarBackgroundColor = Color.FromHex("#df782d")
                 };
 
             }
@@ -58,8 +55,6 @@ namespace YomoneyApp
         
         protected override void OnStart()
         {
-            
-
             // Handle when your app starts
         }
 

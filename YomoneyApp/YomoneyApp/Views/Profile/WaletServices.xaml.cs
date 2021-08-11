@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +11,7 @@ namespace YomoneyApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WaletServices : ContentPage
     {
-        WalletServicesViewModel viewModel;        
+        WalletServicesViewModel viewModel;     
 
         public Action<MenuItem> ItemSelected
         {
@@ -24,7 +23,7 @@ namespace YomoneyApp.Views
             InitializeComponent();
             BindingContext = viewModel = new YomoneyApp.WalletServicesViewModel(this);
             Title = "Dashboard";
-        }
+         }
 
         protected override void OnAppearing()
         {

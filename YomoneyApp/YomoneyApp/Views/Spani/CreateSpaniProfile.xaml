@@ -3,12 +3,14 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="YomoneyApp.Views.Spani.CreateSpaniProfile"
-    xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+    xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" 
+    xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer" 
+    xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp"    
     Title="New Job Skill"
 	IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+        <StackLayout BackgroundColor="White">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -37,153 +39,79 @@
 
                 </Grid>
             </StackLayout>
+            
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
             </StackLayout>
-            <ScrollView VerticalOptions="FillAndExpand" Padding="10" BackgroundColor="White">
-            <Grid VerticalOptions="FillAndExpand">
 
-                    <Grid.ColumnSpacing>
-                        <OnIdiom x:TypeArguments="x:Double">
-                            <OnIdiom.Phone>20</OnIdiom.Phone>
-                            <OnIdiom.Tablet>40</OnIdiom.Tablet>
-                        </OnIdiom>
-                    </Grid.ColumnSpacing>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100"/>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="100"/>
-                        <RowDefinition Height="110"/>
-                        
-                </Grid.RowDefinitions>
-               
-                <Label
-			    Grid.Row="0"
-			    FontSize="Small"
-			    Text="Create a profile to showcase your business and have an oppotunity to bid for jobs to the millions of users on the platform"
-			    TextColor="#169F85" />
-               
-                <Label
-			    Grid.Row="1"
-			    FontSize="Small"
-			    Text="Trade Name"
-			    TextColor="#e2762b"
-                
-                BackgroundColor="Transparent"
-			      />
+            <StackLayout BackgroundColor="White" Padding="10,0,10,10" VerticalOptions="FillAndExpand">
 
-                 <Entry 
-			    Grid.Row="1"
-			    Text="{Binding Ptitle}"
-                VerticalOptions="End"
-			    Placeholder="Company Name" 
-			    Keyboard="Default"/>
+                <Label Grid.Row="0" Padding="15,15,15,0" Margin="0,0,0,20" FontSize="Small" Text="Create a profile to showcase your business and have an oppotunity to bid for jobs to the millions of users on the platform" TextColor="Gray" />
 
-
-               <Label
-			    Grid.Row="2"
-			    FontSize="Small"
-                
-			    Text="Category"
-                BackgroundColor="Transparent"
-			    TextColor="#e2762b" />
-
-                <Picker 
-			    x:Name="PickerStore"
-                VerticalOptions="End" 
-			    Grid.Row="2"
-			    Grid.Column="0">
-                </Picker>
-                
-                <Label
-			    Grid.Row="3"
-			    FontSize="Small"
-			    Text="Service"
-                BackgroundColor="Transparent"
-			    TextColor="#e2762b" />
-
-                <Picker 
-			    x:Name="PickerSubcategory"
-                 VerticalOptions="End"
-			    Grid.Row="3">
-                </Picker>
-                    <StackLayout Grid.Row="4">
-
-                        <ListView
-				    x:Name="StoreList"
-                    SelectedItem="{Binding SelectedAdd, Mode=TwoWay}"
-				    ItemsSource="{Binding GeoPlaces}"
-				    IsGroupingEnabled="false"
-            	    HasUnevenRows="true"
-                    RefreshCommand="{Binding ForceRefreshCommand}"
-                    IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
-                    IsPullToRefreshEnabled="True"
-                    >
-                            <ListView.GroupHeaderTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <ViewCell.Height>
-                                            <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
-                                        </ViewCell.Height>
-
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.GroupHeaderTemplate>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <Label Text="{Binding SubLocality}" FontSize="Medium"  TextColor="Black" LineBreakMode="WordWrap" />
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-
-                        <Label
-			        FontSize="Small"
-			        Text="Operational Address"
-			        TextColor="#e2762b"
-                    BackgroundColor="Transparent"
-			        />
-
-                        <Editor 
-                    x:Name="EditorAddress"
-                    VerticalOptions="End"
-			        Text="{Binding Address}"
-			        />
-
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Ptitle}" FontAttributes="None" Keyboard="Default" Placeholder="Company Name" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
-               <Label
-			    Grid.Row="5"
-                
-			    FontSize="Small"
-			    Text="Description"
-			    TextColor="#e2762b"
-                BackgroundColor="Transparent"
-			    />
+                </Frame>
 
-               <Editor 
-			    Grid.Row="5"
-                 VerticalOptions="End"
-                Grid.RowSpan="1"
-			    HeightRequest="100"
-			    Text="{Binding Description}"
-			    BackgroundColor="#103498DB"/>
+                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="PickerStore" Title="Select Category" WidthRequest="330" Grid.Column="0"/>
+                    </StackLayout>
+                </Frame>
 
-                    
-                </Grid>
-            </ScrollView>
-            <Button 
-			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#e2762b"
-			BorderRadius="6"
-			TextColor="White" 
-			Text="Submit"
-			Command="{Binding SaveProfileCommand}"/>
-           
+                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker  x:Name="PickerSubcategory" Title="Select Sub Category" WidthRequest="330" Grid.Column="0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry x:Name="EditorAddress" Text="{Binding Address}" FontAttributes="None" Keyboard="Default" Placeholder="Operational Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>               
+
+            </StackLayout>
+
+            <StackLayout Padding="10" BackgroundColor="White">
+                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#2f6a10" Text="SUBMIT" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" Command="{Binding SaveProfileCommand}"/>
+            </StackLayout>
+            
+            <xWebService:footer x:Name="FooterView"/>            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
+
+                                             
+
+                        
+
+                            
+
+                            
+           
+    

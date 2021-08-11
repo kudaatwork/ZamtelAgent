@@ -28,13 +28,13 @@
 
                                 <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                            <Image Source="email.png" Aspect="AspectFill" Margin="0"/>
+                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="60" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="email3.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
                                         <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Placeholder="Email e.g example@exmple.com" Keyboard="Email" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
                                     </StackLayout>
-                                </Frame>
-                              
+                                </Frame>                            
+
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
@@ -48,24 +48,16 @@
 
                         </StackLayout>
                     </Frame>
-                </StackLayout>
-
-                <StackLayout 
-             AbsoluteLayout.LayoutFlags="All"
-             AbsoluteLayout.LayoutBounds="1,1,0.25,0.25">
-
-                    <Label Text="Skip" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
-                        </Label.GestureRecognizers>
-                    </Label>
-
-                </StackLayout>
+                </StackLayout>               
 
             </Grid>
 
             <StackLayout>
-
+                <Label Text="Skip" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,40,20,0" HorizontalOptions="EndAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
             </StackLayout>
         </StackLayout>
 

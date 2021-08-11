@@ -72,7 +72,6 @@ namespace YomoneyApp
             }
         }
 
-
         MenuItem cancelJob;
 
         public MenuItem CancelJob
@@ -2233,6 +2232,7 @@ namespace YomoneyApp
             catch (Exception ex)
             {
                 await page.DisplayAlert("Error :(", "Unable to save Job Request, please try again.", "OK");
+                Console.WriteLine(ex.Message);
             }
             finally
             {

@@ -72,18 +72,25 @@ namespace YomoneyApp
                 trn.CustomerAccount = phone + ":" + password;
                 trn.MTI = "0100";
                 trn.ProcessingCode = "200000";
+
                 string Body = "";
                 Body += "CustomerAccount=" + trn.CustomerAccount;
                 Body += "&ProcessingCode=" + trn.ProcessingCode;
                 Body += "&MTI=0100" ;
+
                 HttpClient client = new HttpClient();
+
                 var myContent = Body;
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+
                 ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
                 string result = await client.GetStringAsync(paramlocal);
+
                 if (result != "System.IO.MemoryStream")
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
                     if(response.ResponseCode == "SignedIn")
                     {
                         AccessSettings ac = new Services.AccessSettings();
@@ -216,9 +223,12 @@ namespace YomoneyApp
                     {
                         string Body = "";
                         Body += "Narrative=" + trn.Narrative;
+
                         HttpClient client = new HttpClient();
+
                         var myContent = Body;
                         string paramlocal = string.Format(HostDomain + "/Mobile/Create/?{0}", myContent);
+
                         string result = await client.GetStringAsync(paramlocal);
                         
                         if (result != "System.IO.MemoryStream")
@@ -232,12 +242,19 @@ namespace YomoneyApp
                                     AccessSettings ac = new Services.AccessSettings();
                                     App.MyLogins = phone;
                                     App.AuthToken = password;
+
+                                    MenuItem mn = new MenuItem();
+
                                     try
                                     {
                                         var resp = ac.SaveCredentials(phone, password).Result;
+
+                                        await page.Navigation.PushAsync(new AddEmailAddress(mn));
                                     }
-                                    catch
-                                    { }
+                                    catch (Exception e)
+                                    {
+                                        await page.DisplayAlert("Join Error", "An error has occured whilst saving the transaction", "OK");
+                                    }
                                     //await page.Navigation.PushAsync(new AddEmailAddress(MenuItem mn));
                                 }
                                 catch (Exception e)
@@ -407,17 +424,19 @@ namespace YomoneyApp
 
                 HttpClient client = new HttpClient();
                 client.Timeout = TimeSpan.FromSeconds(180);
+
                 var myContent = Body;
+
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", Body);
+
                 string result = await client.GetStringAsync(paramlocal);
+                
                 if (result != "System.IO.MemoryStream")
                 {
-
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
                     if (response.ResponseCode == "Success" || response.ResponseCode == "00000")
-                    {
-                        
-                       
+                    {                      
                        
                     }
                     else
@@ -478,12 +497,12 @@ namespace YomoneyApp
                 trn.CustomerAccount = phone + ":" + password;
                 trn.CustomerMSISDN = phone;
                 trn.Mpin = password;
-
                 trn.CustomerAccount = PhoneNumber;
                 trn.CustomerMSISDN = PhoneNumber;
                 trn.MTI = "0100";
                 trn.ProcessingCode = "220000";
                 trn.Narrative = phone + "_" + password;
+
                 string Body = "";
                 Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                 Body += "&Narrative=" + trn.Narrative;
@@ -491,10 +510,15 @@ namespace YomoneyApp
                 Body += "&ProcessingCode=" + trn.ProcessingCode;
                 Body += "&MTI=0100";
                 Body += "&Mpin=" + trn.Mpin;
+
                 HttpClient client = new HttpClient();
+
                 var myContent = Body;
+
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+
                 string result = await client.GetStringAsync(paramlocal);
+
                 if (result != "System.IO.MemoryStream")
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
@@ -509,14 +533,16 @@ namespace YomoneyApp
                         //mn.Note = phone;
                         MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
 
-                       await page.Navigation.PushAsync(new AddEmailAddress(mn));
+                       // await page.Navigation.PushAsync(new AddEmailAddress(mn));
                     }
+
                     else if(response.ResponseCode == "Error" || response.ResponseCode == "00008")
                     {
                         //mn.Description = "You need a valid email address for password reset please contact customer service";
                         mn.Note = phone;
                         await page.DisplayAlert("OTP Verification", response.Description, "OK");
                     }
+
                     else
                     {                        
                         //mn.Description = "Please enter an email address for your account where you new password will be sent";

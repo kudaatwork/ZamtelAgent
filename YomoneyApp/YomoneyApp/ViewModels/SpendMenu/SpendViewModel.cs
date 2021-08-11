@@ -236,6 +236,7 @@ namespace YomoneyApp
                 // trn.AgentCode = selectedOption.SupplierId;
                 // trn.Quantity = selectedOption.Count;
                 // trn.Product = selectedOption.Description;
+
                 string Body = "";
                 Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                 Body += "&CustomerAccount=" + trn.CustomerAccount;

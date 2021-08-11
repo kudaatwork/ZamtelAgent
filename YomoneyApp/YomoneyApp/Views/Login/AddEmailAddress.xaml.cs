@@ -14,6 +14,8 @@ namespace YomoneyApp.Views.Login
     {
         AccountViewModel viewModel;
 
+        MenuItem mn = new MenuItem();
+
         public AddEmailAddress(MenuItem mnu)
         {
             InitializeComponent();
@@ -23,9 +25,9 @@ namespace YomoneyApp.Views.Login
             viewModel.Email = mnu.Title;
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new MainSecurityQuestions(mn));
         }
     }
 }

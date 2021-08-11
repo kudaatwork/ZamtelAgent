@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 
 namespace YomoneyApp.Views.Spend
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class PayBill : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class PayBill : ContentPage
+    {
         SpendViewModel viewModel;
         public Action<MenuItem> ItemSelected
         {
@@ -20,15 +20,18 @@ namespace YomoneyApp.Views.Spend
             set { viewModel.ItemSelected = value; }
         }
         public PayBill(MenuItem mnu)
-		{
-			InitializeComponent ();
+        {
+            InitializeComponent();
+
             BindingContext = viewModel = new SpendViewModel(this);
             viewModel.RetryText = "Retry";
             viewModel.Currency = mnu.Currency;
+
             if (mnu.TransactionType == 3)
             {
                 viewModel.RequireAccount = true;
             }
+
             if (mnu.Note == "Reward Service")
             {
                 viewModel.Budget = mnu.Amount;
@@ -37,11 +40,11 @@ namespace YomoneyApp.Views.Spend
                 viewModel.RetryText = "Get Reward";
             }
 
-
             PickerStore.SelectedIndexChanged += async (sender, e) =>
             {
                 viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
                 var biller = viewModel.Categories.Where(u => u.Title.Trim() == viewModel.Category.Trim()).FirstOrDefault();
+
                 if (biller.HasProducts)
                 {
                     viewModel.IsConfirm = false;
@@ -78,18 +81,18 @@ namespace YomoneyApp.Views.Spend
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
 
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
-                
+
                 viewModel.Category = mn.Title;
-                
+
                 var biller = viewModel.Categories.Where(u => u.Title.Trim() == viewModel.Category.Trim()).FirstOrDefault();
-                
+
                 if (biller.HasProducts)
                 {
                     viewModel.IsConfirm = false;
                     viewModel.HasProducts = true;
                     var stores = await viewModel.GetProductsAsync();
+
                     foreach (var store in stores)
-                        
                         PickerProducts.Items.Add(store.Title.Trim() + " $" + store.Amount);
                 }
                 else
@@ -100,15 +103,16 @@ namespace YomoneyApp.Views.Spend
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
             if ((viewModel.Category != null && viewModel.Category != "") || viewModel.IsBusy)
             {
-               
+
             }
             else
             {
@@ -121,9 +125,8 @@ namespace YomoneyApp.Views.Spend
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.Message);
                 }
-
             }
         }
     }
