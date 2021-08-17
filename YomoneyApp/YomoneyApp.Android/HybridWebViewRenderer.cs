@@ -7,7 +7,7 @@ using YomoneyApp.Views.TemplatePages;
 [assembly: ExportRenderer(typeof(HybridWebView), typeof(HybridWebViewRenderer))]
 namespace YomoneyApp.Droid
 {
-    public class HybridWebViewRenderer : ViewRenderer<HybridWebView, Android.Webkit.WebView>
+    public class HybridWebViewRenderer : WebViewRenderer
     {
         const string JavascriptFunction = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
         Context _context;
@@ -17,28 +17,30 @@ namespace YomoneyApp.Droid
             _context = context;
         }
 
-        protected override void OnElementChanged(ElementChangedEventArgs<HybridWebView> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
         {
             base.OnElementChanged(e);
 
             if (e.OldElement != null)
             {
                 Control.RemoveJavascriptInterface("jsBridge");
-                var hybridWebView = e.OldElement as HybridWebView;
-                hybridWebView.Cleanup();
+                ((HybridWebView)Element).Cleanup();
             }
             if (e.NewElement != null)
             {
-                if (Control == null)
-                {
-                    var webView = new Android.Webkit.WebView(_context);
-                    webView.Settings.JavaScriptEnabled = true;
-                   // webView.SetWebViewClient(new JavascriptWebViewClient($"javascript: {JavascriptFunction}"));
-                    SetNativeControl(webView);
-                }
-                Control.AddJavascriptInterface(new JSBridge(_context), "jsBridge");
-                Control.LoadUrl($"file:///android_asset/Content/{Element.Uri}");
+                Control.SetWebViewClient(new JavascriptWebViewClient(this, $"javascript: {JavascriptFunction}"));
+                Control.AddJavascriptInterface(new JSBridge(this), "jsBridge");
+                Control.LoadUrl($"{((HybridWebView)Element).Uri}");
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ((HybridWebView)Element).Cleanup();
+            }
+            base.Dispose(disposing);
         }
     }
 }

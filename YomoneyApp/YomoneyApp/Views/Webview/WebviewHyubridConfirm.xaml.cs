@@ -13,16 +13,19 @@ namespace YomoneyApp.Views.Webview
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WebviewHyubridConfirm : ContentPage
     {
-        public WebviewHyubridConfirm()
+        public WebviewHyubridConfirm(string uri)
         {
             InitializeComponent();
+
             var hybridWebView = new HybridWebView
             {
-                Uri = "index.html",
+                Uri = uri,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
+
             hybridWebView.RegisterAction(data => DisplayAlert("Alert", "Hello " + data, "OK"));
+
             Padding = new Thickness(0, 20, 0, 0);
             Content = hybridWebView;
         }

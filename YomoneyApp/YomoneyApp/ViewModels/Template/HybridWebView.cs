@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace YomoneyApp.Views.TemplatePages
 {
-    public class HybridWebView : View
+    public class HybridWebView : WebView
     {
         Action<string> action;
         public static readonly BindableProperty UriProperty = BindableProperty.Create(

@@ -26,7 +26,7 @@ namespace YomoneyApp
         bool showAlert = false;
         private IChatServices _chatServices;
 		private string _roomName = "PrivateRoom";
-        public string HostDomain = "https://www.yomoneyservice.com";
+        public string HostDomain = "http://192.168.100.172:5000";
         AccessSettings acnt = new Services.AccessSettings();
         string dbPath = "";
         #region ViewModel Properties
@@ -207,7 +207,7 @@ namespace YomoneyApp
                         if (page.Navigation.NavigationStack.Count == 0 ||
                         page.Navigation.NavigationStack.Last().GetType() != typeof(WebviewPage))
                         {
-                            page.Navigation.PushModalAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + SelectedContact.Phone.ToString(), "Job Profile", true, null));
+                            page.Navigation.PushModalAsync(new WebviewPage("http://192.168.100.172:5000/Mobile/JobProfile?id=" + SelectedContact.Phone.ToString(), "Job Profile", true, null));
                             page.Navigation.PopAsync();
                         }
 
@@ -452,7 +452,7 @@ namespace YomoneyApp
                 {
                     YoContact mn = new YoContact();
                     mn.Name = "You have no contacts on yoapp";
-                    mn.Avator = "https://www.yomoneyservice.com/Content/Spani/Images/avator.jpg";
+                    mn.Avator = "http://192.168.100.172:5000/Content/Spani/Images/avator.jpg";
                     
                     //mn.IsMine = true;
                     resp.Add(mn);
@@ -550,7 +550,7 @@ namespace YomoneyApp
                 {
                     YoContact mn = new YoContact();
                     mn.Skills = "You have no active yomoney contacts";
-                    mn.Avator = "https://www.yomoneyservice.com/Content/Spani/Images/Contactchat.jpg";
+                    mn.Avator = "http://192.168.100.172:5000/Content/Spani/Images/Contactchat.jpg";
                     List<YoContact> resp = new List<YoContact>();
                     resp.Add(mn);
                     _contacts.ReplaceRange(resp);
@@ -615,7 +615,7 @@ namespace YomoneyApp
                 }
                 if (msg.avatar == null)
                 {
-                    msg.avatar = "https://www.yomoneyservice.com/Content/Administration/images/user.png";
+                    msg.avatar = "http://192.168.100.172:5000/Content/Administration/images/user.png";
                 }
                 if (msg.Date.Date.ToUniversalTime() == DateTime.Now.Date.ToUniversalTime())
                 {
@@ -719,7 +719,7 @@ namespace YomoneyApp
                 }
                 if (msg.avatar == null)
                 {
-                    msg.avatar = "https://www.yomoneyservice.com/Content/Administration/images/user.png";
+                    msg.avatar = "http://192.168.100.172:5000/Content/Administration/images/user.png";
                 }
                 if (msg.Date.Date.ToUniversalTime() == DateTime.Now.Date.ToUniversalTime())
                 {

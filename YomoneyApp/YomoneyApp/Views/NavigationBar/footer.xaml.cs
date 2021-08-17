@@ -69,7 +69,11 @@ namespace YomoneyApp.Views.NavigationBar
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
 
-                await Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
+                string uri = "http://192.168.100.172:5000/Mobile/JobProfile?id=" + uname;
+
+                await Navigation.PushAsync(new WebviewHyubridConfirm(uri));
+
+                // await Navigation.PushAsync(new WebviewPage("uri, "My Profile", false, null));
             };
 
             btnMyServices.Clicked += async (sender, e) =>

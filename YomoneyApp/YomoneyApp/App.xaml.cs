@@ -6,8 +6,9 @@ using Xamarin.Forms.Xaml;
 using YomoneyApp.Services;
 using YomoneyApp.Views.Login;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace YomoneyApp
-{
+{    
     public partial class App : Application
     {
         public App(string dbPath)

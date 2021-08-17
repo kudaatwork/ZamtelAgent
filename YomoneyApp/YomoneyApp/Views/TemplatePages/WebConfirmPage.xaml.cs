@@ -170,7 +170,7 @@ namespace YomoneyApp.Views.TemplatePages
                      " document.getElementById('btnPayNext').style.display = 'none';" +
                      //" try{var xhttp = new XMLHttpRequest();"+
                      //" xhttp.onreadystatechange = function() {};"+
-                     //" xhttp.open('GET', 'https://www.yomoneyservice.com/Mobile/invokeCsAction?message=ConfirmWebview-ChangeVMState-Confirmed&Id=" + uname + "', true); xhttp.send(); }catch(err){}" +
+                     //" xhttp.open('GET', 'http://192.168.100.172:5000/Mobile/invokeCsAction?message=ConfirmWebview-ChangeVMState-Confirmed&Id=" + uname + "', true); xhttp.send(); }catch(err){}" +
                      " }}, false);" +
                      " })(document, false);";
            

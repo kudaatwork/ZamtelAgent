@@ -18,9 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CardsView" Version="2.7.0" />
+    <PackageReference Include="CardsView" Version="2.8.0" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="6.0.0" />
-    <PackageReference Include="FluentValidation" Version="9.5.1" />
+    <PackageReference Include="FluentValidation" Version="10.3.0" />
     <PackageReference Include="MagicGradients" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />

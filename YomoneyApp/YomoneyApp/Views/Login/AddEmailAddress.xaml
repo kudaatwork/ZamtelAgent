@@ -44,7 +44,7 @@
                                 </Frame>
                             </StackLayout>
 
-                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" Command="{Binding AddEmailCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         </StackLayout>
                     </Frame>

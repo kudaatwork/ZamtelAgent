@@ -61,9 +61,7 @@
 
             </Grid>
 
-            <StackLayout>
-
-            </StackLayout>
+            
         </StackLayout>
 
     </AbsoluteLayout>

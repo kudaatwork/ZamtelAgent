@@ -31,8 +31,7 @@
 			        TextColor="White" 
                     FontAttributes="Bold"
 			        Image="back.png"
-                    HorizontalOptions="Start"  
-                
+                    HorizontalOptions="Start"                
 			        />
 
                 </Grid>

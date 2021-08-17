@@ -13,34 +13,29 @@ using Android.Widget;
 using Java.Interop;
 using Java.Lang;
 using Xamarin.Forms;
-
+using YomoneyApp.Views.TemplatePages;
 
 namespace YomoneyApp.Droid
 {
-    public class JSBridge : Java.Lang.Object, IRunnable
+    class JSBridge : Java.Lang.Object
     {
-        Android.Content.Context _context;
+        readonly WeakReference<HybridWebViewRenderer> hybridWebViewRenderer;
 
-        public JSBridge(Android.Content.Context context)
+        public JSBridge(HybridWebViewRenderer hybridRenderer)
         {
-            this._context = context;
-        }
-        public void Run()
-        {
-            // you need to implment this func because of IRunnable interface but I didn't use it 
-            //as I need to send parameter from client side
+            hybridWebViewRenderer = new WeakReference<HybridWebViewRenderer>(hybridRenderer);
         }
 
         [JavascriptInterface]
-        [Export("callCSAction")]
-        public void CallCSAction(Java.Lang.String MessageName)
+        [Export("invokeAction")]
+        public void InvokeAction(string data)
         {
-            
-          
-            string[] part = MessageName.Split("-");
-            //                                    name    method   arg
-            MessagingCenter.Send<string, string>(part[0], part[1], part[2]);
-            
+            HybridWebViewRenderer hybridRenderer;
+
+            if (hybridWebViewRenderer != null && hybridWebViewRenderer.TryGetTarget(out hybridRenderer))
+            {
+                ((HybridWebView)hybridRenderer.Element).InvokeAction(data);
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.172:5000";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
         public AccountViewModel(Page page) : base(page)
@@ -26,7 +26,6 @@ namespace YomoneyApp
             Title = "Account";
         }
 
-    
         #region login
         Command loginCommand;
         public Command LoginCommand
@@ -49,7 +48,7 @@ namespace YomoneyApp
                 await page.DisplayAlert("Enter Mobile Number", "Please enter a valid mobile number. e.g 263775555000", "OK");
                 return;
             }
-            else if(PhoneNumber.Length != 12 )
+            else if (PhoneNumber.Length != 12)
             {
                 await page.DisplayAlert("Enter Mobile Number", "Please enter a valid mobile number. e.g 263775555000", "OK");
                 return;
@@ -76,7 +75,7 @@ namespace YomoneyApp
                 string Body = "";
                 Body += "CustomerAccount=" + trn.CustomerAccount;
                 Body += "&ProcessingCode=" + trn.ProcessingCode;
-                Body += "&MTI=0100" ;
+                Body += "&MTI=0100";
 
                 HttpClient client = new HttpClient();
 
@@ -91,14 +90,14 @@ namespace YomoneyApp
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
 
-                    if(response.ResponseCode == "SignedIn")
+                    if (response.ResponseCode == "SignedIn")
                     {
                         AccessSettings ac = new Services.AccessSettings();
                         string resp = "";
                         try
                         {
                             resp = ac.SaveCredentials(phone, password).Result;
-                           
+
                         }
                         catch
                         {
@@ -119,7 +118,7 @@ namespace YomoneyApp
                     {
                         ResponseDescription = "Invalid Username or Password";
                     }
-                    
+
                 }
             }
             catch (Exception ex)
@@ -173,7 +172,7 @@ namespace YomoneyApp
 
             string[] nam = ContactName.Split(' ');
 
-            if (nam.Length < 2 || nam[0].Length <3 || nam[1].Length < 3)
+            if (nam.Length < 2 || nam[0].Length < 3 || nam[1].Length < 3)
             {
                 await page.DisplayAlert("Enter Full Name", "Please enter your Fullname and Surname no initials.", "OK");
                 return;
@@ -183,7 +182,7 @@ namespace YomoneyApp
                 await page.DisplayAlert("Enter Password", "Please enter a password.", "OK");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(confirmPassword ))
+            if (string.IsNullOrWhiteSpace(confirmPassword))
             {
                 await page.DisplayAlert("Confirm Password", "Please confirm password.", "OK");
                 return;
@@ -194,7 +193,7 @@ namespace YomoneyApp
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(PhoneNumber) )
+            if (string.IsNullOrWhiteSpace(PhoneNumber))
             {
                 await page.DisplayAlert("Enter Phone Number", "Please enter a valid mobile number.", "OK");
                 return;
@@ -216,7 +215,7 @@ namespace YomoneyApp
 
                 await page.Navigation.PushAsync(new VerificationPage(PhoneNumber));
                 //IsBusy = false;
-               
+
                 MessagingCenter.Subscribe<string, string>("VerificationRequest", "VerifyMsg", async (sender, arg) =>
                 {
                     if (arg == "Verified")
@@ -230,12 +229,12 @@ namespace YomoneyApp
                         string paramlocal = string.Format(HostDomain + "/Mobile/Create/?{0}", myContent);
 
                         string result = await client.GetStringAsync(paramlocal);
-                        
+
                         if (result != "System.IO.MemoryStream")
                         {
                             var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
 
-                            if (response.ResponseCode == "00000")
+                            if (response.ResponseCode != "00000")
                             {
                                 try
                                 {
@@ -249,7 +248,7 @@ namespace YomoneyApp
                                     {
                                         var resp = ac.SaveCredentials(phone, password).Result;
 
-                                        await page.Navigation.PushAsync(new AddEmailAddress(mn));
+                                        await page.Navigation.PushAsync(new AddEmailAddress());
                                     }
                                     catch (Exception e)
                                     {
@@ -270,7 +269,8 @@ namespace YomoneyApp
                             }
 
                         }
-                    }else
+                    }
+                    else
                     {
                         message = "Please enter a valid verification code";
                         await page.DisplayAlert("Join Error", message, "OK");
@@ -287,7 +287,93 @@ namespace YomoneyApp
                 joinCommand?.ChangeCanExecute();
             }
 
-           // await page.Navigation.PopAsync();
+            // await page.Navigation.PopAsync();
+
+        }
+        #endregion
+
+        #region AddEmail
+        Command addEmailCommand;
+        public Command AddEmailCommand
+        {
+            get
+            {
+                return addEmailCommand ??
+                    (addEmailCommand = new Command(async () => await ExecuteAddEmailCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteAddEmailCommand()
+        {
+            if (IsBusy)
+                return;
+
+            string pattern = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                await page.DisplayAlert("Enter Email Address", "Please enter your email address.", "OK");
+                return;
+            }
+            else if (!Regex.IsMatch(Email, pattern))
+            {
+                await page.DisplayAlert("Enter Valid Email Address", "Please enter a valid email address.", "OK");
+                return;
+            }
+
+            Message = "Creating Account...";
+            IsBusy = true;
+            addEmailCommand?.ChangeCanExecute();
+
+            try
+            {
+                TransactionRequest trn = new TransactionRequest();
+                trn.CustomerAccount = PhoneNumber;
+                trn.CustomerMSISDN = PhoneNumber;
+                trn.Narrative = Email + "_" + PhoneNumber;
+
+                string Body = "";
+                Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+                Body += "&Narrative=" + trn.Narrative;
+                Body += "&CustomerAccount=" + trn.CustomerAccount;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+                string paramlocal = string.Format(HostDomain + "/Mobile/Create/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    if (response.ResponseCode != "00000")
+                    {
+                        try
+                        {
+                            await page.Navigation.PushAsync(new MainSecurityQuestions());                           
+                        }
+                        catch (Exception e)
+                        {
+                            await page.DisplayAlert("Email Error", "An error has occured. Check the application permissions and allow data storage", "OK");
+                        }
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("Error", response.Description, "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await page.DisplayAlert("Email Error", "Unable to add your email address, please check your internet connection and try again.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                joinCommand?.ChangeCanExecute();
+            }
 
         }
         #endregion
@@ -316,7 +402,7 @@ namespace YomoneyApp
                 await page.DisplayAlert("Enter Mobile Number", "Please enter a valid mobile number. e.g 263775555000", "OK");
                 return;
             }
-            
+
             Message = "Processing...";
             IsBusy = true;
             ForgotCommand?.ChangeCanExecute();
@@ -342,7 +428,7 @@ namespace YomoneyApp
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     if (response.Note == "VerificationCode" && response.ResponseCode == "00000")
                     {
-                      
+
                         await page.Navigation.PushAsync(new VerificationPage(phone));
                     }
                     else
@@ -372,8 +458,8 @@ namespace YomoneyApp
         public async void GetVerificationAsync()
         {
             if (IsBusy)
-              return;
-            
+                return;
+
             var showAlert = false;
 
             //string myinput = await PaymentCall(page.Navigation, "Payment");
@@ -389,7 +475,7 @@ namespace YomoneyApp
                 //   ServiceOptions.Clear();
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
-                
+
                 trn.CustomerAccount = PhoneNumber;
                 trn.CustomerMSISDN = PhoneNumber;
                 trn.MTI = "0100";
@@ -399,7 +485,7 @@ namespace YomoneyApp
                 trn.TransactionRef = Email;
                 trn.Mpin = Password;
                 trn.Narrative = "Verification";
-                
+
                 string Body = "";
                 Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                 Body += "&CustomerAccount=" + trn.CustomerAccount;
@@ -430,14 +516,14 @@ namespace YomoneyApp
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", Body);
 
                 string result = await client.GetStringAsync(paramlocal);
-                
+
                 if (result != "System.IO.MemoryStream")
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
 
                     if (response.ResponseCode == "Success" || response.ResponseCode == "00000")
-                    {                      
-                       
+                    {
+
                     }
                     else
                     {
@@ -484,7 +570,7 @@ namespace YomoneyApp
                 await page.DisplayAlert("Enter Verification Code", "Please enter the verification code sent to your mobile", "OK");
                 return;
             }
-           
+
             Message = "Processing...";
             IsBusy = true;
             VerifyCommand?.ChangeCanExecute();
@@ -528,15 +614,15 @@ namespace YomoneyApp
                     if (response.ResponseCode == "00000")
                     {
 
-                       // mn.Description = "Your new password will be sent to your email address which starts and ends as shown bellow";
+                        // mn.Description = "Your new password will be sent to your email address which starts and ends as shown bellow";
                         //mn.Title = response.Narrative;
                         //mn.Note = phone;
                         MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
 
-                       // await page.Navigation.PushAsync(new AddEmailAddress(mn));
+                        // await page.Navigation.PushAsync(new AddEmailAddress(mn));
                     }
 
-                    else if(response.ResponseCode == "Error" || response.ResponseCode == "00008")
+                    else if (response.ResponseCode == "Error" || response.ResponseCode == "00008")
                     {
                         //mn.Description = "You need a valid email address for password reset please contact customer service";
                         mn.Note = phone;
@@ -544,7 +630,7 @@ namespace YomoneyApp
                     }
 
                     else
-                    {                        
+                    {
                         //mn.Description = "Please enter an email address for your account where you new password will be sent";
                         mn.Note = phone;
                         await page.DisplayAlert("OTP Verification", mn.Description, "OK");
@@ -595,7 +681,7 @@ namespace YomoneyApp
 
                 trn.CustomerAccount = phone + ":" + password;
                 trn.MTI = "0100";
-                trn.Narrative = phone  +"_" + email;
+                trn.Narrative = phone + "_" + email;
                 string Body = "";
                 Body += "Narrative=" + trn.Narrative;
                 Body += "&CustomerAccount=" + trn.CustomerAccount;
@@ -610,7 +696,7 @@ namespace YomoneyApp
                     MenuItem mn = new MenuItem();
                     if (response.ResponseCode == "00000")
                     {
-                        
+
                         await page.Navigation.PushAsync(new SignIn());
                     }
                     else
@@ -635,18 +721,20 @@ namespace YomoneyApp
         #region model
         public UserAccount UserObj { get; set; }
         bool requiresCall = false;
+
         public bool RequiresCall
         {
             get { return requiresCall; }
             set { SetProperty(ref requiresCall, value); }
         }
+
         string idNumber = string.Empty;
         public string IdNumber
         {
             get { return idNumber; }
             set { SetProperty(ref idNumber, value); }
         }
-        
+
         string responseDescription = string.Empty;
         public string ResponseDescription
         {
@@ -692,7 +780,7 @@ namespace YomoneyApp
         string password = string.Empty;
         public string Password
         {
-            get { return password ; }
+            get { return password; }
             set { SetProperty(ref password, value); }
         }
 
@@ -745,16 +833,16 @@ namespace YomoneyApp
                 return false;
 
             // Use IdnMapping class to convert Unicode domain names. 
-           /* try
-            {
-                strIn = Regex.Replace(strIn, @"(@)(.+)$", this.DomainMapper,
-                                      RegexOptions.None, TimeSpan.FromMilliseconds(200));
-            }
-            catch (RegexMatchTimeoutException)
-            {
-                return false;
-            }
-            */
+            /* try
+             {
+                 strIn = Regex.Replace(strIn, @"(@)(.+)$", this.DomainMapper,
+                                       RegexOptions.None, TimeSpan.FromMilliseconds(200));
+             }
+             catch (RegexMatchTimeoutException)
+             {
+                 return false;
+             }
+             */
             if (invalid)
                 return false;
 
@@ -778,7 +866,7 @@ namespace YomoneyApp
         }
     }
 
-  
+
     public class UserValidator : AbstractValidator<UserAccount>
     {
         public UserValidator()

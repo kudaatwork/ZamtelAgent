@@ -4,7 +4,8 @@
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" 
              NavigationPage.HasNavigationBar="False"
              x:Class="YomoneyApp.ViewModels.Login.NewAccount"             
-             xmlns:local="clr-namespace:YomoneyApp" xmlns:local1="clr-namespace:YomoneyApp.CustomeRenderer"
+             xmlns:local="clr-namespace:YomoneyApp" 
+             xmlns:local1="clr-namespace:YomoneyApp.CustomeRenderer"
              Title="Create Account"
              IsBusy="{Binding IsBusy}"
              >
