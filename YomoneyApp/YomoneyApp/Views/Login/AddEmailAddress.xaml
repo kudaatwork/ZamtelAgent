@@ -53,7 +53,7 @@
             </Grid>
 
             <StackLayout>
-                <Label Text="Skip" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,40,20,0" HorizontalOptions="EndAndExpand">
+                <Label Text="Skip" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,20,20,0" HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
                     </Label.GestureRecognizers>

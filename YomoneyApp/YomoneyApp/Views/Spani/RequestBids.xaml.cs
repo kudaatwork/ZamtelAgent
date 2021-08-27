@@ -62,7 +62,7 @@ namespace YomoneyApp.Views.Spani
                 if (Navigation.NavigationStack.Count == 0 ||
                 Navigation.NavigationStack.Last().GetType() != typeof(WebviewPage))
                 {      
-                   Navigation.PushModalAsync(new WebviewPage("http://192.168.100.172:5000/Mobile/JobProfile?id="+ view.CommandParameter.ToString(), "Job Profile",true,null));
+                   Navigation.PushModalAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id="+ view.CommandParameter.ToString(), "Job Profile",true,null));
                    Navigation.PopAsync();
                 }
             }

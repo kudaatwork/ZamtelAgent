@@ -13,18 +13,31 @@ namespace YomoneyApp.Views.Login
     public partial class AddEmailAddress : ContentPage
     {
         AccountViewModel viewModel;
-
-        MenuItem mn = new MenuItem();
-
-        public AddEmailAddress()
+               
+        public AddEmailAddress(string phone)
         {
             InitializeComponent();
-            BindingContext = viewModel = new AccountViewModel(this);           
+            BindingContext = viewModel = new AccountViewModel(this);
+            viewModel.PhoneNumber = phone;
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MainSecurityQuestions());
+            try
+            {
+                if (viewModel.PhoneNumber != null)
+                {
+                    viewModel.LoadQuestions();
+                }
+                else
+                {
+                    await DisplayAlert("PhoneNumber Error", "There has been an error in verifying who you are", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("PhoneNumber Error", ex.Message, "OK");
+            }            
         }
     }
 }

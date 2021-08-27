@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <color name="primary">#e2762b</color>
+    <color name="primary">#df782d</color>
     <color name="primaryDark">#d6691d</color>
-    <color name="accent">#1dd669</color>
+    <color name="accent">#79c606</color>
     <color name="window_background">#FFFFFF</color>
     <color name="launcher_background">#FFFFFF</color>
     <color name="splash_background">#FFFFFF</color>
-    <color name="colorPrimary">#e2762b</color>
+    <color name="colorPrimary">#df782d</color>
     <color name="colorPrimaryDark">#d6691d</color>
-    <color name="colorAccent">#1dd669</color>
+    <color name="colorAccent">#79c606</color>
 </resources>

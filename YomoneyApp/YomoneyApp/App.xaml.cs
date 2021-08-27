@@ -53,7 +53,7 @@ namespace YomoneyApp
         public static string MyLogins;
 
         public static string AuthToken;
-        
+                        
         protected override void OnStart()
         {
             // Handle when your app starts

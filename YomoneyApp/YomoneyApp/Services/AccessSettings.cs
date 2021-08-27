@@ -92,11 +92,13 @@ namespace YomoneyApp.Services
                 try
                 {
                     oauthToken = GetSetting("userName").Result;
+
                     if(string.IsNullOrEmpty(oauthToken))
                     {
                         try
                         {
                             oauthToken = Application.Current.Properties["userName"].ToString();
+
                             if (string.IsNullOrEmpty(oauthToken))
                             {
                                 oauthToken = App.MyLogins;
@@ -113,6 +115,7 @@ namespace YomoneyApp.Services
                     try
                     {
                         oauthToken = Application.Current.Properties["userName"].ToString();
+
                         if(string.IsNullOrEmpty(oauthToken))
                         {
                             oauthToken = App.MyLogins;
@@ -123,6 +126,7 @@ namespace YomoneyApp.Services
                         oauthToken = App.MyLogins;
                     }
                 }
+
                 return oauthToken;
             }
         }
@@ -136,11 +140,13 @@ namespace YomoneyApp.Services
                 try
                 {
                     oauthToken = GetSetting("oauth_token").Result;
+
                     if (string.IsNullOrEmpty(oauthToken))
                     {
                         try
                         {
                             oauthToken = Application.Current.Properties["oauth_token"].ToString();
+
                             if (string.IsNullOrEmpty(oauthToken))
                             {
                                 oauthToken = App.AuthToken;
@@ -158,6 +164,7 @@ namespace YomoneyApp.Services
                     try
                     {
                         oauthToken = Application.Current.Properties["oauth_token"].ToString();
+
                         if (string.IsNullOrEmpty(oauthToken))
                         {
                             oauthToken = App.AuthToken;
@@ -173,8 +180,7 @@ namespace YomoneyApp.Services
         }
         
         public  void DeleteCredentials()
-        {
-            
+        {            
             SecureStorage.Remove("UserName");
             SecureStorage.Remove("oauth_token");
         }
@@ -184,14 +190,17 @@ namespace YomoneyApp.Services
             try
             {
                 var st = await SecureStorage.GetAsync(key);
+
                 if (st == null)
                 {
-                      st = Application.Current.Properties[key].ToString();
+                    st = Application.Current.Properties[key].ToString();
+
                     if(st == null)
                     {
                         st = App.AuthToken;
                     }
                 }
+
                 return st;
             }
             catch

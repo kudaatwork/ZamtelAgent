@@ -6,7 +6,7 @@ namespace YomoneyApp.Models.Questions
 {
     public class SecurityQuestions
     {
-        public int QuestionNumber { get; set; }
+        public int Id { get; set; }
         public string Question { get; set; }
     }
 }

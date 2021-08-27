@@ -12,9 +12,13 @@ namespace YomoneyApp.Views.Login
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SecurityQuestion : ContentPage
     {
-        public SecurityQuestion()
+        AccountViewModel viewModel;
+        public SecurityQuestion(string phone, string securityQuestion)
         {
             InitializeComponent();
+            BindingContext = viewModel = new AccountViewModel(this);
+            viewModel.PhoneNumber = phone;
+            viewModel.SecurityQuestion = securityQuestion;
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

@@ -21,7 +21,7 @@ namespace YomoneyApp
     public class WalletServicesViewModel : ViewModelBase
     {
         readonly IDataStore dataStore;
-        string HostDomain = "http://192.168.100.172:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         public ObservableRangeCollection<MenuItem> Stores { get; set; }
         public ObservableRangeCollection<Grouping<string, MenuItem>> StoresGrouped { get; set; }
         public ObservableRangeCollection<MenuItem> Categories { get; set; }
@@ -97,7 +97,7 @@ namespace YomoneyApp
                     {
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
-                        string link = "http://192.168.100.172:5000/Mobile/Projects?Id=" + uname;
+                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
                         page.Navigation.PushModalAsync(new WebviewPage(link, "Awarded Jobs", true, "#e2762b"));
                         SelectedStore = null;
                         selectedStore = null;
@@ -159,10 +159,10 @@ namespace YomoneyApp
             {
                 Stores.Clear();
                 List<MenuItem> mnu = new List<MenuItem>();
-                mnu.Add(new MenuItem { Title = "Loyalty Points", Image= "http://192.168.100.172:5000/Content/Spani/Images/Loyalty.jpg", Section = "Yomoney", ServiceId = 1, SupplierId = "All",TransactionType = 6 });
-                mnu.Add(new MenuItem { Title = "My Services",  Image = "http://192.168.100.172:5000/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
-                mnu.Add(new MenuItem { Title = "My Tasks", Image = "http://192.168.100.172:5000/Content/Spani/Images/tasks.png", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "YoLifestyle" });
-                mnu.Add(new MenuItem { Title = "Sign Out", Image = "http://192.168.100.172:5000/Content/Spani/Images/signOut.jpg", Section = "Yomoney", ServiceId = 5, SupplierId = "All", TransactionType = 1 });
+                mnu.Add(new MenuItem { Title = "Loyalty Points", Image= "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg", Section = "Yomoney", ServiceId = 1, SupplierId = "All",TransactionType = 6 });
+                mnu.Add(new MenuItem { Title = "My Services",  Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
+                mnu.Add(new MenuItem { Title = "My Tasks", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.png", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "YoLifestyle" });
+                mnu.Add(new MenuItem { Title = "Sign Out", Image = "https://www.yomoneyservice.com/Content/Spani/Images/signOut.jpg", Section = "Yomoney", ServiceId = 5, SupplierId = "All", TransactionType = 1 });
                 // var stores = await dataStore.GetStoresAsync();
                 Stores.ReplaceRange(mnu);
 

@@ -16,18 +16,18 @@
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,350,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="360" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="320" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label Text="Security Questions" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
-                                <Label Text="Provide the answer to the question you chose" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                <Label Text="Provide the answer to the question you choose" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                             </StackLayout>
 
                             <StackLayout Margin="0,15,0,0">
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Vertical">
-                                        <Label Text="1. What is your favourite meal?" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                        <Label Text="{Binding SecurityQuestion}" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                                         
                                     </StackLayout>
                                 </Frame>
@@ -41,15 +41,16 @@
                                     </StackLayout>
                                 </Frame>
 
+                                <!--
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
                                         <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Default" IsVisible="False" HorizontalOptions="FillAndExpand" Margin="0,5,0,0"/>
                                         <Label Text="{Binding ResponseDescription}" BackgroundColor="Transparent" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
                                     </StackLayout>
-                                </Frame>
+                                </Frame>-->
                             </StackLayout>
 
-                            <Button Text="SUBMIT ANSWER" x:Name="btnSecurityQtnOption" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button Text="SUBMIT ANSWER" x:Name="btnSecurityQtnOption" Command="{Binding ProvideAnswerCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         </StackLayout>
                     </Frame>

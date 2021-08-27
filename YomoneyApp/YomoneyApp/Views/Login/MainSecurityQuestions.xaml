@@ -25,7 +25,8 @@
 
                             <StackLayout Margin="0,5,0,0">
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Vertical">                         
+                                        
                                         <Label Text="1. What is your favourite meal?" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
                                         <Label Text="2. Where were you born?" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
                                         <Label Text="3. Is there a word or a catchy phrase you are hooked on to? If yes, you caN tell us" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
