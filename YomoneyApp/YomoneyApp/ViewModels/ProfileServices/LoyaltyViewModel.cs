@@ -20,7 +20,7 @@ namespace YomoneyApp
 {
     public class LoyaltyViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.172:5001";
         string ProcessingCode = "350000";
         readonly IDataStore dataStore;
         public ObservableRangeCollection<MenuItem> Stores { get; set; }

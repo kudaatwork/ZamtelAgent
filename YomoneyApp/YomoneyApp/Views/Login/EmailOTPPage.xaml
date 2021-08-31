@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YomoneyApp.Views.Login.VerificationPage" 
-             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"             
-             NavigationPage.HasNavigationBar="False"            
-             IsBusy="{Binding IsBusy}">
-    
+             x:Class="YomoneyApp.Views.Login.EmailOTPPage"             
+             xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"             
+             NavigationPage.HasNavigationBar="True"            
+             IsBusy="{Binding IsBusy}"
+             Title="OTP Verification">
+
     <ContentPage.Content>
         <StackLayout Padding="0">
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
@@ -36,29 +37,22 @@
                                         <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="unloack.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
-                                        <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Telephone" Placeholder="Code e.g 99999" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                        <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Telephone" Placeholder="PhoneNumber e.g 263789999999" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                     </StackLayout>
                                 </Frame>
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Horizontal">                                        
+                                    <StackLayout Orientation="Horizontal">
                                         <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Default" IsVisible="False" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                         <Label Text="{Binding ResponseDescription}" BackgroundColor="Transparent" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
-                                    </StackLayout>                                    
+                                    </StackLayout>
                                 </Frame>
                             </StackLayout>
 
-                            <Button x:Name="ButtonSignIn" Command="{Binding VerifyCommand}" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button x:Name="ButtonSignIn" Command="{Binding VerifyEmailOTPCommand}" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
-                                <Label Text="Did not receive an SMS? Go back to" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
-                                <Label Text="Sign Up" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
-                                    </Label.GestureRecognizers>
-                                </Label>
-                            </StackLayout>
-                            
+                           
+
                         </StackLayout>
                     </Frame>
                 </StackLayout>

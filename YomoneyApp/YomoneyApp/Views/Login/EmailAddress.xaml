@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
-             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" 
-             xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
-             x:Class="YomoneyApp.Views.Login.AddEmailAddress"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer" 
+             xmlns:yomoneyapp="clr-namespace:YomoneyApp"              
+             x:Class="YomoneyApp.Views.Login.EmailAddress"
              NavigationPage.HasNavigationBar="True"
              Title="Email Address">
-
+    
     <AbsoluteLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
 
         <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
@@ -34,7 +33,7 @@
                                         </Frame>
                                         <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Placeholder="Email e.g example@exmple.com" Keyboard="Email" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
                                     </StackLayout>
-                                </Frame>                            
+                                </Frame>
 
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
@@ -45,21 +44,14 @@
                                 </Frame>
                             </StackLayout>
 
-                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" Command="{Binding AddEmailCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" Command="{Binding SubmitEmailCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         </StackLayout>
                     </Frame>
-                </StackLayout>               
+                </StackLayout>
 
             </Grid>
-
-            <StackLayout>
-                <Label Text="Skip" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,20,20,0" HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+           
         </StackLayout>
 
     </AbsoluteLayout>

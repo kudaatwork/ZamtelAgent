@@ -19,7 +19,7 @@ namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.172:5001";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
         public AccountViewModel(Page page) : base(page)
@@ -159,7 +159,7 @@ namespace YomoneyApp
         async Task ExecuteJoinCommand()
         {
             if (IsBusy)
-                return;
+                return;            
 
             if (string.IsNullOrWhiteSpace(Name))
             {
@@ -495,6 +495,91 @@ namespace YomoneyApp
         }
         #endregion
 
+        #region EmailOption
+
+         Command submitEmailCommand;
+        public Command SubmitEmailCommand
+        {
+            get
+            {
+                return submitEmailCommand ??
+                    (submitEmailCommand = new Command(async () => await ExecuteSubmitEmailCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteSubmitEmailCommand()
+        {
+            if (IsBusy)
+                return;
+
+            string pattern = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                await page.DisplayAlert("Enter Email Address", "Please enter your email address.", "OK");
+                return;
+            }
+            else if (!Regex.IsMatch(Email, pattern))
+            {
+                await page.DisplayAlert("Enter Valid Email Address", "Please enter a valid email address.", "OK");
+                return;
+            }
+
+            Message = "Submitting Email...";
+            IsBusy = true;
+            addEmailCommand?.ChangeCanExecute();
+
+            try
+            {
+                TransactionRequest trn = new TransactionRequest();
+                trn.Narrative = Email + "_" + phone;
+
+                string Body = "";
+
+                Body += "Narrative=" + trn.Narrative;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/EmailLookup/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    if (response.ResponseCode == "00000")
+                    {
+                        try
+                        {
+                            await page.Navigation.PushAsync(new PasswordReset());
+                        }
+                        catch (Exception e)
+                        {
+                            await page.DisplayAlert("Error", e.Message, "OK");
+                        }
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("Error", response.Description, "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await page.DisplayAlert("Email Error", "Unable to add your email address, please check your internet connection and try again.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                addEmailCommand?.ChangeCanExecute();
+            }
+        }
+
+        #endregion
+
         #region Forgot
         Command forgotCommand;
         public Command ForgotCommand
@@ -568,6 +653,83 @@ namespace YomoneyApp
             //await page.Navigation.PopAsync();
 
         }
+        #endregion
+
+        #region VerifyEmail
+        Command verifyEmailCommand;
+        public Command VerifyEmailCommand
+        {
+            get
+            {
+                return verifyEmailCommand ??
+                    (verifyEmailCommand = new Command(async () => await ExecuteVerifyEmailCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteVerifyEmailCommand()
+        {
+            if (IsBusy)
+                return;           
+
+            if (string.IsNullOrWhiteSpace(PhoneNumber))
+            {
+                await page.DisplayAlert("Enter Verification Code", "Please enter your verification code.", "OK");
+                return;
+            }
+            
+            Message = "Submitting OTP...";
+            IsBusy = true;
+            addEmailCommand?.ChangeCanExecute();
+
+            try
+            {
+                TransactionRequest trn = new TransactionRequest();
+                trn.Narrative = PhoneNumber;
+
+                string Body = "";
+
+                Body += "Narrative=" + trn.Narrative;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/PhoneNumberVerification/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    if (response.ResponseCode == "00000")
+                    {
+                        try
+                        {
+                            await page.Navigation.PushAsync(new PasswordReset());
+                        }
+                        catch (Exception e)
+                        {
+                            await page.DisplayAlert("Error", e.Message, "OK");
+                        }
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("Error", response.Description, "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await page.DisplayAlert("Email Error", "Unable to add your email address, please check your internet connection and try again.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                addEmailCommand?.ChangeCanExecute();
+            }
+        }
+
         #endregion
 
         #region Verify
@@ -781,9 +943,22 @@ namespace YomoneyApp
         {
             if (IsBusy)
                 return;
-            if (string.IsNullOrWhiteSpace(Email))
+
+            if (string.IsNullOrWhiteSpace(password))
             {
-                await page.DisplayAlert("Enter Email", "Please enter a valid email address", "OK");
+                await page.DisplayAlert("Enter Password", "Please enter a password.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                await page.DisplayAlert("Confirm Password", "Please confirm password.", "OK");
+                return;
+            }
+
+            if (confirmPassword != password)
+            {
+                await page.DisplayAlert("Confirm Password", "Confirmation password not matching password.", "OK");
                 return;
             }
 
@@ -796,13 +971,13 @@ namespace YomoneyApp
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
 
-                trn.CustomerAccount = phone + ":" + password;
-                trn.MTI = "0100";
-                trn.Narrative = phone + "_" + email;
+                //trn.CustomerAccount = phone + ":" + password;
+                //trn.MTI = "0100";
+                trn.Narrative = phone + "_" + email + "_" + password;
                 string Body = "";
                 Body += "Narrative=" + trn.Narrative;
-                Body += "&CustomerAccount=" + trn.CustomerAccount;
-                Body += "&MTI=0100";
+                //Body += "&CustomerAccount=" + trn.CustomerAccount;
+                //Body += "&MTI=0100";
                 HttpClient client = new HttpClient();
                 var myContent = Body;
                 string paramlocal = string.Format(HostDomain + "/Mobile/ResetPassword/?{0}", myContent);

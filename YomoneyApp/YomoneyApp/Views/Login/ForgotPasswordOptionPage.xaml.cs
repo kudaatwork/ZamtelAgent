@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.Views.Fileuploads;
 
 namespace YomoneyApp.Views.Login
 {
@@ -15,6 +16,16 @@ namespace YomoneyApp.Views.Login
         public ForgotPasswordOptionPage()
         {
             InitializeComponent();
+        }
+
+        private async void btnEmailOption_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new EmailVerificationPage());
+        }
+
+        private async void btnSecurityQtnOption_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new PictureFileUpload());
         }
     }
 }

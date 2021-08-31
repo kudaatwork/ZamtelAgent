@@ -1,10 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YomoneyApp.Views.Fileuploads.PictureFileUpload">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar" 
+             xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
+             x:Class="YomoneyApp.Views.Fileuploads.PictureFileUpload"
+             NavigationPage.HasNavigationBar="True"
+             Title="File Uploads">
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+            </StackLayout>           
+
+            <StackLayout  Padding="10" BackgroundColor="White">
+                <Button x:Name="btnPickPhoto" Clicked="btnPickPhoto_Clicked" BackgroundColor="#79c606" Text="CHOOSE IMAGE" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
+
+                <Button x:Name="btnTakePhoto" Clicked="btnTakePhoto_Clicked" BackgroundColor="#79c606" Text="TAKE PHOTO" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
+
+                <Image x:Name="FileImage" WidthRequest="300" HeightRequest="300"></Image>
+
+                <Button x:Name="btnUploadImage" Clicked="btnUploadImage_Clicked" BackgroundColor="#79c606" Text="UPLOAD IMAGE" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
+
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
