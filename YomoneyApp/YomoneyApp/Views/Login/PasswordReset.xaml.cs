@@ -12,9 +12,22 @@ namespace YomoneyApp.Views.Login
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PasswordReset : ContentPage
     {
-        public PasswordReset()
+        AccountViewModel viewModel;
+
+        public PasswordReset(string phone, string email)
         {
             InitializeComponent();
+            BindingContext = viewModel = new AccountViewModel(this);
+            viewModel.PhoneNumber = phone;
+            viewModel.Email = email;
+        }
+
+        private void ButtonSignIn_Clicked(object sender, EventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.IsEnabled = true;
+            }
         }
     }
 }

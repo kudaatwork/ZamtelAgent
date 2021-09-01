@@ -25,7 +25,7 @@ namespace YomoneyApp.Views.Login
 
         private async void btnSecurityQtnOption_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new PictureFileUpload());
+            await Navigation.PushAsync(new QuestionVerification());
         }
     }
 }

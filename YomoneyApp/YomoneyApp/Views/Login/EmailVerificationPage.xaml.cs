@@ -19,5 +19,13 @@ namespace YomoneyApp.Views.Login
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
         }
+
+        private void ButtonSignIn_Clicked(object sender, EventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.IsEnabled = true;
+            }
+        }
     }
 }

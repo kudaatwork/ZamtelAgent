@@ -29,7 +29,7 @@ namespace YomoneyApp
 { 
     public class ServiceViewModel : ViewModelBase
     {  
-        string HostDomain = "http://192.168.100.172:5001";
+        string HostDomain = "http://192.168.100.172:5000";
         //string ProcessingCode = "350000";
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
 

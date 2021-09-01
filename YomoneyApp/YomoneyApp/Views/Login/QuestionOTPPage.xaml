@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
-             x:Class="YomoneyApp.Views.Login.QuestionVerification"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
+             x:Class="YomoneyApp.Views.Login.QuestionOTPPage"
              NavigationPage.HasNavigationBar="True"
-             Title="Phone Number Verification">
+             Title="OTP Verification"
+             >
 
     <ContentPage.Content>
         <StackLayout Padding="0">
+            
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator  HorizontalOptions="Center"
 						       IsRunning="{Binding IsBusy}"
@@ -16,37 +17,38 @@
 	    	     VerticalOptions="Center" 
 	    	     Text="{Binding Message}"/>
             </StackLayout>
+            
             <Grid>
                 <StackLayout Padding="0" Margin="0">
                     <Frame BackgroundColor="#df782d" HeightRequest="360" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-                        <Image Source="image9.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
+                        <Image Source="otp_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,300,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="250" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="240" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label Text="PHONE NUMBER VERIFICATION" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
+                                <Label Text="VERIFICATION CODE" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
                             </StackLayout>
 
                             <StackLayout Margin="0,20,0,0">
 
                                 <StackLayout HorizontalOptions="CenterAndExpand">
-                                    <Label Text="Enter your phone number for us to verify your account" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                    <Label Text="Please wait for your One-Time-Password." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                                 </StackLayout>
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,10" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
                                         <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                            <Image Source="keypad3.png" Aspect="AspectFill" Margin="0"/>
+                                            <Image Source="unloack.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
-                                        <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Phone e.g 263772712732" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                        <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Verification Code e.g. 33344" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                     </StackLayout>
                                 </Frame>
 
                             </StackLayout>
 
-                            <Button x:Name="ButtonSignIn" Clicked="ButtonSignIn_Clicked" Command="{Binding VerifyQuestionCommand}" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button x:Name="ButtonSignIn" Command="{Binding VerifyQuestionOTPCommand}" Clicked="ButtonSignIn_Clicked" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         </StackLayout>
                     </Frame>

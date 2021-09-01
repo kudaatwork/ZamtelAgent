@@ -57,7 +57,7 @@ namespace YomoneyApp
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
-                    Navigation.PushAsync(new WebviewPage("http://192.168.100.172:5001/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+                    Navigation.PushAsync(new WebviewPage("http://192.168.100.172:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
                 }),
                 Text = "My Profile",
                 Priority = 0,

@@ -10,41 +10,44 @@
     <AbsoluteLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
 
         <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						       IsRunning="{Binding IsBusy}"
+						       IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	     VerticalOptions="Center" 
+	    	     Text="{Binding Message}"/>
+            </StackLayout>
+
             <Grid>
                 <StackLayout Padding="0" Margin="0">
                     <Frame BackgroundColor="#df782d" HeightRequest="450" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-                        <Image Source="image4.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
+                        <Image Source="email_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,350,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="310" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="260" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label Text="Do you have an email address?" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
-                                <Label Text="As part of our security policy, we would like to know your email if you have one" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                <Label Text="Enter your email address" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,0, 0, 15"></Label>
+                                <Label Text="We need the email address you registered with us so that we can be able to verify you" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                             </StackLayout>
 
-                            <StackLayout Margin="0,15,0,0">
+                            <StackLayout Margin="0,5,0,10">                               
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="60" Padding="0" HorizontalOptions="Start">
+                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="email3.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
-                                        <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Placeholder="Email e.g example@exmple.com" Keyboard="Email" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
+                                        <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Keyboard="Default" Placeholder="example@exmple.com" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                     </StackLayout>
                                 </Frame>
 
-
-                                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Horizontal">
-                                        <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Default" IsVisible="False" HorizontalOptions="FillAndExpand" Margin="0,5,0,0"/>
-                                        <Label Text="{Binding ResponseDescription}" BackgroundColor="Transparent" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
-                                    </StackLayout>
-                                </Frame>
                             </StackLayout>
 
-                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" Command="{Binding SubmitEmailCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button Text="SUBMIT EMAIL" Clicked="btnSecurityQtnOption_Clicked" x:Name="btnSecurityQtnOption" Command="{Binding SubmitEmailCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         </StackLayout>
                     </Frame>

@@ -20,5 +20,13 @@ namespace YomoneyApp.Views.Login
             viewModel.PhoneNumber = phone;
             viewModel.GetVerificationAsync();
         }
+
+        private void ButtonSignIn_Clicked(object sender, EventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.IsEnabled = true;
+            }
+        }
     }
 }

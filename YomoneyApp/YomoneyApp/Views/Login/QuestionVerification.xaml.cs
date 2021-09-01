@@ -12,9 +12,20 @@ namespace YomoneyApp.Views.Login
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestionVerification : ContentPage
     {
+        AccountViewModel viewModel;
+
         public QuestionVerification()
         {
             InitializeComponent();
+            BindingContext = viewModel = new AccountViewModel(this);
+        }
+
+        private void ButtonSignIn_Clicked(object sender, EventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.IsEnabled = true;
+            }
         }
     }
 }

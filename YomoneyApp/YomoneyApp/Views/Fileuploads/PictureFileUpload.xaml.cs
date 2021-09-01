@@ -77,7 +77,7 @@ namespace YomoneyApp.Views.Fileuploads
 
                 content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
 
-                var uploadUrl = "http://192.168.100.172:5001/api/files/upload";
+                var uploadUrl = "http://192.168.100.172:5000/api/files/upload";
 
                 var httpClient = new HttpClient();                               
 

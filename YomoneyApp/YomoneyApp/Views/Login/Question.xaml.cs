@@ -6,24 +6,21 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels.Login;
 
 namespace YomoneyApp.Views.Login
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SecurityQuestion : ContentPage
+    public partial class Question : ContentPage
     {
         AccountViewModel viewModel;
-        public SecurityQuestion(string phone, string securityQuestion)
+
+        public Question(string phone, string securityQuestion)
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
             viewModel.PhoneNumber = phone;
             viewModel.SecurityQuestion = securityQuestion;
-        }
-
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-
         }
 
         private void btnSecurityQtnOption_Clicked(object sender, EventArgs e)
@@ -32,6 +29,11 @@ namespace YomoneyApp.Views.Login
             {
                 button.IsEnabled = true;
             }
+        }
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SignIn());
         }
     }
 }

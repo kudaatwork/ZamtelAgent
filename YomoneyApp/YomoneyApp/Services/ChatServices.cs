@@ -38,7 +38,7 @@ namespace YomoneyApp
         
         public ChatServices ()
 		{
-			_connection = new HubConnection ("http://192.168.100.172:5001");
+			_connection = new HubConnection ("http://192.168.100.172:5000");
 			_proxy = _connection.CreateHubProxy ("ChatHub");
 		}
 

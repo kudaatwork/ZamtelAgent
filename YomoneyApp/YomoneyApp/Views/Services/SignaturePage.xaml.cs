@@ -63,7 +63,7 @@ namespace YomoneyApp.Views.Services
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
-                    var uploadBaseAddress = "http://192.168.100.172:5001/Mobile/FileUpload?user=" + uname + ":" + pass + "&upType=Signature" ;
+                    var uploadBaseAddress = "http://192.168.100.172:5000/Mobile/FileUpload?user=" + uname + ":" + pass + "&upType=Signature" ;
                     var httpResponseMessage = await httpClient.PostAsync(uploadBaseAddress, content);
                    
                     if (saved)

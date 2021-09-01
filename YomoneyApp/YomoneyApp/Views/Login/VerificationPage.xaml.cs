@@ -26,5 +26,13 @@ namespace YomoneyApp.Views.Login
         {
             await Navigation.PushAsync(new NewAccount());
         }
+
+        private void ButtonSignIn_Clicked(object sender, EventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.IsEnabled = true;                
+            }
+        }
     }
 }

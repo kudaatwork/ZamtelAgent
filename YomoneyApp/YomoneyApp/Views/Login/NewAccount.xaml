@@ -10,6 +10,7 @@
              >
 
     <StackLayout Padding="0">
+        
         <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
             <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
@@ -18,6 +19,7 @@
 	    	 VerticalOptions="Center" 
 	    	 Text="{Binding Message}"/>
         </StackLayout>
+        
         <Grid>
             <StackLayout Padding="0" Margin="0">
                 <Frame BackgroundColor="#df782d" HeightRequest="220" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">

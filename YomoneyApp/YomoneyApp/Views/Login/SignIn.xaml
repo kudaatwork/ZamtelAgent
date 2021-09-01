@@ -8,6 +8,16 @@
              >
 
     <StackLayout Padding="0">
+
+        <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+            <ActivityIndicator  HorizontalOptions="Center"
+						       IsRunning="{Binding IsBusy}"
+						       IsVisible="{Binding IsBusy}"/>
+            <Label HorizontalOptions="Center"
+	    	     VerticalOptions="Center" 
+	    	     Text="{Binding Message}"/>
+        </StackLayout>
+
         <Grid>
             <StackLayout Padding="0" Margin="0">
                 <Frame BackgroundColor="#df782d" HeightRequest="310" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
@@ -53,7 +63,7 @@
 
                         </StackLayout>
 
-                        <Button x:Name="ButtonSignIn" Command="{Binding LoginCommand}" Text="SIGN IN" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                        <Button x:Name="ButtonSignIn" Command="{Binding LoginCommand}" Clicked="ButtonSignIn_Clicked" Text="SIGN IN" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
                         
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
                             <Label Text="Don't have an account?" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>

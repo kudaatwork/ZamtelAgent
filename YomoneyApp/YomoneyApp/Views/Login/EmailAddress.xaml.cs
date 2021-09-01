@@ -14,10 +14,19 @@ namespace YomoneyApp.Views.Login
     {
         AccountViewModel viewModel;
 
-        public EmailAddress()
+        public EmailAddress(string phone)
         {
             InitializeComponent();
-            BindingContext = viewModel = new AccountViewModel(this);            
+            BindingContext = viewModel = new AccountViewModel(this);
+            viewModel.PhoneNumber = phone;
+        }
+
+        private void btnSecurityQtnOption_Clicked(object sender, EventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.IsEnabled = true;
+            }
         }
     }
 }
