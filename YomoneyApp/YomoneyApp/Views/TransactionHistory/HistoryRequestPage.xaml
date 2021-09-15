@@ -29,7 +29,7 @@
 			        Text="Service"
                     VerticalTextAlignment="Start" 
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Picker 
 			        x:Name="PickerStore"
@@ -41,7 +41,7 @@
 			           
 			            FontSize="Small"
 			            Text="Start Date"
-			            TextColor="#e2762b"
+			            TextColor="#df782d"
 			            VerticalTextAlignment="Start" />
                     <DatePicker 
 			 
@@ -51,7 +51,7 @@
 			    
 			            FontSize="Small" 
 			            Text="End Date"
-			            TextColor="#e2762b"
+			            TextColor="#df782d"
 			            />
                     <DatePicker 
 			      
@@ -63,7 +63,7 @@
             </StackLayout>
             <Button 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#e2762b"
+			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Submit"

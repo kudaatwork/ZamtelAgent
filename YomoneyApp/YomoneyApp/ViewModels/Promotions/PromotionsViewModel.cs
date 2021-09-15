@@ -23,7 +23,7 @@ namespace YomoneyApp
     public class PromotionsViewModel : ViewModelBase
     {
         
-        string HostDomain = "http://192.168.100.172:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
         public ObservableRangeCollection<MenuItem> ServiceOptions { get; set; }
@@ -874,16 +874,18 @@ namespace YomoneyApp
             {
 
                 ServiceList.Clear();
+
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
                 AccessSettings acnt = new Services.AccessSettings();
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
-                trn.CustomerAccount = uname + ":" + pass;
 
+                trn.CustomerAccount = uname + ":" + pass;
                 trn.MTI = "0300";
                 trn.ProcessingCode = "420000";
                 trn.Narrative = "Supplier Services";
+
                 if (itm.TransactionType == 0)
                 {
                     trn.TransactionType = 1;
@@ -919,18 +921,21 @@ namespace YomoneyApp
                 var myContent = Body;
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
                 string result = await client.GetStringAsync(paramlocal);
+                
                 string img = itm.Image;
+                
                 if (result != "System.IO.MemoryStream")
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+                    
                     foreach(var it in servics)
                     {
                         if(it.MediaType.Trim() == "Image")
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "http://192.168.100.172:5000/Content/notify/notify.mp3";
+                            it.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";
                         }
                         else
                         {
@@ -939,11 +944,13 @@ namespace YomoneyApp
                             it.Media = it.Image;
                             it.Image = "InsuranceBanner.png";
                         }
+
                         if(string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "http://192.168.100.172:5000/Content/Administration/images/user.png"; ;
+                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
                         }
                     }
+
                     ServiceList.ReplaceRange(servics);
                 }
 
@@ -1069,7 +1076,7 @@ namespace YomoneyApp
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "http://192.168.100.172:5000/Content//notify//notify.mp3";
+                            it.Media = "https://www.yomoneyservice.com/Content//notify//notify.mp3";
                         }
                         else
                         {
@@ -1080,7 +1087,7 @@ namespace YomoneyApp
                         }
                         if (string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "http://192.168.100.172:5000/Content/Administration/images/user.png"; ;
+                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
                         }
                     }
                     ServiceList.ReplaceRange(servics);

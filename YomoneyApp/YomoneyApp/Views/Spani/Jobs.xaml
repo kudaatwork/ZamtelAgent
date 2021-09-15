@@ -59,7 +59,7 @@
                 RefreshCommand="{Binding JobsRefreshCommand}"
                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                 IsPullToRefreshEnabled="True"
-                SeparatorColor="LightGray"
+                SeparatorVisibility="None"
                 >
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
@@ -126,7 +126,8 @@
                                         
                                     </StackLayout>
 
-                                    <StackLayout Grid.Column="0"
+                                    <Frame BackgroundColor="White" Padding="10,5,10,5" Margin="2,2,2,2" CornerRadius="10" HasShadow="True">
+                                        <StackLayout Grid.Column="0"
                                              Padding="15"
                                              Spacing="4"
                                              VerticalOptions="Center"
@@ -137,20 +138,20 @@
                                             <Label  Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                             <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                             <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
-                                        
-                                        <Grid RowSpacing="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="1*"/>
-                                            <RowDefinition Height="1*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                         </Grid.ColumnDefinitions>
 
-                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Amount}" TextColor="#79c606" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
-                                            <Button                                                
+                                            <Grid RowSpacing="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="1*"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Amount}" TextColor="#79c606" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
+                                                <Button                                                
                                              Grid.Row="1" 
                                              Grid.Column="2"
 			                                 BackgroundColor="#ff0000"
@@ -159,7 +160,7 @@
 			                                 Text="Remove"
 			                                 CommandParameter="{Binding}" 
                                              Clicked="RemoveClicked"/>
-                                            <Button
+                                                <Button
                                              Grid.Row="1" 
                                              Grid.Column="0"
                                              Grid.ColumnSpan="2"
@@ -169,10 +170,12 @@
 			                                 Text="{Binding SupplierId}"
 			                                 CommandParameter="{Binding}" 
                                              Clicked="JobsClicked"/>
-                                    
-                                   </Grid>
-                                </StackLayout>
-                            </Grid>
+
+                                            </Grid>
+                                        </StackLayout>
+                                    </Frame>
+                                
+                                </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

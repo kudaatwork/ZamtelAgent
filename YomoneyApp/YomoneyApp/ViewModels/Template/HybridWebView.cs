@@ -8,6 +8,7 @@ namespace YomoneyApp.Views.TemplatePages
     public class HybridWebView : WebView
     {
         Action<string> action;
+
         public static readonly BindableProperty UriProperty = BindableProperty.Create(
           propertyName: "Uri",
           returnType: typeof(string),
@@ -36,6 +37,7 @@ namespace YomoneyApp.Views.TemplatePages
             {
                 return;
             }
+
             action.Invoke(data);
         }
     }

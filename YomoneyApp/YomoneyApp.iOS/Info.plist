@@ -68,5 +68,11 @@
 	<string>YoApp</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>Can we use your Location at all times?</string>
+  <key>NSLocationWhenInUsageDescription</key>
+  <string>Can we use your location when your app is being used?</string>
+  <key>NSLocationAlwaysAndAhenInUsageDescription</key>
+  <string>Can we use your location at all times</string>
 </dict>
 </plist>

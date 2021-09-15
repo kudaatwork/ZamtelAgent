@@ -6,8 +6,8 @@
 	         IsBusy="{Binding IsBusy}">
       <ContentPage.Content>
         <StackLayout  BackgroundColor="White">
-            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#e2762b">
-                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#e2762b" IsVisible="{Binding IsBusy}">
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#df782d">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#df782d" IsVisible="{Binding IsBusy}">
                     <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
@@ -16,7 +16,7 @@
                     TextColor="White"
 	    	        Text="{Binding Message}"/>
                 </StackLayout>
-                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#e2762b">
+                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -41,7 +41,7 @@
 			        Text="Payment Option"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Picker 
 			        x:Name="PickerStore"
@@ -54,7 +54,7 @@
 			        Text="Account Number"
                     BackgroundColor="Transparent"
                     IsVisible="{Binding ShowNavigation}"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        
@@ -67,7 +67,7 @@
             </ScrollView>
             <Button 
 			x:Name="ButtonPayment"
-			BackgroundColor="#e2762b"
+			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Make Payment"

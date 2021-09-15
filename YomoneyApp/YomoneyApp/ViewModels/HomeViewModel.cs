@@ -18,7 +18,7 @@ namespace YomoneyApp
 {
     public class HomeViewModel : ViewModelBase
     {
-        readonly string HostDomain = "http://192.168.100.172:5000";
+        readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";
@@ -211,21 +211,19 @@ namespace YomoneyApp
             
             try
             {
-                myButtonSource.Clear();
+               myButtonSource.Clear();
                 MenuItem mnu = new MenuItem();
-                mnu.Title = "Bill Payments";
-                mnu.Image = "payments_icon.png";
-                mnu.ServiceId = 11;
-                mnu.SupplierId = "All";
-                mnu.Section = "Yomoney";
-                mnu.TransactionType = 1;
+                /* mnu.Title = "Bill Payments";
+                 mnu.Image = "payments_icon.png";
+                 mnu.ServiceId = 11;
+                 mnu.SupplierId = "All";
+                 mnu.Section = "Yomoney";
+                 mnu.TransactionType = 1;
 
-                myButtonSource.Add(mnu);
+                 myButtonSource.Add(mnu);*/
                 mnu = new MenuItem();
-                mnu.Title = "Airtime";
-                mnu.Image = "airtime_icon.png";
-                mnu.ServiceId = 7;
-                mnu.SupplierId = "All";
+                mnu.Title = "Jobs";
+                mnu.Image = "jobs_icon.png";
                 mnu.Section = "Yomoney";
                 mnu.TransactionType = 2;
                 myButtonSource.Add(mnu);
@@ -238,11 +236,14 @@ namespace YomoneyApp
                 myButtonSource.Add(mnu);
 
                 mnu = new MenuItem();
-                mnu.Title = "Jobs";
-                mnu.Image = "jobs_icon.png";
-                mnu.Section = "Yomoney";
-                mnu.TransactionType = 2;
-                myButtonSource.Add(mnu);
+                mnu.Title = "Tasks";
+                mnu.Image = "home_tasks.png";
+                mnu.ServiceId = 1;
+                mnu.SupplierId = "All";
+                mnu.Section = "5-0001-0000000";
+                mnu.TransactionType = 6;
+                mnu.Description = "YoLifestyle";
+                myButtonSource.Add(mnu);                              
 
                 mnu = new MenuItem();
                 mnu.Title = "Services";
@@ -662,6 +663,13 @@ namespace YomoneyApp
         {
             get { return credit; }
             set { SetProperty(ref credit, value); }
+        }
+
+        string source = string.Empty;
+        public string Source
+        {
+            get { return source; }
+            set { SetProperty(ref source, value); }
         }
 
         string points = string.Empty;

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"            
+             x:Class="YomoneyApp.Views.GeoPages.Directions"
+             NavigationPage.HasNavigationBar="True"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="Trace Route"
+             >
+    <Grid>
+        <maps:Map PinDragStart="map_PinDragStart" PinDragEnd="map_PinDragEnd" MapType="Street" HasZoomEnabled="True" x:Name="map"/>
+        <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand">
+            <Button Text="Start Tracking" x:Name="TrackPath" BackgroundColor="#79c606" TextColor="White" Padding="10" Clicked="TrackPath_Clicked" VerticalOptions="EndAndExpand"/>
+            <Button Text="Stop Tracking" Clicked="Button_Clicked_1" BackgroundColor="#79c606" TextColor="White" Padding="10" VerticalOptions="EndAndExpand"/>
+           
+           <!-- <Grid VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid.Padding>
+                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
+                </Grid.Padding>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="11*"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button 
+                    Grid.Row="0"
+                    Grid.Column="0"
+			        x:Name="PickPhoto"
+			        BackgroundColor="#69ad05"
+			        BorderRadius="6"
+			        TextColor="White" 
+			        Text="Gallary"
+			        />
+                <Button 
+                    Grid.Row="0"
+                    Grid.Column="1"
+			        x:Name="TakePhoto"
+			        BackgroundColor="#69ad05"
+			        BorderRadius="6"
+			        TextColor="White" 
+			        Text="Take Photo"
+			        />              
+
+            </Grid>-->
+        </StackLayout>
+    </Grid>
+</ContentPage>

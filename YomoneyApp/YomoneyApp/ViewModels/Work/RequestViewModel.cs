@@ -22,7 +22,7 @@ namespace YomoneyApp
 {
     public class RequestViewModel : ViewModelBase 
     {
-        string HostDomain = "http://192.168.100.172:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         string ProcessingCode = "350000";
      
         readonly IDataStore dataStore;
@@ -954,7 +954,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no active service requests";
-                        mn.Image = "http://192.168.100.172:5000/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1131,7 +1131,7 @@ namespace YomoneyApp
                         {
                             mn = new YomoneyApp.MenuItem();
                             mn.Description = "You have no active service requests";
-                            mn.Image = "http://192.168.100.172:5000/Content/Spani/Images/Oppotunity.jpg";
+                            mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                             mn.HasProducts = false; // use it as show navigation
                             mn.IsEmptyList = true;
                             List<MenuItem> resp = new List<MenuItem>();
@@ -1339,7 +1339,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "Be the first to post a request";
-                        mn.Image = "http://192.168.100.172:5000/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1751,7 +1751,7 @@ namespace YomoneyApp
                         
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no quoted requests";
-                        mn.Image = "http://192.168.100.172:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotes";
                         mn.IsEmptyList = true;
@@ -1932,7 +1932,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "http://192.168.100.172:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotations";
                         //List<MenuItem> resp = new List<MenuItem>();
@@ -2097,7 +2097,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "http://192.168.100.172:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Request Quotes";
                         List<MenuItem> resp = new List<MenuItem>();
@@ -2839,7 +2839,7 @@ namespace YomoneyApp
 
             var lblTitle = new Label { Text = Title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold,FontSize = 40, Margin=10 };
             var lblMessage = new Label { Text = message, HorizontalOptions = LayoutOptions.CenterAndExpand};
-            var lblClient = new Label { Text =client, TextColor = Color.FromHex("#e2762b") , HorizontalOptions = LayoutOptions.CenterAndExpand };
+            var lblClient = new Label { Text =client, TextColor = Color.FromHex("#df782d") , HorizontalOptions = LayoutOptions.CenterAndExpand };
            // var txtInput = new Entry { Text = "" };
 
             var btnOk = new Button
@@ -2863,7 +2863,7 @@ namespace YomoneyApp
                 Text = "Cancel",
                 HorizontalOptions = LayoutOptions.Center,
                 WidthRequest = 100,
-                BackgroundColor = Color.FromHex("#e2762b")
+                BackgroundColor = Color.FromHex("#df782d")
             };
             btnCancel.Clicked += async (s, e) =>
             {

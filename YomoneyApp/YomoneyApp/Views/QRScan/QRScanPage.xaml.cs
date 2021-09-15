@@ -121,7 +121,7 @@ namespace YomoneyApp.Views.QRScan
 
             var lblTitle = new Label { Text = Title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
             var lblMessage = new Label { Text = ttl };
-            var lblQuestion = new Label { Text = qsn, TextColor = Color.FromHex("#e2762b") };
+            var lblQuestion = new Label { Text = qsn, TextColor = Color.FromHex("#df782d") };
 
             var txtInput = new Entry { Text = amount };
             if (part.Length == 3)
@@ -148,7 +148,7 @@ namespace YomoneyApp.Views.QRScan
             {
                 Text = "Cancel",
                 WidthRequest = 100,
-                BackgroundColor = Color.FromHex("#e2762b")
+                BackgroundColor = Color.FromHex("#df782d")
             };
             btnCancel.Clicked += async (s, e) =>
             {

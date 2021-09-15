@@ -5,8 +5,8 @@
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
              Title="Coming Soon">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#e2762b" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+        <StackLayout BackgroundColor="#df782d" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>

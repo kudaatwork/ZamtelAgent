@@ -2,10 +2,10 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Chat.ChatTabs"
-             xmlns:local="clr-namespace:YomoneyApp.Views.Chat;assembly=YomoneyApp"
-            
+             xmlns:local="clr-namespace:YomoneyApp.Views.Chat;assembly=YomoneyApp"            
              Title="Chat Center">
-  <!--Pages can be added as references or inline-->
+    
+     <!--Pages can be added as references or inline-->
     <NavigationPage Title="Business Cards">
         <x:Arguments>
             <local:ChatList />

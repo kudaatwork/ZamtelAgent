@@ -10,6 +10,7 @@ using Plugin.Toasts;
 using UIKit;
 using Xamarin.Forms.PlatformConfiguration;
 using CarouselView.FormsPlugin.iOS;
+using YomoneyApp.Constants;
 
 namespace YomoneyApp.iOS
 {
@@ -28,8 +29,9 @@ namespace YomoneyApp.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            SQLitePCL.Batteries.Init(); 
+            SQLitePCL.Batteries.Init();
 
+           // Xamarin.FormsMaps.Init();
             var dbPath = Path.Combine(System.Environment.GetFolderPath
               (System.Environment.SpecialFolder.Personal), "YomoneyDB.db");
             ToastNotification.Init();
@@ -38,6 +40,7 @@ namespace YomoneyApp.iOS
             //LibVLCSharpFormsRenderer.Init();
             CrossMediaManager.Current.Init();
             global::Xamarin.Forms.Forms.Init();
+            Xamarin.FormsGoogleMaps.Init(AppConstants.GoogleMapsApiKey);
             CarouselViewRenderer.Init();
             LoadApplication(new App(dbPath));
 

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 using Xamarin.Forms.Xaml;
 
 namespace YomoneyApp.Views.Promotions
@@ -28,11 +29,15 @@ namespace YomoneyApp.Views.Promotions
             InitializeComponent();
             BindingContext = viewModel = new PromotionsViewModel(this, selected);
             SelectedItem = selected;
+
             ButtonClose.Clicked += async (sender, e) =>
             {
-                await App.Current.MainPage.Navigation.PopAsync();
+                //await App.Current.MainPage.Navigation.PopAsync();
                 //await Navigation.PopModalAsync();
+               //MediaElement.AutoPlayProperty = false;
+                await Navigation.PushAsync(new HomePage());
             };
+
             ButtonSearch.Clicked += async (sender, e) =>
             {
                 await Navigation.PushAsync(new PromotionSearch(SelectedItem));
@@ -92,6 +97,7 @@ namespace YomoneyApp.Views.Promotions
 
             }
         }
+               
 
         protected override void OnAppearing()
         {

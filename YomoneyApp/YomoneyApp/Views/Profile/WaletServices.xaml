@@ -10,22 +10,30 @@
              Title="Dashboard"
              >
     <Grid VerticalOptions="FillAndExpand">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>            
         </Grid.RowDefinitions>
+        
         <Image Source="overlay2.jpg" Aspect="Fill" HeightRequest="300" VerticalOptions="StartAndExpand"/>
+       
         <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Start" VerticalOptions="Start" Margin="20,20">
         </StackLayout>
+        
         <StackLayout Orientation="Vertical" Margin="0,20" HorizontalOptions="Center" VerticalOptions="Center">
+            
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">               
-                <Label Text="Kudakwashe" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalOptions="Center"/>                
+                <Label Text="Your Control Panel" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalOptions="Center"/>                
             </StackLayout>
+            
             <Label Text="You can take a look at your current Stats" TextColor="White" FontSize="16" HorizontalOptions="Center"/>
             <Label Text="{Binding Datte}" TextColor="White" FontSize="12" HorizontalOptions="Center"/>
+            
         </StackLayout>
+       
         <Frame Grid.Row="1" HasShadow="True" CornerRadius="10" Margin="20,-40,20,0" Padding="0" HeightRequest="120" VerticalOptions="Start">
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
@@ -63,30 +71,55 @@
                     </StackLayout>
                 </StackLayout>
             </Grid>
-        </Frame>
+        </Frame>        
+                
         <ListView x:Name="StoreList" ItemsSource="{Binding Stores}" SeparatorVisibility="None" SelectedItem="{Binding SelectedStore, Mode=TwoWay}"
                   HasUnevenRows="true" RefreshCommand="{Binding ForceRefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
-                IsPullToRefreshEnabled="True" Grid.Row="3" Margin="20,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                IsPullToRefreshEnabled="True" Grid.Row="3" Margin="25,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <ListView.ItemTemplate>
                 <DataTemplate >
                     <ViewCell>                        
-                        <Frame BackgroundColor="White" Padding="0,12,0,12" Margin="4,4,0,4" HasShadow="True">
-                            <Grid HeightRequest="50" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                        <Frame BackgroundColor="White" Padding="0,12,0,12" Margin="4,4,0,4" HasShadow="True" CornerRadius="10">
+                            <Grid HeightRequest="60" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>                                    
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>                                    
                                 </Grid.ColumnDefinitions>
-                                <Label Text="{Binding Date}" TextColor="#757575" FontSize="13" VerticalOptions="Center" Margin="20,0"/>
-                                <Image Grid.Column="1" Source="{Binding Image}" WidthRequest="60" HeightRequest="60" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                <StackLayout Grid.Column="2" Orientation="Horizontal" Margin="20,0" HorizontalOptions="End" VerticalOptions="Center">
-                                    <Label Text="{Binding Title}" TextColor="Black" FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>                                    
+                                <!--<Label Text="Dashboard Item" TextColor="#757575" Grid.Column="1" FontSize="13" VerticalOptions="Center" Margin="20,0"/>-->
+
+                                <controls:CircleImage 
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center" 
+                                             Margin="20,0,0,0"
+                                            BorderThickness="2"
+                                             Aspect="AspectFit">
+                                    <controls:CircleImage.WidthRequest>
+                                        <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                    </controls:CircleImage.WidthRequest>
+                                    <controls:CircleImage.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                    </controls:CircleImage.HeightRequest>
+                                    <controls:CircleImage.Source>
+                                        <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
+                                    </controls:CircleImage.Source>
+                                </controls:CircleImage>
+
+                                <!--<Image Grid.Column="1" Source="{Binding Image}" WidthRequest="60" HeightRequest="60" HorizontalOptions="Center" VerticalOptions="Center"/>-->
+                                <StackLayout Grid.Column="2" Orientation="Horizontal" Margin="0,0,5,0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                    <Label Text="{Binding Title}" TextColor="Black" FontSize="16" FontAttributes="Bold" VerticalOptions="Center"/>                                    
                                 </StackLayout>
                             </Grid>
                         </Frame>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </ListView>       
+
     </Grid>
-   
+    
+    
+    
 </ContentPage>

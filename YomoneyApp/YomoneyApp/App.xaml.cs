@@ -33,7 +33,8 @@ namespace YomoneyApp
                     BarBackgroundColor = Color.FromHex("#df782d")
                 };
 
-                Device.StartTimer(TimeSpan.FromSeconds(30), () => {
+                Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+                {
                     if (!sigChat.IsConnectedOrConnecting)
                         cvm = new ChatViewModel(pg);
                     return true;

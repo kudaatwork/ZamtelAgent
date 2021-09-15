@@ -32,7 +32,7 @@
 			        Text="Account Number"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			    
@@ -49,7 +49,7 @@
 			        Text="Mobile Number"
                     BackgroundColor="Transparent"
                     IsVisible="{Binding SendSms}"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Text="{Binding PhoneNumber}" 
@@ -62,7 +62,7 @@
             </ScrollView>
             <Button 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#e2762b"
+			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Pay Bill"

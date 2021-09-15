@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
-    xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="YomoneyApp.Views.Spani.CreateSpaniProfile"
     xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" 
@@ -8,6 +7,7 @@
     xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp"    
     Title="New Job Skill"
 	IsBusy="{Binding IsBusy}">
+    
     <ContentPage.Content>
         <StackLayout BackgroundColor="White">
             <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
@@ -39,69 +39,73 @@
 
                 </Grid>
             </StackLayout>
-            
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
-                <ActivityIndicator  HorizontalOptions="Center"
+
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
+                    <Label HorizontalOptions="Center"
+	    	        VerticalOptions="Center" 
+	    	        Text="{Binding Message}"/>
+                </StackLayout>
+
+                <StackLayout BackgroundColor="White" Padding="10,0,10,10" VerticalOptions="FillAndExpand">
+
+                    <Label Grid.Row="0" Padding="15,15,15,0" Margin="0,0,0,20" FontSize="Small" Text="Create a profile to showcase your business and have an oppotunity to bid for jobs to the millions of users on the platform" TextColor="Gray" />
+                    
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Ptitle}" FontAttributes="None" Keyboard="Default" Placeholder="Company Name" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <Picker x:Name="PickerStore" Title="Select Category" WidthRequest="330" Grid.Column="0"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <Picker  x:Name="PickerSubcategory" Title="Select Sub Category" WidthRequest="330" Grid.Column="0"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry x:Name="EditorAddress" Text="{Binding Address}" FontAttributes="None" Keyboard="Default" Placeholder="Operational Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                </StackLayout>
+
+                <StackLayout Padding="10" BackgroundColor="White">
+                    <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#79c606" Text="SUBMIT" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" Command="{Binding SaveProfileCommand}"/>
+                </StackLayout>
+
             </StackLayout>
-
-            <StackLayout BackgroundColor="White" Padding="10,0,10,10" VerticalOptions="FillAndExpand">
-
-                <Label Grid.Row="0" Padding="15,15,15,0" Margin="0,0,0,20" FontSize="Small" Text="Create a profile to showcase your business and have an oppotunity to bid for jobs to the millions of users on the platform" TextColor="Gray" />
-
-                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
-                    <StackLayout Orientation="Horizontal">
-                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
-                        </Frame>
-                        <local:MyCustomeEntry Text="{Binding Ptitle}" FontAttributes="None" Keyboard="Default" Placeholder="Company Name" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
-                    </StackLayout>
-                </Frame>
-
-                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
-                    <StackLayout Orientation="Horizontal" >
-                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
-                        </Frame>
-                        <Picker x:Name="PickerStore" Title="Select Category" WidthRequest="330" Grid.Column="0"/>
-                    </StackLayout>
-                </Frame>
-
-                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
-                    <StackLayout Orientation="Horizontal" >
-                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
-                        </Frame>
-                        <Picker  x:Name="PickerSubcategory" Title="Select Sub Category" WidthRequest="330" Grid.Column="0"/>
-                    </StackLayout>
-                </Frame>
-
-                <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
-                    <StackLayout Orientation="Horizontal">
-                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
-                        </Frame>
-                        <local:MyCustomeEntry x:Name="EditorAddress" Text="{Binding Address}" FontAttributes="None" Keyboard="Default" Placeholder="Operational Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
-                    </StackLayout>
-                </Frame>
-
-                <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
-                    <StackLayout Orientation="Horizontal">
-                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
-                        </Frame>
-                        <local:MyCustomeEntry Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
-                    </StackLayout>
-                </Frame>               
-
-            </StackLayout>
-
-            <StackLayout Padding="10" BackgroundColor="White">
-                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#79c606" Text="SUBMIT" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" Command="{Binding SaveProfileCommand}"/>
-            </StackLayout>
-            
-            <xWebService:footer x:Name="FooterView"/>            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

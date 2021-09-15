@@ -55,6 +55,7 @@
                         <StackLayout Orientation="Horizontal">
                             <CheckBox IsChecked="False" Color="#79c606" Margin="0,15,0,0"></CheckBox>
                             <Label Text="Remember Me" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="0,15,0,0"></Label>
+                            
                             <Label Text="Forgot Password?" TextColor="#df782d" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,15,0,0" HorizontalOptions="EndAndExpand">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" NumberOfTapsRequired="1" />

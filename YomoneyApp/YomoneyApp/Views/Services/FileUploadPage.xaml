@@ -4,8 +4,10 @@
              x:Class="YomoneyApp.Views.Services.FileUploadPage"
              Title="{Binding Title}"
              IsBusy="{Binding IsBusy}">
+    
     <ContentPage.Content>
         <StackLayout>
+            
             <StackLayout HorizontalOptions="CenterAndExpand"  Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
                 <StackLayout.Orientation>
                     <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
@@ -56,10 +58,11 @@
                     />
                 
             </Grid>
-            <StackLayout Padding="5">
+            <StackLayout Padding="15,0,15,15">
                 <Button 
+                    Padding="0,18,0,18"
 			    x:Name="SavePhoto"
-			    BackgroundColor="#e2762b"
+			    BackgroundColor="#df782d"
 			    BorderRadius="6"
 			    TextColor="White" 
 			    Text="Save File"

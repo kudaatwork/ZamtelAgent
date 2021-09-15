@@ -20,7 +20,7 @@
 			    	 VerticalOptions="Center"
 			    	 Text="Loading..."/>
             </StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -84,7 +84,7 @@
                                         IsVisible="{Binding IsEmptyList}">
                                     <controls:CircleImage VerticalOptions="Center"
                                           HorizontalOptions="Center" 
-                                              BorderColor="#e2762b"
+                                              BorderColor="#df782d"
                                               BorderThickness="2"
                                               Aspect="AspectFill">
                                         <controls:CircleImage.WidthRequest>
@@ -97,7 +97,7 @@
                                             <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
                                         </controls:CircleImage.Source>
                                     </controls:CircleImage>
-                                    <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#e2762b"  LineBreakMode="WordWrap" />
+                                    <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#df782d"  LineBreakMode="WordWrap" />
                                 </StackLayout>
 
                                 <StackLayout Grid.Column="0"
@@ -107,11 +107,11 @@
                                              IsVisible="{Binding IsAdvert}">
                                     
                                         <Image  Source="{Binding Image}" HorizontalOptions="FillAndExpand"/>
-                                        <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b"  LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
                                         <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
 
                                          <Button
-			                                 BackgroundColor="#e2762b"
+			                                 BackgroundColor="#df782d"
 			                                 BorderRadius="6"
 			                                 TextColor="White" 
 			                                 Text="{Binding SupplierId}"
@@ -125,7 +125,7 @@
                                              VerticalOptions="Center"
                                              IsVisible="{Binding IsNotAdvert}">
                                    
-                                        <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b"  LineBreakMode="NoWrap"/>
+                                        <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
                                         <Label Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                         <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                         <Label  Text="{Binding Amount}" TextColor="#169F85"  FontSize="Small" LineBreakMode="NoWrap"/>
@@ -150,7 +150,7 @@
                                             Clicked="AwardClicked"/>
                                         <Button
                                             Grid.Row="0" Grid.Column="1"
-			                                BackgroundColor="#e2762b"
+			                                BackgroundColor="#df782d"
 			                                BorderRadius="6"
 			                                TextColor="White" 
 			                                Text="Profile"

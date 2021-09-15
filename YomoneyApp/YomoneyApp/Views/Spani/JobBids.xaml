@@ -36,7 +36,7 @@
                 RefreshCommand="{Binding QuotedRefreshCommand}"
                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                 IsPullToRefreshEnabled="True"
-                SeparatorColor="LightGray"
+                SeparatorVisibility="None"
                 >
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
@@ -58,28 +58,31 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackLayout Grid.Column="0"
+
+                               
+                                    <StackLayout Grid.Column="0"
                                         HorizontalOptions="CenterAndExpand" 
                                         BackgroundColor="#FFF" 
                                         IsVisible="{Binding IsEmptyList}">
-                                    <controls:CircleImage VerticalOptions="Center"
+                                        <controls:CircleImage VerticalOptions="Center"
                                           HorizontalOptions="Center" 
                                               BorderColor="#df782d"
                                               BorderThickness="2"
                                               Aspect="AspectFill">
-                                        <controls:CircleImage.WidthRequest>
-                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
-                                        </controls:CircleImage.WidthRequest>
-                                        <controls:CircleImage.HeightRequest>
-                                            <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
-                                        </controls:CircleImage.HeightRequest>
-                                        <controls:CircleImage.Source>
-                                            <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
-                                        </controls:CircleImage.Source>
-                                    </controls:CircleImage>
-                                    <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#df782d"  LineBreakMode="WordWrap" />
-                                </StackLayout>
-
+                                            <controls:CircleImage.WidthRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.WidthRequest>
+                                            <controls:CircleImage.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.HeightRequest>
+                                            <controls:CircleImage.Source>
+                                                <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
+                                            </controls:CircleImage.Source>
+                                        </controls:CircleImage>
+                                        <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#df782d"  LineBreakMode="WordWrap" />
+                                    </StackLayout>
+                              
+                                
                                 <StackLayout Grid.Column="0"
                                              Padding="8"
                                              Spacing="4"
@@ -100,30 +103,31 @@
 
                                 </StackLayout>
 
-                                <StackLayout Grid.Column="0"
+                                <Frame BackgroundColor="White" Padding="10,5,10,5" Margin="2,2,2,2" CornerRadius="10" HasShadow="True">
+                                    <StackLayout Grid.Column="0"
                                              Padding="8"
                                              Spacing="4"
                                              VerticalOptions="Center"
                                               IsVisible="{Binding IsNotAdvert}">
 
-                                    <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
-                                    <Label  Text="{Binding Section}" TextColor="#79c606"  FontSize="Default" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
-                                    <Label  Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
-                                    <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
-                                    <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
-                                    <Label  Text="{Binding Amount}" TextColor="#79c606" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Section}" TextColor="#79c606"  FontSize="Default" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
+                                        <Label  Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                        <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Amount}" TextColor="#79c606" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
 
 
-                                    <Grid RowSpacing="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="1*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Job Open" TextColor="#79c606" HorizontalOptions="Start"  FontSize="Small" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
-                                        <Button
+                                        <Grid RowSpacing="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Row="0" Grid.Column="0" Text="Job Open" TextColor="#79c606" HorizontalOptions="Start"  FontSize="Small" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
+                                            <Button
                                              Grid.Row="0" Grid.Column="1"
 			                                 BackgroundColor="#df782d"
 			                                 BorderRadius="6"
@@ -131,8 +135,9 @@
 			                                 Text="{Binding SupplierId}"
 			                                 CommandParameter="{Binding}" 
                                              Clicked="MyQuotesClicked"/>
-                                    </Grid>
-                                </StackLayout>
+                                        </Grid>
+                                    </StackLayout>
+                                </Frame>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

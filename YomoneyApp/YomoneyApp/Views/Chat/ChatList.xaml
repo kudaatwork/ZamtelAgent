@@ -48,7 +48,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <controls:CircleImage VerticalOptions="Center"
-                                                  BorderColor="#e2762b"
+                                                  BorderColor="#df782d"
                                                   BorderThickness="2"
                                                   Source="{Binding Avator}"
                                                   Aspect="AspectFill">
@@ -74,7 +74,7 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" TextColor="#e2762b"  FontSize="Medium" LineBreakMode="NoWrap"/>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" TextColor="#df782d"  FontSize="Medium" LineBreakMode="NoWrap"/>
                                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding UnreadCount}" TextColor="#169F85"  HorizontalOptions="End"  FontSize="Small" LineBreakMode="NoWrap"/>
                                                 <Label Grid.Row="1" Grid.Column="0" Text="{Binding Skills}" TextColor="Gray"   LineBreakMode="NoWrap"/>
                                             </Grid>

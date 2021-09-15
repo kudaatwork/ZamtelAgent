@@ -14,6 +14,7 @@ namespace YomoneyApp.Services
         public async Task<string> SaveCredentials(string userName, string password)
         {
             string response = "";
+
             if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
             {
                 try

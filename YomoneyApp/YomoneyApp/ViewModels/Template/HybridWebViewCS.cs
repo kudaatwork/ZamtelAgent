@@ -15,7 +15,7 @@ namespace YomoneyApp.ViewModels.Template
                 Uri = "http://102.130.120.163:8087/Login/PosLoginM?username=Aqusales&password=admin"
             };
             
-            hybridWebView.RegisterAction(data => DisplayAlert("Alert", "Hello " + data, "OK"));
+          // hybridWebView.RegisterAction(data => DisplayAlert("Alert", "Hello " + data, "OK"));
 
             Padding = new Thickness(0, 0, 0, 0);
             Content = hybridWebView;

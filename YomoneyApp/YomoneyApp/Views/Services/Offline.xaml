@@ -4,7 +4,7 @@
              x:Class="YomoneyApp.Views.Services.Offline">
     <ContentPage.Content>
         <StackLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -40,13 +40,13 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center" 
 			        Text="ERROR"
-			        TextColor="#e2762b"/>
+			        TextColor="#df782d"/>
                     <Label
 			        FontSize="Large" 
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center" 
 			        Text="Internet Connection Failed"
-			        TextColor="#e2762b"/>
+			        TextColor="#df782d"/>
           
         </StackLayout>
     </ContentPage.Content>

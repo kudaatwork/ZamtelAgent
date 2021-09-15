@@ -52,7 +52,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <controls:CircleImage VerticalOptions="Center"
-                                              BorderColor="#e2762b"
+                                              BorderColor="#df782d"
                                               BorderThickness="2"
                                               Aspect="AspectFill">
                                     <controls:CircleImage.WidthRequest>
@@ -69,7 +69,7 @@
                                              Padding="8"
                                              Spacing="4"
                                              VerticalOptions="Center">
-                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b" LineBreakMode="NoWrap"/>
+                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d" LineBreakMode="NoWrap"/>
                                     <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                 </StackLayout>
                             </Grid>

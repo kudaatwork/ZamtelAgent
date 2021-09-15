@@ -40,7 +40,9 @@ namespace YomoneyApp.Views.NavigationBar
             btnTransactions.Clicked += async (sender, e) =>
             {
                 var existingPages = Navigation.NavigationStack.ToList();
+
                 int cnt = 2;
+
                 foreach (var page in existingPages)
                 {
                     if (cnt < existingPages.Count)
@@ -49,6 +51,7 @@ namespace YomoneyApp.Views.NavigationBar
                     }
                     cnt++;
                 }
+
                 await Navigation.PushAsync(new Transactions());
             };
 
@@ -69,11 +72,11 @@ namespace YomoneyApp.Views.NavigationBar
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
 
-                string uri = "http://192.168.100.172:5000/Mobile/JobProfile?id=" + uname;
+                string uri = "https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname;
 
-                await Navigation.PushAsync(new WebviewHyubridConfirm(uri));
+               // await Navigation.PushAsync(new WebviewHyubridConfirm(uri));
 
-                // await Navigation.PushAsync(new WebviewPage("uri, "My Profile", false, null));
+                await Navigation.PushAsync(new WebviewPage(uri, "My Profile", false, null));
             };
 
             btnMyServices.Clicked += async (sender, e) =>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.Views.GeoPages;
 
 namespace YomoneyApp.Views
 {
@@ -37,6 +38,6 @@ namespace YomoneyApp.Views
         private async void ImageButton_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new HomePage());
-        }
+        }        
     }
 }

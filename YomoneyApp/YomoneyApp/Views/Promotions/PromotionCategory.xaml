@@ -5,27 +5,29 @@
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients">
   <ContentView.Content>
-        <StackLayout>
-            
+      
+        <StackLayout Margin="0,0,0,5">            
 
             <CollectionView ItemsSource="{Binding ServiceOptions}"
                  SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                  SelectionMode="Single" 
-                 ItemsLayout="HorizontalList">
+                 ItemsLayout="HorizontalList"
+                            >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="60"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"></RowDefinition>                                
                             </Grid.RowDefinitions>
+                            
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
+                            
                             <magic:GradientView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalOptions="FillAndExpand">
                                 <magic:GradientView.GradientSource>
                                     <magic:LinearGradient Angle="0">
-                                        <magic:GradientStop Color="#e2762b" Offset="0" />
+                                        <magic:GradientStop Color="#df782d" Offset="0" />
                                         <magic:GradientStop Color="#79c606" Offset="1" />
                                     </magic:LinearGradient>
                                 </magic:GradientView.GradientSource>
@@ -35,6 +37,7 @@
                             <Frame BorderColor="White" BackgroundColor="Transparent" HasShadow="false" CornerRadius="5" HorizontalOptions="FillAndExpand"  HeightRequest="1" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" />
                             <Frame BorderColor="White" BackgroundColor="Transparent" HasShadow="false" CornerRadius="3" HorizontalOptions="FillAndExpand"  HeightRequest="1" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" />
                             <Frame BorderColor="White" BackgroundColor="Transparent" HasShadow="false" CornerRadius="0" HorizontalOptions="FillAndExpand"  HeightRequest="1" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" />
+                            
                             <controls:CircleImage VerticalOptions="End"
                                               Grid.Column="0"
                                               Grid.Row="0"
@@ -43,18 +46,19 @@
                                     <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="65"/>
                                 </controls:CircleImage.WidthRequest>
                                 <controls:CircleImage.HeightRequest>
-                                    <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="65"/>
+                                    <OnPlatform x:TypeArguments="x:Double" iOS="35" Android="35" WinPhone="45"/>
                                 </controls:CircleImage.HeightRequest>
                                 <controls:CircleImage.Source>
                                     <UriImageSource Uri="{Binding Image}"  CacheValidity="14" CachingEnabled="true"/>
                                 </controls:CircleImage.Source>
                             </controls:CircleImage>
+                            
                             <StackLayout Grid.Column="0"
                                          Grid.Row="1"
-                                             Padding="8"
-                                             Spacing="4"
+                                             Padding="0,2,0,10"                                         
+                                             Spacing="6"
                                              VerticalOptions="Center">
-                                <Label Text="{Binding Title}" HorizontalOptions="CenterAndExpand"   TextColor="White" LineBreakMode="NoWrap"/>
+                                <Label Text="{Binding Title}" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" TextColor="White" LineBreakMode="NoWrap"/>
 
                             </StackLayout>
                         </Grid>

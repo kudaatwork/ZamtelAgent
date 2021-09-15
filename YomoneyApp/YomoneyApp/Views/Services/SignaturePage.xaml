@@ -37,7 +37,7 @@
             x:Name="btnSaveImage"
                 Text="Save Signature" 
                 Clicked="SaveImageClicked"
-                BackgroundColor="#e2762b"
+                BackgroundColor="#df782d"
                TextColor="White" 
             HorizontalOptions="FillAndExpand"  VerticalOptions="End" Grid.Row="2" />
         </StackLayout>

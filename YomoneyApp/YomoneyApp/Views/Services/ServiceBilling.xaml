@@ -26,7 +26,7 @@
                     IsVisible="{Binding RequireAccount}"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                         <Entry 
 			        
@@ -42,7 +42,7 @@
 			        Text="Biller"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                         <Entry 
 			        
@@ -57,7 +57,7 @@
                     IsVisible="{Binding HasProducts}"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Picker 
 			        x:Name="PickerProducts"
@@ -72,7 +72,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Amount"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Text="{Binding Budget}" 
@@ -86,7 +86,7 @@
                     VerticalTextAlignment="Start" 
 			        Text="Send Fiscal Invoice By Email"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
                         <Switch HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendEmail,Mode=TwoWay}"/>
 
                         <Label
@@ -96,7 +96,7 @@
 			            Text="Email Address"
                         BackgroundColor="Transparent"
                         IsVisible="{Binding SendEmail}"
-			            TextColor="#e2762b" />
+			            TextColor="#df782d" />
 
                         <Entry 
 			            
@@ -112,7 +112,7 @@
                     VerticalTextAlignment="Start" 
 			        Text="Send Sms Response"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                         <Switch   HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendSms,Mode=TwoWay}"/>
 
@@ -123,7 +123,7 @@
 			        Text="Mobile Number"
                     BackgroundColor="Transparent"
                     IsVisible="{Binding SendSms}"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                         <Entry 
 			       
@@ -138,7 +138,7 @@
 
             <Button 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#e2762b"
+			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Pay Bill"

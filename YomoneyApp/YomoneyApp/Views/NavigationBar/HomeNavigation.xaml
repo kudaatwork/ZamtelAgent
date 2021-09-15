@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.NavigationBar.HomeNavigation">
     <ContentView.Content>
-        <Grid RowSpacing="0" ColumnSpacing="0" HorizontalOptions="Fill"  BackgroundColor="#e2762b">
+        <Grid RowSpacing="0" ColumnSpacing="0" HorizontalOptions="Fill"  BackgroundColor="#df782d">
             <Grid.RowDefinitions>
                 <RowDefinition Height="45"></RowDefinition>
                 <RowDefinition Height="1"></RowDefinition>
@@ -23,7 +23,6 @@
                 HorizontalOptions="StartAndExpand" 
                 VerticalOptions="CenterAndExpand"
                />
-
             
 
             <ContentView Grid.Row="0" Grid.Column="2" Margin="5,0,5,0">

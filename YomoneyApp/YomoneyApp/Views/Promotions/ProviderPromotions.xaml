@@ -57,7 +57,7 @@
                                              
                                              VerticalOptions="Center">
                                     <Image Source="{Binding Image}" HorizontalOptions="FillAndExpand"/>
-                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#e2762b" LineBreakMode="NoWrap"/>
+                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d" LineBreakMode="NoWrap"/>
                                     <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                 </StackLayout>
                                 </Frame>

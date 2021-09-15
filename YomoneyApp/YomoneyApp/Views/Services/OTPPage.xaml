@@ -49,13 +49,13 @@
 			            FontSize="Large" 
                         HorizontalTextAlignment="Center" 
 			            Text="Verification Code"
-			            TextColor="#e2762b"/>
+			            TextColor="#df782d"/>
 
                     <Label
 			            Grid.Row="1"
 			            FontSize="Small" 
 			            Text="verification Code"    
-			            TextColor="#e2762b"
+			            TextColor="#df782d"
                         BackgroundColor="Transparent"
 			             />
 
@@ -79,13 +79,13 @@
                         VerticalTextAlignment="Start"  
 			            Text="{Binding ResponseDescription}"
                         BackgroundColor="Transparent"
-			            TextColor="#e2762b"/>
+			            TextColor="#df782d"/>
                 </Grid>
 
             </ScrollView>
             <Button 
 			    x:Name="ButtonSignIn"
-			    BackgroundColor="#e2762b"
+			    BackgroundColor="#df782d"
 			    BorderRadius="6"
 			    TextColor="White" 
 			    Text="Verify"

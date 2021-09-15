@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
              Title="Bill Payment"
 	  IsBusy="{Binding IsBusy}">
+    
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
@@ -55,7 +56,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Label FontSize="Small" Text="Send Fiscal Invoice By Email" BackgroundColor="Transparent" TextColor="#e2762b" />
+                <Label FontSize="Small" Text="Send Fiscal Invoice By Email" BackgroundColor="Transparent" TextColor="#df782d" />
 
                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal">                        
@@ -72,7 +73,7 @@
                     </StackLayout>
                 </Frame>
                                
-                <Label FontSize="Small" Text="Send Sms Response" BackgroundColor="Transparent" TextColor="#e2762b" />
+                <Label FontSize="Small" Text="Send Sms Response" BackgroundColor="Transparent" TextColor="#df782d" />
 
                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal">

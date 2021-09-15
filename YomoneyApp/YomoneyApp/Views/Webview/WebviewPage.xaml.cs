@@ -28,20 +28,24 @@ namespace YomoneyApp.Views.Webview
             mnu.HasProducts = true;
             mnu.Title = title;
             mnu.IsAdvert = false;
+
             if (isModal) // used to determin if navigation should show
             {
                 mnu.IsAdvert = true;
             }
+
             if (!string.IsNullOrEmpty(navcolour)) // used to determin if navigation should show
             {
                 mnu.ThemeColor  = navcolour;
                 var themeColor = Color.FromHex(navcolour);
+
                 ((NavigationPage)Application.Current.MainPage).BarBackgroundColor = themeColor;
             }
             else
             {
                 mnu.ThemeColor = "#df782d";
             }
+
             mnu.IsShare = true;
             mnu.IsEmptyList = false;
             BindingContext = mnu;
@@ -65,8 +69,9 @@ namespace YomoneyApp.Views.Webview
                     viewModel.GetShareToken(tkn);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
 
         }

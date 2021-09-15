@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using YomoneyApp.Views.TransactionHistory;
 using YomoneyApp.Services;
 using YomoneyApp.Views.Webview;
+using YomoneyApp.Views.GeoPages;
 
 namespace YomoneyApp
 {
@@ -57,8 +58,11 @@ namespace YomoneyApp
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
-                    Navigation.PushAsync(new WebviewPage("http://192.168.100.172:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+                    //Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+
+                    Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
                 }),
+
                 Text = "My Profile",
                 Priority = 0,
                 Order = ToolbarItemOrder.Secondary
@@ -72,6 +76,7 @@ namespace YomoneyApp
                     px.Title = "Profile Image";
                     Navigation.PushAsync(new FileUploadPage(px));
                 }),
+
                 Text = "Profile Picture",
                 Priority = 0,
                 Order = ToolbarItemOrder.Secondary
@@ -85,14 +90,35 @@ namespace YomoneyApp
                     px.Title = "DashBoard";
                     Navigation.PushAsync(new WaletServices());
                 }),
+
                 Text = "DashBoard",
                 Priority = 0,
                 Order = ToolbarItemOrder.Secondary
             };
 
+            //var LocationTracker = new ToolbarItem
+            //{
+            //    Command = new Command(() =>
+            //    {
+            //        MenuItem px = new YomoneyApp.MenuItem();
+
+            //        px.Title = "Routes";
+            //        AccessSettings acnt = new AccessSettings();
+            //        string uname = acnt.UserName;
+            //        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + "263778129785";
+
+            //        Navigation.PushAsync(new WebviewHyubridConfirm(link, px.Title));
+            //    }),
+                
+            //    Text = "Tasks Routes",
+            //    Priority = 0,
+            //    Order = ToolbarItemOrder.Secondary
+            //};
+
             ToolbarItems.Add(Dashboard);
             ToolbarItems.Add(Profile);
-            ToolbarItems.Add(PImage);            
+            ToolbarItems.Add(PImage);
+            //ToolbarItems.Add(LocationTracker);
 
             //topCorousel.GestureRecognizers.Add(gesture);
 
@@ -201,6 +227,16 @@ namespace YomoneyApp
                         //await Navigation.PushAsync(new ServiceCategories(mnu));
                         mn.Title = "Services";
                         await Navigation.PushAsync(new ServiceVariations(mn));
+                        break;
+                    case "TASKS":
+                        AccessSettings acnt = new AccessSettings();
+                        string uname = acnt.UserName;
+                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+                        string title = "My Tasks Dashboard";
+
+                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#df782d"));
+
+                        //await Navigation.PushModalAsync(new WebviewPage(link, "My Tasks Dashboard", true, "#df782d"));
                         break;
                     default:
                         break;

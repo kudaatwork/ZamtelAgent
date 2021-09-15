@@ -7,7 +7,7 @@
 	         IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout BackgroundColor="White">
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#e2762b">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -47,7 +47,6 @@
             <ScrollView VerticalOptions="FillAndExpand" Padding="10" BackgroundColor="White">
                 <StackLayout VerticalOptions="FillAndExpand">
                    
-
                     <Label
                     FontSize="Small"
 			        Text="Place the amount you are willing to do this job for and briefly describe the service you will offer."
@@ -57,7 +56,7 @@
 			        FontSize="Small"
                     VerticalTextAlignment="Start"
 			        Text="Currency"
-			        TextColor="#e2762b"
+			        TextColor="#df782d"
 			         />
 
                     <Picker 
@@ -69,7 +68,7 @@
 			        FontSize="Small"
                     VerticalTextAlignment="Start"
 			        Text="Quote Amount"
-			        TextColor="#e2762b"
+			        TextColor="#df782d"
 			         />
 
                     <Entry 
@@ -81,7 +80,7 @@
                     <Label
 			        FontSize="Medium"
 			        Text="Description"
-			        TextColor="#e2762b"
+			        TextColor="#df782d"
                     VerticalTextAlignment="Start"
                     BackgroundColor="Transparent"
 			        />

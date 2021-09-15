@@ -18,7 +18,7 @@
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <StackLayout HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="#e2762b">
+                <StackLayout HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="#df782d">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>
@@ -184,7 +184,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
 			        x:Name="ButtonSubmitFeedback"
-			        BackgroundColor="#e2762b"
+			        BackgroundColor="#df782d"
 			        BorderRadius="6"
 			        TextColor="White" 
 			        Text="Send"

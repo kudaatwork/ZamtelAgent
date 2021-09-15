@@ -6,8 +6,8 @@
 	         IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout Padding="10" BackgroundColor="White">
-            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#e2762b">
-                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#e2762b" IsVisible="{Binding IsBusy}">
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#df782d">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#df782d" IsVisible="{Binding IsBusy}">
                     <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
@@ -34,7 +34,7 @@
                     VerticalTextAlignment="Center"
                     HorizontalOptions="FillAndExpand"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Picker 
 			        x:Name="PickerCurrency"
@@ -46,7 +46,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Amount"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Text="{Binding Amount}" 
@@ -58,7 +58,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Receiver's Phonenumber"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Text="{Binding PhoneNumber}" 
@@ -72,7 +72,7 @@
 			        Text="Receiver's Full Name/s "
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Text="{Binding ReceiverName}" 
@@ -83,7 +83,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Receiver's Surname"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Text="{Binding ReceiverSurname}" 
@@ -95,7 +95,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Id/Passport Number"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Text="{Binding Id}" 
@@ -106,7 +106,7 @@
             </ScrollView>
             <Button 
 			x:Name="ButtonPayment"
-			BackgroundColor="#e2762b"
+			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Make Payment"

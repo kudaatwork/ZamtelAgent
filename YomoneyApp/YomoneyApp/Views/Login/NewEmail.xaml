@@ -23,7 +23,7 @@
 			        FontSize="Large" 
                     HorizontalTextAlignment="Center" 
 			        Text="Account Email"
-			        TextColor="#e2762b"/>
+			        TextColor="#df782d"/>
                     <Label
 			        FontSize="Small" 
 			        Text="{Binding Subtitle}"   
@@ -33,7 +33,7 @@
                     <Label
 			        FontSize="Small" 
 			        Text="Email Address"    
-			        TextColor="#e2762b"
+			        TextColor="#df782d"
                     BackgroundColor="Transparent"
 			         />
 
@@ -54,13 +54,13 @@
                     VerticalTextAlignment="Start"  
 			        Text="{Binding ResponseDescription}"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b"/>
+			        TextColor="#df782d"/>
                 </StackLayout>
 
             </ScrollView>
             <Button 
 			x:Name="ButtonSignIn"
-			BackgroundColor="#e2762b"
+			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Reset Password"

@@ -36,14 +36,16 @@ namespace YomoneyApp.Views.Spani
             {
                 var view = sender as Xamarin.Forms.Button;
                 MenuItem mn = new YomoneyApp.MenuItem();
+
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
 
-               await viewModel.ExecuteCancelJobRequestCommand(mn);
-            
+               await viewModel.ExecuteCancelJobRequestCommand(mn);            
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void JobsClicked(object sender, EventArgs e)
@@ -52,18 +54,20 @@ namespace YomoneyApp.Views.Spani
             {
                 var view = sender as Xamarin.Forms.Button;
                 MenuItem mn = new YomoneyApp.MenuItem();
+
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
 
-                if (Navigation.NavigationStack.Count == 0 ||
-                Navigation.NavigationStack.Last().GetType() != typeof(RequestBids))
+                if (Navigation.NavigationStack.Count == 0 || Navigation.NavigationStack.Last().GetType() != typeof(RequestBids))
                 {
                     Navigation.PushModalAsync(new RequestBids(mn));
                     Navigation.PopAsync();
                 }
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public async void AwardedClicked(object sender, EventArgs e)
@@ -73,23 +77,31 @@ namespace YomoneyApp.Views.Spani
                 var view = sender as Xamarin.Forms.Button;
                 MenuItem mn = new YomoneyApp.MenuItem();
                 // mn.Id = view.CommandParameter.ToString();
+
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
+
                 AccessSettings acnt = new AccessSettings();
+
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
-                if (Navigation.NavigationStack.Count == 0 ||
-                Navigation.NavigationStack.Last().GetType() != typeof(Awarded))
+
+                if (Navigation.NavigationStack.Count == 0 || Navigation.NavigationStack.Last().GetType() != typeof(Awarded))
                 {
                     // Navigation.PushModalAsync(new Awarded(mn));
                     // Navigation.PopAsync();
-                    string link = "http://192.168.100.172:5000/Mobile/Projects?Id=" + uname;
-                    await Navigation.PushModalAsync(new WebviewPage(link, "Awarded Jobs", true, "#e2762b"));
 
+                    string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+
+                    await Navigation.PushModalAsync(new WebviewPage(link, "Awarded Jobs", true, "#df782d"));
+
+                    //await Navigation.PushAsync(new WebviewHyubridConfirm(link, "Awarded Jobs", true, "#df782d"));
                 }
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void AdvertClicked(object sender, EventArgs e)
@@ -98,19 +110,21 @@ namespace YomoneyApp.Views.Spani
             {
                 var view = sender as Xamarin.Forms.Button;
                 MenuItem mn = new YomoneyApp.MenuItem();
+
                 //mn.Id = view.CommandParameter.ToString();
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
 
-                if (Navigation.NavigationStack.Count == 0 ||
-                Navigation.NavigationStack.Last().GetType() != typeof(CreateSpaniProfile))
+                if (Navigation.NavigationStack.Count == 0 || Navigation.NavigationStack.Last().GetType() != typeof(CreateSpaniProfile))
                 {
                     Navigation.PushModalAsync(new PlaceBid(mn));
                     Navigation.PopAsync();
                 }
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void newSkillClicked(object sender, EventArgs e)
@@ -119,23 +133,26 @@ namespace YomoneyApp.Views.Spani
             {
                 var view = sender as Xamarin.Forms.Button;
                 MenuItem mn = new YomoneyApp.MenuItem();
+
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
 
-                if (Navigation.NavigationStack.Count == 0 ||
-                Navigation.NavigationStack.Last().GetType() != typeof(JobRequest))
+                if (Navigation.NavigationStack.Count == 0 || Navigation.NavigationStack.Last().GetType() != typeof(JobRequest))
                 {
                     Navigation.PushModalAsync(new JobRequest());
                     Navigation.PopAsync();
                 }
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
             if (viewModel.Stores.Count > 0 || viewModel.IsBusy)
                 return;
 

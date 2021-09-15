@@ -47,7 +47,7 @@
 			        Text="Biller"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Picker 
 			        x:Name="PickerStore"
@@ -62,7 +62,7 @@
 			        Text="Account Number"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Grid.Row="1"
@@ -77,7 +77,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Amount"
                     BackgroundColor="Transparent"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Grid.Row="2"
@@ -92,7 +92,7 @@
 			        Text="Send Sms Response"
                     BackgroundColor="Transparent"
                     
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
                     <Switch  Grid.Row="3" HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendSms,Mode=TwoWay}"/>
 
                     <Label
@@ -102,7 +102,7 @@
 			        Text="Mobile Number"
                     BackgroundColor="Transparent"
                     IsVisible="{Binding SendSms}"
-			        TextColor="#e2762b" />
+			        TextColor="#df782d" />
 
                     <Entry 
 			        Grid.Row="4"
@@ -116,7 +116,7 @@
             </ScrollView>
             <Button 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#e2762b"
+			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Pay Bill"
