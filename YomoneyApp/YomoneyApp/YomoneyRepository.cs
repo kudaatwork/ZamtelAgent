@@ -189,14 +189,8 @@ namespace YomoneyApp
             {
                 long cnt = 0;
                 var c = db.YoMessages.Count();
-                if (c > 0)
-                {
-                    var count = db.YoMessages.Last();
-
-                    if (count != null)
-                        cnt = count.Id;
-                }
-                msg.Id = cnt + 1;
+              
+                msg.Id = c + 1;
                 
                 var traking = await db.YoMessages.AddAsync(msg);
                 await db.SaveChangesAsync();
@@ -213,11 +207,12 @@ namespace YomoneyApp
         {
             try
             {
-                List<ChatMessage> contacts = await db.YoMessages.ToListAsync();
-                return contacts;
+                List<ChatMessage> messages = await db.YoMessages.ToListAsync();
+                return messages;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }

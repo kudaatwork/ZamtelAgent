@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
+             x:Class="YomoneyApp.Views.GeoPages.RouteDetails"
+             NavigationPage.HasNavigationBar="True"
+             Title="Route Details">
+    <ContentPage.Content>
+        <StackLayout Padding="0">
+
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						       IsRunning="{Binding IsBusy}"
+						       IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	     VerticalOptions="Center" 
+	    	     Text="{Binding Message}"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="15,10,0,5">
+                <Label Text="Route Name:" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
+                <Label Text="{Binding RouteName}" Margin="10,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="Bold"></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="15,10,0,5">
+                <Label Text="Route Rate:" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
+                <Label Text="{Binding RouteRate}" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="Bold"></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="15,10,0,5">
+                <Label Text="Route Cost:" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
+                <Label Text="{Binding RouteCost}" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="Bold"></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="15,10,0,5">
+                <Label Text="Route Distance:" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
+                <Label Text="{Binding RouteDistance}" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="Bold"></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="15,10,0,5">
+                <Label Text="Route Duration:" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="None"></Label>
+                <Label Text="{Binding RouteDuration}" Margin="15,5,10,0" TextColor="#000000" FontSize="Small" FontAttributes="Bold"></Label>
+            </StackLayout>
+
+            <Grid>
+                <Grid.Padding>
+                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
+                </Grid.Padding>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>                    
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>                    
+                </Grid.ColumnDefinitions>
+                
+            </Grid>
+            <Button Grid.Row="0" Grid.Column="1" Clicked="Button_Clicked" BackgroundColor="#9b1003" Margin="10,464,10,0" Padding="0,15,0,15" CornerRadius="8" BorderRadius="6" FontAttributes="Bold" TextColor="White" Text="Cancel"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

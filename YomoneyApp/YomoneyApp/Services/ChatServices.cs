@@ -12,6 +12,7 @@ using Plugin.Permissions;
 using YomoneyApp.Models.Work;
 using System.Collections.Generic;
 using System.ComponentModel;
+using YomoneyApp.Models;
 
 [assembly: Dependency (typeof(ChatServices))]
 namespace YomoneyApp
@@ -22,6 +23,9 @@ namespace YomoneyApp
 		private readonly IHubProxy _proxy;
 
 		public event EventHandler<string> OnMessageReceived;
+        public event EventHandler<string> OnLocationPointsUpdate;
+        public event EventHandler<string> OnJoinLocationPointsGroup;
+        public event EventHandler<string> OnLocationPointsReceived;
         public event EventHandler<string> onNotification;
         public event EventHandler<string> onConnected;
         public event EventHandler<string> onUnread;
@@ -75,6 +79,12 @@ namespace YomoneyApp
             
             _proxy.On("sendPrivateMessage", (string message, string IsMine) => OnMessageReceived(this, message));
 
+            _proxy.On("pushPosition", (string GroupName, string message) => OnLocationPointsUpdate(this, message));
+
+            _proxy.On("joinGroup", (string GroupName, string message) => OnJoinLocationPointsGroup(this, message));
+
+            _proxy.On("pushPosition", (string GroupName, string message) => OnLocationPointsReceived(this, message));
+
             _proxy.On("sendNotification", (string message) => onNotification(this, message));
 
             _proxy.On ("sendPrivateOffline", (string name, string message) => onConnected(this, message));
@@ -111,6 +121,22 @@ namespace YomoneyApp
         {
             await _proxy.Invoke("sendNotificationReceived", message.ReceiverId, message.Id, message.RequestType);
         }
+
+        public async Task SendLocationPoints(RoutesInfo routesInfo)
+        {
+            await _proxy.Invoke("pushPosition", routesInfo.Name, JsonConvert.SerializeObject(routesInfo));
+        }
+
+        public async Task GetLocationPoints(RoutesInfo routesInfo)
+        {
+            await _proxy.Invoke("pushPosition", routesInfo.Name, JsonConvert.SerializeObject(routesInfo));
+        }
+
+        public async Task JoinLocationPointsGroup(RoutesInfo routesInfo)
+        {
+            await _proxy.Invoke("joinGroup", routesInfo.Name);
+        }
+
         public async Task GetContactsUnread(string UserId)
         {
             AccessSettings ac = new AccessSettings();
@@ -227,7 +253,10 @@ namespace YomoneyApp
                 var msgs = JsonConvert.SerializeObject(message);
                 await _proxy.Invoke("getConversation", msgs);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public async Task JoinRoom(string roomName)
@@ -239,7 +268,19 @@ namespace YomoneyApp
             catch { }
 		}
 
-		#endregion
-	}
+        public async Task CurrentPosition(string currentPostion, string groupName)
+        {
+            try
+            {
+                await _proxy.Invoke("JoinRoom", currentPostion, groupName);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
+    }
 }
 

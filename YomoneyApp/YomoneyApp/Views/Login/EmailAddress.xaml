@@ -6,7 +6,8 @@
              x:Class="YomoneyApp.Views.Login.EmailAddress"
              NavigationPage.HasNavigationBar="True"
              Title="Email Address">
-    
+
+    <ScrollView>
     <AbsoluteLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
 
         <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
@@ -27,7 +28,7 @@
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,350,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="260" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="290" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label Text="Enter your email address" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,0, 0, 15"></Label>
@@ -49,6 +50,15 @@
 
                             <Button Text="SUBMIT EMAIL" Clicked="btnSecurityQtnOption_Clicked" x:Name="btnSecurityQtnOption" Command="{Binding SubmitEmailCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                                <Label Text="Want to contact Customer Support? Click " HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                                <Label Text="Here" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                            
                         </StackLayout>
                     </Frame>
                 </StackLayout>
@@ -58,4 +68,5 @@
         </StackLayout>
 
     </AbsoluteLayout>
+    </ScrollView>
 </ContentPage>

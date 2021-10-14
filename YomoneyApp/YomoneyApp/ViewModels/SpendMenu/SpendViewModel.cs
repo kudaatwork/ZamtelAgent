@@ -26,7 +26,7 @@ namespace YomoneyApp
 {
     public class SpendViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.ymoneyservice.com";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         string ProcessingCode = "350000";
         string title = "";
@@ -366,7 +366,7 @@ namespace YomoneyApp
             }
 
             if (showAlert)
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather " + Category + " services.Check your internet connection", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather " + Category + " services.Check your internet connection", "OK");
 
 
         }
@@ -376,6 +376,7 @@ namespace YomoneyApp
             if (IsBusy)
                 return new List<MenuItem>();
 
+            Message = "loading billers...";
             IsBusy = true;
             try
             {
@@ -430,7 +431,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather billers.", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather billers.", "OK");
             }
             finally
             {
@@ -444,7 +445,7 @@ namespace YomoneyApp
         {
             if (IsBusy)
                 return Categories;
-            Message = "loading billers";
+            Message = "loading service providers...";
             IsBusy = true;
             try
             {
@@ -499,7 +500,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather billers.", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather billers.", "OK");
             }
             finally
             {
@@ -931,24 +932,34 @@ namespace YomoneyApp
 
         private async Task ExecuteGetRechargeCommand()
         {
-            //if (IsBusy)
-            //   return;
+            if (IsBusy)
+                return;
 
-            if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+            // if (ForceSync)
+            //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+            if (string.IsNullOrWhiteSpace(AccountNumber) || string.IsNullOrWhiteSpace(Budget))
+            {
+                await page.DisplayAlert("Enter All Fields", "Please enter all fields", "OK");
+                return;
+            }            
             
             var showAlert = false;
+
+            //IsBusy = true;
+            //Message = "Processing, please wait...";
+
             if (sendSms == false)
             {
                 PhoneNumber = "";
             }
+
             MenuItem mn = new YomoneyApp.MenuItem();
             mn.Amount = String.Format("{0:n}", Math.Round(decimal.Parse(budget), 2).ToString());
             mn.Title = Category;
           
                 await page.Navigation.PushAsync(new PaymentPage(mn));
+
                 MessagingCenter.Subscribe<string, string>("PaymentRequest", "NotifyMsg", async (sender, arg) =>
                 {
                     if (arg == "Payment Success")
@@ -1101,7 +1112,8 @@ namespace YomoneyApp
             if (ForceSync)
                 //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-                IsBusy = true;
+            IsBusy = true;
+            Message = "Processing, please wait....";
 
             var showAlert = false;
             if (sendSms == false)
@@ -1209,7 +1221,7 @@ namespace YomoneyApp
 
                             Retry = true;
                             IsConfirm = false;
-                            await page.DisplayAlert("Oh Oooh :(", response.Description, "OK");
+                            await page.DisplayAlert("Error!", response.Description, "OK");
                         }
 
                     }
@@ -1586,7 +1598,7 @@ namespace YomoneyApp
                     }
                     else
                     {
-                        await page.DisplayAlert("Oh Oooh :(", response.Description, "OK");
+                        await page.DisplayAlert("Error!", response.Description, "OK");
                     }
 
                 }

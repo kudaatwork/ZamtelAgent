@@ -1,8 +1,10 @@
-﻿using Plugin.Media;
+﻿using Newtonsoft.Json;
+using Plugin.Media;
 using Plugin.Media.Abstractions;
 using RetailKing.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.Models.Image;
 
 namespace YomoneyApp.Views.Fileuploads
 {
@@ -25,6 +28,7 @@ namespace YomoneyApp.Views.Fileuploads
             InitializeComponent();
         }
 
+        #region Pick Photo Region
         private async void btnPickPhoto_Clicked(object sender, EventArgs e)
         {
             await CrossMedia.Current.Initialize();
@@ -46,7 +50,7 @@ namespace YomoneyApp.Views.Fileuploads
                 return _mediaFile.GetStream();
             });
         }
-
+        #endregion
         private async void btnTakePhoto_Clicked(object sender, EventArgs e)
         {
             await CrossMedia.Current.Initialize();
@@ -68,32 +72,129 @@ namespace YomoneyApp.Views.Fileuploads
                 return _mediaFile.GetStream();
             });
         }
-
         private async void btnUploadImage_Clicked(object sender, EventArgs e)
         {
+            FileUpload fileUpload = new FileUpload();
+
+            var stream = _mediaFile.GetStream();
+            var bytes = new byte[stream.Length];
+            await stream.ReadAsync(bytes, 0, (int)stream.Length);
+            string base64 = System.Convert.ToBase64String(bytes);
+
+            string strPath = _mediaFile.Path;
+
+            var fileName = Path.GetFileName(strPath); // filename
+
+            char[] delimite = new char[] { '.' };
+
+            string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+            var type = parts[1];
+
+            fileUpload.Name = fileName;
+
+            fileUpload.Type = type;
+
+            fileUpload.PhoneNumber = "263784607691";
+
+            fileUpload.Image = base64;
+
+            //var imageBase = new ImageBase(base64);
+
             try
             {
-                var content = new MultipartFormDataContent();
+                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                httpWebRequest.Timeout = 120000;
+                //httpWebRequest.CookieContainer = new CookieContainer();
+                //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                //cookie.Domain = "https://www.yomoneyservice.com";
+                //httpWebRequest.CookieContainer.Add(cookie);
 
-                content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
+                var json = JsonConvert.SerializeObject(fileUpload);
 
-                var uploadUrl = "https://www.yomoneyservice.com/api/files/upload";
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
 
-                var httpClient = new HttpClient();                               
+                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
-                var httpResponseMessage = await httpClient.PostAsync(uploadUrl, content);
-
-                System.Net.ServicePointManager.SecurityProtocol =
-                SecurityProtocolType.Tls12 |
-                SecurityProtocolType.Tls11 |
-                SecurityProtocolType.Tls;
-
-                var response = httpResponseMessage.Content.ReadAsStringAsync();
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        var result = streamReader.ReadToEnd();
+                        //yoappResponse = JsonConvert.DeserializeObject<YoAppResponse>(result);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }           
+            }
+
+            //try
+            //{
+                
+            //        var stream = _mediaFile.GetStream();
+            //        var bytes = new byte [stream.Length];
+            //        await stream.ReadAsync(bytes, 0, (int)stream.Length);
+            //        string base64 = System.Convert.ToBase64String(bytes);
+
+            //       var imageBase = new ImageBase(base64);
+            //    var json = JsonConvert.SerializeObject(imageBase);
+            //    var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            //    // var content = new MultipartFormDataContent();
+
+            //    // content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
+
+            //    var uploadUrl = "https://www.yomoneyservice.com/Mobile/FileUploader";
+                
+            //    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
+            //   (
+            //       delegate { return true; }
+            //   );
+
+            // /*  System.Net.ServicePointManager.SecurityProtocol =
+            //   SecurityProtocolType.Tls12 |
+            //   SecurityProtocolType.Tls11 |
+            //   SecurityProtocolType.Tls;*/
+
+            //    var client = new HttpClient();
+
+            //  //  string content = "id";
+
+            //    var myContent = base64;
+
+            //    //string paramlocal = string.Format(uploadUrl + "/Mobile/FileUploader/?{0}", content + "=This is a string");
+
+            //    var httpResponseMessage = await client.PostAsync(uploadUrl, data);
+
+            //  var response = httpResponseMessage.Content.ReadAsStringAsync();
+
+            //   // string result = await client.GetStringAsync(paramlocal);
+
+            //   //  if (result != "System.IO.MemoryStream")
+            //   //  { 
+
+            //   //  }
+
+            //   //var httpResponseMessage = await httpClient.PostAsync(uploadUrl, content);               
+
+            //    //var response = httpResponseMessage.Content.ReadAsStringAsync();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}           
+        }
+
+        private void btnPickUpload_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

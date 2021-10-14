@@ -34,7 +34,7 @@
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None"  Keyboard="Numeric" Placeholder="Account Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None"  Keyboard="Numeric" Placeholder="Bill Account Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
 
@@ -47,10 +47,10 @@
                     </StackLayout>
                 </Frame>
 
-                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding IsConfirm}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal">
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="amount.png" Aspect="AspectFill" Margin="0"/>
+                            <Image Source="amount.png" Aspect="AspectFill" IsVisible="{Binding IsConfirm}" Margin="0"/>
                         </Frame>
                         <local:MyCustomeEntry Text="{Binding Budget}" FontAttributes="None" IsVisible="{Binding IsConfirm}" Keyboard="Numeric" Placeholder="Payment Amount" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
@@ -86,7 +86,7 @@
                         <Frame BackgroundColor="Transparent" IsVisible="{Binding SendSms}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="email.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Email" IsVisible="{Binding SendSms}" Placeholder="Mobile Number for SMS" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Numeric" IsVisible="{Binding SendSms}" Placeholder="Mobile Number for SMS" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>              
             </StackLayout>

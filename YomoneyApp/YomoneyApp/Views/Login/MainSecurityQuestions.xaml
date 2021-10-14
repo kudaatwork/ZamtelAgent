@@ -4,8 +4,8 @@
              x:Class="YomoneyApp.Views.Login.MainSecurityQuestions"
              NavigationPage.HasNavigationBar="True"
              Title="Security Questions">
-    
-    
+
+    <ScrollView>
     <AbsoluteLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand" NavigationPage.HasNavigationBar="True">
 
         <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
@@ -66,4 +66,5 @@
         </StackLayout>
 
     </AbsoluteLayout>
+    </ScrollView>
 </ContentPage>

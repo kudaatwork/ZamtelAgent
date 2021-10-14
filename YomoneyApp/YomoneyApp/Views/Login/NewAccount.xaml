@@ -9,6 +9,7 @@
              IsBusy="{Binding IsBusy}"
              >
 
+    <ScrollView Orientation="Vertical">
     <StackLayout Padding="0">
         
         <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
@@ -99,4 +100,5 @@
             </StackLayout>
         </Grid>
     </StackLayout>
+    </ScrollView>
 </ContentPage>

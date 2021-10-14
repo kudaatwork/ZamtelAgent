@@ -13,6 +13,8 @@ using System.Net;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Threading;
+using Newtonsoft.Json;
+using YomoneyApp.Models.Image;
 
 namespace YomoneyApp.Views.Services
 {
@@ -112,54 +114,127 @@ namespace YomoneyApp.Views.Services
             AccessSettings acnt = new AccessSettings();
             string pass = acnt.Password;
             string uname = acnt.UserName;
-            try
+
+            bool saved = false;
+
+            FileUpload fileUpload = new FileUpload();
+
+            var stream = _mediaFile.GetStream();
+            var bytes = new byte[stream.Length];
+            await stream.ReadAsync(bytes, 0, (int)stream.Length);
+            string base64 = System.Convert.ToBase64String(bytes);
+
+            string strPath = _mediaFile.Path;
+
+            var fileName = Path.GetFileName(strPath); // filename
+
+            char[] delimite = new char[] { '.' };
+
+            string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+            var type = parts[1];
+
+            fileUpload.Name = fileName;
+            fileUpload.Type = type;
+            fileUpload.PhoneNumber = viewModel.PhoneNumber;
+            fileUpload.Image = base64;
+            fileUpload.Purpose = "Profile Picture";
+            fileUpload.ServiceId = 0;
+            fileUpload.ActionId = 0;
+            fileUpload.SupplierId = "";
+
+           try
             {
-                //HttpContent fileStreamContent = new StreamContent(_mediaFile.GetStream());
-                /*fileStreamContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data") { Name = "file", FileName = "test" };
-                fileStreamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-                //ByteArrayContent baContent = new ByteArrayContent($"\"{_mediaFile.Path}\"");
-                var fileContent = new ByteArrayContent(File.ReadAllBytes(_mediaFile.Path));
+                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                httpWebRequest.Timeout = 120000;
+                //httpWebRequest.CookieContainer = new CookieContainer();
+                //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                //cookie.Domain = "https://www.yomoneyservice.com";
+                //httpWebRequest.CookieContainer.Add(cookie);
+
+                var json = JsonConvert.SerializeObject(fileUpload);
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+
+                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        var result = streamReader.ReadToEnd();
+                        saved = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                saved = false;
+            }
+
+            if (saved)
+            {
+                await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
+            }
+            else
+            {
+                await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
+            }
+
+           // try
+           // {
+           //     //HttpContent fileStreamContent = new StreamContent(_mediaFile.GetStream());
+           //     /*fileStreamContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data") { Name = "file", FileName = "test" };
+           //     fileStreamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+           //     //ByteArrayContent baContent = new ByteArrayContent($"\"{_mediaFile.Path}\"");
+           //     var fileContent = new ByteArrayContent(File.ReadAllBytes(_mediaFile.Path));
                
-                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("image")
-                {
-                    FileName = uname
-                };
+           //     fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("image")
+           //     {
+           //         FileName = uname
+           //     };
 
-                formData.Add(fileContent);*/
-                var formData = new MultipartFormDataContent();
-                var httpClient = new HttpClient();
-                //httpClient.MaxResponseContentBufferSize = 82113340;
+           //     formData.Add(fileContent);*/
+           //     var formData = new MultipartFormDataContent();
+           //     var httpClient = new HttpClient();
+           //     //httpClient.MaxResponseContentBufferSize = 82113340;
                 
-                formData.Add(new StreamContent(_mediaFile.GetStream()),
-           "\"file\"",
-           $"\"{_mediaFile.Path}\"");
-                var uploadBaseAddress = "https://www.yomoneyservice.com/api/Vend/Upload";
+           //     formData.Add(new StreamContent(_mediaFile.GetStream()),
+           //"\"file\"",
+           //$"\"{_mediaFile.Path}\"");
+           //     var uploadBaseAddress = "https://www.yomoneyservice.com/api/Vend/Upload";
 
-               // content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-                //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+           //    // content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+           //     //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
            
-                var httpResponseMessage = await httpClient.PostAsync(uploadBaseAddress, formData);
-                var res = await httpResponseMessage.Content.ReadAsStringAsync();
-                if (httpResponseMessage.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await DisplayAlert("Error", httpResponseMessage.StatusCode.ToString(), "OK");
-                }
-                else
-                {
-                    await DisplayAlert("Success", "Image uploaded successfuly.", "OK");
-                }
-            }
-            catch(Exception u) 
-            {
-                if (u.Message == "Object reference not set to an instance of an object.")
-                {
-                    await DisplayAlert("Error", "Please select an image or take a photo.", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-                }
-            }
+           //     var httpResponseMessage = await httpClient.PostAsync(uploadBaseAddress, formData);
+           //     var res = await httpResponseMessage.Content.ReadAsStringAsync();
+           //     if (httpResponseMessage.StatusCode != System.Net.HttpStatusCode.OK)
+           //     {
+           //         await DisplayAlert("Error", httpResponseMessage.StatusCode.ToString(), "OK");
+           //     }
+           //     else
+           //     {
+           //         await DisplayAlert("Success", "Image uploaded successfuly.", "OK");
+           //     }
+           // }
+           // catch(Exception u) 
+           // {
+           //     if (u.Message == "Object reference not set to an instance of an object.")
+           //     {
+           //         await DisplayAlert("Error", "Please select an image or take a photo.", "OK");
+           //     }
+           //     else
+           //     {
+           //         await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
+           //     }
+           // }
         }
         
     }

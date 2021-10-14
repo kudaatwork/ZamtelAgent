@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels;
+using YomoneyApp.Views.GeoPages;
 using YomoneyApp.Views.Services;
 using YomoneyApp.Views.TemplatePages;
 
@@ -15,12 +17,19 @@ namespace YomoneyApp.Views.Webview
     public partial class WebviewHyubridConfirm : ContentPage
     {
         HomeViewModel homeViewModel;
-        MenuItem mnu;  
+        ChatViewModel viewM;
+        MenuItem mnu;
+
+        MapPageViewModel mapPage = new MapPageViewModel(null);
+
+        AccountViewModel accountViewModel = new AccountViewModel(null);
 
         public WebviewHyubridConfirm(string sourceUrl, string title, bool isModal, string navcolour)
         {
             InitializeComponent();
             BindingContext = homeViewModel = new HomeViewModel(this);
+            viewM = new YomoneyApp.ChatViewModel(this);//ViewModelLocator.ChatMainViewModel;
+
             homeViewModel.Title = title;
 
             mnu = new MenuItem();
@@ -62,7 +71,7 @@ namespace YomoneyApp.Views.Webview
                 Uri = sourceUrl               
             };
 
-            // hybridWebView.RegisterAction(data => DisplayAlert("Alert", "Hello " + data, "OK"));
+            hybridWebView.RegisterAction(data => mapPage.DisplayMap(data));
 
             Padding = new Thickness(0, 20, 0, 0);
             Content = hybridWebView;

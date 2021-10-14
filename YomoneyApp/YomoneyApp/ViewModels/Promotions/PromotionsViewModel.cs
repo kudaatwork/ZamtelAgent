@@ -99,26 +99,41 @@ namespace YomoneyApp
                 if (selectedCategory == null)
                     return;
 
-                if (ItemSelected == null)
+                try
                 {
-                    if (selectedCategory.Title == "REWARD SCHEMES" || selectedCategory.Title == "LUCKY DRAW")
+                    if (ItemSelected == null)
                     {
-                        page.Navigation.PushAsync(new ServiceProviders(selectedCategory));
-                        selectedCategory = null;
-                        SelectedCategory = null;
+                        if (selectedCategory.Title == "REWARD SCHEMES" || selectedCategory.Title == "LUCKY DRAW")
+                        {
+                            Device.BeginInvokeOnMainThread(async () => {
+                                await App.Current.MainPage.Navigation.PushAsync(new ServiceProviders(selectedCategory));
+                            });
 
+                           // page.Navigation.PushAsync(new ServiceProviders(selectedCategory));
+                           // selectedCategory = null;
+                           // SelectedCategory = null;
+
+                        }
+                        else
+                        {
+                            Device.BeginInvokeOnMainThread(async () => {
+                                await App.Current.MainPage.Navigation.PushAsync(new ProviderPromotions(selectedCategory));
+                            });
+                            
+                            //page.Navigation.PushAsync(new ProviderPromotions(selectedCategory));
+                           // selectedCategory = null;
+                           // SelectedCategory = null;
+                        }
                     }
                     else
                     {
-                        page.Navigation.PushAsync(new ProviderPromotions(selectedCategory));
-                        selectedCategory = null;
-                        SelectedCategory = null;
+                        ItemSelected.Invoke(selectedCategory);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ItemSelected.Invoke(selectedCategory);
-                }
+                    Console.WriteLine(ex.Message);
+                }                
             }
         }
 

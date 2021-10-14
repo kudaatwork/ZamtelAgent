@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="myMap" style="height: 720px"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAe9LFASRjbCrPPBUdeq6AbeGCBcApUwrA&callback=initMap&language=en&region=" + @ViewData["CountryCod"].ToString()></script>
+
+    <script>
+        var map;
+        var home;
+        var markersArray = [];        
+
+        function initMap() {
+
+            var source;
+            var directionsDisplay;
+            var directionsService = new google.maps.DirectionsService();
+            directionsService.route(
+                {
+                    origin: "190 Main Street, Ottawa, Canada",
+                    destination: "290 First Avenue, Ottawa, Canada",
+                    travelMode: "DRIVING"
+                },
+                (response, status) => {
+                    console.log(response);
+                    console.log(status);
+                }
+            )
+
+            var infowindow;
+
+            var map = new google.maps.Map(document.getElementById('myMap'), {
+                zoom: 10,
+                center: new google.maps.LatLng('12.9833', '77.5833'),
+            mapTypeId: 'roadmap',
+            });
+
+            directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+
+            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var waypoints = [];
+            directionsDisplay.setMap(map);          
+
+        }
+       
+    </script>
+        
+</body>
+</html>

@@ -9,28 +9,37 @@ using Xamarin.Forms.Xaml;
 using SignaturePad.Forms;
 using Plugin.Media.Abstractions;
 using YomoneyApp.Services;
+using Newtonsoft.Json;
+using System.IO;
+using System.Net;
+using YomoneyApp.Models.Image;
+using YomoneyApp.Views.Webview;
 
 namespace YomoneyApp.Views.Services
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignaturePage : ContentPage
     {
-       
+        string HostDomain = "https://www.yomoneyservice.com";
+
         MenuItem SelectedItem;
         private Point[] points;
         private MediaFile _mediaFile;
+        ServiceViewModel viewModel;
 
-        public SignaturePage(MenuItem mnu)
+        AccountViewModel accountViewModel = new AccountViewModel(null);
+
+        public SignaturePage(MenuItem mnu = null)
         {
             InitializeComponent();
-            //BindingContext = new SignatureViewModel(SignaturePadView.GetImageStreamAsync);
+            BindingContext = viewModel = new ServiceViewModel(this, mnu);
             UpdateControls();
             SelectedItem = mnu;
         }
 
         private void UpdateControls()
         {
-           // btnSave.IsEnabled = !signatureView.IsBlank;
+            // btnSave.IsEnabled = !signatureView.IsBlank;
             btnSaveImage.IsEnabled = !signatureView.IsBlank;
             //btnLoad.IsEnabled = points != null;
         }
@@ -50,33 +59,99 @@ namespace YomoneyApp.Views.Services
 
         private async void SaveImageClicked(object sender, EventArgs e)
         {
-            bool saved;
-            using (var bitmap = await signatureView.GetImageStreamAsync(SignatureImageFormat.Png))
-            {
-                try
+            bool saved = false;
+            FileUpload fileUpload = new FileUpload();
+                     
+            try
+            {   
+                using (var bitmap = await signatureView.GetImageStreamAsync(SignatureImageFormat.Png))
                 {
-                    saved = true;//await SaveSignature(bitmap, "signature.png");
-                    var content = new MultipartFormDataContent();
-                    content.Add(new StreamContent(bitmap));
-
-                    var httpClient = new HttpClient();
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
-                    var uploadBaseAddress = "https://www.yomoneyservice.com/Mobile/FileUpload?user=" + uname + ":" + pass + "&upType=Signature" ;
-                    var httpResponseMessage = await httpClient.PostAsync(uploadBaseAddress, content);
-                   
-                    if (saved)
-                        await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
-                    else
-                        await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
-                }
-                catch
-                {
 
+                    var bytes = new byte[bitmap.Length];
+                    await bitmap.ReadAsync(bytes, 0, (int)bitmap.Length);
+                    string base64 = System.Convert.ToBase64String(bytes);
+                  
+                    var fileName1 = "sigFile";
+
+                    var fileName2 = DateTime.Now.ToString("ddMMyyHHmmss");
+
+                    var fileName = fileName1 + "_" + fileName2;
+
+                    fileUpload.Name = fileName;
+                    fileUpload.Type = "png";
+                    fileUpload.PhoneNumber = AccountViewModel.fileUpload.PhoneNumber;
+                    fileUpload.Image = base64;
+                    fileUpload.ServiceId = AccountViewModel.fileUpload.ServiceId;
+                    fileUpload.ActionId = AccountViewModel.fileUpload.ActionId;
+                    fileUpload.SupplierId = AccountViewModel.fileUpload.SupplierId;
+                    fileUpload.Purpose = AccountViewModel.fileUpload.Purpose;
+                    fileUpload.FormId = AccountViewModel.fileUpload.FormId;
+                    fileUpload.FieldId = AccountViewModel.fileUpload.FieldId;
+
+                    try
+                    {
+                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
+                        var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                        httpWebRequest.ContentType = "application/json";
+                        httpWebRequest.Method = "POST";
+                        httpWebRequest.Timeout = 120000;
+                        //httpWebRequest.CookieContainer = new CookieContainer();
+                        //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                        //cookie.Domain = "https://www.yomoneyservice.com";
+                        //httpWebRequest.CookieContainer.Add(cookie);
+
+                        var json = JsonConvert.SerializeObject(fileUpload);
+
+                        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                        {
+                            streamWriter.Write(json);
+                            streamWriter.Flush();
+                            streamWriter.Close();
+
+                            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                            {
+                                var result = streamReader.ReadToEnd();
+                                var resultResponse = JsonConvert.DeserializeObject<string>(result);
+
+                                if (resultResponse.ToUpper() != "ERROR")
+                                {                                  
+                                    await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
+                                    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + resultResponse, "Signature Form", false, null));
+                                }
+                                else
+                                {
+                                    await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+
+                        await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                    }
+
+                    //if (saved)
+                    //{
+                    //    await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
+                    //    //await viewModel.ExecuteRenderActionCommand(null);
+                    //}
+                    //else
+                    //{
+                    //    await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                    //}                  
                 }
             }
-
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void SignatureChanged(object sender, EventArgs e)
@@ -84,4 +159,4 @@ namespace YomoneyApp.Views.Services
             UpdateControls();
         }
     }
-}  
+}

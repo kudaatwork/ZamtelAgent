@@ -27,6 +27,7 @@ namespace YomoneyApp.Views.Spend
             selected = mm;
             BindingContext = viewModel = new SpendViewModel(this);
             viewModel.RetryText = "Retry";
+
             if (mm.Note == "Reward Service")
             {
                 viewModel.Budget = mm.Amount;
@@ -43,6 +44,7 @@ namespace YomoneyApp.Views.Spend
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
             if ((viewModel.Category != null && viewModel.Category != "") || viewModel.IsBusy)
             {
 

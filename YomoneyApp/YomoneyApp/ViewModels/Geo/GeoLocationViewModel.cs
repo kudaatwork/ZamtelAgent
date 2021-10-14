@@ -41,7 +41,7 @@ namespace YomoneyApp.ViewModels.Geo
                 return getCurrentLocationComand ??
                     (getCurrentLocationComand = new Command(async () => await ExecuteGetCurrentLocationComand(), () => { return !IsBusy; }));
             }
-        }
+        }        
 
         async Task ExecuteGetCurrentLocationComand()
         {

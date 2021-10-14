@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
              x:Class="YomoneyApp.Views.Services.OTPPage">
     <ContentPage.Content>
         <StackLayout>
@@ -44,20 +44,24 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label
-                        Grid.Row="0"
-			            FontSize="Large" 
-                        HorizontalTextAlignment="Center" 
-			            Text="Verification Code"
-			            TextColor="#df782d"/>
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="keypad.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Verification Code" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
 
-                    <Label
-			            Grid.Row="1"
-			            FontSize="Small" 
-			            Text="verification Code"    
-			            TextColor="#df782d"
-                        BackgroundColor="Transparent"
-			             />
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="keypad.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Verification Code" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
 
                     <Entry 
 			            Grid.Row="1"

@@ -7,6 +7,7 @@
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
              Title="{Binding Title}"
              IsBusy="{Binding IsBusy}">
+    
     <ContentPage.Content>
         <StackLayout>
             <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
@@ -20,6 +21,7 @@
 			    	 VerticalOptions="Center"
 			    	 Text="Loading..."/>
             </StackLayout>
+            
             <ListView
 				x:Name="StoreList"
                 SelectedItem="{Binding SelectedOption, Mode=TwoWay}"

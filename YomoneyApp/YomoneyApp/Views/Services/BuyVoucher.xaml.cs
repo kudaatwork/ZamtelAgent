@@ -47,7 +47,8 @@ namespace YomoneyApp.Views.Services
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
+                await DisplayAlert("Error!", "Sorry, there has been an error in submitting your request. Please, try again", "OK");
             }
         }
 

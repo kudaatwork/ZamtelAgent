@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Share;
+using Plugin.Share.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +60,7 @@ namespace YomoneyApp.Views.Promotions
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -66,17 +68,37 @@ namespace YomoneyApp.Views.Promotions
         {
             try
             {
-                var view = sender as Xamarin.Forms.Button;
+                /*var view = sender as Xamarin.Forms.Button;
                 MenuItem mn = new YomoneyApp.MenuItem();
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
 
                 ServiceViewModel svm = new ServiceViewModel(this, mn);
-                svm.RenderServiceAction(mn);
+                svm.RenderServiceAction(mn);*/
+
+                var view = sender as Xamarin.Forms.Button;
+                MenuItem mn = new YomoneyApp.MenuItem();
+                //mn.Id = view.CommandParameter.ToString();
+                var x = JsonConvert.SerializeObject(view.CommandParameter);
+                mn = JsonConvert.DeserializeObject<MenuItem>(x);
+
+                if (CrossShare.Current.SupportsClipboard)
+                {
+                    CrossShare.Current.Share(new ShareMessage
+                    {
+                        Title = mn.Title,
+                        Text = mn.Description,
+                        Url = mn.WebLink,
+                    });
+                }
+                else
+                {
+                    return;
+                }
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -94,7 +116,7 @@ namespace YomoneyApp.Views.Promotions
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
                

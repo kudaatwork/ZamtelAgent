@@ -5,66 +5,73 @@
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
              Title="Email Address"
              IsBusy="{Binding IsBusy}">
+    
+
     <ContentPage.Content>
-        <StackLayout Padding="10" BackgroundColor="White">
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
-                <ActivityIndicator  HorizontalOptions="Center"
+
+        <ScrollView>
+            <StackLayout Padding="10" BackgroundColor="White">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
-                <Label HorizontalOptions="Center"
+                    <Label HorizontalOptions="Center"
 	    	 VerticalOptions="Center" 
 	    	 Text="{Binding Message}"/>
-            </StackLayout>
-            <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
-                    
+                </StackLayout>
+                <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
 
-                    <Label
+
+                        <Label
 			        FontSize="Large" 
                     HorizontalTextAlignment="Center" 
 			        Text="Account Email"
 			        TextColor="#df782d"/>
-                    <Label
+                        <Label
 			        FontSize="Small" 
 			        Text="{Binding Subtitle}"   
 			        TextColor="#169F85"
                     BackgroundColor="Transparent"
 			         />
-                    <Label
+                        <Label
 			        FontSize="Small" 
 			        Text="Email Address"    
 			        TextColor="#df782d"
                     BackgroundColor="Transparent"
 			         />
 
-                    <Entry 
+                        <Entry 
 			        Text="{Binding Email}"
                     VerticalOptions="End"
 			        Placeholder="Enter Email Address" 
 			       />
 
-                    <Entry 
+                        <Entry 
 			            Text="{Binding PhoneNumber}"
                         VerticalOptions="End"
 			            Placeholder="Phone number" 
                         IsVisible="False"
 			            Keyboard="Telephone"/>
-                    <Label
+                        <Label
 			        FontSize="Small"
                     VerticalTextAlignment="Start"  
 			        Text="{Binding ResponseDescription}"
                     BackgroundColor="Transparent"
 			        TextColor="#df782d"/>
-                </StackLayout>
+                    </StackLayout>
 
-            </ScrollView>
-            <Button 
+                </ScrollView>
+                <Button 
 			x:Name="ButtonSignIn"
 			BackgroundColor="#df782d"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Reset Password"
 			Command="{Binding ResetCommand}"/>
-        </StackLayout>
+            </StackLayout>
+
+        </ScrollView>
     </ContentPage.Content>
+        
 </ContentPage>

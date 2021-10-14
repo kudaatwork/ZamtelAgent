@@ -43,9 +43,9 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Frame CornerRadius="5 " BackgroundColor="#F5F5F5">
+                            <Frame CornerRadius="10" HasShadow="True" BackgroundColor="#F5F5F5">                               
                                 <StackLayout  Padding="8" Spacing="4" VerticalOptions="Center">
-                                    <Label Text="{Binding Title}" TextColor="Black" FontSize="Medium" LineBreakMode="WordWrap"/>
+                                    <Label Text="{Binding Title}" TextColor="Black" FontSize="Small" FontAttributes="Bold" LineBreakMode="WordWrap"/>
                                     <Label Text="{Binding Description}" TextColor="Gray" HorizontalOptions="Start" FontSize="Small" LineBreakMode="WordWrap"/>
                                     <Label Text="{Binding date}" TextColor="Green" HorizontalOptions="End" FontSize="Small" LineBreakMode="WordWrap"/>
                                 </StackLayout>

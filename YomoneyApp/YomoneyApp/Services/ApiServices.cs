@@ -31,13 +31,15 @@ namespace YomoneyApp.Services
             client.BaseAddress = new Uri("https://maps.googleapis.com/maps/");
         }
 
-        public async Task<GoogleDirection> GetDirections(string originLatitude, string originLongitude, string destinationLatitude, string destinationLongitude)
+        public async Task<GoogleDirection> GetDirections(string originAddress, string destinationAddress, string mode, string waypoints)
         {
             try
             {
                 GoogleDirection googleDirection = new GoogleDirection();
 
-                var response = await client.GetAsync($"api/directions/json?mode=driving&transit_routing_preference=less_driving&origin={originLatitude},{originLongitude}&destination={destinationLatitude},{destinationLongitude}&key={AppConstants.GoogleMapsApiKey}").ConfigureAwait(false);
+                var request = $"api/directions/json?mode={mode}&transit_routing_preference=less_driving&origin={originAddress}&destination={destinationAddress}&waypoints=optimize:true{waypoints}&key={AppConstants.GoogleMapsApiKey}";
+
+                var response = await client.GetAsync(request).ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {

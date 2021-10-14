@@ -129,20 +129,24 @@
                                         Padding="10,3" 
                                         VerticalOptions="Start"
                                         Background="Transparent"
-                                        ImageSource="like.png"/>
+                                        Clicked="Learn_Clicked"
+                                        CommandParameter ="{Binding}"
+                                        ImageSource="more.png"/>
 
-                                        <Label Grid.Row="4" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="End"  Text="{Binding Count}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                        <Label Grid.Row="4" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="End"  Text="More" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
 
                                         <Button
                                         Grid.Row="4" 
                                         Grid.Column="1"
                                         VerticalOptions="Start"
                                         Background="Transparent"
-                                        ImageSource="Promoshare.png"/>
+                                        ImageSource="shareee.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Share_Clicked"/>
 
                                         <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="End"  Text="Share" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
 
-                                        <Button
+                                        <!--<Button
                                         Grid.Row="4" 
                                         Grid.Column="3"
                                         Grid.ColumnSpan="1"
@@ -154,7 +158,7 @@
                                         TextColor="#79c606"
                                         Text="More"
                                         CommandParameter ="{Binding}"
-                                        Clicked="Learn_Clicked"/>
+                                        Clicked="Learn_Clicked"/>-->
                                     </Grid>
 
                                     <Grid IsVisible="{Binding IsNotAdvert}">

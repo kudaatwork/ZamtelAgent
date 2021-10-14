@@ -4,78 +4,73 @@
              x:Class="YomoneyApp.Views.Login.Question"
              NavigationPage.HasNavigationBar="True"
              Title="Question and Answer">
-    
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
-    <AbsoluteLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
 
-        <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+    <ScrollView>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
 
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
-                <ActivityIndicator  HorizontalOptions="Center"
+            <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator  HorizontalOptions="Center"
 						       IsRunning="{Binding IsBusy}"
 						       IsVisible="{Binding IsBusy}"/>
-                <Label HorizontalOptions="Center"
+                    <Label HorizontalOptions="Center"
 	    	     VerticalOptions="Center" 
 	    	     Text="{Binding Message}"/>
+                </StackLayout>
+
+                <Grid>
+                    <StackLayout Padding="0" Margin="0">
+                        <Frame BackgroundColor="#df782d" HeightRequest="450" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                            <Image Source="image4.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout Margin="12,350,12,0">
+                        <Frame BackgroundColor="White" HasShadow="True" HeightRequest="340" HorizontalOptions="FillAndExpand">
+                            <StackLayout>
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label Text="Provide us with your answer" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,0, 0, 15"></Label>
+                                    <Label Text="Remember, you once gave us this answer. So, provide us with the appropriate answer." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                </StackLayout>
+
+                                <StackLayout Margin="0,5,0,10">
+
+                                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding SecurityQuestion}" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                        </StackLayout>
+                                    </Frame>
+
+
+                                    <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                                <Image Source="email3.png" Aspect="AspectFill" Margin="0"/>
+                                            </Frame>
+                                            <local:MyCustomeEntry Text="{Binding Answer}" FontAttributes="None" Keyboard="Default" Placeholder="Answer" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                        </StackLayout>
+                                    </Frame>
+
+                                </StackLayout>
+
+                                <Button Text="SUBMIT ANSWER" x:Name="btnSecurityQtnOption" Clicked="btnSecurityQtnOption_Clicked" Command="{Binding SubmitTheAnswerCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                                    <Label Text="Do not remember your answer? Go back to" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                                    <Label Text="Sign In" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                </Grid>
+
             </StackLayout>
 
-            <Grid>
-                <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="450" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-                        <Image Source="image4.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
-                    </Frame>
-                </StackLayout>
-                <StackLayout Margin="12,350,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="340" HorizontalOptions="FillAndExpand">
-                        <StackLayout>
-                            <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label Text="Provide us with your answer" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,0, 0, 15"></Label>
-                                <Label Text="Remember, you once gave us this answer. So, provide us with the appropriate answer." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
-                            </StackLayout>
-
-                            <StackLayout Margin="0,5,0,10">
-
-                                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Vertical">
-                                        <Label Text="{Binding SecurityQuestion}" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
-                                    </StackLayout>
-                                </Frame>
-
-
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                            <Image Source="email3.png" Aspect="AspectFill" Margin="0"/>
-                                        </Frame>
-                                        <local:MyCustomeEntry Text="{Binding Answer}" FontAttributes="None" Keyboard="Default" Placeholder="Answer" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
-                                    </StackLayout>
-                                </Frame>
-
-                            </StackLayout>
-
-                            <Button Text="SUBMIT ANSWER" x:Name="btnSecurityQtnOption" Clicked="btnSecurityQtnOption_Clicked" Command="{Binding SubmitTheAnswerCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
-
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
-                                <Label Text="Do not remember your answer? Go back to" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
-                                <Label Text="Sign In" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
-                                    </Label.GestureRecognizers>
-                                </Label>
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
-                </StackLayout>
-
-            </Grid>
-
-        </StackLayout>
-
-    </AbsoluteLayout>
+        </AbsoluteLayout>
+    </ScrollView>
 </ContentPage>

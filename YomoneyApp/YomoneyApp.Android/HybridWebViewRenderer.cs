@@ -9,7 +9,9 @@ namespace YomoneyApp.Droid
 {
     public class HybridWebViewRenderer : WebViewRenderer
     {
-        const string JavascriptFunction = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
+        const string routesFunction = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
+
+        //const string JavascriptFunction = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
 
         Context _context;
 
@@ -28,10 +30,13 @@ namespace YomoneyApp.Droid
 
                 ((HybridWebView)Element).Cleanup();
             }
+
             if (e.NewElement != null)
             {
-                Control.SetWebViewClient(new JavascriptWebViewClient(this, $"javascript: {JavascriptFunction}"));
+                Control.SetWebViewClient(new JavascriptWebViewClient(this, $"javascript: {routesFunction}"));
+
                 Control.AddJavascriptInterface(new JSBridge(this), "jsBridge");
+
                 Control.LoadUrl($"{((HybridWebView)Element).Uri}");
             }
         }
@@ -42,6 +47,7 @@ namespace YomoneyApp.Droid
             {
                 ((HybridWebView)Element).Cleanup();
             }
+
             base.Dispose(disposing);
         }
     }

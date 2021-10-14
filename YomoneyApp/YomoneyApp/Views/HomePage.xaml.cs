@@ -20,6 +20,8 @@ using YomoneyApp.Views.TransactionHistory;
 using YomoneyApp.Services;
 using YomoneyApp.Views.Webview;
 using YomoneyApp.Views.GeoPages;
+using YomoneyApp.Views.Fileuploads;
+using YomoneyApp.Views.Login;
 
 namespace YomoneyApp
 {
@@ -96,29 +98,94 @@ namespace YomoneyApp
                 Order = ToolbarItemOrder.Secondary
             };
 
-            //var LocationTracker = new ToolbarItem
-            //{
-            //    Command = new Command(() =>
-            //    {
-            //        MenuItem px = new YomoneyApp.MenuItem();
+            var trsansactionHistory = new ToolbarItem
+            {
+                Command = new Command(() =>
+                {
+                    MenuItem px = new YomoneyApp.MenuItem();
 
-            //        px.Title = "Routes";
-            //        AccessSettings acnt = new AccessSettings();
-            //        string uname = acnt.UserName;
-            //        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + "263778129785";
+                    px.Title = "Transaction History";
+                    AccessSettings acnt = new AccessSettings();
+                    string uname = acnt.UserName;
 
-            //        Navigation.PushAsync(new WebviewHyubridConfirm(link, px.Title));
-            //    }),
-                
-            //    Text = "Tasks Routes",
-            //    Priority = 0,
-            //    Order = ToolbarItemOrder.Secondary
-            //};
+                    var existingPages = Navigation.NavigationStack.ToList();
+
+                    int cnt = 2;
+
+                    foreach (var page in existingPages)
+                    {
+                        if (cnt < existingPages.Count)
+                        {
+                            Navigation.RemovePage(page);
+                        }
+                        cnt++;
+                    }
+
+                     Navigation.PushAsync(new Transactions());
+                }),
+
+                Text = "Transaction History",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };
+
+            var customerSupport = new ToolbarItem
+            {
+                Command = new Command(() =>
+                {
+                    MenuItem px = new YomoneyApp.MenuItem();
+
+                    px.Title = "Customer Support";
+                    AccessSettings acnt = new AccessSettings();
+                    string uname = acnt.UserName;
+
+                    var existingPages = Navigation.NavigationStack.ToList();
+
+                    int cnt = 2;
+
+                    foreach (var page in existingPages)
+                    {
+                        if (cnt < existingPages.Count)
+                        {
+                            Navigation.RemovePage(page);
+                        }
+                        cnt++;
+                    }
+
+                    //Navigation.PushAsync(new CustomerSupport())
+
+                    DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+
+                }),
+
+                Text = "Customer Support",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };
+
+            var signOut = new ToolbarItem
+            {
+                Command = new Command(() =>
+                {
+                    MenuItem px = new YomoneyApp.MenuItem();
+
+                    px.Title = "Sign Out";
+                    AccessSettings ac = new Services.AccessSettings();
+                    ac.DeleteCredentials();
+                    Navigation.PushAsync(new AccountMain());
+                }),
+
+                Text = "Sign Out",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };           
 
             ToolbarItems.Add(Dashboard);
             ToolbarItems.Add(Profile);
             ToolbarItems.Add(PImage);
-            //ToolbarItems.Add(LocationTracker);
+            ToolbarItems.Add(trsansactionHistory);
+            //ToolbarItems.Add(customerSupport);
+            ToolbarItems.Add(signOut);
 
             //topCorousel.GestureRecognizers.Add(gesture);
 
@@ -131,6 +198,7 @@ namespace YomoneyApp
             {
                 await Navigation.PushAsync(new ChatTabs());
             };
+
             //ButtonSpani.Clicked += (sender, e) =>
             //{
             //    // await Navigation.PushAsync(new SpaniHome());
@@ -189,7 +257,6 @@ namespace YomoneyApp
             //};
 
         }
-
         private async void Section_Clicked(object sender, EventArgs e)
         {
             try
@@ -232,13 +299,24 @@ namespace YomoneyApp
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
                         string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
-                        string title = "My Tasks Dashboard";
+                        string title = "My Tasks";
+
+                        //string link = "http://102.130.120.163:8090/Login/PosLoginM?username=Salesaqu&password=admin";
+
+                        //string link = "https://www.yomoneyservice.com/Mobile/invokeCsAction?Id=" + "263774090142&message=Kuda";
 
                         await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#df782d"));
 
-                        //await Navigation.PushModalAsync(new WebviewPage(link, "My Tasks Dashboard", true, "#df782d"));
+                        //await Navigation.PushModalAsync(new WebviewPage(link, "My Tasks", true, "#df782d"));
+                        MessagingCenter.Subscribe<string, string>("Route", "OpenMap", async (sender, arg) =>
+                        {
+                            if (!string.IsNullOrEmpty(arg))
+                            {
+                                // call your map
+                            }
+                        });
                         break;
-                    default:
+                 default:
                         break;
                 }
                 //ServiceViewModel svm = new ServiceViewModel(this, mn);
@@ -246,7 +324,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -264,7 +342,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 

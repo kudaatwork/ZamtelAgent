@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Android.Service.Controls;
+using MvvmHelpers;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +17,21 @@ namespace YomoneyApp.Views.Chat
     public partial class MassagingPagexaml : ContentPage
     {
         ChatViewModel viewModel;
-       
+
+        string dbPath = "";
+
+        private ObservableRangeCollection<ChatMessage> _messages;
+        public ObservableRangeCollection<ChatMessage> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                _messages = value;
+                OnPropertyChanged("Messages");
+            }
+        }
+
+        
         public MassagingPagexaml(string CustomerId)
         {
             InitializeComponent();
@@ -32,7 +50,8 @@ namespace YomoneyApp.Views.Chat
             }
             viewModel.Title = acc[1];
             MessageList.ItemAppearing += OnItemAppearing;
-            MessageList.ItemDisappearing += OnItemDisappearing;
+            MessageList.ItemDisappearing += OnItemDisappearing;                      
+            
             //MessageList.ItemAppearing +=  (sender, e) =>
             // {
             //    MessageList.ScrollTo(e.Item, ScrollToPosition.End, false);
@@ -42,7 +61,6 @@ namespace YomoneyApp.Views.Chat
                 await App.Current.MainPage.Navigation.PopModalAsync();
                //await Navigation.PopModalAsync();
             };
-
         }
 
         protected override void OnAppearing()
@@ -51,10 +69,19 @@ namespace YomoneyApp.Views.Chat
             if (viewModel.Messages.Count > 0 || viewModel.IsBusy)
                 return;
 
-            viewModel.GetConversationCommand.Execute(null);
+            viewModel.GetChatsCommand.Execute(null);
 
+            viewModel.RefreshScrollDown = () => {
+                if (viewModel.Messages.Count > 0)
+                {
+                    Device.BeginInvokeOnMainThread(() => {
+
+                        MessageList.ScrollTo(viewModel.Messages[viewModel.Messages.Count - 1], ScrollToPosition.End, true);
+                    });
+                }
+            };
         }
-
+        
         private void OnItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             //try

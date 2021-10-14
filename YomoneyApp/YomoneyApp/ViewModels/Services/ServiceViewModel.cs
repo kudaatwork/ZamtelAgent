@@ -11,6 +11,9 @@ using YomoneyApp.Views.Menus;
 using YomoneyApp.Views.Profile.Loyalty;
 using RetailKing.Models;
 using YomoneyApp.Views.TransactionHistory;
+
+
+
 using YomoneyApp.Services;
 using YomoneyApp.Views.Services;
 using YomoneyApp.Views.Webview;
@@ -1011,6 +1014,13 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
 
+            if (string.IsNullOrWhiteSpace(PhoneNumber) || string.IsNullOrWhiteSpace(Amount) || string.IsNullOrWhiteSpace(ReceiverName) || string.IsNullOrWhiteSpace(ReceiverSurname) ||
+                string.IsNullOrWhiteSpace(Id))
+            {
+                await page.DisplayAlert("Enter All Fields", "Please enter all fields", "OK");
+                return;
+            }
+
             IsBusy = true;
 
             try
@@ -1455,7 +1465,7 @@ namespace YomoneyApp
             }
         }
 
-        private async Task ExecuteRenderActionCommand(MenuItem itm)
+        public async Task ExecuteRenderActionCommand(MenuItem itm)
         {
             if (IsBusy)
                 return;
@@ -1482,7 +1492,7 @@ namespace YomoneyApp
                     {
                         itm.WebLink = itm.WebLink.Trim() + "&Customer=" + uname;
                     }
-                    await page.Navigation.PushAsync(new WebviewPage(itm.WebLink, itm.Title, false, itm.ThemeColor));
+                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(itm.WebLink, itm.Title, false, itm.ThemeColor));
                     return;
                 }
                 trn.MTI = "0200";
@@ -1537,18 +1547,18 @@ namespace YomoneyApp
                             case 9: // webview  
                                 if (px.Note == "External")
                                 {
-                                    await page.Navigation.PushAsync(new WebviewPage(px.Section, px.Title, false,px.ThemeColor ));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false,px.ThemeColor ));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewPage(HostDomain + px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor));
                                 }
                                 break;
                             case 2:
                             case 3:// "Payment":
                                 if (px.HasProducts)
                                 {
-                                    await page.Navigation.PushAsync(new WebviewPage(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
                                     //await page.Navigation.PushAsync(new ServiceActionProducts(px));
                                 }
                                 else
@@ -1573,12 +1583,12 @@ namespace YomoneyApp
                             case 5:
                                 if (px.HasProducts)
                                 {
-                                    await page.Navigation.PushAsync(new WebviewPage(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
                                     //await page.Navigation.PushAsync(new ServiceActionProducts(px));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewPage(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
                                 }
                                 break;
                             case 13: // OTP        
@@ -1602,11 +1612,11 @@ namespace YomoneyApp
                             default:
                                 if (px.Note == "External")
                                 {
-                                    await page.Navigation.PushAsync(new WebviewPage(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewPage(HostDomain + px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor));
                                 }
                                 break;
                                
@@ -1980,6 +1990,57 @@ namespace YomoneyApp
             //await page.Navigation.PopModalAsync();
             await App.Current.MainPage.Navigation.PopModalAsync();
 
+        }
+        #endregion
+
+        #region Objects
+        string purpose = string.Empty;
+        public string Purpose
+        {
+            get { return purpose; }
+            set { SetProperty(ref purpose, value); }
+        }
+
+        string supplierCode = string.Empty;
+        public string SupplierCode
+        {
+            get { return supplierCode; }
+            set { SetProperty(ref supplierCode, value); }
+        }
+
+        string serviceId = string.Empty;
+        public string ServiceId
+        {
+            get { return serviceId; }
+            set { SetProperty(ref serviceId, value); }
+        }
+
+        string actionId = string.Empty;
+        public string ActionId
+        {
+            get { return actionId; }
+            set { SetProperty(ref actionId, value); }
+        }
+
+        string formId = string.Empty;
+        public string FormId
+        {
+            get { return formId; }
+            set { SetProperty(ref formId, value); }
+        }
+
+        string fieldId = string.Empty;
+        public string FieldId
+        {
+            get { return fieldId; }
+            set { SetProperty(ref fieldId, value); }
+        }
+
+        string customerPhoneNumber = string.Empty;
+        public string CustomerPhoneNumber
+        {
+            get { return customerPhoneNumber; }
+            set { SetProperty(ref customerPhoneNumber, value); }
         }
         #endregion
 

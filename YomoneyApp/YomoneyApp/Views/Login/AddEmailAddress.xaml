@@ -8,6 +8,7 @@
              NavigationPage.HasNavigationBar="True"
              Title="Email Address">
 
+    <ScrollView>
     <AbsoluteLayout HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
 
         <StackLayout Padding="0" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
@@ -59,8 +60,8 @@
             <StackLayout>
                 <Button Text="SKIP" Clicked="btnSecurityQtnOption_Clicked" BackgroundColor="#df782d" Margin="30,20,30,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
             </StackLayout>
-        </StackLayout>
-
-        
+        </StackLayout>      
     </AbsoluteLayout>
+
+    </ScrollView>
 </ContentPage>

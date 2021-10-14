@@ -18,27 +18,41 @@ using YomoneyApp.Views.Services;
 using YomoneyApp.Views.Webview;
 using YomoneyApp;
 using YomoneyApp.Models.Work;
+using YomoneyApp.Models;
+using Xamarin.Forms.PlatformConfiguration;
+using static Android.App.ActivityManager;
 
 namespace YomoneyApp
 {
-	public class ChatViewModel : ViewModelBase
+    public class ChatViewModel : ViewModelBase
     {
         bool showAlert = false;
         private IChatServices _chatServices;
-		private string _roomName = "PrivateRoom";
+        private string _roomName = "PrivateRoom";
         public string HostDomain = "https://www.yomoneyservice.com";
         AccessSettings acnt = new Services.AccessSettings();
         string dbPath = "";
         #region ViewModel Properties
 
+        private ObservableRangeCollection<LocationPoints> _polyLinePoints;
+        public ObservableRangeCollection<LocationPoints> PolyLinePoints
+        {
+            get { return _polyLinePoints; }
+            set
+            {
+                _polyLinePoints = value;
+                OnPropertyChanged("PolyLinePoints");
+            }
+        }
+
         private ObservableRangeCollection<ChatMessage> _messages;
-		public ObservableRangeCollection<ChatMessage> Messages {
-			get { return _messages; }
-			set {
-				_messages = value;
-				OnPropertyChanged ("Messages");
-			}
-		}
+        public ObservableRangeCollection<ChatMessage> Messages {
+            get { return _messages; }
+            set {
+                _messages = value;
+                OnPropertyChanged("Messages");
+            }
+        }
 
         private ObservableRangeCollection<YoContact> _contacts;
         public ObservableRangeCollection<YoContact> Contacts
@@ -62,15 +76,25 @@ namespace YomoneyApp
             }
         }
 
+        private LocationPoints _locationPoints;
+        public LocationPoints LocationPoints
+        {
+            get { return _locationPoints; }
+            set
+            {
+                _locationPoints = value;
+                OnPropertyChanged("LocationPoints");
+            }
+        }
 
         private ChatMessage _chatMessage;
-		public ChatMessage ChatMessage {
-			get{ return _chatMessage; }
-			set { 
-				_chatMessage = value; 
-				OnPropertyChanged ("ChatMessage");
-			}
-		}
+        public ChatMessage ChatMessage {
+            get { return _chatMessage; }
+            set {
+                _chatMessage = value;
+                OnPropertyChanged("ChatMessage");
+            }
+        }
 
         private ChatMessage _lastMessage;
         public ChatMessage LastMessage
@@ -79,7 +103,7 @@ namespace YomoneyApp
             set
             {
                 _lastMessage = value;
-                OnPropertyChanged("ChatMessage");
+                OnPropertyChanged("ChatMessage"); // to be tested
             }
         }
 
@@ -104,7 +128,7 @@ namespace YomoneyApp
             set { SetProperty(ref messageCount, value); }
         }
 
-        bool hasMessages =false;
+        bool hasMessages = false;
         public bool HasMessages
         {
             get { return hasMessages; }
@@ -119,15 +143,18 @@ namespace YomoneyApp
             _chatServices = DependencyService.Get<IChatServices>();
             _lastMessage = new ChatMessage();
             _chatMessage = new ChatMessage();
+            _locationPoints = new LocationPoints();
+            _polyLinePoints = new ObservableRangeCollection<LocationPoints>();
+            //_locationPoints = new LocationPoints();
             _messages = new ObservableRangeCollection<ChatMessage>();
             _contacts = new ObservableRangeCollection<YoContact>();
             _helpDesks = new ObservableRangeCollection<YoContact>();
 
             _chatServices.Connect();
 
+            _chatServices.OnLocationPointsUpdate += _chatServices_OnLocationUpdate;
             _chatServices.OnMessageReceived += _chatServices_OnMessageReceived;
             _chatServices.onNotification += _chatServices_onNotification;
-            
             _chatServices.onConnected += _chatServices_onConnected;
             _chatServices.onUnread += _chatServices_onUnread;
             _chatServices.onContactsUnread += _chatServices_onContactsUnread;
@@ -137,12 +164,13 @@ namespace YomoneyApp
             _chatServices.onOTP += _chatServices_onOTP;
             _chatServices.onFileUpload += _chatServices_onFileUpload;
             _chatServices.onCsAction += _chatServices_onCsAction;
-            _chatServices.onSignaturePad += _chatServices_onSignaturePad ;
+            _chatServices.onSignaturePad += _chatServices_onSignaturePad;
             _chatServices.onConversation += _chatServices_onConversation;
         }
 
         public Action<ChatMessage> ItemSelected { get; set; }
         public Action<YoContact> ContactSelected { get; set; }
+        public Action<RoutesInfo> PointSelected { get; set; }
 
         ChatMessage selectedChat;
 
@@ -261,12 +289,50 @@ namespace YomoneyApp
             }
         }
 
-        void  _chatServices_OnMessageReceived (object sender, string e)
-		{
-          
-           var msg = JsonConvert.DeserializeObject<ChatMessage>(e);
-             
-           if (msg.IsMine)
+        RoutesInfo selectedPoint;
+
+        public RoutesInfo SelectedPoint
+        {
+            get { return selectedPoint; }
+            set
+            {
+                selectedPoint = value;
+                OnPropertyChanged("SelectedPoint");
+
+                if (selectedPoint == null)
+                    return;
+
+                if (SelectedPoint == null)
+                {
+                    //selected chat bid
+                    //var Id = SelectedChat.ReceiverId + "_" + SelectedChat.ReceiverName + "_" + SelectedChat.AgentId + "_" + "Job" + "_" + SelectedChat.BidId + "_" + SelectedChat.JobId;
+
+                    SelectedPoint = null;
+                    selectedPoint = null;
+                }
+                else
+                {
+                    PointSelected.Invoke(selectedPoint);
+                }
+            }
+        }
+
+        void _chatServices_OnMessageReceived(object sender, string e)
+        {
+            var msg = JsonConvert.DeserializeObject<ChatMessage>(e);
+
+            var db = new YomoneyRepository(dbPath);
+
+            var edate = msg.Date.AddMinutes(1);
+
+           var today = DateTime.Now.Date;
+            var dbmm = db.GetMessagesAsync().Result.ToList();
+            _messages.Clear();
+            _messages.AddRange(dbmm);
+
+            var dm = db.GetMessagesAsync().Result.Where(u => u.message == msg.message && (u.Date >= msg.Date && u.Date <= edate)).FirstOrDefault();
+
+            if (msg.IsMine)
             {
                 msg.Sent = true;
                 msg.Received = false;
@@ -285,26 +351,30 @@ namespace YomoneyApp
             {
                 msg.time = msg.Date.ToString("dd MMM yyyy HH:mm");
             }
-            var edate = msg.Date.AddMinutes(2);
-            var db = new YomoneyRepository(dbPath);
-            //var dm =db.GetMessagesAsync().Result.Where(u => u.message == msg.message && (u.Date >= msg.Date && u.Date <= edate)).FirstOrDefault();
-            var dm =_messages.Where(u => u.message == msg.message && (u.Date >= msg.Date && u.Date <= edate)).FirstOrDefault();
+
+            //var dml =_messages.Where(u => u.message == msg.message && (u.Date >= msg.Date && u.Date <= edate)).FirstOrDefault();
+
             if (dm == null)
             {
-
                 _messages.Add(msg);
+
                 try
                 {
                     var msdAdded = db.AddMessageAsync(msg);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
                 if (string.IsNullOrEmpty(messageCount)) messageCount = "0";
+
                 messageCount = (long.Parse(messageCount) + 1).ToString();
                 hasMessages = true;
                 ChatText = "";
+
                 if (msg.Received)
                 {
-
                     if (isApplicationInTheBackground())
                     {
                         try
@@ -314,26 +384,33 @@ namespace YomoneyApp
                             var options = new NotificationOptions()
                             {
                                 Title = msg.SenderName,
-                                Description = msg.message
+                                Description = msg.message,
+                                AllowTapInNotificationCenter = true,
+                                IsClickable = true
                             };
 
                             var result = notificator.Notify(options);
-                        
+
                         }
-                        catch (Exception n)
+                        catch (Exception ex)
                         {
+                            Console.WriteLine(ex.Message);
                         }
+
+                        #region Sound Notification
                         try
                         {
                             var assembly = typeof(App).GetTypeInfo().Assembly;
                             Stream audioStream = assembly.GetManifestResourceStream("YomoneyApp." + "notify.wav");
-                            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-                            player.Load(audioStream);
-
+                            // var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+                            // player.Load(audioStream);
                         }
-                        catch (Exception s)
+                        catch (Exception ex)
                         {
+                            Console.WriteLine(ex.Message);
                         }
+                        #endregion
+
                     }
                     else
                     {
@@ -341,20 +418,21 @@ namespace YomoneyApp
                         {
                             var assembly = typeof(App).GetTypeInfo().Assembly;
                             Stream audioStream = assembly.GetManifestResourceStream("YomoneyApp." + "notify.wav");
-                           // var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-                           // player.Load(audioStream);
+                            // var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+                            // player.Load(audioStream);
 
                         }
-                        catch (Exception s)
+                        catch (Exception ex)
                         {
+                            Console.WriteLine(ex.Message);
                         }
                     }
                 }
             }
-        
+
             //LastMessage = msg;
-           
-           // MessageList.ScrollTo(LastMessage, ScrollToPosition.MakeVisible, false);
+
+            // MessageList.ScrollTo(LastMessage, ScrollToPosition.MakeVisible, false);
         }
 
         void _chatServices_onNotification(object sender, string e)
@@ -387,30 +465,30 @@ namespace YomoneyApp
                 if (string.IsNullOrEmpty(messageCount)) messageCount = "0";
                 messageCount = (long.Parse(messageCount) + 1).ToString();
                 hasMessages = true;
-               
-                    try
-                    {
-                        var assembly = typeof(App).GetTypeInfo().Assembly;
-                        Stream audioStream = assembly.GetManifestResourceStream("YomoneyApp." + "notify.wav");
-                        var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-                        player.Load(audioStream);
-                    }
-                    catch (Exception s) { }
-                   
-                    try
-                    {
-                        var notificator = DependencyService.Get<IToastNotificator>();
 
-                        var options = new NotificationOptions()
-                        {
-                            Title = msg.SenderName,
-                            Description = msg.message
-                        };
+                try
+                {
+                    var assembly = typeof(App).GetTypeInfo().Assembly;
+                    Stream audioStream = assembly.GetManifestResourceStream("YomoneyApp." + "notify.wav");
+                    var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+                    player.Load(audioStream);
+                }
+                catch (Exception s) { }
 
-                        var result =  notificator.Notify(options);
-                    }
-                    catch (Exception n) { }
-                 _chatServices.NotificationReceived(dm);
+                try
+                {
+                    var notificator = DependencyService.Get<IToastNotificator>();
+
+                    var options = new NotificationOptions()
+                    {
+                        Title = msg.SenderName,
+                        Description = msg.message
+                    };
+
+                    var result = notificator.Notify(options);
+                }
+                catch (Exception n) { }
+                _chatServices.NotificationReceived(dm);
 
             }
             //LastMessage = msg;
@@ -444,7 +522,7 @@ namespace YomoneyApp
                 string uname = acnt.UserName;
                 // string uname = acnt.UserName;
                 var msgs = JsonConvert.DeserializeObject<List<ChatMessage>>(messages);
-            
+
                 var nn = msgs.GroupBy(u => u.JobId)
                         .Select(grp => grp.First()).ToList();
                 List<YoContact> resp = new List<YoContact>();
@@ -453,7 +531,7 @@ namespace YomoneyApp
                     YoContact mn = new YoContact();
                     mn.Name = "You have no contacts on yoapp";
                     mn.Avator = "https://www.yomoneyservice.com/Content/Spani/Images/avator.jpg";
-                    
+
                     //mn.IsMine = true;
                     resp.Add(mn);
                     _contacts.ReplaceRange(resp);
@@ -468,7 +546,7 @@ namespace YomoneyApp
                         mn.Name = m.ReceiverName;
                         if (m.avatar != null)
                         {
-                           // mn.Avator = m.avatar;
+                            // mn.Avator = m.avatar;
                             Random rr = new Random();
                             var r = rr.Next(1, 14);
                             mn.Avator = "Tile" + r + ".png";
@@ -487,7 +565,7 @@ namespace YomoneyApp
                         var yoconts = await db.AddContactAsync(mn);
                     }
                     resp = await db.GetContactsAsync();
-                    
+
                     _contacts.ReplaceRange(resp);
                 }
                 #endregion
@@ -507,16 +585,16 @@ namespace YomoneyApp
                 string uname = acnt.UserName;
                 // string uname = acnt.UserName;
                 var nn = JsonConvert.DeserializeObject<List<YoContact>>(messages);
-               
+
                 //var nn = msgs.GroupBy(u => u.JobId)
                 //        .Select(grp => grp.First()).ToList();
                 if (nn.Count == 0)
                 {
-                    YoContact  mn = new YoContact();
+                    YoContact mn = new YoContact();
                     mn.Skills = "You have no active service support centers";
                     mn.Avator = HostDomain + "/Content/Spani/Images/myServices.jpg";
                     List<YoContact> resp = new List<YoContact>();
-                    
+
                     resp.Add(mn);
                     _helpDesks.ReplaceRange(resp);
                 }
@@ -536,13 +614,13 @@ namespace YomoneyApp
             {
                 contactReceive = DateTime.Now;
                 #region message
-                
+
                 var msgs = JsonConvert.DeserializeObject<List<YoContact>>(messages);
-               
+
                 //string dbPath = acnt.GetSetting("dbPath").Result;
                 var db = new YomoneyRepository(dbPath);
                 var yoconts = await db.AddRangeContactAsync(msgs);
-                
+
                 var nn = await db.GetContactsAsync();
                 //var nn = msgs.GroupBy(u => u.JobId)
                 //    .Select(grp => grp.First()).ToList();
@@ -559,7 +637,7 @@ namespace YomoneyApp
                 {
                     foreach (var mn in nn)
                     {
-                         if (mn.Avator != null)
+                        if (mn.Avator != null)
                         {
                             // mn.Avator = m.avatar;
                             Random rr = new Random();
@@ -575,7 +653,7 @@ namespace YomoneyApp
                             mn.Address = mn.Name.Substring(0, 1);
 
                         }
-                    
+
                     }
                     _contacts.ReplaceRange(nn);
                 }
@@ -587,7 +665,7 @@ namespace YomoneyApp
         void _chatServices_onUnreadCount(object sender, string Count)
         {
             messageCount = Count;
-            if(!string.IsNullOrEmpty(Count)  &&long.Parse(Count) > 0)
+            if (!string.IsNullOrEmpty(Count) && long.Parse(Count) > 0)
             {
                 HasMessages = true;
             }
@@ -637,13 +715,24 @@ namespace YomoneyApp
             page.Navigation.PushAsync(new FileUploadPage(px));
         }
 
+        void _chatServices_OnLocationUpdate(object sender, string e)
+        {
+            var location = JsonConvert.DeserializeObject<LocationPoints>(e);
+
+            if (String.IsNullOrEmpty(location.Latitude.ToString()) && String.IsNullOrEmpty(location.Longitude.ToString()))
+            {
+                var db = new YomoneyRepository(dbPath);
+
+                _polyLinePoints.Add(location);
+            }
+        }
+
         void _chatServices_onCsAction(object sender, string message)
         {
 
-            string[] part = message.Split('-');
+            string[] part = message.Split('_');
             //                                    name    method   arg
             MessagingCenter.Send<string, string>(part[0], part[1], part[2]);
-           
         }
 
         void _chatServices_onSignaturePad(object sender, string messages)
@@ -655,7 +744,7 @@ namespace YomoneyApp
         async void _chatServices_onOTP(object sender, string messages)
         {
             var px = JsonConvert.DeserializeObject<MenuItem>(messages);
-            
+
             switch (px.TransactionType)
             {
                 case 00: // webpay respons   
@@ -672,11 +761,11 @@ namespace YomoneyApp
                 case 9: // webview  
                     if (px.Note == "External")
                     {
-                        await page.Navigation.PushAsync(new WebviewPage( px.Section, px.Title, false, px.ThemeColor));
+                        await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
                     }
                     else
                     {
-                        await page.Navigation.PushAsync(new WebviewPage(HostDomain + px.Section, px.Title, false, px.ThemeColor));
+                        await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor));
                     }
                     break;
                 case 3:// "Payment":
@@ -705,6 +794,7 @@ namespace YomoneyApp
             IsBusy = true;
             //string uname = acnt.UserName;
             var msgs = JsonConvert.DeserializeObject<List<ChatMessage>>(messages);
+
             foreach (var msg in msgs)
             {
                 if (msg.SenderId == uname)
@@ -730,7 +820,8 @@ namespace YomoneyApp
                     msg.time = msg.Date.ToString("dd MMM yyyy HH:mm");
                 }
             }
-            LastMessage = msgs.Last();
+
+            LastMessage = msgs.OrderBy(x => x.Id).Last();
             _messages.ReplaceRange(msgs);
         }
 
@@ -738,9 +829,9 @@ namespace YomoneyApp
         {
             bool isInBackground = true;
 
-            //RunningAppProcessInfo myProcess = new RunningAppProcessInfo();
-            //ActivityManager.GetMyMemoryState(myProcess);
-            //isInBackground = myProcess.Importance != Android.App.Importance.Foreground;
+            RunningAppProcessInfo myProcess = new RunningAppProcessInfo();
+            Android.App.ActivityManager.GetMyMemoryState(myProcess);
+            isInBackground = myProcess.Importance != Android.App.Importance.Foreground;
 
             return isInBackground;
         }
@@ -749,18 +840,29 @@ namespace YomoneyApp
 
         Command sendMessageCommand;
 
-		/// <summary>
-		/// Command to Send Message
-		/// </summary>
-		public Command SendMessageCommand {
-			get {
-				return sendMessageCommand ??
-				(sendMessageCommand = new Command (ExecuteSendMessageCommand));
-			}
-		}
+        /// <summary>
+        /// Command to Send Message
+        /// </summary>
+        public Command SendMessageCommand {
+            get {
+                /*return sendMessageCommand ??
+                    (sendMessageCommand = new Command(async () => await ExecuteSendMessageCommand(), () => { return !IsBusy; }));*/
+                return sendMessageCommand ??
+                (sendMessageCommand = new Command(ExecuteSendMessageCommand));
+            }
+        }
 
-		async void ExecuteSendMessageCommand ()
-		{
+
+
+        async void ExecuteSendMessageCommand()
+        {
+            if (IsBusy)
+                return;
+
+            Message = "Sending Message...";
+            IsBusy = true;
+            sendMessageCommand?.ChangeCanExecute();
+
             try
             {
                 AccessSettings acnt = new Services.AccessSettings();
@@ -773,7 +875,7 @@ namespace YomoneyApp
                 ChatText = "";
             }
             catch { }
-		}
+        }
 
         #endregion
 
@@ -861,12 +963,12 @@ namespace YomoneyApp
         {
             try
             {
-               // IsBusy = true;
+                // IsBusy = true;
                 AccessSettings acnt = new Services.AccessSettings();
                 string pass = acnt.Password;
-                string uname = acnt.UserName;   
+                string uname = acnt.UserName;
                 await _chatServices.GetUnread(uname);
-               // IsBusy = false;
+                // IsBusy = false;
             }
             catch { }
         }
@@ -895,24 +997,24 @@ namespace YomoneyApp
             {
                 // IsBusy = true;
                 AccessSettings acnt = new Services.AccessSettings();
-               
+
                 string dbPath = acnt.GetSetting("dbPath").Result;
 
                 string uname = acnt.UserName;
                 var db = new YomoneyRepository(dbPath);
                 var yoconts = await db.GetContactsAsync();
-                foreach(var contact in yoconts)
+                foreach (var contact in yoconts)
                 {
-                    if(contact.Avator == null)
+                    if (contact.Avator == null)
                     {
                         Random rr = new Random();
                         var r = rr.Next(1, 14);
                         contact.Avator = "Tile" + r + ".png";
-                        contact.Address = contact.Name.Substring(0, 1);  
+                        contact.Address = contact.Name.Substring(0, 1);
                     }
                 }
-                _contacts.ReplaceRange(yoconts); 
-               
+                _contacts.ReplaceRange(yoconts);
+
                 await _chatServices.GetContactsUnread(uname);
                 // IsBusy = false;
             }
@@ -981,20 +1083,69 @@ namespace YomoneyApp
                 var db = new YomoneyRepository(dbPath);
                 var yoconts = await db.GetContactsAsync();
                 List<YoContact> nn = new List<YoContact>();
-                if(yoconts.Count > 0)
+                if (yoconts.Count > 0)
                 {
-                   _contacts.ReplaceRange(yoconts);  
+                    _contacts.ReplaceRange(yoconts);
                 }
                 else
                 {
                     await _chatServices.GetUnread(uname);
                 }
-            
+
                 // IsBusy = false;
             }
-            catch (Exception e){
-                
+            catch (Exception e) {
+
             }
+        }
+
+        #endregion
+
+        #region Get Chats Command
+        Command getChatsCommand;
+
+        /// <summary>
+        /// Command to Send Message
+        /// </summary>
+        public Command GetChatsCommand
+        {
+            get
+            {
+                return getChatsCommand ??
+                (getChatsCommand = new Command(ExecuteGetChatsCommand));
+            }
+        }
+
+        async void ExecuteGetChatsCommand()
+        {
+
+            try
+            {
+                //IsBusy = true;
+                AccessSettings acnt = new Services.AccessSettings();
+                string pass = acnt.Password;
+                string uname = acnt.UserName;
+
+                var db = new YomoneyRepository(dbPath);
+                
+                var today = DateTime.Now.Date;
+                var dbmm = db.GetMessagesAsync().Result.ToList();
+                _messages.Clear();
+                _messages.AddRange(dbmm);
+                                               
+            }
+            catch (Exception ex)
+            {
+                showAlert = true;
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+                getChatsCommand.ChangeCanExecute();
+            }                      
+                if (showAlert)
+                    await page.DisplayAlert("Oh Oooh", "There has been an error in gathering messages.", "OK");
         }
 
         #endregion
@@ -1017,7 +1168,7 @@ namespace YomoneyApp
 
         async void ExecuteGetConversationCommand()
         {
-           
+
             try
             {
                 IsBusy = true;
@@ -1032,8 +1183,8 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-               // showAlert = true;
-
+                showAlert = true;
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -1042,31 +1193,141 @@ namespace YomoneyApp
             }
 
             if (showAlert)
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather rewards.", "OK");
+                await page.DisplayAlert("Oh Oooh", "There has been an error in gathering messages.", "OK");
         }
 
+        #endregion
+
+        #region send location
+
+        Command sendLocationPointCommand;
+
+        /// <summary>
+        /// Command to Send Message
+        /// </summary>
+        public Command SendLocationPointCommand
+        {
+            get
+            {
+                return sendLocationPointCommand ??
+                (sendLocationPointCommand = new Command(async () => ExecuteSendLocationPointCommand(selectedPoint), () => { return !IsBusy; }));
+            }
+        }
+        public void SendLocationPoint(RoutesInfo lp)
+        {
+
+            selectedPoint = lp;
+            OnPropertyChanged("SelectedPoint");
+            if (selectedPoint == null)
+                return;
+
+            if (ItemSelected == null)
+            {
+                selectedPoint = null;
+                SelectedPoint = null;
+            }
+            else
+            {
+                PointSelected.Invoke(selectedPoint);
+            }
+        }
+
+        public async void ExecuteSendLocationPointCommand(RoutesInfo lp)
+        {
+            try
+            {
+                // IsBusy = true;
+                AccessSettings acnt = new Services.AccessSettings();
+                string pass = acnt.Password;
+                string uname = acnt.UserName;
+                await _chatServices.SendLocationPoints(lp);
+                // IsBusy = false;
+            }
+            catch { }
+        }
+
+
+        Command joinLocationPointGroupCommand;
+
+        public Command JoinLocationPointGroupCommand
+        {
+            get
+            {
+                return joinLocationPointGroupCommand ??
+                (joinLocationPointGroupCommand = new Command(async () => ExecuteJoinLocationPointGroupCommand(selectedPoint), () => { return !IsBusy; }));
+            }
+        }
+        public async void ExecuteJoinLocationPointGroupCommand(RoutesInfo lp)
+        {
+            try
+            {
+                // IsBusy = true;
+                AccessSettings acnt = new Services.AccessSettings();
+                string pass = acnt.Password;
+                string uname = acnt.UserName;
+                await _chatServices.JoinLocationPointsGroup(lp);
+                // IsBusy = false;
+            }
+            catch { }
+        }
+
+        #endregion
+
+        #region GetLocationPoints
+        Command getLocationPointCommand;
+
+        /// <summary>
+        /// Command to Send Message
+        /// </summary>
+        public Command GetLocationPointCommand
+        {
+            get
+            {
+                return getLocationPointCommand ??
+                (getLocationPointCommand = new Command(async () => ExecuteGetLocationPointsCommand(selectedPoint), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetLocationPointsCommand(RoutesInfo lp)
+        {
+            try
+            {
+                // IsBusy = true;
+                AccessSettings acnt = new Services.AccessSettings();
+                string pass = acnt.Password;
+                string uname = acnt.UserName;
+                await _chatServices.GetLocationPoints(lp);
+
+
+                // IsBusy = false;
+            }
+            catch(Exception ex)            
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
         #endregion
 
         #region Join Room Command
 
         Command joinRoomCommand;
 
-		/// <summary>
-		/// Command to Send Message
-		/// </summary>
-		public Command JoinRoomCommand {
-			get {
-				return joinRoomCommand ??
-					(joinRoomCommand = new Command (ExecuteJoinRoomCommand));
-			}
-		}
+        /// <summary>
+        /// Command to Send Message
+        /// </summary>
+        public Command JoinRoomCommand {
+            get {
+                return joinRoomCommand ??
+                    (joinRoomCommand = new Command(ExecuteJoinRoomCommand));
+            }
+        }
 
-		async void ExecuteJoinRoomCommand ()
-		{			
-			IsBusy = true;
-			await _chatServices.JoinRoom(_roomName);
-			IsBusy = false;
-		}
+        async void ExecuteJoinRoomCommand()
+        {
+            IsBusy = true;
+            await _chatServices.JoinRoom(_roomName);
+            IsBusy = false;
+        }
 
         #endregion
 
@@ -1097,8 +1358,15 @@ namespace YomoneyApp
             set { SetProperty(ref qrpay, value); }
         }
 
+        string message = "Loading...";
+        public string Message
+        {
+            get { return message; }
+            set { SetProperty(ref message, value); }
+        }
 
-        DateTime contactReceive ;
+
+        DateTime contactReceive;
         public DateTime ContactReceive
         {
             get { return contactReceive; }
@@ -1111,8 +1379,10 @@ namespace YomoneyApp
             get { return massageReceive; }
             set { SetProperty(ref massageReceive, value); }
         }
+
+        public Action RefreshScrollDown { get; internal set; }
         #endregion
-    }
+    }  
 
 }
 

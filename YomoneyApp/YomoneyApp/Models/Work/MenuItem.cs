@@ -34,7 +34,6 @@ namespace YomoneyApp
         public bool IsEmptyList { set; get; }
         public bool RequiresRegistration { set; get; }
         public bool RequiresAmount { set; get; } // call pop up for entering amount
-
     }
 }
 

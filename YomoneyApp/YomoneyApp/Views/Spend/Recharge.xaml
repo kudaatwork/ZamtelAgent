@@ -6,8 +6,11 @@
               xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
              Title="Recharge Services"
 	IsBusy="{Binding IsBusy}">
+    
     <ContentPage.Content>
+        
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+            
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
@@ -16,8 +19,9 @@
 	    	 VerticalOptions="Center" 
 	    	 Text="{Binding Message}"/>
             </StackLayout>
+            
             <StackLayout Padding="10" VerticalOptions="FillAndExpand">
-
+                
                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
                         <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">

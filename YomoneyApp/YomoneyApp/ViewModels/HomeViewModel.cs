@@ -104,8 +104,9 @@ namespace YomoneyApp
                         var resp = ac.SaveValue("LocationNotification", DateTime.Now.ToString()).Result;
                     }
                 }
-                catch (Exception n)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
                 }
                 try
                 {
@@ -117,9 +118,9 @@ namespace YomoneyApp
                         Longitude = location.Longitude.ToString();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.Message);
                 }
             }
             #endregion
@@ -211,23 +212,32 @@ namespace YomoneyApp
             
             try
             {
-               myButtonSource.Clear();
+                myButtonSource.Clear();
                 MenuItem mnu = new MenuItem();
-                /* mnu.Title = "Bill Payments";
-                 mnu.Image = "payments_icon.png";
-                 mnu.ServiceId = 11;
-                 mnu.SupplierId = "All";
-                 mnu.Section = "Yomoney";
-                 mnu.TransactionType = 1;
+                mnu.Title = "Bill Payments";
+                mnu.Image = "payments_icon.png";
+                mnu.ServiceId = 11;
+                mnu.SupplierId = "All";
+                mnu.Section = "Yomoney";
+                mnu.TransactionType = 1;
 
-                 myButtonSource.Add(mnu);*/
+                myButtonSource.Add(mnu);
+                mnu = new MenuItem();
+                mnu.Title = "Airtime";
+                mnu.Image = "airtime_icon.png";
+                mnu.ServiceId = 7;
+                mnu.SupplierId = "All";
+                mnu.Section = "Yomoney";
+                mnu.TransactionType = 2;
+
+                myButtonSource.Add(mnu);
                 mnu = new MenuItem();
                 mnu.Title = "Jobs";
                 mnu.Image = "jobs_icon.png";
                 mnu.Section = "Yomoney";
                 mnu.TransactionType = 2;
+               
                 myButtonSource.Add(mnu);
-
                 mnu = new MenuItem();
                 mnu.Title = "Promotions";
                 mnu.Image = "promotions_icon.png";

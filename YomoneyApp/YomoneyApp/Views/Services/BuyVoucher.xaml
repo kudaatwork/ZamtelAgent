@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
              x:Class="YomoneyApp.Views.Services.BuyVoucher" 
              Title="{Binding Title}"
 	         IsBusy="{Binding IsBusy}">
@@ -19,99 +19,67 @@
             </StackLayout>
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand">
-                    <Frame HasShadow="True" CornerRadius="6" >
-                        <Label
-			            FontSize="Small"
-			            Text="{Binding Description}"
-                        VerticalTextAlignment="Center"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="Transparent"
-			            TextColor="#69ad05" />
+                   
+                    <Label Margin="20,5,0,0" FontSize="Small" Text="{Binding Description}" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" TextColor="Black" />
+                   
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <Picker x:Name="PickerCurrency" Title="Select Voucher Currency" WidthRequest="330"/>
+                        </StackLayout>
                     </Frame>
-                    <Label
-			        FontSize="Small"
-			        Text="Currency of the voucher"
-                    VerticalTextAlignment="Center"
-                    HorizontalOptions="FillAndExpand"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
 
-                    <Picker 
-			        x:Name="PickerCurrency"
-                    VerticalOptions="End" 
-                    HorizontalOptions="FillAndExpand"
-			        />
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Center"
-			        Text="Amount"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="amount.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Amount}" FontAttributes="None"  Keyboard="Numeric" Placeholder="Value of the voucher" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
 
-                    <Entry 
-			        Text="{Binding Amount}" 
-                    VerticalOptions="End"
-			        Placeholder="Value of the voucher"
-                     />
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Center"
-			        Text="Receiver's Phonenumber"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="keypad.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Receiver's Phone Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+                    
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="person_name.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding ReceiverName}" FontAttributes="None" Keyboard="Default" Placeholder="Receiver's Full Name(s) " TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
 
-                    <Entry 
-			        Text="{Binding PhoneNumber}" 
-                    VerticalOptions="End"
-			        Placeholder="cellphone number"
-                    Keyboard="Telephone" 
-			         />
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="person_name.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding ReceiverSurname}" FontAttributes="None" Keyboard="Default" Placeholder="Receiver's Surname" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
 
-                    <Label
-			        FontSize="Small"
-			        Text="Receiver's Full Name/s "
-                    VerticalTextAlignment="Center"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
-
-                    <Entry 
-			        Text="{Binding ReceiverName}" 
-			        Placeholder="First name/s as on ID or Passport"
-			         />
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Center"
-			        Text="Receiver's Surname"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
-
-                    <Entry 
-			        Text="{Binding ReceiverSurname}" 
-                    VerticalOptions="End"
-			        Placeholder="Surname"
-                     />
-                    <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Center"
-			        Text="Id/Passport Number"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
-
-                    <Entry 
-			        Text="{Binding Id}" 
-                    VerticalOptions="End"
-			        Placeholder="ID or Passport Number"
-                     />
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="person_name.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Id}" FontAttributes="None" Keyboard="Default" Placeholder="ID or Passport Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+                    
                 </StackLayout>
             </ScrollView>
-            <Button 
-			x:Name="ButtonPayment"
-			BackgroundColor="#df782d"
-			BorderRadius="6"
-			TextColor="White" 
-			Text="Make Payment"
-            CommandParameter="{Binding}"
-			 Clicked="Voucher_Clicked"/>
+            <Button x:Name="ButtonPayment" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" FontAttributes="Bold" CornerRadius="15" BorderRadius="6"
+			TextColor="White" 	Text="Make Payment" CommandParameter="{Binding}" Clicked="Voucher_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

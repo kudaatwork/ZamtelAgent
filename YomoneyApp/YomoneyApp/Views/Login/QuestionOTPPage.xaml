@@ -7,54 +7,66 @@
              >
 
     <ContentPage.Content>
-        <StackLayout Padding="0">
-            
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
-                <ActivityIndicator  HorizontalOptions="Center"
+
+        <ScrollView>
+            <StackLayout Padding="0">
+
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator  HorizontalOptions="Center"
 						       IsRunning="{Binding IsBusy}"
 						       IsVisible="{Binding IsBusy}"/>
-                <Label HorizontalOptions="Center"
+                    <Label HorizontalOptions="Center"
 	    	     VerticalOptions="Center" 
 	    	     Text="{Binding Message}"/>
-            </StackLayout>
-            
-            <Grid>
-                <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="360" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-                        <Image Source="otp_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
-                    </Frame>
                 </StackLayout>
-                <StackLayout Margin="12,300,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="240" HorizontalOptions="FillAndExpand">
-                        <StackLayout>
-                            <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label Text="VERIFICATION CODE" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
-                            </StackLayout>
 
-                            <StackLayout Margin="0,20,0,0">
-
+                <Grid>
+                    <StackLayout Padding="0" Margin="0">
+                        <Frame BackgroundColor="#df782d" HeightRequest="360" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                            <Image Source="otp_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout Margin="12,300,12,0">
+                        <Frame BackgroundColor="White" HasShadow="True" HeightRequest="270" HorizontalOptions="FillAndExpand">
+                            <StackLayout>
                                 <StackLayout HorizontalOptions="CenterAndExpand">
-                                    <Label Text="Please wait for your One-Time-Password." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                    <Label Text="VERIFICATION CODE" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
                                 </StackLayout>
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,10" CornerRadius="50" HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                            <Image Source="unloack.png" Aspect="AspectFill" Margin="0"/>
-                                        </Frame>
-                                        <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Verification Code e.g. 33344" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                <StackLayout Margin="0,20,0,0">
+
+                                    <StackLayout HorizontalOptions="CenterAndExpand">
+                                        <Label Text="Please wait for your One-Time-Password." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                                     </StackLayout>
-                                </Frame>
+
+                                    <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,10" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                                <Image Source="unloack.png" Aspect="AspectFill" Margin="0"/>
+                                            </Frame>
+                                            <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Verification Code e.g. 33344" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                        </StackLayout>
+                                    </Frame>
+
+                                </StackLayout>
+
+                                <Button x:Name="ButtonSignIn" Command="{Binding VerifyQuestionOTPCommand}" Clicked="ButtonSignIn_Clicked" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                                    <Label Text="Want to contact Customer Support? Click " HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                                    <Label Text="Here" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
 
                             </StackLayout>
-
-                            <Button x:Name="ButtonSignIn" Command="{Binding VerifyQuestionOTPCommand}" Clicked="ButtonSignIn_Clicked" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
-
-                        </StackLayout>
-                    </Frame>
-                </StackLayout>
-            </Grid>
-        </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 
 </ContentPage>

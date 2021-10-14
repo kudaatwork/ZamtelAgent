@@ -21,7 +21,7 @@ namespace YomoneyApp
 {
     public class TransactionViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.ymoneyservice.com";
+        string HostDomain = "https://www.yomoneyservice.com";
         string ProcessingCode = "350000";
         public MenuItem selec;
         readonly IDataStore dataStore;

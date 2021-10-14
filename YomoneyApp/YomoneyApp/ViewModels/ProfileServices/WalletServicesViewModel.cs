@@ -99,9 +99,9 @@ namespace YomoneyApp
                         string uname = acnt.UserName;
                         string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
 
-                        page.Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks Dashboard", true, "#df782d"));
+                        page.Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#df782d"));
 
-                       //page.Navigation.PushModalAsync(new WebviewPage(link, "My Tasks Dashboard", true, "#df782d"));
+                       //page.Navigation.PushModalAsync(new WebviewPage(link, "My Tasks", true, "#df782d"));
                         SelectedStore = null;
                         selectedStore = null;
                     }
@@ -350,7 +350,7 @@ namespace YomoneyApp
                 return new List<MenuItem>();
 
             IsBusy = true;
-            Message = "Loading payment options";
+            Message = "Loading payment options...";
             try
             {
                 TransactionRequest trn = new TransactionRequest();
@@ -404,7 +404,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather payment options.", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather payment options.", "OK");
             }
             finally
             {
@@ -416,9 +416,16 @@ namespace YomoneyApp
         public async Task<IEnumerable<MenuItem>> GetPaymentsAsync()
         {
             List<MenuItem> payments = new List<YomoneyApp.MenuItem>();
+
             IsBusy = false;
-            var b = GetBalanceAsync();// get current account balance 
+
+            var b = GetBalanceAsync(); // get current account balance 
+           
             var showAlert = false;
+
+            IsBusy = true;
+            Message = "Loading, please wait...";
+
             try
             {
                 
@@ -461,6 +468,7 @@ namespace YomoneyApp
                 string result = await client.GetStringAsync(paramlocal);
                 if (result != "System.IO.MemoryStream")
                 {
+                    IsBusy = false;
                     Stores.Clear();
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
@@ -474,7 +482,6 @@ namespace YomoneyApp
                 //IsBusy = true;
                 showAlert = true;
                 return payments;
-
             }
 
         }
@@ -498,12 +505,12 @@ namespace YomoneyApp
                 string result = await client.GetStringAsync(paramlocal);
                 if (result != "System.IO.MemoryStream")
                 {
-
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     if (response.ResponseCode == "Success" || response.ResponseCode == "00000")
                     {
 
                         Balance = Math.Round(decimal.Parse(response.Balance), 2).ToString();
+
                         if(response.Narrative == "None")
                         {
                             ShowNavigation = true;
@@ -607,7 +614,7 @@ namespace YomoneyApp
                         {
                             var servics = response.Narrative;
                             string source = HostDomain + "/Mobile/" + servics;
-                            await page.Navigation.PushAsync(new WebviewPage(source, response.Note, true, null));
+                            await page.Navigation.PushAsync(new WebviewHyubridConfirm(source, response.Note, true, null));
                         }
                         else
                         {
@@ -634,7 +641,7 @@ namespace YomoneyApp
             }
 
             if (showAlert)
-                await page.DisplayAlert("Payment Error:(", "Sorry please try again unexpected error ", "OK");
+                await page.DisplayAlert("Payment Error!", "Sorry, please try again. Unexpected error ", "OK");
 
         }
         #endregion
@@ -655,15 +662,21 @@ namespace YomoneyApp
         {
             if (IsBusy)
                 return;
-             // if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+            // if (ForceSync)
+            //Settings.LastSync = DateTime.Now.AddDays(-30);
+
+            if (string.IsNullOrWhiteSpace(PhoneNumber))
+            {
+                await page.DisplayAlert("Error!", "Please enter all fields", "OK");
+                return;
+            }
 
             IsBusy = true;
             Message = "Processing Payment...";
+
             var showAlert = false;
             try
             {
-
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
                 AccessSettings acnt = new Services.AccessSettings();
@@ -724,7 +737,7 @@ namespace YomoneyApp
                         {
                             var servics = response.Narrative;
                             string source = HostDomain + "/Mobile/" + servics;
-                            await page.Navigation.PushAsync(new WebviewPage(source, response.Note, false,null));
+                            await page.Navigation.PushAsync(new WebviewHyubridConfirm(source, response.Note, false,null));
                         }
                         else
                         {

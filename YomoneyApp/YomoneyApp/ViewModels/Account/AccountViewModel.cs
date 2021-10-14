@@ -15,6 +15,10 @@ using FluentValidation;
 using System.Net;
 using System.Linq;
 using Xamarin.Essentials;
+using System.Web;
+using YomoneyApp.ViewModels;
+using YomoneyApp.Views.Services;
+using YomoneyApp.Models.Image;
 
 namespace YomoneyApp
 {
@@ -26,6 +30,9 @@ namespace YomoneyApp
 
         public static int counter = 0;
         public static int answerCounter = 0;
+
+        MapPageViewModel mapPageViewModel;
+        ServiceViewModel serviceViewModel;
 
         public AccountViewModel(Page page) : base(page)
         {
@@ -398,7 +405,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-                await page.DisplayAlert("Email Error", "Unable to add your email address, please check your internet connection and try again.", "OK");
+                await page.DisplayAlert("Email Error", "There was an error in adding your emai address, please try again.", "OK");
             }
             finally
             {
@@ -604,6 +611,12 @@ namespace YomoneyApp
 
                     await page.Navigation.PushAsync(new Views.Login.Question(phone, SecurityQuestion));
                 }
+                else
+                {
+                    await page.DisplayAlert("Error", "There has been an error in loading your security questions. Please contact customer support", "OK");
+
+                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");                   
+                }
             }
         }
 
@@ -713,13 +726,14 @@ namespace YomoneyApp
                     }
                     else
                     {
-                        await page.DisplayAlert("Error", response.Description, "OK");
+                        await page.DisplayAlert("Error", response.Description + ". You can contact Customer Support for Assistance", "OK");
+                        await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
                     }
                 }
             }
             catch (Exception ex)
             {
-                await page.DisplayAlert("Email Error", "Unable to add your email address, please check your internet connection and try again.", "OK");
+                await page.DisplayAlert("Email Error", "There has been an error in adding your email address.", "OK");
             }
             finally
             {
@@ -1024,19 +1038,19 @@ namespace YomoneyApp
 
                     if (response.ResponseCode == "00000")
                     {
-                        MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
+                        // MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
 
                         LoadQuestion();
                     }
-                    else if (response.ResponseCode == "Error" || response.ResponseCode == "00008")
+                    else if (response.ResponseCode == "Error" || response.ResponseCode == "00008" || response.Note == "Fail")
                     {
                         mn.Note = phone;
-                        await page.DisplayAlert("OTP Verification", response.Description, "OK");
+                        await page.DisplayAlert("Error", "Could not verify your OTP", "OK");
                     }
                     else
                     {
                         mn.Note = phone;
-                        await page.DisplayAlert("OTP Verification", mn.Description, "OK");
+                        await page.DisplayAlert("Error", "Could not verify your OTP", "OK");
                     }
                 }
             }
@@ -1121,12 +1135,12 @@ namespace YomoneyApp
                     else if (response.ResponseCode == "Error" || response.ResponseCode == "00008")
                     {
                         mn.Note = phone;
-                        await page.DisplayAlert("OTP Verification", response.Description, "OK");
+                        await page.DisplayAlert("Error", "Failed to verify your OTP. Please try again the process.", "OK");
                     }
                     else
                     {
                         mn.Note = phone;
-                        await page.DisplayAlert("OTP Verification", mn.Description, "OK");
+                        await page.DisplayAlert("OTP Verification", "Failed to verify your OTP.Please try again the process.", "OK");
                     }
                 }
             }
@@ -1216,7 +1230,7 @@ namespace YomoneyApp
                     {
                         //IsConfirm = false;
                         // Retry = true;
-                        await page.DisplayAlert("Transaction Error", response.Description + " Please try again ", "OK");
+                        await page.DisplayAlert("OTP Error", "Either SMS gateway is down or request could not reach the server." + " Please try again ", "OK");
                     }
 
                 }
@@ -1438,6 +1452,81 @@ namespace YomoneyApp
             }
         }
         #endregion
+
+        public static FileUpload fileUpload = new FileUpload();
+
+        public async void CheckData(string serverData)
+        {
+            var dencodedServerData = string.Empty;
+
+            if (!String.IsNullOrEmpty(serverData))
+            {
+                dencodedServerData = HttpUtility.HtmlDecode(serverData);
+            }
+
+            char[] delimite = new char[] { '_' };
+
+            string[] parts = dencodedServerData.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length == 5)
+            {
+                mapPageViewModel.DisplayMap(serverData);
+            }
+
+            var purpose = parts[0].ToUpper();
+            var supplier = parts[1];
+            var serviceId = parts[2];
+            var actionId = parts[3];
+            var formId = parts[4];
+            var fieldId = parts[5];
+            var phoneNumber = parts[6];
+
+            MenuItem menuItem = new MenuItem();
+
+            switch (purpose)
+            {
+                case "SIGNATURE":
+
+                    fileUpload.Purpose = purpose;
+                    fileUpload.SupplierId = supplier;
+                    fileUpload.ServiceId = Convert.ToInt64(serviceId);
+                    fileUpload.ActionId = Convert.ToInt64(actionId);
+                    fileUpload.FormId = formId;
+                    fileUpload.FieldId = fieldId;
+                    fileUpload.PhoneNumber = phoneNumber;
+
+                    //await serviceViewModel.ExecuteRenderActionCommand(null);
+
+                    menuItem.ActionId = fileUpload.ActionId;
+                    menuItem.ServiceId = fileUpload.ServiceId;
+                    menuItem.SupplierId = fileUpload.SupplierId;
+
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(new SignaturePage(menuItem));
+                    });
+
+                    //await page.Navigation.PushAsync(new SignaturePage(null));
+
+                    break;
+
+                case "UPLOAD":
+                    break;
+
+                case "ROUTE":
+                    mapPageViewModel.DisplayMap(serverData);
+                    break;
+
+                case "BACK":
+                    break;
+
+                case "PAYMENT":
+                    break;
+                default:                    
+                    break;
+            }
+
+        }
 
         #region model
         public UserAccount UserObj { get; set; }

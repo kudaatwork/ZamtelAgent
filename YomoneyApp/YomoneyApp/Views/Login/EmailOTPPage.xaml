@@ -8,6 +8,8 @@
              Title="OTP Verification">
 
     <ContentPage.Content>
+
+        <ScrollView>
         <StackLayout Padding="0">
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator  HorizontalOptions="Center"
@@ -24,7 +26,7 @@
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,300,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="240" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="270" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label Text="VERIFICATION CODE" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
@@ -49,10 +51,20 @@
 
                             <Button Clicked="ButtonSignIn_Clicked" x:Name="ButtonSignIn" Command="{Binding VerifyEmailOTPCommand}" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                                <Label Text="Want to contact Customer Support? Click " HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                                <Label Text="Here" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+
                         </StackLayout>
                     </Frame>
                 </StackLayout>
             </Grid>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

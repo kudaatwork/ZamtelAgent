@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
              x:Class="YomoneyApp.Views.Services.PaymentPage"
              Title="Service Payment"
 	         IsBusy="{Binding IsBusy}">
+    
+    
       <ContentPage.Content>
         <StackLayout  BackgroundColor="White">
             <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#df782d">
+                
                 <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#df782d" IsVisible="{Binding IsBusy}">
                     <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
@@ -16,39 +19,47 @@
                     TextColor="White"
 	    	        Text="{Binding Message}"/>
                 </StackLayout>
-                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d">
+                
+                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d" Padding="0,10,0,10">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                       
+                            <ColumnDefinition Width="1*"/>                       
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Text="{Binding Currency}" Grid.Column="0" HorizontalOptions="End"   FontSize="37" TextColor="White"  LineBreakMode="NoWrap"/>
-                        <Label Text="{Binding Budget}" Grid.Column="1" HorizontalOptions="Start"   FontSize="37" TextColor="White"  LineBreakMode="NoWrap"/>
+                        <Label Text="{Binding Currency}" Grid.Column="0" HorizontalOptions="End"   FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
+                        <Label Text="{Binding Budget}" Grid.Column="1" HorizontalOptions="Start"   FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
                     </Grid>
                     <Label Text="{Binding Section}" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="NoWrap"/>
-                    <Label Text="{Binding Title}" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="WordWrap"/>
+                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="WordWrap"/>
                 </StackLayout>
             </StackLayout>
+            
             <StackLayout Padding="10" VerticalOptions="FillAndExpand">
-
                 <ScrollView VerticalOptions="FillAndExpand">
 
                 <StackLayout Padding="10" VerticalOptions="FillAndExpand">
 
-                    <Label
-			        FontSize="Small"
-			        Text="Payment Option"
-                    VerticalTextAlignment="Center"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+                        <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
+                            <StackLayout Orientation="Horizontal" >
+                                <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                    <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                                </Frame>
+                                <Picker x:Name="PickerStore" Title="Select Payment Method" WidthRequest="330"/>
+                            </StackLayout>
+                        </Frame>
 
-                    <Picker 
-			        x:Name="PickerStore"
-                    VerticalOptions="End" 
-			        />
+                        <!--<Picker x:Name="PickerStore" VerticalOptions="End"/>-->
 
-                    <Label
+                        <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding ShowNavigation}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                            <StackLayout Orientation="Horizontal">
+                                <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                    <Image Source="keypad.png" Aspect="AspectFill" Margin="0" IsVisible="{Binding ShowNavigation}"/>
+                                </Frame>
+                                <local:MyCustomeEntry IsVisible="{Binding ShowNavigation}" Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="{Binding Ptitle}" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                            </StackLayout>
+                        </Frame>
+
+                       <!--` <Label
 			        FontSize="Small"
                     VerticalTextAlignment="Center"
 			        Text="Account Number"
@@ -62,16 +73,13 @@
                     VerticalOptions="End"
 			        Placeholder="{Binding Ptitle}"
                     IsVisible="{Binding ShowNavigation}"
-			        Keyboard="Telephone"/>
+			        Keyboard="Telephone"/>-->
                 </StackLayout>
             </ScrollView>
-            <Button 
-			x:Name="ButtonPayment"
-			BackgroundColor="#df782d"
-			BorderRadius="6"
-			TextColor="White" 
-			Text="Make Payment"
-			Command="{Binding GetPaymentDirectCommand}"/>
+                
+            <Button x:Name="ButtonPayment" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" FontAttributes="Bold" CornerRadius="15" BorderRadius="6"
+			TextColor="White" Text="Make Payment" Command="{Binding GetPaymentDirectCommand}"/>
+                
         </StackLayout>
         </StackLayout>
     </ContentPage.Content>

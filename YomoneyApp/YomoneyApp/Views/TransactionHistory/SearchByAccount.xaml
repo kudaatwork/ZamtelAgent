@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YomoneyApp.Views.TransactionHistory.SearchByAccount" xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
-    BindingContext="{Binding TransactionViewModel}"
+             x:Class="YomoneyApp.Views.TransactionHistory.SearchByAccount" xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
+             BindingContext="{Binding TransactionViewModel}"
               NavigationPage.HasNavigationBar="False"
 	IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
@@ -17,72 +17,56 @@
 	    	 Text="{Binding Message}"/>
             </StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
-               
-                    <Label
-			        FontSize="Small"
-			        Text="Select Service"      
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
 
-                    <Picker 
-			        x:Name="PickerStore"
-                    >
-                    </Picker>
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <Picker x:Name="PickerStore" Title="Select Service" WidthRequest="330"/>
+                        </StackLayout>
+                    </Frame>
 
-                    <Label
-			    
-			        FontSize="Small"
-                   
-			        Text="Search By Account"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
-                    <Switch  Grid.Row="1" HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SearchByAccount,Mode=TwoWay}"/>
+                    <Label FontSize="Small" Text="Search By Account" BackgroundColor="Transparent" TextColor="#df782d" />
+                
+                    <Switch  Grid.Row="1" HorizontalOptions="Start" VerticalOptions="End" IsToggled="{Binding SearchByAccount, Mode=TwoWay}"/>
 
-                    <Label
-			   
-			        FontSize="Small"
-			        Text="Account Number"
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" IsVisible="{Binding SearchByAccount}" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" IsVisible="{Binding SearchByAccount}" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Account}" FontAttributes="None"  Keyboard="Default" IsVisible="{Binding SearchByAccount}" Placeholder="Account Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                   </Frame>
                   
-                    BackgroundColor="Transparent"
-                    IsVisible="{Binding SearchByAccount}"
-			        TextColor="#df782d" />
+                    <Label FontSize="Small" Text="Start Date" TextColor="#df782d"/>
 
-                    <Entry 
-			  
-			        Text="{Binding Account}" 
-                 
-			        Placeholder="Billing Account"
-                    IsVisible="{Binding SearchByAccount}"
-			        Keyboard="Telephone" />
-                    
-                    <Label
-			          
-			            FontSize="Small"
-			            Text="Start Date"
-			            TextColor="#df782d"
-			          />
-                    
-                    <DatePicker 
-			      
-			   
-			        Date="{Binding Date, Mode=TwoWay}"/>
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="date_picker.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <DatePicker Date="{Binding Date, Mode=TwoWay}" WidthRequest="330"/>
+                        </StackLayout>
+                    </Frame>
 
-                    <Label
-			          
-			            FontSize="Small" 
-			            Text="End Date"
-			            TextColor="#df782d"
-			            />
-                    <DatePicker 
-			        Grid.Row="4"
-			     
-			        Date="{Binding EndDate, Mode=TwoWay}"/>
+                    <Label FontSize="Small" Text="End Date" TextColor="#df782d"/>
+
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="date_picker.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <DatePicker Date="{Binding EndDate, Mode=TwoWay}" WidthRequest="330"/>
+                        </StackLayout>
+                    </Frame>                    
 				</StackLayout>
-            <Button 
-			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#df782d"
-			BorderRadius="6"
-			TextColor="White" 
+                
+            <Button x:Name="ButtonSubmitFeedback"
+            Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"
+			BackgroundColor="#79c606"
+			BorderRadius="6"			
 			Text="Submit"
 			Command="{Binding GetTransactionCommand}"/>
             </StackLayout>
