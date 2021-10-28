@@ -6,9 +6,10 @@
              NavigationPage.HasNavigationBar="False"            
              IsBusy="{Binding IsBusy}"
              >
-   
-    
-    <StackLayout Padding="0">
+
+    <ScrollView>
+
+        <StackLayout Padding="0">
 
         <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
             <ActivityIndicator  HorizontalOptions="Center"
@@ -19,8 +20,7 @@
 	    	 Text="{Binding Message}"/>
         </StackLayout>
 
-        <ScrollView>
-
+        
             <Grid>
             <StackLayout Padding="0" Margin="0">
                 <Frame BackgroundColor="#df782d" HeightRequest="310" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
@@ -87,6 +87,6 @@
                 </Frame>
             </StackLayout>
         </Grid>    
-    </ScrollView>
     </StackLayout>
+    </ScrollView>
 </ContentPage>

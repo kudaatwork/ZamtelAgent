@@ -69,7 +69,7 @@ namespace YomoneyApp.ViewModels
                     originAddress = routes[0].Address;
                     destinationAddress = routes[1].Address;
 
-                    if (rate == 0) // Only if Rate is Greater than 0
+                    if (rate > 0) // Only if Rate is Greater than 0
                     {
                         if (role == "driver" || role == "passenger") // Drivers and Passengers
                         {
@@ -90,13 +90,16 @@ namespace YomoneyApp.ViewModels
                     }
                     else
                     {
-                        await page.DisplayAlert("Error", "There isn't any route rate alloted to this trip", "Ok");
+                        await page.DisplayAlert("Error", "There isn't any route rate alloted to this trip. Please contact your service provider", "Ok");
                     }
                 }                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+
+                await page.DisplayAlert("Error", "There has been an error in loading your routes from the server. " +
+                    "Contact customer support from more information", "Ok");
             }
         }
         #endregion

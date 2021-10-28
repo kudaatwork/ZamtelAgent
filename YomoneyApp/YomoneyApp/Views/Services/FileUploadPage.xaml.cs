@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using Newtonsoft.Json;
 using YomoneyApp.Models.Image;
+using YomoneyApp.Views.Webview;
 
 namespace YomoneyApp.Views.Services
 {
@@ -24,6 +25,8 @@ namespace YomoneyApp.Views.Services
         ServiceViewModel viewModel;
         MenuItem SelectedItem;
         private MediaFile _mediaFile;
+        string HostDomain = "https://www.yomoneyservice.com";
+
         public FileUploadPage(MenuItem mnu)
         {
             InitializeComponent();
@@ -168,6 +171,7 @@ namespace YomoneyApp.Views.Services
                     using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                     {
                         var result = streamReader.ReadToEnd();
+                        //FileImage.Source.ClearValue();
                         saved = true;
                     }
                 }
@@ -179,8 +183,11 @@ namespace YomoneyApp.Views.Services
             }
 
             if (saved)
-            {
+            {    
+                
                 await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
+                //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+                await Navigation.PushAsync(new HomePage());
             }
             else
             {

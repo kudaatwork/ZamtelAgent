@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using Plugin.Toasts;
+using YomoneyApp.Models;
+using System.Linq;
 
 namespace YomoneyApp
 {
@@ -34,9 +36,76 @@ namespace YomoneyApp
 
             accData = new MenuItem();
             //TemplateSelector = new MyTemplateSelector(); //new DataTemplate (typeof(MyView));
-        }
+            
+;        }
       
         public int Position { get; set; }
+
+        #region Get Dashboard Items
+        private Command getDashboardItems;
+
+        public Command GetDashboardItems
+        {
+            get
+            {
+                return getDashboardItems ??
+                    (getDashboardItems = new Command(async () => await ExecuteGetDashboardItemsCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetDashboardItemsCommand()
+        {
+            // dashboard request 
+            if (IsBusy)
+                return;
+
+            IsBusy = false;
+           
+            try
+            {
+                List<MenuItem> mnu = new List<MenuItem>();
+                TransactionRequest trn = new TransactionRequest();
+
+                AccessSettings acnt = new Services.AccessSettings();
+                
+                string uname = acnt.UserName;
+                
+                trn.CustomerMSISDN = uname;
+               
+                string Body = "";
+
+                Body += uname;               
+
+                HttpClient client = new HttpClient();
+               
+                var myContent = Body;
+               
+                string paramlocal = string.Format(HostDomain + "/Mobile/GetDashboard/{0}", myContent);
+                
+                string result = await client.GetStringAsync(paramlocal);
+               
+                if (result != "System.IO.MemoryStream")
+                {
+                    if (result != null)
+                    {
+                        char[] delimiter = new char[] { '_' };
+
+                        string[] parts = result.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+
+                        LoyaltySchemes = parts[0].Split(',').LastOrDefault().Replace('"', ' ');
+                        Services = parts[1].Split(',').LastOrDefault().Replace('"', ' ');
+                        Tasks = parts[2].Split(',').LastOrDefault().Replace('"', ' ');
+                    }                    
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                showAlert = true;
+            }
+        }
+        #endregion
 
         private Command getStoresCommand;
 
@@ -461,7 +530,7 @@ namespace YomoneyApp
             if (page.Navigation.NavigationStack.Count == 0 ||
                     page.Navigation.NavigationStack.GetType() != typeof(WaletServices))
             {
-                await page.Navigation.PushAsync(new WaletServices());
+                await page.Navigation.PushAsync(new WaletServices(LoyaltySchemes, Services, Tasks));
             }
         }
 
@@ -673,6 +742,27 @@ namespace YomoneyApp
         {
             get { return credit; }
             set { SetProperty(ref credit, value); }
+        }
+
+        string loyaltySchemes = string.Empty;
+        public string LoyaltySchemes
+        {
+            get { return loyaltySchemes; }
+            set { SetProperty(ref loyaltySchemes, value); }
+        }
+
+        string services = string.Empty;
+        public string Services
+        {
+            get { return services; }
+            set { SetProperty(ref services, value); }
+        }
+
+        string tasks = string.Empty;
+        public string Tasks
+        {
+            get { return tasks; }
+            set { SetProperty(ref tasks, value); }
         }
 
         string source = string.Empty;

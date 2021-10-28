@@ -5,7 +5,8 @@
     x:Class="YomoneyApp.Views.TransactionHistory.HistoryList"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"    
- 
+ NavigationPage.HasNavigationBar="False"
+    NavigationPage.HasBackButton="False"
     Title="{Binding Title}"
 	IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
@@ -19,7 +20,7 @@
 								   IsVisible="{Binding IsBusy}"/>
                 <Label HorizontalOptions="Center"
 			    	 VerticalOptions="Center"
-			    	 Text="Loading..."/>
+			    	 Text="{Binding Message}"/>
             </StackLayout>
             <ListView
 				x:Name="StoreList"

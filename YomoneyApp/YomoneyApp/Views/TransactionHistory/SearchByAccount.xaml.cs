@@ -27,6 +27,34 @@ namespace YomoneyApp.Views.TransactionHistory
             InitializeComponent();
             BindingContext = viewModel = new TransactionViewModel(this, selected);
             SelectedItem = selected;
+
+            PickerCategory.SelectedIndexChanged += async (sender, e) =>
+            {
+                viewModel.SuperCategory = PickerCategory.Items[PickerCategory.SelectedIndex];
+
+                if (viewModel.SuperCategory == "PURCHASES")
+                {
+                    SelectedItem.TransactionType = 2;
+                }
+                else
+                {
+                    SelectedItem.TransactionType = 3;
+                }
+
+                try
+                {                   
+                    var stores = await viewModel.GetHistoryPickerAsync(SelectedItem.TransactionType.ToString());
+                    PickerStore.Items.Clear();
+                    foreach (var store in stores)
+                        PickerStore.Items.Add(store.Title.Trim());                    
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    await DisplayAlert("Error!", "Unable to gather billers because of a server error. Contact customer support", "OK");
+                }               
+            };
+
             PickerStore.SelectedIndexChanged += (sender, e) =>
             {
                 viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
@@ -34,6 +62,11 @@ namespace YomoneyApp.Views.TransactionHistory
         }
         protected override async void OnAppearing()
         {
+            List<string> serviceCategories = new List<string>();
+
+            serviceCategories.Add("PURCHASES");
+            serviceCategories.Add("PAYMENTS");
+
             base.OnAppearing();
             if ((viewModel.Category != null && viewModel.Category != "") || viewModel.IsBusy)
             {
@@ -41,16 +74,28 @@ namespace YomoneyApp.Views.TransactionHistory
             }
             else
             {
+                //try
+                //{
+                //    var stores = await viewModel.GetHistoryPickerAsync(SelectedItem.TransactionType.ToString());
+                //    PickerStore.Items.Clear();
+                //    foreach (var store in stores)
+                //        PickerStore.Items.Add(store.Title.Trim());
+                //}
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine(ex.Message);
+                //    await DisplayAlert("Error!", "Unable to gather billers because of a server error. Contact customer support", "OK");
+                //}
+
                 try
                 {
-                    var stores = await viewModel.GetHistoryPickerAsync(SelectedItem.TransactionType.ToString());
-                    PickerStore.Items.Clear();
-                    foreach (var store in stores)
-                        PickerStore.Items.Add(store.Title.Trim());
+                    foreach (var serviceCategory in serviceCategories)
+                       PickerCategory.Items.Add(serviceCategory.Trim());                        
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.Message);
+                    await DisplayAlert("Error!", "Unable to gather billers because of a server error. Contact customer support", "OK");
                 }
 
             }

@@ -48,7 +48,7 @@ namespace YomoneyApp.Views.GeoPages
             mapPageViewModel.RouteRealTimeDistance = routeRealTimeDistance;
             mapPageViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
 
-            DisplayRoutes();           
+            DisplayRoutes();
         }
 
         #region LoadMap
@@ -102,7 +102,7 @@ namespace YomoneyApp.Views.GeoPages
                 polyline.StrokeColor = Color.FromHex("#74b6ff");
                 polyline.StrokeWidth = 8;
 
-                // Draw Polylines for the first time
+                // Draw Route on the Map
 
                 var pathcontent = await mapPageViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
 
@@ -121,19 +121,19 @@ namespace YomoneyApp.Views.GeoPages
             {
                 Console.WriteLine(ex.Message);
             }
-            #endregion                        
-           
+            #endregion
+
         }
         #endregion
 
         #region Start Tracing
         async void TrackPath_Clicked(System.Object sender, System.EventArgs e)
         {
-            // Get Waypoints
+            // Get Route
 
-           var locations = MapPageViewModel.routes;
+            var locations = MapPageViewModel.routes;
 
-           StringBuilder waypointsRoutes = new StringBuilder();
+            StringBuilder waypointsRoutes = new StringBuilder();
 
             if (locations.Count() > 2)
             {
@@ -144,7 +144,7 @@ namespace YomoneyApp.Views.GeoPages
                     var waypoint = "|" + locations[i].Address;
 
                     waypointsRoutes.Append(waypoint);
-                }              
+                }
             }
 
             var pathcontent = await mapPageViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
@@ -190,7 +190,7 @@ namespace YomoneyApp.Views.GeoPages
                     map.MoveToRegion(MapSpan.FromCenterAndRadius(currentPosition, Distance.FromMiles(0.3)));
 
                     #region Live Code
-                    Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+                    Device.StartTimer(TimeSpan.FromSeconds(5), () =>
                     {
                         UpdateLiveLocations();
                         return true;
@@ -319,70 +319,33 @@ namespace YomoneyApp.Views.GeoPages
 
                     var groupName = mapPageViewModel.RouteName.Replace(" ", "");
 
-                    chatViewModel.ExecuteSendLocationPointCommand(new RoutesInfo { Latitude = newPosition.Latitude.ToString(), Longitude = currentPosition.Longitude.ToString(), Name = groupName });
+                    chatViewModel.ExecuteSendLocationPointCommand(new RoutesInfo { Latitude = newPosition.Latitude.ToString(), Longitude = newPosition.Longitude.ToString(), Name = groupName });
 
-                    if (oldLocation == null)
+                    map.MoveToRegion(MapSpan.FromCenterAndRadius(newPosition, Distance.FromMiles(0.3)));
+
+                    var legs = MapPageViewModel.googleDirectionGlobal.Routes.First().Legs;
+
+                    //var leg = legs.Where(x => x.Steps.Where(x => (PolylineHelper.Decode(x.Polyline.Points).Where(x => x.Latitude == position.Latitude && x.Longitude == position.Longitude)))).FirstOrDefault();
+
+                    foreach (var leg in legs)
                     {
-                        oldLocation = location;
-
-                        map.MoveToRegion(MapSpan.FromCenterAndRadius(newPosition, Distance.FromMiles(0.3)));
-                    }
-
-                    if (location.Latitude != oldLocation.Latitude || location.Longitude != oldLocation.Longitude)
-                    {
-                        map.MoveToRegion(MapSpan.FromCenterAndRadius(newPosition, Distance.FromMiles(0.3)));
-                                                
-                        var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
-                        
-                        var placemark = placemarks?.FirstOrDefault();
-
-                        if (placemark != null)
+                        foreach (var step in leg.Steps)
                         {
-                            var geocodeAddress =
-                                $"AdminArea:       {placemark.AdminArea}\n" +
-                                $"CountryCode:     {placemark.CountryCode}\n" +
-                                $"CountryName:     {placemark.CountryName}\n" +
-                                $"FeatureName:     {placemark.FeatureName}\n" +
-                                $"Locality:        {placemark.Locality}\n" +
-                                $"PostalCode:      {placemark.PostalCode}\n" +
-                                $"SubAdminArea:    {placemark.SubAdminArea}\n" +
-                                $"SubLocality:     {placemark.SubLocality}\n" +
-                                $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
-                                $"Location :       {placemark.Location}\n" +
-                                $"Thoroughfare:    {placemark.Thoroughfare}\n";
+                            //  var stepPositions = PolylineHelper.Decode(step.Polyline.Points);
 
-                            Debug.WriteLine(geocodeAddress);
-                        }
+                            //if (step.StartLocation <= newPosition)
+                            //{
+                                mapPageViewModel.RouteRealTimeDistance = step.Distance.Text;
+                            mapPageViewModel.RouteRealTimeDuration = step.Duration.Text;
+                            mapPageViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
 
-                        CrossLocalNotifications.Current.Show("Location Updated", "You checked in to " + placemark.FeatureName + " " + placemark.Locality + " " + placemark.SubLocality, 101, DateTime.Now.AddSeconds(5));
-
-                        if (MapPageViewModel.googleDirectionGlobal.Routes != null && MapPageViewModel.googleDirectionGlobal.Routes.Count > 0)
-                        {
-                            var legs = MapPageViewModel.googleDirectionGlobal.Routes.First().Legs;
-
-                            //var leg = legs.Where(x => x.Steps.Where(x => (PolylineHelper.Decode(x.Polyline.Points).Where(x => x.Latitude == position.Latitude && x.Longitude == position.Longitude)))).FirstOrDefault();
-
-                            foreach (var leg in legs)
+                            static string StripHTML(string input)
                             {
-                                foreach (var step in leg.Steps)
-                                {
-                                    //  var stepPositions = PolylineHelper.Decode(step.Polyline.Points);
-
-                                    // if (stepPositions.FirstOrDefault().Latitude == position.Latitude && stepPositions.FirstOrDefault().Longitude == position.Longitude)
-                                    // {
-                                    mapPageViewModel.RouteRealTimeDistance = step.Distance.Text;
-                                    mapPageViewModel.RouteRealTimeDuration = step.Duration.Text;
-                                    mapPageViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
-
-                                    static string StripHTML(string input)
-                                    {
-                                        return Regex.Replace(input, "<.*?>", String.Empty);
-                                    }
-
-                                    break;
-                                    // }
-                                }
+                                return Regex.Replace(input, "<.*?>", String.Empty);
                             }
+
+                            break;
+                            //}
                         }
                     }
                 }

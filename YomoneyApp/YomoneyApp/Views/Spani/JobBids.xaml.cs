@@ -50,7 +50,7 @@ namespace YomoneyApp.Views.Spani
             { }
         }
 
-        public  async void AwardedClicked(object sender, EventArgs e)
+        public async void AwardedClicked(object sender, EventArgs e)
         {
             try
             {

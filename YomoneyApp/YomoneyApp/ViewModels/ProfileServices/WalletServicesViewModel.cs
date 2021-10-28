@@ -163,7 +163,7 @@ namespace YomoneyApp
                 Stores.Clear();
                 List<MenuItem> mnu = new List<MenuItem>();
                 mnu.Add(new MenuItem { Title = "Loyalty Points", Image= "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg", Section = "Yomoney", ServiceId = 1, SupplierId = "All",TransactionType = 6 });
-                mnu.Add(new MenuItem { Title = "My Services",  Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
+                mnu.Add(new MenuItem { Title = "My Services", Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
                 mnu.Add(new MenuItem { Title = "My Tasks", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "YoLifestyle" });
                 mnu.Add(new MenuItem { Title = "Sign Out", Image = "https://www.yomoneyservice.com/Content/Spani/Images/signOut.jpg", Section = "Yomoney", ServiceId = 5, SupplierId = "All", TransactionType = 1 });
                 // var stores = await dataStore.GetStoresAsync();
@@ -180,7 +180,7 @@ namespace YomoneyApp
             }
 
             if (showAlert)
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather menus.", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather menus.", "OK");
 
         }
 
@@ -826,6 +826,27 @@ namespace YomoneyApp
         #endregion
 
         #region Object 
+
+        string loyaltySchemes = string.Empty;
+        public string LoyaltySchemes
+        {
+            get { return loyaltySchemes; }
+            set { SetProperty(ref loyaltySchemes, value); }
+        }
+
+        string services = string.Empty;
+        public string Services
+        {
+            get { return services; }
+            set { SetProperty(ref services, value); }
+        }
+
+        string tasks = string.Empty;
+        public string Tasks
+        {
+            get { return tasks; }
+            set { SetProperty(ref tasks, value); }
+        }
 
         long serviceId =0;
         public long ServiceId

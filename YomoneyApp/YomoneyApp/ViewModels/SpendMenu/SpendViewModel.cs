@@ -139,6 +139,7 @@ namespace YomoneyApp
                 if (ItemSelected == null)
                 {
                     title = selectedAction.Title.Trim();
+
                     if (selectedAction.Title.Trim() == "Pay Bill")
                     {
                         MenuItem mn = new MenuItem();
@@ -278,7 +279,7 @@ namespace YomoneyApp
             }
 
             if (showAlert)
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather stores.", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather stores.", "OK");
 
         }
 
@@ -422,6 +423,17 @@ namespace YomoneyApp
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+
+                    // Filter DSTV Payment out of the picture
+                    foreach (var item in servics)
+                    {
+                        if (item.Title == "DSTV PAYMENT" || item.Title.Contains("DSTV"))
+                        {
+                            servics.Remove(item);
+                            break;
+                        }                        
+                    }                   
+                    
                     Categories.ReplaceRange(servics);
                     return servics;
 
@@ -1305,7 +1317,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather Packages.", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather Packages.", "OK");
             }
             finally
             {

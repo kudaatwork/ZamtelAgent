@@ -59,7 +59,7 @@
                             <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                 <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
                             </Frame>
-                            <local:MyCustomeEntry Text="{Binding Ptitle}" FontAttributes="None" Keyboard="Default" Placeholder="Company Name" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                            <local:MyCustomeEntry Text="{Binding Ptitle}" FontAttributes="None" Keyboard="Default" Placeholder="Your Name/Company Name" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                         </StackLayout>
                     </Frame>
 
@@ -95,7 +95,7 @@
                             <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                 <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
                             </Frame>
-                            <local:MyCustomeEntry Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                            <local:MyCustomeEntry Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Brief Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                         </StackLayout>
                     </Frame>
 

@@ -57,9 +57,9 @@ namespace YomoneyApp.Services
         public async Task<string> SaveValue(string KeyName, string KeyValue)
         {
             string response = "";
+
             if (!string.IsNullOrWhiteSpace(KeyName) && !string.IsNullOrWhiteSpace(KeyValue))
             {
-
                 try
                 {
                     await SecureStorage.SetAsync(KeyName, KeyValue);
@@ -70,8 +70,7 @@ namespace YomoneyApp.Services
                 {
                     try
                     {
-                        Application.Current.Properties[KeyName] = KeyValue;
-                      
+                        Application.Current.Properties[KeyName] = KeyValue;                      
                     }
                     catch
                     {

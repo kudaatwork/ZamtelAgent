@@ -286,6 +286,13 @@ namespace YomoneyApp
             set { SetProperty(ref category, value); }
         }
 
+        string superCategory = string.Empty;
+        public string SuperCategory
+        {
+            get { return superCategory; }
+            set { SetProperty(ref superCategory, value); }
+        }
+
         int categoryId = 1;
         public int CategoryId
         {
@@ -424,6 +431,17 @@ namespace YomoneyApp
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+
+                    // Filter DSTV Payment out of the picture
+                    foreach (var item in servics)
+                    {
+                        if (item.Title == "DSTV PAYMENT" || item.Title.Contains("DSTV"))
+                        {
+                            servics.Remove(item);
+                            break;
+                        }
+                    }
+
                     Categories.ReplaceRange(servics);
                     return servics;
 
@@ -433,7 +451,8 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather billers.", "OK");
+                Console.WriteLine(ex.Message);
+                await page.DisplayAlert("Error!", "Unable to gather billers.", "OK");
             }
             finally
             {
@@ -486,8 +505,12 @@ namespace YomoneyApp
             }
 
             IsBusy = true;
+            Message = "Loading, please wait...";
+
             GetTransactionCommand.ChangeCanExecute();
+
             var showAlert = false;
+
             try
             {
                 var p = Categories.Where(u => u.Title == category).FirstOrDefault();
@@ -501,8 +524,7 @@ namespace YomoneyApp
             catch (Exception ex)
             {
                 IsBusy = true;
-                showAlert = true;  
-
+                showAlert = true;
             }
             finally
             {
@@ -511,7 +533,7 @@ namespace YomoneyApp
             }
 
             if (showAlert)
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather Transactions. Check your internet connection", "OK");
+                await page.DisplayAlert("Error", "Unable to gather Transactions. Check your internet connection", "OK");
 
         }
 
@@ -804,6 +826,12 @@ namespace YomoneyApp
 
         #endregion
 
+        string message = "Loading...";
+        public string Message
+        {
+            get { return message; }
+            set { SetProperty(ref message, value); }
+        }
     }
 
 }

@@ -18,7 +18,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="1" 
                            VerticalOptions="Center"
-                           Text="Coming Soon" 
+                           Text="Page Not Found" 
                            FontSize="Medium"  
                            TextColor="White"  
                            LineBreakMode="NoWrap"/>
@@ -68,7 +68,7 @@
 			        FontSize="Large" 
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center" 
-			        Text="Service Coming Soon"
+			        Text="Service Not Available"
 			        TextColor="White"/>
                 </Grid>
             </Grid>

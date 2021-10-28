@@ -1,4 +1,5 @@
-﻿using Plugin.LocalNotifications;
+﻿using Newtonsoft.Json;
+using Plugin.LocalNotifications;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +13,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.Xaml;
 using YomoneyApp.Models;
+using YomoneyApp.Models.PositionPoints;
 using YomoneyApp.ViewModels;
 
 namespace YomoneyApp.Views.GeoPages
@@ -53,11 +55,15 @@ namespace YomoneyApp.Views.GeoPages
 
             var points = chatViewModel.ExecuteGetLocationPointsCommand(new RoutesInfo { Name = groupName }); // Receive Broadcasted Points
 
+            var currentLiveLocationPoints = JsonConvert.DeserializeObject<LiveLocationPoints>(Convert.ToString(points));
+
             List<Position> pathcontent = new List<Position>();
 
             #region Load Map Using Points/Destinations
             try
             {
+                // Get Location Points of the Route Destinations from the Server
+
                 var locations = MapPageViewModel.routes;
 
                 if (locations != null)
@@ -77,7 +83,7 @@ namespace YomoneyApp.Views.GeoPages
                     }
                 }
 
-                // Get Waypoints
+                // Get Waypoints of the Route from the Server
 
                 StringBuilder waypointsRoutes = new StringBuilder();
 
@@ -99,8 +105,7 @@ namespace YomoneyApp.Views.GeoPages
                 polyline.StrokeColor = Color.FromHex("#74b6ff");
                 polyline.StrokeWidth = 8;
 
-                // Draw Polylines for the first time
-
+                // Draw Route on the App from Server
                 pathcontent = await mapPageViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
 
                 foreach (var p in pathcontent)
@@ -110,7 +115,7 @@ namespace YomoneyApp.Views.GeoPages
 
                 map.Polylines.Add(polyline);
 
-                var startLocation = new Position(Convert.ToDouble(locations[0].Latitude), Convert.ToDouble(locations[0].Longitude));
+                var startLocation = new Position(Convert.ToDouble(currentLiveLocationPoints.Lattitude), Convert.ToDouble(currentLiveLocationPoints.Longitude));
 
                 map.MoveToRegion(MapSpan.FromCenterAndRadius(startLocation, Distance.FromMiles(0.3)));
             }
@@ -120,7 +125,22 @@ namespace YomoneyApp.Views.GeoPages
             }
             #endregion
 
-            #region Current Location Use
+            #region Live Locations Update
+            // Update the Map using Server Locations
+
+            Device.StartTimer(TimeSpan.FromSeconds(5), () =>
+            {
+                var serverLocations = new Position(Convert.ToDouble(currentLiveLocationPoints.Lattitude), Convert.ToDouble(currentLiveLocationPoints.Longitude)); // Server Positions
+
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(serverLocations, Distance.FromMiles(0.3)));
+
+                return true;
+            });
+            #endregion
+
+            #region Demo Code Commented Out
+            //var locations = MapPageViewModel.routes;
+
             //try
             //{
             //    // Current Location 
@@ -187,62 +207,65 @@ namespace YomoneyApp.Views.GeoPages
             //{
             //    Console.WriteLine(ex.Message);
             //}
+
+            #region Moving the Pin
+
+            //try
+            //{
+            //    /* var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(30));
+
+            //     cts = new CancellationTokenSource();
+
+            //     var location = await Geolocation.GetLocationAsync(request, cts.Token);*/
+
+            //    var location = MapPageViewModel.routes[0];
+
+            //    if (location != null)
+            //    {
+
+            //        var currentPosition = new Position(Convert.ToDouble(location.Latitude), Convert.ToDouble(location.Longitude));
+
+            //        map.MoveToRegion(MapSpan.FromCenterAndRadius(currentPosition, Distance.FromMiles(0.3)));
+
+            //        #region Live Locations Update
+            //        Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            //        {
+            //            // UpdateLiveLocations();
+
+            //            var serverLocations = new Position(1, 1); // Server Positions
+
+            //            map.MoveToRegion(MapSpan.FromCenterAndRadius(serverLocations, Distance.FromMiles(0.3)));
+
+            //            return true;
+            //        });
+            //        #endregion
+
+            //        #region Demo/Simulation Code
+            //        //var positionIndex = 1;
+
+            //        //Device.StartTimer(TimeSpan.FromSeconds(3), () =>
+            //        //{
+            //        //    if (pathcontent.Count > positionIndex)
+            //        //    {
+            //        //        UpdatePostions(pathcontent[positionIndex]);
+            //        //        positionIndex++;
+            //        //        return true;
+            //        //    }
+            //        //    else
+            //        //    {
+            //        //        return false;
+            //        //    }
+            //        //});
+            //        #endregion
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}            
+
             #endregion
-
-            #region Move the Pin
-            try
-            {
-                /* var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(30));
-
-                 cts = new CancellationTokenSource();
-
-                 var location = await Geolocation.GetLocationAsync(request, cts.Token);*/
-
-                var location = MapPageViewModel.routes[0];
-
-                if (location != null)
-                {
-                    var currentPosition = new Position(Convert.ToDouble(location.Latitude), Convert.ToDouble(location.Longitude));
-
-                    map.MoveToRegion(MapSpan.FromCenterAndRadius(currentPosition, Distance.FromMiles(0.3)));
-
-                    #region Live Locations Update
-                    Device.StartTimer(TimeSpan.FromSeconds(10), () =>
-                    {
-                        // UpdateLiveLocations();
-
-                        var serverLocations = new Position(1, 1); // Server Positions
-
-                        map.MoveToRegion(MapSpan.FromCenterAndRadius(serverLocations, Distance.FromMiles(0.3)));
-
-                        return true;
-                    });
-                    #endregion
-
-                    #region Demo/Simulation Code
-                    //var positionIndex = 1;
-
-                    //Device.StartTimer(TimeSpan.FromSeconds(3), () =>
-                    //{
-                    //    if (pathcontent.Count > positionIndex)
-                    //    {
-                    //        UpdatePostions(pathcontent[positionIndex]);
-                    //        positionIndex++;
-                    //        return true;
-                    //    }
-                    //    else
-                    //    {
-                    //        return false;
-                    //    }
-                    //});
-                    #endregion
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            #endregion
+            #endregion                                   
         }
         #endregion
 
@@ -324,97 +347,7 @@ namespace YomoneyApp.Views.GeoPages
             }
         }
         #endregion       
-
-        #region Update Live Locations
-        async Task UpdateLiveLocations()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(30));
-
-                cts = new CancellationTokenSource();
-
-                var location = await Geolocation.GetLocationAsync(request, cts.Token);
-
-                if (location != null)
-                {
-                    var currentPosition = new Position(location.Latitude, location.Longitude);
-
-                    var groupName = mapPageViewModel.RouteName.Replace(" ", "");
-
-                    chatViewModel.ExecuteSendLocationPointCommand(new RoutesInfo { Latitude = currentPosition.Latitude.ToString(), Longitude = currentPosition.Longitude.ToString(), Name = groupName });
-
-                    if (oldLocation == null)
-                    {
-                        oldLocation = location;
-
-                        map.MoveToRegion(MapSpan.FromCenterAndRadius(currentPosition, Distance.FromMiles(0.3)));
-                    }
-
-                    if (location.Latitude != oldLocation.Latitude || location.Longitude != oldLocation.Longitude)
-                    {
-                        map.MoveToRegion(MapSpan.FromCenterAndRadius(currentPosition, Distance.FromMiles(0.3)));
-
-                        var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
-                        var placemark = placemarks?.FirstOrDefault();
-                        if (placemark != null)
-                        {
-                            var geocodeAddress =
-                                $"AdminArea:       {placemark.AdminArea}\n" +
-                                $"CountryCode:     {placemark.CountryCode}\n" +
-                                $"CountryName:     {placemark.CountryName}\n" +
-                                $"FeatureName:     {placemark.FeatureName}\n" +
-                                $"Locality:        {placemark.Locality}\n" +
-                                $"PostalCode:      {placemark.PostalCode}\n" +
-                                $"SubAdminArea:    {placemark.SubAdminArea}\n" +
-                                $"SubLocality:     {placemark.SubLocality}\n" +
-                                $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
-                                $"Location :       {placemark.Location}\n" +
-                                $"Thoroughfare:    {placemark.Thoroughfare}\n";
-
-                            Debug.WriteLine(geocodeAddress);
-                        }
-
-                        CrossLocalNotifications.Current.Show("Location Updated", "You checked in to " + placemark.FeatureName + " " + placemark.Locality + " " + placemark.SubLocality, 101, DateTime.Now.AddSeconds(5));
-
-                        if (MapPageViewModel.googleDirectionGlobal.Routes != null && MapPageViewModel.googleDirectionGlobal.Routes.Count > 0)
-                        {
-                            var legs = MapPageViewModel.googleDirectionGlobal.Routes.First().Legs;
-
-                            //var leg = legs.Where(x => x.Steps.Where(x => (PolylineHelper.Decode(x.Polyline.Points).Where(x => x.Latitude == position.Latitude && x.Longitude == position.Longitude)))).FirstOrDefault();
-
-                            foreach (var leg in legs)
-                            {
-                                foreach (var step in leg.Steps)
-                                {
-                                    //  var stepPositions = PolylineHelper.Decode(step.Polyline.Points);
-
-                                    // if (stepPositions.FirstOrDefault().Latitude == position.Latitude && stepPositions.FirstOrDefault().Longitude == position.Longitude)
-                                    // {
-                                    mapPageViewModel.RouteRealTimeDistance = step.Distance.Text;
-                                    mapPageViewModel.RouteRealTimeDuration = step.Duration.Text;
-                                    mapPageViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
-
-                                    static string StripHTML(string input)
-                                    {
-                                        return Regex.Replace(input, "<.*?>", String.Empty);
-                                    }
-
-                                    break;
-                                    // }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        #endregion
-
+                
         #region Clear Map Elements and Back to Home
         private void Button_Clicked(object sender, EventArgs e)
         {

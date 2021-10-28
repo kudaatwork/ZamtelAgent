@@ -15,10 +15,12 @@ namespace YomoneyApp.Views.NavigationBar
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class footer : ContentView
-    {        
+    {
+        HomeViewModel viewModel;
         public footer()
         {
-            InitializeComponent();           
+            InitializeComponent();
+            BindingContext = viewModel = new YomoneyApp.HomeViewModel(null);
 
             btnHome.Clicked += async (sender, e) =>
             {
@@ -94,7 +96,7 @@ namespace YomoneyApp.Views.NavigationBar
                     cnt++;
                 }
 
-                await  Navigation.PushAsync(new WaletServices());
+                await  Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
             };
         }
     }

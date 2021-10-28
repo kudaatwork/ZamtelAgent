@@ -25,8 +25,7 @@ namespace YomoneyApp.Views.TransactionHistory
         {
             selected.Title = "Transactions";
             InitializeComponent();
-            BindingContext = viewModel = new TransactionViewModel(this, selected);
-            
+            BindingContext = viewModel = new TransactionViewModel(this, selected);            
         }
 
         protected override void OnAppearing()
@@ -34,6 +33,9 @@ namespace YomoneyApp.Views.TransactionHistory
             base.OnAppearing();
             if (viewModel.Transactions.Count > 0 || viewModel.IsBusy)
                 return;
+
+            //viewModel.IsBusy = true;
+            //viewModel.Message = "Loading, please wait...";
 
             viewModel.GetHistoryCommand.Execute(null);
         }

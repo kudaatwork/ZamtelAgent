@@ -116,9 +116,10 @@ namespace YomoneyApp.Views.Services
                             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                             {
                                 var result = streamReader.ReadToEnd();
+
                                 var resultResponse = JsonConvert.DeserializeObject<string>(result);
 
-                                if (resultResponse.ToUpper() != "ERROR")
+                                if (!resultResponse.Contains("Error"))
                                 {                                  
                                     await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
                                     await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + resultResponse, "Signature Form", false, null));

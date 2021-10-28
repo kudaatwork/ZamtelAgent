@@ -878,7 +878,6 @@ namespace YomoneyApp
             var showAlert = false;
             try
             {
-
                 ServiceOptions.Clear();
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
@@ -970,8 +969,7 @@ namespace YomoneyApp
                         ServiceOptions.ReplaceRange(ProvList);
                     }
                     else
-                    {
-                       
+                    {                       
                         await page.Navigation.PushModalAsync(new CommingSoon());
                         await page.Navigation.PopAsync();
                     }

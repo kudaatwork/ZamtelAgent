@@ -2301,6 +2301,7 @@ namespace YomoneyApp
             }
 
             IsBusy = true;
+            Message = "Processing, please wait...";
 
             try
             {
@@ -2357,6 +2358,9 @@ namespace YomoneyApp
                     if(response.ResponseCode == "00000" || response.ResponseCode == "Success")
                     {
                         //await page.Navigation.PopModalAsync();
+
+                        await page.DisplayAlert("Success!", "New Job skill added successfully. Go to My Profile to check out your skill.", "OK");
+
                         await App.Current.MainPage.Navigation.PopModalAsync();
                         await page.Navigation.PushAsync(new SpaniWorkSpace());
                     }

@@ -108,6 +108,7 @@ namespace YomoneyApp
                     {
                         AccessSettings ac = new Services.AccessSettings();
                         string resp = "";
+
                         try
                         {
                             resp = ac.SaveCredentials(phone, password).Result;

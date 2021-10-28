@@ -23,7 +23,7 @@
             </StackLayout>
             
             <StackLayout Padding="15,10,15,0">
-                <Button HorizontalOptions="FillAndExpand" BackgroundColor="#79c606" Text="MY AWARDED JOBS" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10" CommandParameter="{Binding Id}"/>               
+                <Button HorizontalOptions="FillAndExpand" BackgroundColor="#79c606" Clicked="AwardedClicked" Text="MY AWARDED JOBS" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10" CommandParameter="{Binding Id}"/>               
             </StackLayout>
             
             <ListView
@@ -103,7 +103,7 @@
 
                                 </StackLayout>
 
-                                <Frame BackgroundColor="White" Padding="10,5,10,5" Margin="2,2,2,2" CornerRadius="10" HasShadow="True">
+                                <Frame BackgroundColor="White" IsVisible="{Binding IsNotAdvert}" Padding="10,5,10,5" Margin="2,2,2,2" CornerRadius="10" HasShadow="True">
                                     <StackLayout Grid.Column="0"
                                              Padding="8"
                                              Spacing="4"
@@ -116,7 +116,6 @@
                                         <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                         <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
                                         <Label  Text="{Binding Amount}" TextColor="#79c606" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
-
 
                                         <Grid RowSpacing="0">
                                             <Grid.RowDefinitions>

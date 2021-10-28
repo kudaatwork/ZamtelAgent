@@ -18,6 +18,15 @@
             </StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
 
+                    <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,25,0,0" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <Picker  x:Name="PickerCategory" Title="Select Service Category" WidthRequest="330" Grid.Column="0"/>
+                        </StackLayout>
+                    </Frame>
+
                     <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" >
                             <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
@@ -36,7 +45,7 @@
                             <Frame BackgroundColor="Transparent" CornerRadius="50" IsVisible="{Binding SearchByAccount}" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                 <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
                             </Frame>
-                            <local:MyCustomeEntry Text="{Binding Account}" FontAttributes="None"  Keyboard="Default" IsVisible="{Binding SearchByAccount}" Placeholder="Account Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                            <local:MyCustomeEntry Text="{Binding Account}" FontAttributes="None"  Keyboard="Numeric" IsVisible="{Binding SearchByAccount}" Placeholder="Account Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                         </StackLayout>
                    </Frame>
                   

@@ -64,6 +64,7 @@ namespace YomoneyApp.Views.Spani
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                await DisplayAlert("Error!", "Unable to gather billers because of a server error. Contact customer support", "OK");
             }
         }
     }

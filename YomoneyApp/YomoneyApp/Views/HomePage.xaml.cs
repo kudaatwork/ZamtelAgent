@@ -35,7 +35,9 @@ namespace YomoneyApp
             BindingContext = viewModel = new HomeViewModel(this);
             viewModel.Points = "0.00";
             viewModel.Credit = "--:--";
-            viewM = new YomoneyApp.ChatViewModel(this);//ViewModelLocator.ChatMainViewModel;
+            viewM = new YomoneyApp.ChatViewModel(this); //ViewModelLocator.ChatMainViewModel;
+
+            viewModel.ExecuteGetDashboardItemsCommand();
            
             if (Device.Idiom == TargetIdiom.Tablet)
             {
@@ -90,7 +92,7 @@ namespace YomoneyApp
                 {
                     MenuItem px = new YomoneyApp.MenuItem();
                     px.Title = "DashBoard";
-                    Navigation.PushAsync(new WaletServices());
+                    Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
                 }),
 
                 Text = "DashBoard",
@@ -351,7 +353,7 @@ namespace YomoneyApp
             if (Navigation.NavigationStack.Count == 0 ||
                 Navigation.NavigationStack.Last().GetType() != typeof(WaletServices))
             {
-                await Navigation.PushAsync(new WaletServices());
+                await Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
             }
         }
 

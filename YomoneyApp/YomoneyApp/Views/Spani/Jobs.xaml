@@ -126,7 +126,7 @@
                                         
                                     </StackLayout>
 
-                                    <Frame BackgroundColor="White" Padding="10,5,10,5" Margin="2,2,2,2" CornerRadius="10" HasShadow="True">
+                                    <Frame BackgroundColor="White" IsVisible="{Binding IsNotAdvert}" Padding="10,5,10,5" Margin="2,2,2,2" CornerRadius="10" HasShadow="True">
                                         <StackLayout Grid.Column="0"
                                              Padding="15"
                                              Spacing="4"
