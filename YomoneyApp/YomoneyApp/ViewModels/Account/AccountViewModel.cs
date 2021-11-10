@@ -24,7 +24,7 @@ namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
 
@@ -119,9 +119,83 @@ namespace YomoneyApp
                             App.AuthToken = password;
                             resp = "00000";
                         }
+
                         if (resp == "00000")
                         {
                             await page.Navigation.PushAsync(new HomePage());
+
+                            //if (!string.IsNullOrEmpty(response.Narrative))
+                            //{
+                            //    if (response.Narrative.ToUpper().Trim() == "TRUE") // Has Questions
+                            //    {
+                            //        if (!string.IsNullOrEmpty(response.Note))
+                            //        {
+                            //            char[] delimite = new char[] { ',' };
+
+                            //            string[] parts = response.Note.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+                            //            var accountStatus = parts[0].ToUpper().Trim();
+                            //            var hasEmail = parts[1];
+
+                            //            if (hasEmail.ToUpper().Trim() == "TRUE") // Has Email
+                            //            {
+                            //                switch (accountStatus)
+                            //                {
+                            //                    case "LOCKED":
+
+                            //                        await page.DisplayAlert("Error", "You have exceeded the number of login attempts. Please contact customer support for help", "OK");
+
+                            //                        await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+
+                            //                        await page.Navigation.PushAsync(new SignIn());
+
+                            //                        break;
+
+                            //                    case "RESET":
+
+                            //                        await page.Navigation.PushAsync(new AddEmailAddress(PhoneNumber));
+
+                            //                        break;
+
+                            //                    case "ACTIVE":
+
+                            //                        await page.Navigation.PushAsync(new HomePage());
+
+                            //                        break;
+
+                            //                    default:
+                            //                        await page.Navigation.PushAsync(new HomePage());
+                            //                        break;
+                            //                }
+                            //            }
+                            //            else
+                            //            {
+                            //                // Prompt user to enter Email
+                            //                await page.Navigation.PushAsync(new AddEmailAddress(PhoneNumber));
+                            //            }
+                            //        }
+                            //        else
+                            //        {
+                            //            await page.DisplayAlert("Error!", "There has been an error from the server. Contact customer Support", "OK");
+
+                            //            await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        // Prompt user to enter Questions
+                            //        try
+                            //        {
+                            //            LoadQuestions();
+                            //        }
+                            //        catch (Exception e)
+                            //        {
+                            //            await page.DisplayAlert("Error", e.Message, "OK");
+                            //        }
+                            //    }
+                            //}
+
+
                         }
                         else
                         {
@@ -175,7 +249,7 @@ namespace YomoneyApp
         async Task ExecuteJoinCommand()
         {
             if (IsBusy)
-                return;            
+                return;
 
             if (string.IsNullOrWhiteSpace(Name))
             {
@@ -197,13 +271,22 @@ namespace YomoneyApp
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(Date.ToString()))
+            {
+                await page.DisplayAlert("Enter Date", "Please enter your Date of Birth.", "OK");
+                return;
+            }
+
+            //date.AddYears(MinimumAge) < DateTime.Now;
+
+
+            if (string.IsNullOrWhiteSpace(Password))
             {
                 await page.DisplayAlert("Enter Password", "Please enter a password.", "OK");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(confirmPassword))
+            if (string.IsNullOrWhiteSpace(ConfirmPassword))
             {
                 await page.DisplayAlert("Confirm Password", "Please confirm password.", "OK");
                 return;
@@ -234,13 +317,13 @@ namespace YomoneyApp
                 return;
             }
 
-           // string pattern = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+            var ageInYears = GetDifferenceInYears(Date, DateTime.Today);
 
-           //if (!Regex.IsMatch(Email, pattern))
-           // {
-           //     await page.DisplayAlert("Enter Valid Email Address", "Please enter a valid email address.", "OK");
-           //     return;
-           // }
+            if (ageInYears < 12)
+            {
+                await page.DisplayAlert("Age Error!", "You are too young to be using this app.", "OK");
+                return;
+            }
 
             Message = "Creating Account...";
             IsBusy = true;
@@ -249,7 +332,7 @@ namespace YomoneyApp
             try
             {
                 TransactionRequest trn = new TransactionRequest();
-                trn.Narrative = Name + "_" + ContactName + "_" + "NA" + "_" + PhoneNumber + "_" + "NA" + "_" + Password;
+                trn.Narrative = Name + "_" + ContactName + "_" + "NA" + "_" + PhoneNumber + "_" + "NA" + "_" + Password + "_" + Date;
 
                 await page.Navigation.PushAsync(new VerificationPage(PhoneNumber));
                 //IsBusy = false;
@@ -289,14 +372,35 @@ namespace YomoneyApp
                                     {
                                         var resp = ac.SaveCredentials(phone, password).Result;
 
-                                        await page.DisplayAlert("Account Creation", "Account Created Successfully", "OK");
+                                        if (!string.IsNullOrEmpty(response.Note))
+                                        {
+                                            switch (response.Note.ToUpper().Trim())
+                                            {
+                                                case "ACTIVE":
 
-                                        await page.Navigation.PushAsync(new AddEmailAddress(phone));
+                                                    await page.DisplayAlert("Account Creation", "Account Created Successfully", "OK");
+
+                                                    await page.Navigation.PushAsync(new AddEmailAddress(phone));
+
+                                                    break;
+
+                                                default:
+                                                    await page.DisplayAlert("Account Creation Error", "There is something wrong on creating your account. Contact Customer Support", "OK");
+
+                                                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+                                                    break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            await page.DisplayAlert("Account Creation", "There is something wrong on creating your account. Contact Customer Support", "OK");
+
+                                        }
                                     }
                                     catch (Exception e)
                                     {
                                         await page.DisplayAlert("Account Creation Error", "An error has occured whilst saving the transaction", "OK");
-                                    }                                    
+                                    }
                                 }
                                 catch (Exception e)
                                 {
@@ -305,7 +409,7 @@ namespace YomoneyApp
                             }
                             else
                             {
-                                await page.DisplayAlert("Error", response.Description, "OK");                                
+                                await page.DisplayAlert("Error", response.Description, "OK");
                             }
 
                         }
@@ -332,6 +436,13 @@ namespace YomoneyApp
 
         }
         #endregion
+
+        int GetDifferenceInYears(DateTime startDate, DateTime endDate)
+        {
+            return (endDate.Year - startDate.Year - 1) +
+                (((endDate.Month > startDate.Month) ||
+                ((endDate.Month == startDate.Month) && (endDate.Day >= startDate.Day))) ? 1 : 0);
+        }
 
         #region AddEmail
         Command addEmailCommand;
@@ -368,7 +479,7 @@ namespace YomoneyApp
 
             try
             {
-                TransactionRequest trn = new TransactionRequest();               
+                TransactionRequest trn = new TransactionRequest();
                 trn.Narrative = Email + "_" + PhoneNumber;
 
                 string Body = "";
@@ -389,13 +500,31 @@ namespace YomoneyApp
 
                     if (response.ResponseCode == "00000")
                     {
-                        try
-                        {                            
-                            LoadQuestions();                                                       
-                        }
-                        catch (Exception e)
+                        if (!string.IsNullOrEmpty(response.Narrative))
                         {
-                            await page.DisplayAlert("Error", e.Message, "OK");
+                            if (response.Narrative.ToUpper().Trim() == "TRUE") // Has Questions
+                            {
+                                await page.Navigation.PushAsync(new HomePage());
+                            }
+                            else // Load Questions
+                            {
+                                try
+                                {
+                                    LoadQuestions();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+
+                                    await page.DisplayAlert("Error!", "There has been an error in loading your questions. Contact Customer Support.", "OK");
+
+                                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            await page.DisplayAlert("Error", "here has been an error in checking your questsions", "OK");
                         }
                     }
                     else
@@ -441,7 +570,7 @@ namespace YomoneyApp
 
             Message = "Submiting Answer...";
             IsBusy = true;
-            provideAnswerCommand?.ChangeCanExecute();
+            submitTheAnswerCommand?.ChangeCanExecute();
 
             try
             {
@@ -452,7 +581,7 @@ namespace YomoneyApp
                 else
                 {
                     await page.DisplayAlert("Answer Error", "We have barred you any further attempts to answer your question. Try again later", "OK");
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -461,7 +590,7 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                provideAnswerCommand?.ChangeCanExecute();
+                submitTheAnswerCommand?.ChangeCanExecute();
             }
         }
 
@@ -478,13 +607,13 @@ namespace YomoneyApp
         async Task ExecuteProvideAnswerCommand()
         {
             if (IsBusy)
-                return;          
+                return;
 
             if (string.IsNullOrWhiteSpace(Answer))
             {
                 await page.DisplayAlert("Answer Error", "Please enter your answer.", "OK");
                 return;
-            }            
+            }
 
             Message = "Submiting Answer...";
             IsBusy = true;
@@ -519,8 +648,42 @@ namespace YomoneyApp
                         {
                             LoadQuestions();
                         }
-                                               
-                        await page.Navigation.PushAsync(new HomePage());
+                        else
+                        {
+                            if (response.Note != null)
+                            {
+                                if (response.Note.ToUpper().Trim() == "RESET")
+                                {
+                                    await page.Navigation.PushAsync(new PasswordReset(PhoneNumber, "NA"));
+                                }
+                                else
+                                {
+                                    await page.Navigation.PushAsync(new HomePage());
+                                }
+                            }
+                            else
+                            {
+                                await page.Navigation.PushAsync(new HomePage());
+                            }
+                        }
+                    }
+                    else if (response.ResponseCode == "00090")
+                    {
+                        if (response.Note != null)
+                        {
+                            if (response.Note.ToUpper().Trim() == "RESET")
+                            {
+                                await page.Navigation.PushAsync(new PasswordReset(PhoneNumber, "NA"));
+                            }
+                            else
+                            {
+                                await page.Navigation.PushAsync(new HomePage());
+                            }
+                        }
+                        else
+                        {
+                            await page.Navigation.PushAsync(new HomePage());
+                        }
                     }
                     else
                     {
@@ -542,7 +705,7 @@ namespace YomoneyApp
 
         #region Load Questions From Server
         public async void LoadQuestions()
-        {              
+        {
             TransactionRequest transactionRequest = new TransactionRequest();
 
             string transactionBody = "";
@@ -566,7 +729,7 @@ namespace YomoneyApp
                 if (httpResponse.ResponseCode == "00000")
                 {
                     var deserilizedQuestions = JsonConvert.DeserializeObject<SecurityQuestions>(httpResponse.Narrative);
-                                        
+
                     SecurityQuestion = deserilizedQuestions.Id + ". " + deserilizedQuestions.Question;
 
                     counter++;
@@ -603,7 +766,7 @@ namespace YomoneyApp
                     var ques = new Models.Questions.Question();
 
                     ques.QuestionAndAnswer = httpResponse.Narrative;
-                                       
+
                     char[] delimite = new char[] { '_' };
 
                     string[] parts = ques.QuestionAndAnswer.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
@@ -616,7 +779,7 @@ namespace YomoneyApp
                 {
                     await page.DisplayAlert("Error", "There has been an error in loading your security questions. Please contact customer support", "OK");
 
-                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");                   
+                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
                 }
             }
         }
@@ -659,7 +822,7 @@ namespace YomoneyApp
 
         #region EmailOption
 
-         Command submitEmailCommand;
+        Command submitEmailCommand;
         public Command SubmitEmailCommand
         {
             get
@@ -845,7 +1008,7 @@ namespace YomoneyApp
 
             Message = "Submitting Phone Number...";
             IsBusy = true;
-            addEmailCommand?.ChangeCanExecute();
+            verifyQuestionCommand?.ChangeCanExecute();
 
             try
             {
@@ -892,7 +1055,7 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                addEmailCommand?.ChangeCanExecute();
+                verifyQuestionCommand?.ChangeCanExecute();
             }
         }
 
@@ -912,17 +1075,17 @@ namespace YomoneyApp
         async Task ExecuteVerifyEmailCommand()
         {
             if (IsBusy)
-                return;           
+                return;
 
             if (string.IsNullOrWhiteSpace(PhoneNumber))
             {
                 await page.DisplayAlert("Enter Verification Code", "Please enter your verification code.", "OK");
                 return;
             }
-            
+
             Message = "Submitting Phone Number...";
             IsBusy = true;
-            addEmailCommand?.ChangeCanExecute();
+            verifyEmailCommand?.ChangeCanExecute();
 
             try
             {
@@ -969,7 +1132,7 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                addEmailCommand?.ChangeCanExecute();
+                verifyEmailCommand?.ChangeCanExecute();
             }
         }
 
@@ -999,7 +1162,7 @@ namespace YomoneyApp
 
             Message = "Processing...";
             IsBusy = true;
-            VerifyCommand?.ChangeCanExecute();
+            verifyQuestionOTPCommand?.ChangeCanExecute();
 
             try
             {
@@ -1063,7 +1226,7 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                loginCommand?.ChangeCanExecute();
+                verifyQuestionOTPCommand?.ChangeCanExecute();
             }
         }
 
@@ -1089,7 +1252,7 @@ namespace YomoneyApp
 
             Message = "Processing...";
             IsBusy = true;
-            VerifyCommand?.ChangeCanExecute();
+            verifyEmailOTPCommand?.ChangeCanExecute();
 
             try
             {
@@ -1128,8 +1291,8 @@ namespace YomoneyApp
                     MenuItem mn = new MenuItem();
 
                     if (response.ResponseCode == "00000")
-                    {                       
-                        MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
+                    {
+                        // MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
 
                         await page.Navigation.PushAsync(new EmailAddress(PhoneNumber));
                     }
@@ -1153,7 +1316,7 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                loginCommand?.ChangeCanExecute();
+                verifyEmailOTPCommand?.ChangeCanExecute();
             }
         }
 
@@ -1321,7 +1484,7 @@ namespace YomoneyApp
                         //mn.Note = phone;
                         MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
 
-                        // await page.Navigation.PushAsync(new AddEmailAddress(mn));
+                        //await page.Navigation.PushAsync(new AddEmailAddress(mn));
                     }
                     else if (response.ResponseCode == "Error" || response.ResponseCode == "00008")
                     {
@@ -1345,7 +1508,7 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                loginCommand?.ChangeCanExecute();
+                verifyCommand?.ChangeCanExecute();
             }
         }
         #endregion
@@ -1361,7 +1524,7 @@ namespace YomoneyApp
             }
         }
 
-        
+
         async Task ExecuteResetCommand()
         {
             if (IsBusy)
@@ -1397,17 +1560,17 @@ namespace YomoneyApp
             ResetCommand?.ChangeCanExecute();
 
             try
-            {                
+            {
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
-                                
+
                 trn.Narrative = phone + "_" + email + "_" + password;
 
                 string Body = "";
 
-                
+
                 Body += "Narrative=" + trn.Narrative;
-                
+
                 HttpClient client = new HttpClient();
 
                 var myContent = Body;
@@ -1449,7 +1612,147 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                loginCommand?.ChangeCanExecute();
+                resetCommand?.ChangeCanExecute();
+            }
+        }
+        #endregion
+
+        #region Accept Customer Phone Number
+        Command acceptCustomerPhoneNumber;
+        public Command AcceptCustomerPhoneNumber
+        {
+            get
+            {
+                return acceptCustomerPhoneNumber ??
+                    (acceptCustomerPhoneNumber = new Command(async () => await ExecuteAcceptPhoneNumberCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteAcceptPhoneNumberCommand()
+        {
+            if (IsBusy)
+                return;
+
+            if (string.IsNullOrWhiteSpace(PhoneNumber))
+            {
+                await page.DisplayAlert("Enter Phone Number", "Please enter phone number.", "OK");
+                return;
+            }
+
+            Message = "Submitting Phone Number...";
+
+            IsBusy = true;
+            acceptCustomerPhoneNumber?.ChangeCanExecute();
+
+            try
+            {
+                PhoneNumber = PhoneNumber;
+
+                await page.Navigation.PushAsync(new OtpLogin(PhoneNumber));
+            }
+            catch (Exception ex)
+            {
+                await page.DisplayAlert("Error!", "There has been an error in capturing your phone number. Please try again", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                acceptCustomerPhoneNumber?.ChangeCanExecute();
+            }
+        }
+        #endregion
+
+        #region Otp Login
+        Command otpLogin;
+        public Command OtpLogin
+        {
+            get
+            {
+                return otpLogin ??
+                    (otpLogin = new Command(async () => await ExecuteOtpLoginCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteOtpLoginCommand()
+        {
+            if (IsBusy)
+                return;
+
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                await page.DisplayAlert("Enter OTP", "Please enter your One-Time Password.", "OK");
+                return;
+            }
+
+            Message = "Verifying One-Time Password...";
+            IsBusy = true;
+            otpLogin?.ChangeCanExecute();
+
+            try
+            {
+                List<MenuItem> mnu = new List<MenuItem>();
+                TransactionRequest trn = new TransactionRequest();
+
+                trn.CustomerAccount = PhoneNumber + ":" + Password;
+                trn.Mpin = Password;
+                trn.CustomerAccount = PhoneNumber;
+                trn.CustomerMSISDN = PhoneNumber;
+                trn.MTI = "0100";
+                trn.ProcessingCode = "220000";
+                trn.Narrative = PhoneNumber + "_" + Password;
+
+                string Body = "";
+
+                Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+                Body += "&Narrative=" + trn.Narrative;
+                Body += "&CustomerAccount=" + trn.CustomerAccount;
+                Body += "&ProcessingCode=" + trn.ProcessingCode;
+                Body += "&MTI=0100";
+                Body += "&Mpin=" + trn.Mpin;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    MenuItem mn = new MenuItem();
+
+                    if (response.ResponseCode == "00000")
+                    {
+                        // MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
+
+                        await page.Navigation.PushAsync(new AddEmailAddress(PhoneNumber));
+                    }
+                    else if (response.ResponseCode == "Error" || response.ResponseCode == "00008")
+                    {
+                        //mn.Description = "You need a valid email address for password reset please contact customer service";
+                        mn.Note = phone;
+                        await page.DisplayAlert("OTP Verification", "There has been an error in verifying your One-Time-Password", "OK");
+                    }
+                    else
+                    {
+                        //mn.Description = "Please enter an email address for your account where you new password will be sent";
+                        mn.Note = phone;
+                        await page.DisplayAlert("OTP Verification", "There has been an error in verifying your One-Time-Password", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                await page.DisplayAlert("Error!", "There has been an error in submitting your OTP. Please try again", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                otpLogin?.ChangeCanExecute();
             }
         }
         #endregion
@@ -1523,7 +1826,7 @@ namespace YomoneyApp
 
                 case "PAYMENT":
                     break;
-                default:                    
+                default:
                     break;
             }
 
@@ -1587,7 +1890,7 @@ namespace YomoneyApp
             get { return contactname; }
             set { SetProperty(ref contactname, value); }
         }
-        
+
         string message = "Loading...";
         public string Message
         {
@@ -1669,7 +1972,7 @@ namespace YomoneyApp
             }
 
             var hasNumber = new Regex(@"[0-9]+");
-            var hasUpperChar = new Regex(@"[A-Z]+");           
+            var hasUpperChar = new Regex(@"[A-Z]+");
             var hasLowerChar = new Regex(@"[a-z]+");
             var hasMinimum8Chars = new Regex(@".{8,}");
 
@@ -1688,7 +1991,7 @@ namespace YomoneyApp
                 page.DisplayAlert("Password Error!", ErrorMessage, "OK");
 
                 return false;
-            }           
+            }
             else if (!hasNumber.IsMatch(input))
             {
                 ErrorMessage = "Password shoud be at least 8 characters long, have a number, an upper and a lower case character";

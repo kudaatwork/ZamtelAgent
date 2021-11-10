@@ -27,5 +27,10 @@ namespace YomoneyApp.Views.Login
         {
             await Navigation.PushAsync(new QuestionVerification());
         }
+
+        private async void btnOtpLogin_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new OTPPhoneNumber());
+        }
     }
 }

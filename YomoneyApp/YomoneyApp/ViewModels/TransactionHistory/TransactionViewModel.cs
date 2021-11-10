@@ -21,7 +21,7 @@ namespace YomoneyApp
 {
     public class TransactionViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         string ProcessingCode = "350000";
         public MenuItem selec;
         readonly IDataStore dataStore;
@@ -35,7 +35,7 @@ namespace YomoneyApp
         {
             Title = selected.Title;
             selec = selected;
-            BannerImage =  "Transactions.jpg";
+            BannerImage = "InvestimentBanner.png";
            
             dataStore = DependencyService.Get<IDataStore>();
             Transactions = new ObservableRangeCollection<MenuItem>();

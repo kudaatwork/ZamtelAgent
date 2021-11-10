@@ -20,7 +20,7 @@ namespace YomoneyApp
 {
     public class LoyaltyViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         string ProcessingCode = "350000";
         readonly IDataStore dataStore;
         public ObservableRangeCollection<MenuItem> Stores { get; set; }
@@ -33,6 +33,7 @@ namespace YomoneyApp
         }
         public Action<MenuItem> ItemSelected { get; set; }
 
+        
         MenuItem selectedSection;
         public MenuItem SelectedSection
         {
@@ -181,15 +182,21 @@ namespace YomoneyApp
             {
                 Stores.Clear();
                 points = selectedSection.Count;
+
+                if (selectedSection.Count <= 0)
+                {
+                    selectedSection.Count = 0;
+                }
+
                 List<MenuItem> mnu = new List<MenuItem>();
-                mnu.Add(new MenuItem { Title = "Redeem Rewards", Image = selectedSection.Image, Section = "Yomoney", ServiceId = 1, SupplierId = selectedSection.SupplierId, TransactionType = 7, Count= selectedSection.Count,Description = selectedSection.Description });
+                mnu.Add(new MenuItem { Title = "Redeem Rewards", Image = selectedSection.Image, Section = "Yomoney", ServiceId = 1, SupplierId = selectedSection.SupplierId, TransactionType = 7, Count = selectedSection.Count,Description = selectedSection.Description });
                 mnu.Add(new MenuItem { Title = "Transaction History", Image = selectedSection.Image, Section = "Yomoney", ServiceId = 1, SupplierId = selectedSection.SupplierId, TransactionType = 6, Count = selectedSection.Count, Description = selectedSection.Description });
                 Stores.ReplaceRange(mnu); 
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 showAlert = true;
-
             }
             finally
             {
@@ -197,7 +204,7 @@ namespace YomoneyApp
                 GetStoresCommand.ChangeCanExecute();
             }
             if (showAlert)
-                await page.DisplayAlert("Oh Oooh :(", "Unable to gather loyalty options.", "OK");
+                await page.DisplayAlert("Error!", "Unable to gather loyalty options.", "OK");
 
         }
 
@@ -297,8 +304,8 @@ namespace YomoneyApp
              }
              catch (Exception ex)
              {
+                Console.WriteLine(ex.Message);
                  showAlert = true;
-
              }
              finally
              {

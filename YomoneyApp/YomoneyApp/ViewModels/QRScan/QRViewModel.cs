@@ -15,7 +15,7 @@ namespace YomoneyApp
 {
     public class QRViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         bool showAlert = false;
         public ObservableRangeCollection<MenuItem> myItemsSource { get; set; }
         private ZXing.Result result;

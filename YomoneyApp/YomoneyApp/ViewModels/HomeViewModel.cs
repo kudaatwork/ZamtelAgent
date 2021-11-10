@@ -20,7 +20,7 @@ namespace YomoneyApp
 {
     public class HomeViewModel : ViewModelBase
     {
-        readonly string HostDomain = "https://www.yomoneyservice.com";
+        readonly string HostDomain = "http://192.168.100.150:5000";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";

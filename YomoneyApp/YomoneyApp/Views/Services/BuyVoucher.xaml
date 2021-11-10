@@ -14,8 +14,7 @@
                     <Label HorizontalOptions="Center"
 	    	        VerticalOptions="Center" 
 	    	        Text="{Binding Message}"/>
-                </StackLayout>
-               
+                </StackLayout>               
             </StackLayout>
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand">

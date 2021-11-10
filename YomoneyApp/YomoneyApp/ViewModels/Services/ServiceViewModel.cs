@@ -32,7 +32,7 @@ namespace YomoneyApp
 { 
     public class ServiceViewModel : ViewModelBase
     {  
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         //string ProcessingCode = "350000";
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
 
@@ -209,7 +209,9 @@ namespace YomoneyApp
                             break;
 
                     }
+
                     //page.Navigation.PushAsync(new SelectPage(selectedAction));
+
                     selectedAction = null;
                     SelectedAction = null;
                 }
@@ -1041,7 +1043,6 @@ namespace YomoneyApp
                     {
                         if (arg == "Payment Success")
                        {
-
                             AccessSettings acnt = new Services.AccessSettings();
                             string pass = acnt.Password;
                             string uname = acnt.UserName;
@@ -1119,13 +1120,17 @@ namespace YomoneyApp
                                     await App.Current.MainPage.Navigation.PopModalAsync();
                                     //page.Navigation.PopModalAsync();
                                 }
-                                catch { }
+                                catch(Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
                             }
                         }
                         else
                         {
                             await page.DisplayAlert("Payment Failed", "Unable to Award Job, the 5% commitment fee was not paid.", "OK");
                         }
+                       // MessagingCenter.Unsubscribe<string, string>("PaymentRequest", "NotifyMsg");
                     });
                 
             }

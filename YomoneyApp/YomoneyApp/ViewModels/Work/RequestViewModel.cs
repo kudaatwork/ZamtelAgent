@@ -22,7 +22,7 @@ namespace YomoneyApp
 {
     public class RequestViewModel : ViewModelBase 
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         string ProcessingCode = "350000";
      
         readonly IDataStore dataStore;
@@ -954,7 +954,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no active service requests";
-                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1131,7 +1131,7 @@ namespace YomoneyApp
                         {
                             mn = new YomoneyApp.MenuItem();
                             mn.Description = "You have no active service requests";
-                            mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
+                            mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
                             mn.HasProducts = false; // use it as show navigation
                             mn.IsEmptyList = true;
                             List<MenuItem> resp = new List<MenuItem>();
@@ -1339,7 +1339,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "Be the first to post a request";
-                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1751,7 +1751,7 @@ namespace YomoneyApp
                         
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no quoted requests";
-                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
+                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotes";
                         mn.IsEmptyList = true;
@@ -1932,7 +1932,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
+                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotations";
                         //List<MenuItem> resp = new List<MenuItem>();
@@ -2097,7 +2097,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
+                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Request Quotes";
                         List<MenuItem> resp = new List<MenuItem>();
@@ -2626,6 +2626,7 @@ namespace YomoneyApp
                 trn.ProcessingCode = ProcessingCode;
                 trn.Narrative = JsonConvert.SerializeObject(jp);
                 trn.Note = "AwardBid";
+                trn.Currency = Currency;
                 //trn.AgentCode = selectedOption.SupplierId;
                 // trn.Quantity = selectedOption.Count;
                 // trn.Product = selectedOption.Description;
@@ -2647,6 +2648,7 @@ namespace YomoneyApp
                 Body += "&Quantity=" + trn.Quantity;
                 Body += "&Note=" + trn.Note;
                 Body += "&Mpin=" + trn.Mpin;
+                Body += "&Currency=" + trn.Currency;
 
                 var client = new HttpClient();
                 var myContent = Body;
@@ -2969,6 +2971,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 await page.DisplayAlert("Oh Oooh :(", "Unable to save feedback, please try again.", "OK");
             }
             finally

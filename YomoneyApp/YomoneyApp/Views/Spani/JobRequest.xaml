@@ -103,7 +103,7 @@
                 <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            <Image Source="date_picker.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
                         <DatePicker Date="{Binding Date, Mode=TwoWay}" WidthRequest="330" Grid.Column="0"/>
                     </StackLayout>

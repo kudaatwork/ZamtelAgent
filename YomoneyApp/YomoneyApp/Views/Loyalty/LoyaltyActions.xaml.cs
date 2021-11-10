@@ -35,7 +35,6 @@ namespace YomoneyApp.Views.Profile.Loyalty
                 }
                 await Navigation.PopAsync();
             };
-
         }
 
         protected override void OnAppearing()

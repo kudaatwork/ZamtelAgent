@@ -21,11 +21,11 @@
 
                 <Grid>
                     <StackLayout Padding="0" Margin="0">
-                        <Frame BackgroundColor="#df782d" HeightRequest="450" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                        <Frame BackgroundColor="#df782d" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                             <Image Source="image4.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
                         </Frame>
                     </StackLayout>
-                    <StackLayout Margin="12,350,12,0">
+                    <StackLayout Margin="12,240,12,0">
                         <Frame BackgroundColor="White" HasShadow="True" HeightRequest="340" HorizontalOptions="FillAndExpand">
                             <StackLayout>
                                 <StackLayout HorizontalOptions="CenterAndExpand">
@@ -33,7 +33,7 @@
                                     <Label Text="Remember, you once gave us this answer. So, provide us with the appropriate answer." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                                 </StackLayout>
 
-                                <StackLayout Margin="0,5,0,10">
+                                <StackLayout Margin="0,0,0,10">
 
                                     <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                         <StackLayout Orientation="Vertical">

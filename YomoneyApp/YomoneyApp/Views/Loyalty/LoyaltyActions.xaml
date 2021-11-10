@@ -6,8 +6,7 @@
     xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"    
     x:Class="YomoneyApp.Views.Profile.Loyalty.LoyaltyActions"
     xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"   
-    
-    NavigationPage.HasNavigationBar="False"
+    NavigationPage.HasNavigationBar="True"
 	IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout>
@@ -51,12 +50,14 @@
 
                 </Grid>
             </StackLayout>
-            <StackLayout Margin="0, -10,0,0" HorizontalOptions="FillAndExpand"  BackgroundColor="#df782d">
-                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d">
-                    <Label Text="{Binding Count}" HorizontalOptions="Center"   FontSize="45" TextColor="White"  LineBreakMode="NoWrap"/>
-                    <Label Text="Points" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="NoWrap"/>
+            
+            <StackLayout Margin="0,-10,0,0" HorizontalOptions="FillAndExpand"  BackgroundColor="#df782d">
+                <StackLayout HorizontalOptions="CenterAndExpand" BackgroundColor="#df782d">
+                    <Label Text="{Binding Count}" HorizontalOptions="Center" FontAttributes="Bold" FontSize="36" TextColor="White"  LineBreakMode="NoWrap"/>
+                    <Label Text="Points" FontSize="Medium" FontAttributes="Bold" Margin="0,0,0,10" HorizontalOptions="Center" TextColor="White" LineBreakMode="NoWrap"/>
                 </StackLayout>
             </StackLayout>
+            
             <ListView
 				x:Name="StoreList"
                 SelectedItem="{Binding SelectedSection, Mode=TwoWay}"

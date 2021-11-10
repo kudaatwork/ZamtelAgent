@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YomoneyApp.Services;
@@ -17,10 +16,13 @@ namespace YomoneyApp.Views.NavigationBar
     public partial class footer : ContentView
     {
         HomeViewModel viewModel;
+
         public footer()
         {
             InitializeComponent();
             BindingContext = viewModel = new YomoneyApp.HomeViewModel(null);
+
+            viewModel.ExecuteGetDashboardItemsCommand();
 
             btnHome.Clicked += async (sender, e) =>
             {
@@ -74,7 +76,7 @@ namespace YomoneyApp.Views.NavigationBar
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
 
-                string uri = "https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname;
+                string uri = "http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname;
 
                // await Navigation.PushAsync(new WebviewHyubridConfirm(uri));
 

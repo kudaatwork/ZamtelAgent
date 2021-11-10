@@ -15,13 +15,14 @@ using RetailKing.Models;
 using YomoneyApp.Views.Webview;
 using YomoneyApp.Views.Services;
 using YomoneyApp.Views.Profile.Loyalty;
+using YomoneyApp.Views;
 
 namespace YomoneyApp
 {
     public class WalletServicesViewModel : ViewModelBase
     {
         readonly IDataStore dataStore;
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         public ObservableRangeCollection<MenuItem> Stores { get; set; }
         public ObservableRangeCollection<Grouping<string, MenuItem>> StoresGrouped { get; set; }
         public ObservableRangeCollection<MenuItem> Categories { get; set; }
@@ -97,7 +98,7 @@ namespace YomoneyApp
                     {
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
-                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+                        string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
 
                         page.Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#df782d"));
 
@@ -162,10 +163,10 @@ namespace YomoneyApp
             {
                 Stores.Clear();
                 List<MenuItem> mnu = new List<MenuItem>();
-                mnu.Add(new MenuItem { Title = "Loyalty Points", Image= "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg", Section = "Yomoney", ServiceId = 1, SupplierId = "All",TransactionType = 6 });
-                mnu.Add(new MenuItem { Title = "My Services", Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
-                mnu.Add(new MenuItem { Title = "My Tasks", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "YoLifestyle" });
-                mnu.Add(new MenuItem { Title = "Sign Out", Image = "https://www.yomoneyservice.com/Content/Spani/Images/signOut.jpg", Section = "Yomoney", ServiceId = 5, SupplierId = "All", TransactionType = 1 });
+                mnu.Add(new MenuItem { Title = "Loyalty Points", Image= "http://192.168.100.150:5000/Content/Spani/Images/Loyalty.jpg", Section = "Loyalty", ServiceId = 1, SupplierId = "All",TransactionType = 6 });
+                mnu.Add(new MenuItem { Title = "My Services", Image = "http://192.168.100.150:5000/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
+                mnu.Add(new MenuItem { Title = "My Tasks", Image = "http://192.168.100.150:5000/Content/Spani/Images/tasks.jpg", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "YoLifestyle" });
+                mnu.Add(new MenuItem { Title = "Sign Out", Image = "http://192.168.100.150:5000/Content/Spani/Images/signOut.jpg", Section = "Yomoney", ServiceId = 5, SupplierId = "All", TransactionType = 1 });
                 // var stores = await dataStore.GetStoresAsync();
                 Stores.ReplaceRange(mnu);
             }
@@ -183,6 +184,214 @@ namespace YomoneyApp
                 await page.DisplayAlert("Error!", "Unable to gather menus.", "OK");
 
         }
+
+        #region Account Status
+        private Command getAccountStatusCommand;
+
+        public Command GetAccountStatusCommand
+        {
+            get
+            {
+                return getAccountStatusCommand ??
+                    (getAccountStatusCommand = new Command(async () => await ExecuteGetAccountStatusCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetAccountStatusCommand()
+        {
+            if (IsBusy)
+                return;
+
+            Message = "Processing...";
+            IsBusy = true;
+            getAccountStatusCommand?.ChangeCanExecute();
+
+            bool showAlert = false;
+                        
+            try
+            {
+                TransactionRequest trn = new TransactionRequest();
+                AccessSettings accessSettings = new AccessSettings();
+
+                trn.CustomerMSISDN = accessSettings.UserName;
+
+                string Body = "";
+
+                Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/CheckAccountVerificationStatus/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    if (response.ResponseCode == "00000")
+                    {
+                        if (response.Note.ToUpper().Trim() == "TRUE")
+                        {
+                            AccountVerificationStatus = "VERIFIED";
+                            VerificationColor = "#79c606";
+                            IsNotVerified = false;
+                        }
+                        else
+                        {
+                            AccountVerificationStatus = "UNCONFIRMED";
+                            VerificationColor = "#9b1003";
+                            IsNotVerified = true;
+                            StatusText = "If you verify your account, you will get the benefit of getting the verified status" +
+                                " on the app and get deals from people who will be able to trust you";
+                        }
+                    }
+                    else
+                    {
+                        AccountVerificationStatus = "UNCONFIRMED";
+                        VerificationColor = "#9b1003";
+                        IsNotVerified = true;
+                        StatusText = "If you verify your account, you will get the benefit of getting the verified status" +
+                                " on the app and get deals from people who will be able to trust you";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                showAlert = true;
+            }
+            finally
+            {
+                IsBusy = false;
+                getAccountStatusCommand.ChangeCanExecute();
+            }
+
+            if (showAlert)
+                await page.DisplayAlert("Error!", "There has been an error in loading your account status", "OK");
+
+        }
+        #endregion
+
+        #region Submit Personal Details
+        private Command submitPersonalDetailsCommand;
+
+        public Command SubmitPersonalDetailsCommand
+        {
+            get
+            {
+                return submitPersonalDetailsCommand ??
+                    (submitPersonalDetailsCommand = new Command(async () => await ExecuteSubmitPersonalDetailsCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteSubmitPersonalDetailsCommand()
+        {
+            TransactionResponse transactionResponse = new TransactionResponse();
+
+            if (IsBusy)
+                return;
+
+            if (string.IsNullOrWhiteSpace(ActiveCountry))
+            {
+                await page.DisplayAlert("Error!", "Please select your Active Country.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Gender))
+            {
+                await page.DisplayAlert("Error!", "Please select your Gender.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Id))
+            {
+                await page.DisplayAlert("Error!", "Please enter your National ID Number.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Date.ToString()))
+            {
+                await page.DisplayAlert("Error!", "Please enter your DOB", "OK");
+                return;
+            }
+
+            var ageInYears = GetDifferenceInYears(Date, DateTime.Today);
+
+            if (ageInYears < 12)
+            {
+                await page.DisplayAlert("Age Error!", "You are too young to be using this app.", "OK");
+                return;
+            }
+
+            Message = "Processing...";
+            IsBusy = true;
+            submitPersonalDetailsCommand?.ChangeCanExecute();
+                      
+            try
+            {
+                TransactionRequest trn = new TransactionRequest();
+                AccessSettings acnt = new AccessSettings();
+                
+                trn.Country = ActiveCountry;
+                trn.CustomerAccount = Id;
+                trn.Narrative = Gender;
+                trn.Note = Date.ToString();
+                trn.CustomerMSISDN = acnt.UserName;
+
+                string Body = "";
+
+                Body += "Country=" + trn.Country;
+                Body += "&Narrative=" + trn.Narrative;
+                Body += "&CustomerAccount=" + trn.CustomerAccount;
+                Body += "&Note=" + trn.Note;
+                Body += "&CustomerMSISDN=" + trn.CustomerMSISDN;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/VerifyPersonalDetails/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    transactionResponse = JsonConvert.DeserializeObject<TransactionResponse>(result);
+                   
+                    if (transactionResponse.ResponseCode == "00000")
+                    {
+                        MessagingCenter.Send<string, string>("VerifyCustomer", "PersonalData", "Success");
+                    }
+                    else
+                    {
+                        MessagingCenter.Send<string, string>("VerifyCustomer", "PersonalData", transactionResponse.Description);
+                    }
+
+                }
+                else
+                {
+                    MessagingCenter.Send<string, string>("VerifyCustomer", "PersonalData", "Failure");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);                
+            }
+            finally
+            {
+                IsBusy = false;
+                submitPersonalDetailsCommand.ChangeCanExecute();
+            }            
+        }
+
+       
+
+        #endregion
 
         #region Currencies
         private Command getCurenciesCommand;
@@ -827,6 +1036,47 @@ namespace YomoneyApp
 
         #region Object 
 
+        string gender = string.Empty;
+        public string Gender
+        {
+            get { return gender; }
+            set { SetProperty(ref gender, value); }
+        }
+
+        string activeCountry = string.Empty;
+        public string ActiveCountry
+        {
+            get { return activeCountry; }
+            set { SetProperty(ref activeCountry, value); }
+        }      
+
+        string statusText = string.Empty;
+        public string StatusText
+        {
+            get { return statusText; }
+            set { SetProperty(ref statusText, value); }
+        }
+
+        bool isNotVerified = false;
+        public bool IsNotVerified
+        {
+            get { return isNotVerified; }
+            set { SetProperty(ref isNotVerified, value); }
+        }
+
+        string accountVerificationStatus = string.Empty;
+        public string AccountVerificationStatus
+        {
+            get { return accountVerificationStatus; }
+            set { SetProperty(ref accountVerificationStatus, value); }
+        }
+        string verificationColor = string.Empty;
+        public string VerificationColor
+        {
+            get { return verificationColor; }
+            set { SetProperty(ref verificationColor, value); }
+        }
+
         string loyaltySchemes = string.Empty;
         public string LoyaltySchemes
         {
@@ -911,6 +1161,13 @@ namespace YomoneyApp
         {
             get { return category; }
             set { SetProperty(ref category, value); }
+        }
+
+        string id = string.Empty;
+        public string Id
+        {
+            get { return id; }
+            set { SetProperty(ref id, value); }
         }
 
         string ptitle = string.Empty;
@@ -1003,6 +1260,14 @@ namespace YomoneyApp
 
         #endregion
 
+        #region Age Difference
+        int GetDifferenceInYears(DateTime startDate, DateTime endDate)
+        {
+            return (endDate.Year - startDate.Year - 1) +
+                (((endDate.Month > startDate.Month) ||
+                ((endDate.Month == startDate.Month) && (endDate.Day >= startDate.Day))) ? 1 : 0);
+        }
+        #endregion
     }
 
 }

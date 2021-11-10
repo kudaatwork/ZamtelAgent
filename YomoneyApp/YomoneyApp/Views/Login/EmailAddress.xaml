@@ -23,11 +23,11 @@
 
             <Grid>
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="450" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Frame BackgroundColor="#df782d" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                         <Image Source="email_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
-                <StackLayout Margin="12,350,12,0">
+                <StackLayout Margin="12,240,12,0">
                     <Frame BackgroundColor="White" HasShadow="True" HeightRequest="290" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
@@ -42,7 +42,7 @@
                                         <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="email3.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
-                                        <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Keyboard="Default" Placeholder="example@exmple.com" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                        <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Keyboard="Default" Placeholder="example@example.com" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                     </StackLayout>
                                 </Frame>
 
