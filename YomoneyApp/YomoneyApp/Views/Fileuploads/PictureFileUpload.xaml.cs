@@ -105,14 +105,14 @@ namespace YomoneyApp.Views.Fileuploads
 
             try
             {
-                string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 httpWebRequest.Timeout = 120000;
                 //httpWebRequest.CookieContainer = new CookieContainer();
                 //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                //cookie.Domain = "http://192.168.100.150:5000";
+                //cookie.Domain = "https://www.yomoneyservice.com";
                 //httpWebRequest.CookieContainer.Add(cookie);
 
                 var json = JsonConvert.SerializeObject(fileUpload);
@@ -153,7 +153,7 @@ namespace YomoneyApp.Views.Fileuploads
 
             //    // content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
 
-            //    var uploadUrl = "http://192.168.100.150:5000/Mobile/FileUploader";
+            //    var uploadUrl = "https://www.yomoneyservice.com/Mobile/FileUploader";
                 
             //    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
             //   (

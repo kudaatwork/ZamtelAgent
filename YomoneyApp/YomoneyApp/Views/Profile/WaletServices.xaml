@@ -19,7 +19,7 @@
             <RowDefinition Height="*"/>            
         </Grid.RowDefinitions>
         
-        <Image Source="overlay2.jpg" Aspect="Fill" HeightRequest="280" VerticalOptions="StartAndExpand"/>
+        <Image Source="overlay2.jpg" Aspect="Fill" HeightRequest="260" VerticalOptions="StartAndExpand"/>
        
         <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Start" VerticalOptions="Start" Margin="20,20">
         </StackLayout>

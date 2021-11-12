@@ -3,44 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Webview.WebviewHyubridConfirm"
              xmlns:local="clr-namespace:YomoneyApp.Views.TemplatePages"
-             NavigationPage.HasNavigationBar="True"
              Title="{Binding Title}"
-             IsBusy="{Binding HasProducts}">
+             IsBusy="{Binding HasProducts}"
+             >
     <ContentPage.Content>
-        <StackLayout  BackgroundColor="White" >
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="{Binding ThemeColor}" IsVisible="{Binding IsAdvert}">
-                <local:HybridWebView x:Name="hybridWebView" Uri="{Binding Source}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"/>
-                    </Grid.RowDefinitions>
-                    
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="5*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" Text="{Binding Title}" FontSize="Medium" TextColor="White" LineBreakMode="NoWrap"/>
-                    
-                    <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonClose" BackgroundColor="Transparent" BorderRadius="6" TextColor="White" FontAttributes="Bold" Image="back.png" HorizontalOptions="Start" />
-                </Grid>
-
-                <ProgressBar Progress="0.2" HorizontalOptions="FillAndExpand" x:Name="progress" IsVisible="True"/>
-                
+        <StackLayout  BackgroundColor="White" Padding="-10" Margin="-10">
+            <StackLayout Padding="-10" HorizontalOptions="FillAndExpand" BackgroundColor="{Binding ThemeColor}" IsVisible="{Binding IsAdvert}">
+                <local:HybridWebView x:Name="hybridWebView" Uri="{Binding Source}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  />
                 <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="{Binding ThemeColor}" IsVisible="{Binding IsAdvert}">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#df782d" FontSize="Large" Text="Connection Error"/>                    
-                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#df782d" FontSize="Medium" Text="Sorry Page Failed To Load Check Your Internet Connection and retry"/>                
+                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#df782d" FontSize="Large" Text="Connection Error"/>
+                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#df782d" FontSize="Medium" Text="Sorry Page Failed To Load Check Your Internet Connection and retry"/>
                 </StackLayout>
-                
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    
-                    <WebView Grid.Row="0" HeightRequest="3500" WidthRequest="1000" x:Name="Webview" VerticalOptions= "FillAndExpand" Navigating="Webview_Navigating" Navigated="webOnEndNavigating" IsVisible="{Binding IsShare}"/>                    
-                </Grid>
-
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

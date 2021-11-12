@@ -367,190 +367,255 @@ namespace YomoneyApp.Views.Profile
 
         private async void ButtonSubmitFeedback_Clicked(object sender, EventArgs e)
         {
-            var response = viewModel.ExecuteSubmitPersonalDetailsCommand(); // Submit Details First
+            ButtonSubmitFeedback.IsEnabled = false;
+            ButtonSubmitFeedback.Text = "PROCESSING...";
+
+            if (!viewModel.PersonalDetails)
+            {
+                var response = viewModel.ExecuteSubmitPersonalDetailsCommand(); // Submit Details First
+            }
+            else
+            {
+                PostId();
+            }
+            
             MessagingCenter.Subscribe<string, string>("VerifyCustomer", "PersonalData", async (sender, arg) =>
             {
                 if (arg.ToUpper().Trim() == "SUCCESS")
                 {
                     viewModel.IsBusy = true;
                     viewModel.Message = "Personal Details Submitted successfull";
+                    viewModel.PersonalDetails = true;
+
                     PostId();   
                 }
                 else
                 {
+                    viewModel.PersonalDetails = false;
                     await DisplayAlert("Error!", "There has been an error in submitting your personal details to the server", "OK");
                 }
-                MessagingCenter.Unsubscribe<string, string>("VerifyCustomer", "PersonalData");
+
+               // MessagingCenter.Unsubscribe<string, string>("VerifyCustomer", "PersonalData");
             });            
         }
 
         private async void PostId()
         {
-            bool saved = false;
-            FileUpload fileUpload = new FileUpload();
-
-            var stream = _mediaFile.GetStream();
-
-            if (stream != null)
+            if (!viewModel.IdImage)
             {
-                var bytes = new byte[stream.Length];
+                bool saved = false;
+                FileUpload fileUpload = new FileUpload();
 
-                stream.Read(bytes, 0, (int)stream.Length); // Uploaded File
-                string base64 = System.Convert.ToBase64String(bytes);
+                var stream = _mediaFile.GetStream();
 
-                string strPath = _mediaFile.Path; // Uploaded File Path
+                if (stream != null)
+                {
+                    var bytes = new byte[stream.Length];
 
-                string fileName = Path.GetFileName(strPath);
+                    stream.Read(bytes, 0, (int)stream.Length); // Uploaded File
+                    string base64 = System.Convert.ToBase64String(bytes);
 
-                char[] delimite = new char[] { '.' };
+                    string strPath = _mediaFile.Path; // Uploaded File Path
 
-                string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries); // filename of Uploaded File
+                    string fileName = Path.GetFileName(strPath);
 
-                string type = parts[1];
+                    char[] delimite = new char[] { '.' };
 
-                fileUpload.Name = fileName;
+                    string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries); // filename of Uploaded File
 
-                fileUpload.Type = type;
+                    string type = parts[1];
 
-                fileUpload.PhoneNumber = "263784607691";
+                    fileUpload.Name = fileName;
 
-                fileUpload.Image = base64;
+                    fileUpload.Type = type;
 
-                fileUpload.Purpose = "VerifyId";
+                    fileUpload.PhoneNumber = "263784607691";
+
+                    fileUpload.Image = base64;
+
+                    fileUpload.Purpose = "VerifyId";
+
+                    try
+                    {
+                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                        var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                        httpWebRequest.ContentType = "application/json";
+                        httpWebRequest.Method = "POST";
+                        httpWebRequest.Timeout = 120000;
+
+                        var json = JsonConvert.SerializeObject(fileUpload);
+
+                        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                        {
+                            streamWriter.Write(json);
+                            streamWriter.Flush();
+                            streamWriter.Close();
+
+                            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                            {
+                                var result = streamReader.ReadToEnd();
+
+                                var desirializedResponse = JsonConvert.DeserializeObject<string>(result);
+
+                                if (desirializedResponse.ToUpper().Trim() == "SUCCESS")
+                                {
+                                    viewModel.IsBusy = true;
+                                    viewModel.Message = "Id uploaded successfully";
+                                    saved = true;
+
+                                    viewModel.IdImage = true;
+                                }
+                                else
+                                {
+                                    viewModel.IdImage = false;
+                                    saved = false;                                    
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+
+                        viewModel.IdImage = false;
+                        ButtonSubmitFeedback.IsEnabled = true;
+                        ButtonSubmitFeedback.Text = "RETRY UPLOADING ID";
+                    }
+
+                    if (saved && viewModel.TakenImage == false)
+                    {
+                        PostImageTaken();
+                    }
+                    else
+                    {
+                        ButtonSubmitFeedback.IsEnabled = true;
+                        ButtonSubmitFeedback.Text = "RETRY UPLOADING ID";
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Error!", "No Image was selected", "OK");
+                }
+            }
+            else
+            {
+                PostImageTaken();
+            }
+        }
+
+        private void PostImageTaken()
+        {
+            if (!viewModel.TakenImage)
+            {
+                bool saved = false;
+
+                FileUpload fileUpload2 = new FileUpload();
+
+                var stream2 = _takenFile.GetStream();
+
+                var bytes2 = new byte[stream2.Length];
+
+                var strPath2 = _takenFile.Path; // Taken File Path
+
+                var fileName2 = Path.GetFileName(strPath2); // filename of Taken File
+
+                stream2.Read(bytes2, 0, (int)stream2.Length); // File Taken
+
+                var strbase64 = System.Convert.ToBase64String(bytes2);
+
+                char[] delimite2 = new char[] { '.' };
+
+                var parts2 = fileName2.Split(delimite2, StringSplitOptions.RemoveEmptyEntries); // filename of Taken File
+
+                var fileType = parts2[1]; //taken
+
+                fileUpload2.Name = fileName2;
+
+                fileUpload2.Type = fileType;
+
+                fileUpload2.PhoneNumber = "263784607691";
+
+                fileUpload2.Image = strbase64;
+
+                fileUpload2.Purpose = "VerifyImage";
 
                 try
                 {
-                    string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
-                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                    httpWebRequest.ContentType = "application/json";
-                    httpWebRequest.Method = "POST";
-                    httpWebRequest.Timeout = 120000;
+                    string url2 = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                    var httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url2);
+                    httpWebRequest2.ContentType = "application/json";
+                    httpWebRequest2.Method = "POST";
+                    httpWebRequest2.Timeout = 120000;
 
-                    var json = JsonConvert.SerializeObject(fileUpload);
+                    var json2 = JsonConvert.SerializeObject(fileUpload2);
 
-                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                    using (var streamWriter2 = new StreamWriter(httpWebRequest2.GetRequestStream()))
                     {
-                        streamWriter.Write(json);
-                        streamWriter.Flush();
-                        streamWriter.Close();
+                        streamWriter2.Write(json2);
+                        streamWriter2.Flush();
+                        streamWriter2.Close();
 
-                        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                        var httpResponse2 = (HttpWebResponse)httpWebRequest2.GetResponse();
 
-                        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                        using (var streamReader2 = new StreamReader(httpResponse2.GetResponseStream()))
                         {
-                            var result = streamReader.ReadToEnd();
+                            var result = streamReader2.ReadToEnd();
 
-                            var desirializedResponse = JsonConvert.DeserializeObject<string>(result);
+                            var deserializedResponse = JsonConvert.DeserializeObject<string>(result);
 
-                            if (desirializedResponse.ToUpper().Trim() == "SUCCESS")
+                            if (deserializedResponse.ToUpper().Trim() == "SUCCESS")
                             {
                                 viewModel.IsBusy = true;
-                                viewModel.Message = "Id uploaded successfully";
+                                viewModel.Message = "Taken Image uploaded Successfully";
+
                                 saved = true;
+                                viewModel.TakenImage = true;
+
+                                IsBusy = false;
+
+                                ButtonSubmitFeedback.IsEnabled = false;
+                                ButtonSubmitFeedback.Text = "DONE";
+
+                                DisplayAlert("Success!", "Personal Details updated successfully. Your account is now undergoing a verification process.", "OK");
+                               
+                                Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
+
                             }
                             else
-                            {                               
-                                await DisplayAlert("Error!", "There has been an error in uploading your ID", "OK");
-                                return;
+                            {
+                                saved = false;
+                                viewModel.TakenImage = false;
+                                IsBusy = false;
                             }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);                   
-                    await DisplayAlert("Error!", "There has been an error in file upload", "OK");
-                    return;
+                    Console.WriteLine(ex.Message);
+                    viewModel.IdImage = false;
+
+                    IsBusy = false;
+
+                    ButtonSubmitFeedback.IsEnabled = true;
+                    ButtonSubmitFeedback.Text = "RETRY UPLOADING TAKEN IMAGE";
                 }
 
-                if (saved)
+                if (!saved)
                 {
-                    PostImageTaken();
-                }                
+
+                    IsBusy = false;
+                    ButtonSubmitFeedback.IsEnabled = true;
+                    ButtonSubmitFeedback.Text = "RETRY UPLOADING TAKEN IMAGE";
+                }
             }
             else
             {
-                await DisplayAlert("Error!", "No Image was selected", "OK");
-            }
-        }
+                DisplayAlert("Success!", "It seems like your Personal Details were updated successfully. Your account is now undergoing a verification process.", "OK");
 
-        private void PostImageTaken()
-        {
-            FileUpload fileUpload2 = new FileUpload();
-
-            var stream2 = _takenFile.GetStream();
-
-            var bytes2 = new byte[stream2.Length];
-
-            var strPath2 = _takenFile.Path; // Taken File Path
-
-            var fileName2 = Path.GetFileName(strPath2); // filename of Taken File
-
-            stream2.Read(bytes2, 0, (int)stream2.Length); // File Taken
-            
-            var strbase64 = System.Convert.ToBase64String(bytes2);
-
-            char[] delimite2 = new char[] { '.' };
-
-            var parts2 = fileName2.Split(delimite2, StringSplitOptions.RemoveEmptyEntries); // filename of Taken File
-
-            var fileType = parts2[1]; //taken
-
-            fileUpload2.Name = fileName2;
-
-            fileUpload2.Type = fileType;
-
-            fileUpload2.PhoneNumber = "263784607691";
-
-            fileUpload2.Image = strbase64;
-
-            fileUpload2.Purpose = "VerifyImage";
-
-            try
-            {
-                string url2 = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
-                var httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url2);
-                httpWebRequest2.ContentType = "application/json";
-                httpWebRequest2.Method = "POST";
-                httpWebRequest2.Timeout = 120000;
-
-                var json2 = JsonConvert.SerializeObject(fileUpload2);
-
-                using (var streamWriter2 = new StreamWriter(httpWebRequest2.GetRequestStream()))
-                {
-                    streamWriter2.Write(json2);
-                    streamWriter2.Flush();
-                    streamWriter2.Close();
-
-                    var httpResponse2 = (HttpWebResponse)httpWebRequest2.GetResponse();
-
-                    using (var streamReader2 = new StreamReader(httpResponse2.GetResponseStream()))
-                    {
-                        var result = streamReader2.ReadToEnd();
-
-                        var deserializedResponse = JsonConvert.DeserializeObject<string>(result);
-
-                        if (deserializedResponse.ToUpper().Trim() == "SUCCESS")
-                        {
-                            viewModel.IsBusy = true;
-                            viewModel.Message = "Taken Image uploaded Successfully";
-                         
-                            DisplayAlert("Success!", "Personal Details updated successfully. Your account is now undergoing a verification process.", "OK");
-                            return;
-                        }
-                        else
-                        {                            
-                            DisplayAlert("Error!", "There has been an error in uploading your personal details", "OK");
-                            return;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);               
-                DisplayAlert("Error!", "There has been an error in file upload", "OK");
-                return;
+                Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
             }
         }        
 

@@ -21,7 +21,7 @@ namespace YomoneyApp.Views.GeoPages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Viewers : ContentPage
     {
-        MapPageViewModel mapPageViewModel;
+        HomeViewModel HomeViewModel;
         ChatViewModel chatViewModel;
         Location oldLocation = null;
         CancellationTokenSource cts;
@@ -30,17 +30,17 @@ namespace YomoneyApp.Views.GeoPages
             string routeRealTimeDistance, string routeRealTimeInstructions)
         {
             InitializeComponent();
-            BindingContext = mapPageViewModel = new MapPageViewModel(this);
+            BindingContext = HomeViewModel = new HomeViewModel(this);
 
             chatViewModel = new ChatViewModel(this);
-            mapPageViewModel.RouteName = routeName;
-            mapPageViewModel.Role = role;
-            mapPageViewModel.RouteRate = routeRate;
-            mapPageViewModel.RouteCost = routeCost;
-            mapPageViewModel.RouteDuration = routeDuration;
-            mapPageViewModel.RouteDistance = routeDistance;
-            mapPageViewModel.RouteRealTimeDistance = routeRealTimeDistance;
-            mapPageViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
+            HomeViewModel.RouteName = routeName;
+            HomeViewModel.Role = role;
+            HomeViewModel.RouteRate = routeRate;
+            HomeViewModel.RouteCost = routeCost;
+            HomeViewModel.RouteDuration = routeDuration;
+            HomeViewModel.RouteDistance = routeDistance;
+            HomeViewModel.RouteRealTimeDistance = routeRealTimeDistance;
+            HomeViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
 
             LoadTrip();
 
@@ -51,7 +51,7 @@ namespace YomoneyApp.Views.GeoPages
         {
             // Receive broadcasted LocatonPoints
 
-            var groupName = mapPageViewModel.RouteName.Replace(" ", "");
+            var groupName = HomeViewModel.RouteName.Replace(" ", "");
 
             var points = chatViewModel.ExecuteGetLocationPointsCommand(new RoutesInfo { Name = groupName }); // Receive Broadcasted Points
 
@@ -64,7 +64,7 @@ namespace YomoneyApp.Views.GeoPages
             {
                 // Get Location Points of the Route Destinations from the Server
 
-                var locations = MapPageViewModel.routes;
+                var locations = HomeViewModel.routes;
 
                 if (locations != null)
                 {
@@ -106,7 +106,7 @@ namespace YomoneyApp.Views.GeoPages
                 polyline.StrokeWidth = 8;
 
                 // Draw Route on the App from Server
-                pathcontent = await mapPageViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
+                pathcontent = await HomeViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
 
                 foreach (var p in pathcontent)
                 {
@@ -139,7 +139,7 @@ namespace YomoneyApp.Views.GeoPages
             #endregion
 
             #region Demo Code Commented Out
-            //var locations = MapPageViewModel.routes;
+            //var locations = HomeViewModel.routes;
 
             //try
             //{
@@ -189,7 +189,7 @@ namespace YomoneyApp.Views.GeoPages
 
             //        // Draw Polylines for the first time
 
-            //        var pathcontent = await mapPageViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
+            //        var pathcontent = await HomeViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
 
             //        foreach (var p in pathcontent)
             //        {
@@ -218,7 +218,7 @@ namespace YomoneyApp.Views.GeoPages
 
             //     var location = await Geolocation.GetLocationAsync(request, cts.Token);*/
 
-            //    var location = MapPageViewModel.routes[0];
+            //    var location = HomeViewModel.routes[0];
 
             //    if (location != null)
             //    {
@@ -281,7 +281,7 @@ namespace YomoneyApp.Views.GeoPages
             {
                 destinationPin.Position = new Xamarin.Forms.GoogleMaps.Position(position.Latitude, position.Longitude);
 
-                var groupName = mapPageViewModel.RouteName.Replace(" ", "");
+                var groupName = HomeViewModel.RouteName.Replace(" ", "");
 
                 chatViewModel.ExecuteSendLocationPointCommand(new RoutesInfo { Latitude = position.Latitude.ToString(), Longitude = position.Longitude.ToString(), Name = groupName });
 
@@ -309,9 +309,9 @@ namespace YomoneyApp.Views.GeoPages
 
                 CrossLocalNotifications.Current.Show("Location Updated", "You checked in to " + placemark.FeatureName + " " + placemark.Locality + " " + placemark.SubLocality, 101, DateTime.Now.AddSeconds(5));
 
-                if (MapPageViewModel.googleDirectionGlobal.Routes != null && MapPageViewModel.googleDirectionGlobal.Routes.Count > 0)
+                if (HomeViewModel.googleDirectionGlobal.Routes != null && HomeViewModel.googleDirectionGlobal.Routes.Count > 0)
                 {
-                    var legs = MapPageViewModel.googleDirectionGlobal.Routes.First().Legs;
+                    var legs = HomeViewModel.googleDirectionGlobal.Routes.First().Legs;
 
                     //var leg = legs.Where(x => x.Steps.Where(x => (PolylineHelper.Decode(x.Polyline.Points).Where(x => x.Latitude == position.Latitude && x.Longitude == position.Longitude)))).FirstOrDefault();
 
@@ -323,9 +323,9 @@ namespace YomoneyApp.Views.GeoPages
 
                             if (stepPositions.FirstOrDefault().Latitude == position.Latitude && stepPositions.FirstOrDefault().Longitude == position.Longitude)
                             {
-                                mapPageViewModel.RouteRealTimeDistance = step.Distance.Text;
-                                mapPageViewModel.RouteRealTimeDuration = step.Duration.Text;
-                                mapPageViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
+                                HomeViewModel.RouteRealTimeDistance = step.Distance.Text;
+                                HomeViewModel.RouteRealTimeDuration = step.Duration.Text;
+                                HomeViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
 
                                 static string StripHTML(string input)
                                 {

@@ -7,7 +7,7 @@ namespace YomoneyApp.ViewModels.CustomerStatus
 {
     public class CustomerStatusViewModel : ViewModelBase
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         public CustomerStatusViewModel(Page page) : base(page)
         {

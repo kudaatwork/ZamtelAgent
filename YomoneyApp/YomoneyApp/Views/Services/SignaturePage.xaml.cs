@@ -20,7 +20,7 @@ namespace YomoneyApp.Views.Services
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignaturePage : ContentPage
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         MenuItem SelectedItem;
         private Point[] points;
@@ -82,25 +82,25 @@ namespace YomoneyApp.Views.Services
 
                     fileUpload.Name = fileName;
                     fileUpload.Type = "png";
-                    fileUpload.PhoneNumber = AccountViewModel.fileUpload.PhoneNumber;
+                    fileUpload.PhoneNumber = HomeViewModel.fileUpload.PhoneNumber;
                     fileUpload.Image = base64;
-                    fileUpload.ServiceId = AccountViewModel.fileUpload.ServiceId;
-                    fileUpload.ActionId = AccountViewModel.fileUpload.ActionId;
-                    fileUpload.SupplierId = AccountViewModel.fileUpload.SupplierId;
-                    fileUpload.Purpose = AccountViewModel.fileUpload.Purpose;
-                    fileUpload.FormId = AccountViewModel.fileUpload.FormId;
-                    fileUpload.FieldId = AccountViewModel.fileUpload.FieldId;
+                    fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
+                    fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
+                    fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
+                    fileUpload.Purpose = HomeViewModel.fileUpload.Purpose;
+                    fileUpload.FormId = HomeViewModel.fileUpload.FormId;
+                    fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
 
                     try
                     {
-                        string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
+                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
                         var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                         httpWebRequest.ContentType = "application/json";
                         httpWebRequest.Method = "POST";
                         httpWebRequest.Timeout = 120000;
                         //httpWebRequest.CookieContainer = new CookieContainer();
                         //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                        //cookie.Domain = "http://192.168.100.150:5000";
+                        //cookie.Domain = "https://www.yomoneyservice.com";
                         //httpWebRequest.CookieContainer.Add(cookie);
 
                         var json = JsonConvert.SerializeObject(fileUpload);

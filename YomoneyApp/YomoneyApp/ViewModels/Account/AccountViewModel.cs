@@ -24,7 +24,7 @@ namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
 
@@ -1756,82 +1756,7 @@ namespace YomoneyApp
             }
         }
         #endregion
-
-        public static FileUpload fileUpload = new FileUpload();
-
-        public async void CheckData(string serverData)
-        {
-            var dencodedServerData = string.Empty;
-
-            if (!String.IsNullOrEmpty(serverData))
-            {
-                dencodedServerData = HttpUtility.HtmlDecode(serverData);
-            }
-
-            char[] delimite = new char[] { '_' };
-
-            string[] parts = dencodedServerData.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
-
-            if (parts.Length == 5)
-            {
-                mapPageViewModel.DisplayMap(serverData);
-            }
-
-            var purpose = parts[0].ToUpper();
-            var supplier = parts[1];
-            var serviceId = parts[2];
-            var actionId = parts[3];
-            var formId = parts[4];
-            var fieldId = parts[5];
-            var phoneNumber = parts[6];
-
-            MenuItem menuItem = new MenuItem();
-
-            switch (purpose)
-            {
-                case "SIGNATURE":
-
-                    fileUpload.Purpose = purpose;
-                    fileUpload.SupplierId = supplier;
-                    fileUpload.ServiceId = Convert.ToInt64(serviceId);
-                    fileUpload.ActionId = Convert.ToInt64(actionId);
-                    fileUpload.FormId = formId;
-                    fileUpload.FieldId = fieldId;
-                    fileUpload.PhoneNumber = phoneNumber;
-
-                    //await serviceViewModel.ExecuteRenderActionCommand(null);
-
-                    menuItem.ActionId = fileUpload.ActionId;
-                    menuItem.ServiceId = fileUpload.ServiceId;
-                    menuItem.SupplierId = fileUpload.SupplierId;
-
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await App.Current.MainPage.Navigation.PushAsync(new SignaturePage(menuItem));
-                    });
-
-                    //await page.Navigation.PushAsync(new SignaturePage(null));
-
-                    break;
-
-                case "UPLOAD":
-                    break;
-
-                case "ROUTE":
-                    mapPageViewModel.DisplayMap(serverData);
-                    break;
-
-                case "BACK":
-                    break;
-
-                case "PAYMENT":
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
+        
         #region model
         public UserAccount UserObj { get; set; }
         bool requiresCall = false;
