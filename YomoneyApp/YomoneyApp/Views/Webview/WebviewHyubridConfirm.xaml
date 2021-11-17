@@ -7,7 +7,7 @@
              IsBusy="{Binding HasProducts}"
              >
     <ContentPage.Content>
-        <StackLayout  BackgroundColor="White" Padding="-10" Margin="-10">
+        <StackLayout  BackgroundColor="White">
             <StackLayout Padding="-10" HorizontalOptions="FillAndExpand" BackgroundColor="{Binding ThemeColor}" IsVisible="{Binding IsAdvert}">
                 <local:HybridWebView x:Name="hybridWebView" Uri="{Binding Source}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  />
                 <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="{Binding ThemeColor}" IsVisible="{Binding IsAdvert}">

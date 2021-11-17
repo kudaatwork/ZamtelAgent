@@ -21,7 +21,7 @@ namespace YomoneyApp.ViewModels
     {
         #region ViewModel Properties & Variables
       
-        public string HostDomain = "https://www.yomoneyservice.com";
+        public string HostDomain = "http://192.168.100.150:5000";
 
         AccountViewModel accountViewModel = new AccountViewModel(null);
      

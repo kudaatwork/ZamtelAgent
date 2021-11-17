@@ -23,7 +23,7 @@ namespace YomoneyApp
     public class PromotionsViewModel : ViewModelBase
     {
         
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         //string ProcessingCode = "350000";
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
         public ObservableRangeCollection<MenuItem> ServiceOptions { get; set; }
@@ -950,7 +950,7 @@ namespace YomoneyApp
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";
+                            it.Media = "http://192.168.100.150:5000/Content/notify/notify.mp3";
                         }
                         else
                         {
@@ -962,7 +962,7 @@ namespace YomoneyApp
 
                         if(string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
+                            it.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png"; ;
                         }
                     }
 
@@ -1091,7 +1091,7 @@ namespace YomoneyApp
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "https://www.yomoneyservice.com/Content//notify//notify.mp3";
+                            it.Media = "http://192.168.100.150:5000/Content//notify//notify.mp3";
                         }
                         else
                         {
@@ -1102,7 +1102,7 @@ namespace YomoneyApp
                         }
                         if (string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
+                            it.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png"; ;
                         }
                     }
                     ServiceList.ReplaceRange(servics);

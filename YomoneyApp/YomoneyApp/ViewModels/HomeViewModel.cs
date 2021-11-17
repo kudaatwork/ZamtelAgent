@@ -26,7 +26,7 @@ namespace YomoneyApp
     {
         public static FileUpload fileUpload = new FileUpload();
 
-        readonly string HostDomain = "https://www.yomoneyservice.com";
+        readonly string HostDomain = "http://192.168.100.150:5000";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";
@@ -450,9 +450,9 @@ namespace YomoneyApp
 
                         var options = new NotificationOptions()
                         {
-
-                            Title = "Switch On Location",
-                            Description = "To get deals near you on yomoney, switch on your location"
+                            IsClickable = true,                           
+                            Title = "Switch on your location",
+                            Description = "To get deals near you on YoApp, switch on your location!"
                         };
 
                         var result = notificator.Notify(options);

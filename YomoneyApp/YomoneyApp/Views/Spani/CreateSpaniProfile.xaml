@@ -63,12 +63,21 @@
                         </StackLayout>
                     </Frame>
 
-                    <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
-                        <StackLayout Orientation="Horizontal" >
-                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                   <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding HasCategory}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" IsVisible="{Binding HasCategory}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" IsVisible="{Binding HasCategory}" Margin="0"/>
                             </Frame>
-                            <Picker x:Name="PickerStore" Title="Select Category" WidthRequest="330" Grid.Column="0"/>
+                            <Label FontSize="14" IsVisible="{Binding HasCategory}" Margin="0,5,20,0" Text="{Binding Category}" TextColor="Black" />
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" IsVisible="{Binding HasNoCategory}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" IsVisible="{Binding HasNoCategory}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" IsVisible="{Binding HasNoCategory}" Margin="0"/>
+                            </Frame>
+                            <Picker x:Name="PickerStore" Title="Select Category" IsVisible="{Binding HasNoCategory}" WidthRequest="330" Grid.Column="0"/>
                         </StackLayout>
                     </Frame>
 

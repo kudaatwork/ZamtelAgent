@@ -91,6 +91,8 @@
                                         <Label Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                         <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                     <Label Text="{Binding Amount}" TextColor="#2e6910" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label x:Name="SupplierId" Text="{Binding SupplierId}" IsVisible="False"></Label>
+                                        <Button Text="View Profile" Clicked="Button_Clicked" BorderRadius="6" TextColor="White" BackgroundColor="#79c606" Command="{Binding ViewProfileCommand}" CommandParameter="{Binding}"></Button>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

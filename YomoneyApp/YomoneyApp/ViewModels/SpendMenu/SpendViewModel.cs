@@ -26,7 +26,7 @@ namespace YomoneyApp
 {
     public class SpendViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
 
         string ProcessingCode = "350000";
         string title = "";

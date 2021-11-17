@@ -437,7 +437,7 @@ namespace YomoneyApp.Views.Profile
 
                     try
                     {
-                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                        string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
                         var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                         httpWebRequest.ContentType = "application/json";
                         httpWebRequest.Method = "POST";
@@ -543,7 +543,7 @@ namespace YomoneyApp.Views.Profile
 
                 try
                 {
-                    string url2 = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                    string url2 = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
                     var httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url2);
                     httpWebRequest2.ContentType = "application/json";
                     httpWebRequest2.Method = "POST";

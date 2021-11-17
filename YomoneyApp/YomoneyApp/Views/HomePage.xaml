@@ -104,8 +104,8 @@
                         InterPageSpacing="5"
                         ShowIndicators="True" 
                         CurrentPageIndicatorTintColor="#79c606"
-                        ItemsSource="{Binding myItemsSource}"                     
-                        BackgroundColor="White"
+                        ItemsSource="{Binding myItemsSource}"            
+                       
                          
                         VerticalOptions="FillAndExpand" 
                         HorizontalOptions="FillAndExpand">

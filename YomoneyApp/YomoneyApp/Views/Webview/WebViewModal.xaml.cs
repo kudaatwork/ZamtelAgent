@@ -6,43 +6,36 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using YomoneyApp.ViewModels;
-using YomoneyApp.Views.GeoPages;
 using YomoneyApp.Views.Services;
 using YomoneyApp.Views.TemplatePages;
 
 namespace YomoneyApp.Views.Webview
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class WebviewHyubridConfirm : ContentPage
+    public partial class WebViewModal : ContentPage
     {
         HomeViewModel homeViewModel;
         ChatViewModel viewM;
         MenuItem mnu;
-
-      //  MapPageViewModel mapPage = new MapPageViewModel(null);
-
-       // AccountViewModel accountViewModel = new AccountViewModel(null);
-
-        public WebviewHyubridConfirm(string sourceUrl, string title, bool isModal, string navcolour)
+        public WebViewModal(string sourceUrl, string title, bool isModal, string navcolour)
         {
             InitializeComponent();
             BindingContext = homeViewModel = new HomeViewModel(this);
-            viewM = new YomoneyApp.ChatViewModel(this);//ViewModelLocator.ChatMainViewModel;
+            viewM = new YomoneyApp.ChatViewModel(this);
 
             try
             {
-                if (sourceUrl.Contains("Mobile/Forms"))
-                {
-                    NavigationPage.SetHasNavigationBar(this, false);
-                    //((NavigationPage)Application.Current.MainPage).IsVisible = false;
-                    //homeViewModel.ShowNav = false;
-                }
-                else
-                {
-                    //homeViewModel.ShowNav = true;
-                    NavigationPage.SetHasNavigationBar(this, true);
-                }
+                //if (sourceUrl.Contains("Mobile/Forms"))
+                //{
+                //    NavigationPage.SetHasNavigationBar(this, false);
+                //    //((NavigationPage)Application.Current.MainPage).IsVisible = false;
+                //    //homeViewModel.ShowNav = false;
+                //}
+                //else
+                //{
+                //    //homeViewModel.ShowNav = true;
+                //    NavigationPage.SetHasNavigationBar(this, true);
+                //}
 
                 homeViewModel.Title = title;
 
@@ -87,24 +80,25 @@ namespace YomoneyApp.Views.Webview
 
                 hybridWebView.RegisterAction(data => homeViewModel.DisplayMap(data));
 
-                Padding = new Thickness(0, 0, 0, 0);
+                Padding = new Thickness(0, 0, 0, 0); 
+                
                 Content = hybridWebView;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.InnerException);
-            }           
+            }
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
             //await progress.ProgressTo(0.9, 900, Easing.SpringIn);
-        }        
+        }
 
         void webOnEndNavigating(object sender, WebNavigatedEventArgs e)
         {
-           // progress.IsVisible = false;
+            // progress.IsVisible = false;
             try
             {
                 switch (e.Result)
@@ -148,8 +142,8 @@ namespace YomoneyApp.Views.Webview
         }
 
         private void Webview_Navigating(object sender, WebNavigatingEventArgs e)
-        {           
-          // progress.IsVisible = true;           
+        {
+            // progress.IsVisible = true;           
         }
     }
 }
