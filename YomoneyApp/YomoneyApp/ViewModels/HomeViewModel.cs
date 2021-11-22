@@ -19,6 +19,7 @@ using YomoneyApp.Models.Image;
 using System.Web;
 using YomoneyApp.Views.GeoPages;
 using YomoneyApp.Views.Services;
+using Xamarin.Forms.GoogleMaps;
 
 namespace YomoneyApp
 {
@@ -26,13 +27,14 @@ namespace YomoneyApp
     {
         public static FileUpload fileUpload = new FileUpload();
 
-        readonly string HostDomain = "http://192.168.100.150:5000";
+        readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";
         public ObservableRangeCollection<MenuItem> myItemsSource { get; set; }
         public ObservableRangeCollection<MenuItem> myButtonSource { get; set; }
         public MenuItem accData { get; set; }
+
         public HomeViewModel(Page page) : base(page)
         {
             Title = "YoApp";
@@ -42,9 +44,10 @@ namespace YomoneyApp
 
             accData = new MenuItem();
             //TemplateSelector = new MyTemplateSelector(); //new DataTemplate (typeof(MyView));
-            
-;        }
-      
+
+            ;
+        }
+
         public int Position { get; set; }
 
         #region Get Dashboard Items
@@ -66,30 +69,30 @@ namespace YomoneyApp
                 return;
 
             IsBusy = false;
-           
+
             try
             {
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
 
                 AccessSettings acnt = new Services.AccessSettings();
-                
+
                 string uname = acnt.UserName;
-                
+
                 trn.CustomerMSISDN = uname;
-               
+
                 string Body = "";
 
-                Body += uname;               
+                Body += uname;
 
                 HttpClient client = new HttpClient();
-               
+
                 var myContent = Body;
-               
+
                 string paramlocal = string.Format(HostDomain + "/Mobile/GetDashboard/{0}", myContent);
-                
+
                 string result = await client.GetStringAsync(paramlocal);
-               
+
                 if (result != "System.IO.MemoryStream")
                 {
                     if (result != null)
@@ -101,7 +104,7 @@ namespace YomoneyApp
                         LoyaltySchemes = parts[0].Split(',').LastOrDefault().Replace('"', ' ');
                         Services = parts[1].Split(',').LastOrDefault().Replace('"', ' ');
                         Tasks = parts[2].Split(',').LastOrDefault().Replace('"', ' ');
-                    }                    
+                    }
                 }
 
             }
@@ -120,6 +123,15 @@ namespace YomoneyApp
 
         static string originAddress = string.Empty;
         static string destinationAddress = string.Empty;
+
+        public static List<Position> polygonLocationPoints = new List<Position>
+        {
+            new Position(-17.822804831359214,31.044133453637883),
+            new Position(-17.82215113840043,31.04730918913408),
+            new Position(-17.824275631749476,31.048939972226727),
+            new Position(-17.825828130102487,31.047738342579514),
+            new Position(-17.825828130102487,31.044991760528745)
+        };
 
         #region Display Map with points from Server
         public async void DisplayMap(string serverData)
@@ -159,7 +171,9 @@ namespace YomoneyApp
                             Device.BeginInvokeOnMainThread(async () =>
                             {
                                 await App.Current.MainPage.Navigation.PushAsync(new Directions(RouteName, Role, RouteRate, RouteCost, RouteDuration,
-                                    RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
+                                   RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
+
+                                // await App.Current.MainPage.Navigation.PushAsync(new PolylognView());
                             });
                         }
                         else
@@ -173,8 +187,13 @@ namespace YomoneyApp
                     }
                     else
                     {
-                        await page.DisplayAlert("Error", "There isn't any route rate alloted to this trip. Please contact your service provider", "Ok");
-                    }
+                        await page.DisplayAlert("Error", "There isn't any route rate alloted to this trip. Please contact your service provider for more information", "Ok");
+                        
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new HomePage());
+                        });
+                   }
                 }
             }
             catch (Exception ex)
@@ -183,6 +202,8 @@ namespace YomoneyApp
 
                 await page.DisplayAlert("Error", "There has been an error in loading your routes from the server. " +
                     "Contact customer support from more information", "Ok");
+
+                await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
             }
         }
 
@@ -243,13 +264,13 @@ namespace YomoneyApp
 
                     case "ROUTE":
                         DisplayMap(serverData);
-                        break;                   
+                        break;
 
                     case "PAYMENT":
                         break;
                     default:
                         break;
-                }                
+                }
             }
             else if (parts.Length == 1)
             {
@@ -411,17 +432,17 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
 
-             IsBusy = false;
+            IsBusy = false;
             #region get location 
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.High);
                 var location = await Geolocation.GetLocationAsync(request);
-                
+
                 if (location != null)
                 {
-                    Latitude =  location.Latitude.ToString();
-                    Longitude =  location.Longitude.ToString();
+                    Latitude = location.Latitude.ToString();
+                    Longitude = location.Longitude.ToString();
                 }
             }
             catch (FeatureNotSupportedException fnsEx)
@@ -432,13 +453,13 @@ namespace YomoneyApp
                 try
                 {
                     AccessSettings ac = new Services.AccessSettings();
-                    bool shownotify = false; 
+                    bool shownotify = false;
                     var sh = ac.GetSetting("LocationNotification").Result;
                     if (sh == null) shownotify = true;
-                    if(sh != null)
+                    if (sh != null)
                     {
-                       var e = DateTime.Parse(sh.ToString());
-                        if(DateTime.Now.Subtract(e).Minutes > 30)
+                        var e = DateTime.Parse(sh.ToString());
+                        if (DateTime.Now.Subtract(e).Minutes > 30)
                         {
                             shownotify = true;
                         }
@@ -450,7 +471,7 @@ namespace YomoneyApp
 
                         var options = new NotificationOptions()
                         {
-                            IsClickable = true,                           
+                            IsClickable = true,
                             Title = "Switch on your location",
                             Description = "To get deals near you on YoApp, switch on your location!"
                         };
@@ -537,7 +558,7 @@ namespace YomoneyApp
                         ac.DeleteCredentials();
                         await page.Navigation.PushAsync(new AccountMain());
 
-                    }                  
+                    }
                 }
 
             }
@@ -565,7 +586,7 @@ namespace YomoneyApp
                 return;
 
             IsBusy = false;
-            
+
             try
             {
                 myButtonSource.Clear();
@@ -592,7 +613,7 @@ namespace YomoneyApp
                 mnu.Image = "jobs_icon.png";
                 mnu.Section = "Yomoney";
                 mnu.TransactionType = 2;
-               
+
                 myButtonSource.Add(mnu);
                 mnu = new MenuItem();
                 mnu.Title = "Promotions";
@@ -609,7 +630,7 @@ namespace YomoneyApp
                 mnu.Section = "5-0001-0000000";
                 mnu.TransactionType = 6;
                 mnu.Description = "YoLifestyle";
-                myButtonSource.Add(mnu);                              
+                myButtonSource.Add(mnu);
 
                 mnu = new MenuItem();
                 mnu.Title = "Services";
@@ -669,7 +690,7 @@ namespace YomoneyApp
                         servics.ToArray();
                         myButtonSource.AddRange(servics);
                     }
-                   
+
                 }
 
             }
@@ -866,7 +887,7 @@ namespace YomoneyApp
                     {
                         Credit = response.Balance;
                         //Credit = Math.Round(decimal.Parse(response.Balance), 2).ToString() + " Credits";
-                        Points  = Math.Round((decimal)(response.Amount), 2).ToString() + " Points";
+                        Points = Math.Round((decimal)(response.Amount), 2).ToString() + " Points";
                     }
                     else
                     {
@@ -875,15 +896,15 @@ namespace YomoneyApp
                     }
 
                 }
-                
+
             }
             catch (Exception ex)
             {
-                Credit  = "--.--";
+                Credit = "--.--";
                 Points = "--.-- Points";
                 accData = mnu;
             }
-            
+
         }
         #endregion
 
@@ -901,19 +922,19 @@ namespace YomoneyApp
 
         private static void ExecuteGetAdvertDetailCommand(MenuItem mn)
         {
-           
+
 
             // IsBusy = true;
 
             try
             {
                 NavigationPage pag = new NavigationPage();
-                ServiceViewModel svm = new ServiceViewModel(pag,mn);
+                ServiceViewModel svm = new ServiceViewModel(pag, mn);
                 svm.RenderServiceAction(mn);
             }
             catch (Exception ex)
             {
-                
+
             }
         }
         #endregion
@@ -934,8 +955,8 @@ namespace YomoneyApp
 
         private async Task ExecuteCheckUserCommand()
         {
-          //  if (IsBusy)
-               // return;
+            //  if (IsBusy)
+            // return;
 
             IsBusy = true;
             showAlert = false;
@@ -976,7 +997,7 @@ namespace YomoneyApp
                 Body += "&Quantity=" + trn.Quantity;
                 Body += "&Mpin=" + trn.Mpin;
                 Body += "&Note=" + trn.Note;
-               
+
 
                 HttpClient client = new HttpClient();
                 var myContent = Body;
@@ -994,7 +1015,7 @@ namespace YomoneyApp
                         AccessSettings ac = new Services.AccessSettings();
                         ac.DeleteCredentials();
                         await page.Navigation.PushAsync(new AccountMain());
-                       
+
                     }
                     else
                     {

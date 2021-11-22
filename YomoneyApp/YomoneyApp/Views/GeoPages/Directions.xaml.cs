@@ -384,7 +384,7 @@ namespace YomoneyApp.Views.GeoPages
             }
 
             Navigation.PushAsync(new RouteDetails(HomeViewModel.RouteName, HomeViewModel.Role, HomeViewModel.RouteRate, HomeViewModel.RouteCost, HomeViewModel.RouteDuration,
-                                HomeViewModel.RouteDistance));
+                                HomeViewModel.RouteDistance));         
         }
         #endregion
     }

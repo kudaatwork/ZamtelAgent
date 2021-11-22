@@ -51,11 +51,21 @@ namespace YomoneyApp.Views.GeoPages
         {
             // Receive broadcasted LocatonPoints
 
-            var groupName = HomeViewModel.RouteName.Replace(" ", "");
+            LiveLocationPoints currentLiveLocationPoints = new LiveLocationPoints();
 
-            var points = chatViewModel.ExecuteGetLocationPointsCommand(new RoutesInfo { Name = groupName }); // Receive Broadcasted Points
+            try
+            {
+                var groupName = HomeViewModel.RouteName.Replace(" ", "");
 
-            var currentLiveLocationPoints = JsonConvert.DeserializeObject<LiveLocationPoints>(Convert.ToString(points));
+                var points = chatViewModel.ExecuteGetLocationPointsCommand(new RoutesInfo { Name = groupName }); // Receive Broadcasted Points
+
+                currentLiveLocationPoints = JsonConvert.DeserializeObject<LiveLocationPoints>(Convert.ToString(points));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + ex.StackTrace + ex.InnerException);
+                await DisplayAlert("Error!", "Failed to receive user's current broadcasted location points", "Ok");
+            }            
 
             List<Position> pathcontent = new List<Position>();
 

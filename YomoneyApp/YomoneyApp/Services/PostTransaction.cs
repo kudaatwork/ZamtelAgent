@@ -37,7 +37,7 @@ namespace YomoneyApp.Services
 
                 HttpClient client = new HttpClient();
                 var myContent = Body;
-                string paramlocal = string.Format("http://192.168.100.150:5000/Mobile/Transaction/?{0}", myContent);
+                string paramlocal = string.Format("https://www.yomoneyservice.com/Mobile/Transaction/?{0}", myContent);
                 string result = await client.GetStringAsync(paramlocal);
                 /*HttpResponseMessage wcfResponse = await client.GetAsync(paramlocal);
                 HttpContent stream = wcfResponse.Content;

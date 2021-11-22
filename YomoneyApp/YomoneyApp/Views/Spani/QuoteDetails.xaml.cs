@@ -70,7 +70,7 @@ namespace YomoneyApp.Views.Spani
                 {
                     var supplierId = parts[0];
                    
-                    await Navigation.PushModalAsync(new WebviewPage("http://192.168.100.150:5000/Mobile/JobProfile?id=" + supplierId, "Job Profile", true, null));
+                    await Navigation.PushModalAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + supplierId, "Job Profile", true, null));
                 }
                 else
                 {
