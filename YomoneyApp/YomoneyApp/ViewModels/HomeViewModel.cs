@@ -27,7 +27,7 @@ namespace YomoneyApp
     {
         public static FileUpload fileUpload = new FileUpload();
 
-        readonly string HostDomain = "https://www.yomoneyservice.com";
+        readonly string HostDomain = "http://192.168.100.150:5000";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";

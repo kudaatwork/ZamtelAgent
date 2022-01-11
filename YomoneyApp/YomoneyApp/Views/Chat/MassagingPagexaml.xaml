@@ -41,7 +41,8 @@
                            FontSize="Medium"  
                            TextColor="White"  
                            LineBreakMode="NoWrap"/>
-                        <Button 
+                       
+                    <Button 
                     Grid.Row="0"
                     Grid.Column="0"
 			        x:Name="ButtonClose"
@@ -50,8 +51,7 @@
 			        TextColor="White" 
                     FontAttributes="Bold"
 			        Image="back.png"
-                    HorizontalOptions="Start" 
-			        />
+                    HorizontalOptions="Start"/>
 
                     </Grid>
                 </StackLayout>

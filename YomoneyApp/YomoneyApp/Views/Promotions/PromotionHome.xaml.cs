@@ -132,5 +132,23 @@ namespace YomoneyApp.Views.Promotions
         {
 
         }
+
+        private void Button_Clicked(object sender, EventArgs e) // Post Lead
+        {
+            try
+            {
+                var view = sender as Xamarin.Forms.Button;
+                MenuItem menuItem = new YomoneyApp.MenuItem();
+                var menu = JsonConvert.SerializeObject(view.CommandParameter);
+                menuItem = JsonConvert.DeserializeObject<MenuItem>(menu);
+
+                PromotionsViewModel promotion = new PromotionsViewModel(this, menuItem);
+                promotion.GetLeads(menuItem);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

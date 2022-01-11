@@ -17,13 +17,16 @@ using YomoneyApp.Views.Webview;
 using YomoneyApp.Views.Spend;
 using YomoneyApp.Views.Loyalty;
 using YomoneyApp.Views.Promotions;
+using YomoneyApp.Views.Chat;
+using Xamarin.Essentials;
+using Plugin.Toasts;
 
 namespace YomoneyApp
 {
     public class PromotionsViewModel : ViewModelBase
     {
         
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         //string ProcessingCode = "350000";
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
         public ObservableRangeCollection<MenuItem> ServiceOptions { get; set; }
@@ -31,6 +34,10 @@ namespace YomoneyApp
         public ObservableRangeCollection<MenuItem> SearchResults { get; set; }
         public MenuItem PromoDetail { get; set; }
         public bool ForceSync { get; set; }
+
+        string Latitude = "";
+        string Longitude = "";
+
         public PromotionsViewModel(Page page, MenuItem selected) : base(page)
         {
             Title = selected.Title;
@@ -845,7 +852,7 @@ namespace YomoneyApp
         }
         #endregion
 
-        #region load Promotion
+        #region load Current Promotion
         public void GetCurrentPromotions(MenuItem mm)
         {
 
@@ -952,7 +959,7 @@ namespace YomoneyApp
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";
+                            it.Media = "http://192.168.100.150:5000/Content/notify/notify.mp3";
                         }
                         else
                         {
@@ -964,7 +971,7 @@ namespace YomoneyApp
 
                         if(string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
+                            it.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png"; ;
                         }
                     }
 
@@ -1093,7 +1100,7 @@ namespace YomoneyApp
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "https://www.yomoneyservice.com/Content//notify//notify.mp3";
+                            it.Media = "http://192.168.100.150:5000/Content//notify//notify.mp3";
                         }
                         else
                         {
@@ -1104,7 +1111,7 @@ namespace YomoneyApp
                         }
                         if (string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
+                            it.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png"; ;
                         }
                     }
                     SearchResults.ReplaceRange(servics);
@@ -1431,144 +1438,216 @@ namespace YomoneyApp
         #endregion
 
         #region Get Leads
-        //public void RenderServiceAction(MenuItem mm)
-        //{
+        public void GetLeads(MenuItem mm)
+        {
+           
 
-        //    renderService = mm;
-        //    OnPropertyChanged("SelectedAction");
-        //    if (renderService == null)
-        //        return;
+            renderService = mm;
+            OnPropertyChanged("SelectedAction");
+            if (renderService == null)
+                return;
 
-        //    if (ItemSelected == null)
-        //    {
+            if (ItemSelected == null)
+            {
 
-        //        RenderActionCommand.Execute(null);
-        //     //   SelectedService = null;
-        //    }
-        //    else
-        //    {
-        //        ItemSelected.Invoke(renderService);
-        //    }
-        //}
+                GetLeadsCommand.Execute(null);
+                //   SelectedService = null;
+            }
+            else
+            {
+                ItemSelected.Invoke(renderService);
+            }
+        }
 
-        //private Command renderActionCommand;
+        private Command getLeadsCommand;
 
-        //public Command RenderActionCommand
-        //{
-        //    get
-        //    {
-        //        return renderActionCommand ??
-        //            (renderActionCommand = new Command(async () => await ExecuteRenderActionCommand(renderService), () => { return !IsBusy; }));
-        //    }
-        //}
+        public Command GetLeadsCommand
+        {
+            get
+            {
+                return getLeadsCommand ??
+                    (getLeadsCommand = new Command(async () => await ExecuteGetLeadsCommand(renderService), () => { return !IsBusy; }));
+            }
+        }
 
-        //private async Task ExecuteRenderActionCommand(MenuItem itm)
-        //{
-        //    if (IsBusy)
-        //        return;
-        //    if (ForceSync)
-        //     //Settings.LastSync = DateTime.Now.AddDays(-30);
+        AccessSettings ac = new Services.AccessSettings();
 
-        //    IsBusy = true;
-        //    RenderActionCommand.ChangeCanExecute();
-        //    var showAlert = false;
-        //    try
-        //    {
+        private async Task ExecuteGetLeadsCommand(MenuItem itm)
+        {
+            if (IsBusy)
+                return;
+            if (ForceSync)
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-        //        ServiceOptions.Clear();
-        //        List<MenuItem> mnu = new List<MenuItem>();
-        //        TransactionRequest trn = new TransactionRequest();
-        //        AccessSettings acnt = new Services.AccessSettings();
-        //        string pass = acnt.Password;
-        //        string uname = acnt.UserName;
-        //        trn.CustomerAccount = uname + ":" + pass;
-        //        //trn.CustomerAccount = "263774090142:22398";
-        //        trn.MTI = "0200";
-        //        trn.ProcessingCode = "320000";
-        //        trn.Narrative = "Service";
-        //        trn.TransactionType = itm.TransactionType;
-        //        trn.ServiceId = itm.ServiceId;
-        //        trn.ServiceProvider = itm.Section;
-        //        trn.AgentCode = itm.SupplierId;
-        //        trn.Product = itm.Id;
-        //        string Body = "";
-        //        Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
-        //        Body += "&CustomerAccount=" + trn.CustomerAccount;
-        //        Body += "&AgentCode=" + trn.AgentCode;
-        //        Body += "&Action=Mobile";
-        //        Body += "&TerminalId=" + trn.TerminalId;
-        //        Body += "&TransactionRef=" + trn.TransactionRef;
-        //        Body += "&ServiceId=" + trn.ServiceId;
-        //        Body += "&Product=" + trn.Product;
-        //        Body += "&Amount=" + trn.Amount;
-        //        Body += "&MTI=" + trn.MTI;
-        //        Body += "&ProcessingCode=" + trn.ProcessingCode;
-        //        Body += "&ServiceProvider=" + trn.ServiceProvider;
-        //        Body += "&Narrative=" + trn.Narrative;
-        //        Body += "&CustomerData=" + trn.CustomerData;
-        //        Body += "&Quantity=" + trn.Quantity;
-        //        Body += "&Note=" + trn.Note;
-        //        Body += "&Mpin=" + trn.Mpin;
-        //        Body += "&TransactionType=" + trn.TransactionType;
+                IsBusy = true;
+            GetLeadsCommand.ChangeCanExecute();
+            var showAlert = false;
 
-        //        HttpClient client = new HttpClient();
-        //        var myContent = Body;
-        //        string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
-        //        string result = await client.GetStringAsync(paramlocal);
-        //        if (result != "System.IO.MemoryStream")
-        //        {
-        //            var px = new MenuItem();
-        //            var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-        //            var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-        //            px = servics.FirstOrDefault();
-        //            if (response.ResponseCode == "00000")
-        //            {
-        //                switch (px.TransactionType)
-        //                {
-        //                    case 9: // webview  
-        //                        await page.Navigation.PushAsync(new WebviewPage(HostDomain + px.Section , px.Title, false,px.ThemeColor));
-        //                        break;
-        //                    case 3 :// "Payment":
-        //                        await page.Navigation.PushAsync(new ServicePayment(px));
-        //                        break;
-        //                    case 13: // OTP        
-        //                        await page.Navigation.PushAsync(new OTPPage(px));
-        //                        break; 
-        //                    case 14: // file upload       
-        //                        await page.Navigation.PushAsync(new FileUploadPage(px));
-        //                        break;
-        //                    case 15: // Signature 
-        //                        await page.Navigation.PushAsync(new SignaturePage(px));
-        //                        break;
-        //                    case 16: // Signature 
-        //                        await page.Navigation.PushAsync(new SharePage(px));
-        //                        break;
-        //                }
+            #region get location 
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.High);
+                var location = await Geolocation.GetLocationAsync(request);
 
-        //            }
-        //            else
-        //            {
-        //                await page.DisplayAlert("Transaction Error ", "Please try again letter ", "OK");
-        //            }
-        //        }
+                if (location != null)
+                {
+                    Latitude = location.Latitude.ToString();
+                    Longitude = location.Longitude.ToString();
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+            }
+            catch
+            {
+                try
+                {
+                    AccessSettings ac = new Services.AccessSettings();
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        IsBusy = true;
-        //        showAlert = true;
+                    bool shownotify = false;
+                    var sh = ac.GetSetting("LocationNotification").Result;
 
-        //    }
-        //    finally
-        //    {
-        //        IsBusy = false;
-        //        RenderActionCommand.ChangeCanExecute();
-        //    }
+                    if (sh == null) shownotify = true;
+                    if (sh != null)
+                    {
+                        var e = DateTime.Parse(sh.ToString());
+                        if (DateTime.Now.Subtract(e).Minutes > 30)
+                        {
+                            shownotify = true;
+                        }
 
-        //    if (showAlert)
-        //        await page.DisplayAlert("Service Error", "Unable to gather " + itm.Title + ". Check your internet connection", "OK");
+                    }
+                    if (shownotify)
+                    {
+                        var notificator = DependencyService.Get<IToastNotificator>();
 
-        //}
+                        var options = new NotificationOptions()
+                        {
+                            IsClickable = true,
+                            Title = "Switch on your location",
+                            Description = "To get deals near you on YoApp, switch on your location!"
+                        };
+
+                        var result = notificator.Notify(options);
+
+                        var resp = ac.SaveValue("LocationNotification", DateTime.Now.ToString()).Result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                try
+                {
+                    var location = await Geolocation.GetLastKnownLocationAsync();
+
+                    if (location != null)
+                    {
+                        Latitude = location.Latitude.ToString();
+                        Longitude = location.Longitude.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            #endregion
+
+
+            try
+            {
+                ServiceOptions.Clear();
+
+                List<MenuItem> mnu = new List<MenuItem>();
+                TransactionRequest trn = new TransactionRequest();
+               // AccessSettings acnt = new Services.AccessSettings();
+
+                string pass = ac.Password;
+                string uname = ac.UserName;
+                trn.CustomerAccount = uname + ":" + pass;
+                //trn.CustomerAccount = "263774090142:22398";
+                trn.MTI = "0300";
+                trn.ProcessingCode = "460000";
+                trn.Narrative = "Home";
+                trn.Note = Longitude + "," + Latitude;//"-122.084,37.4219983333333"; //
+                trn.AgentCode = "0";
+                trn.Quantity = 0;//redeemSection.Count;
+                trn.ServiceProvider = "HOME";
+                trn.TransactionRef = "Mobile";
+                trn.ServiceId = 0;// redeemSection.ServiceId;
+                trn.Amount = 0;
+                string Body = "";
+                Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+                Body += "&CustomerAccount=" + trn.CustomerAccount;
+                Body += "&AgentCode=" + trn.AgentCode;
+                Body += "&Action=Mobile";
+                Body += "&TerminalId=" + trn.TerminalId;
+                Body += "&TransactionRef=" + trn.TransactionRef;
+                Body += "&ServiceId=" + trn.ServiceId;
+                Body += "&Product=" + trn.Product;
+                Body += "&Amount=" + trn.Amount;
+                Body += "&MTI=" + trn.MTI;
+                Body += "&ProcessingCode=" + trn.ProcessingCode;
+                Body += "&ServiceProvider=" + trn.ServiceProvider;
+                Body += "&Narrative=" + trn.Narrative;
+                Body += "&CustomerData=" + trn.CustomerData;
+                Body += "&Quantity=" + trn.Quantity;
+                Body += "&Mpin=" + trn.Mpin;
+                Body += "&Note=" + trn.Note;
+
+                HttpClient client = new HttpClient();
+                
+                var myContent = Body;
+               
+                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var px = new MenuItem();
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+                    var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+                    px = servics.FirstOrDefault();                   
+
+                    if (response.ResponseCode == "00000")
+                    {                       
+                        await page.Navigation.PushAsync(new SupplierChat(ac.UserName)); // open supplier chat
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("Error!", "There has been an error in send you as a lead to supplier", "Ok");
+
+                        await page.Navigation.PushAsync(new SupplierChat(ac.UserName)); // open supplier chat
+                    }
+                }
+                else
+                {
+                    await page.DisplayAlert("Error!", "There has been an error in send you as a lead to supplier", "Ok");
+
+                    await page.Navigation.PushAsync(new SupplierChat(ac.UserName)); // open supplier chat
+                }
+            }
+            catch (Exception ex)
+            {
+                IsBusy = true;
+                showAlert = false;
+
+                await page.DisplayAlert("Error!", "There has been an error in send you as a lead to supplier", "Ok");
+
+                await page.Navigation.PushAsync(new SupplierChat(ac.UserName)); // open supplier chat
+
+            }
+            finally
+            {
+                IsBusy = false;
+                RenderActionCommand.ChangeCanExecute();
+            }
+
+            if (showAlert)
+                await page.DisplayAlert("Service Error", "Unable to gather " + itm.Title + ". Check your internet connection", "OK");
+
+        }
         #endregion
 
         #region cancel 

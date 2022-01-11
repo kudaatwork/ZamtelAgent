@@ -55,9 +55,9 @@ namespace YomoneyApp
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
-                    //Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+                    //Navigation.PushAsync(new WebviewPage("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
 
-                    Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
+                    Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
                 }),
 
                 Text = "My Profile",
@@ -293,7 +293,7 @@ namespace YomoneyApp
                     case "TASKS":
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
-                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+                        string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
                         string title = "My Tasks";
 
                         

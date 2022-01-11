@@ -85,6 +85,9 @@
 
                             <Frame BackgroundColor="White" Padding="10,12,10,12" Margin="8,6,8,6" CornerRadius="10" HasShadow="True" me:ShadowEffect.Opacity="0.6">
                                 <StackLayout>
+                                    
+                                    <!-- Advert -->
+                                    
                                     <Grid IsVisible="{Binding IsAdvert}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="65"/>
@@ -144,8 +147,19 @@
                                         CommandParameter ="{Binding}"
                                         Clicked="Share_Clicked"/>
 
-                                        <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="End"  Text="Share" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                        <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="EndAndExpand"  Text="Share" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
 
+                                        <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="2"
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="shareee.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Button_Clicked"/>
+
+                                        <Label Grid.Row="4" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="EndAndExpand"  Text="Supplier Chat" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
+                                        
                                         <!--<Button
                                         Grid.Row="4" 
                                         Grid.Column="3"
