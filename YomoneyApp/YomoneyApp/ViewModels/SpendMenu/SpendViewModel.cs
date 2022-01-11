@@ -829,6 +829,7 @@ namespace YomoneyApp
                         trn.CustomerData = PhoneNumber;
                         trn.OrderLines = Ptitle;
                         trn.TransactionType = 7;
+                        trn.Currency = mn.Currency;
                         string Body = "";
                         Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                         Body += "&CustomerAccount=" + trn.CustomerAccount;
@@ -847,6 +848,7 @@ namespace YomoneyApp
                         Body += "&CustomerData=" + trn.CustomerData;
                         Body += "&Quantity=" + trn.Quantity;
                         Body += "&Note=" + trn.Note;
+                        Body += "&Currency=" + trn.Currency;
                         Body += "&Mpin=" + trn.Mpin;
                         Body += "&TransactionType=" + trn.TransactionType;
 
@@ -996,13 +998,15 @@ namespace YomoneyApp
                             trn.CustomerData = PhoneNumber;
                             trn.TerminalId = "ClientApp";
                             trn.TransactionRef = "";
-                            trn.TransactionType = 7;
+                            trn.TransactionType = 2;
                             trn.ServiceProvider = "Purchase";
                             trn.Narrative = "Purchase";
                             trn.Note = "YomoneySupplier";
                             trn.ServiceId = Categories.Where(u => u.Title == category).FirstOrDefault().ServiceId;
                             trn.Product = Categories.Where(u => u.Title == category).FirstOrDefault().Id;
+                            trn.ActionId = long.Parse(Categories.Where(u => u.Title == category).FirstOrDefault().Id);
                             trn.Amount = decimal.Parse(Budget);
+                            trn.Currency = mn.Currency;
                             trn.CustomerMSISDN = AccountNumber;
                             string Body = "";
                             Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
@@ -1022,6 +1026,10 @@ namespace YomoneyApp
                             Body += "&Quantity=" + trn.Quantity;
                             Body += "&Note=" + trn.Note;
                             Body += "&Mpin=" + trn.Mpin;
+                            Body += "&Currency=" + trn.Currency;
+                            Body += "&TransactionType=" + trn.TransactionType ;
+                            Body += "&ActionId=" + trn.ActionId;
+
 
                             HttpClient client = new HttpClient();
                             client.Timeout = TimeSpan.FromSeconds(180);

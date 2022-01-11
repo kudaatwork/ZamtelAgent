@@ -37,13 +37,6 @@ namespace YomoneyApp
             viewModel.Credit = "--:--";
             viewM = new YomoneyApp.ChatViewModel(this); //ViewModelLocator.ChatMainViewModel;
 
-            viewModel.ExecuteGetDashboardItemsCommand();
-           
-            if (Device.Idiom == TargetIdiom.Tablet)
-            {
-               // HeroImage.Source = ImageSource.FromFile("herotablet.jpg");
-            }
-
             MenuItem selectedAction = new MenuItem 
             { 
                 Title = "Transaction History", 
@@ -92,7 +85,7 @@ namespace YomoneyApp
                 {
                     MenuItem px = new YomoneyApp.MenuItem();
                     px.Title = "DashBoard";
-                    Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
+                    Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks, viewModel.Orders));
                 }),
 
                 Text = "DashBoard",
@@ -303,20 +296,10 @@ namespace YomoneyApp
                         string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
                         string title = "My Tasks";
 
-                        //string link = "http://102.130.120.163:8090/Login/PosLoginM?username=Salesaqu&password=admin";
+                        
+                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#df782d",false));
 
-                        //string link = "https://www.yomoneyservice.com/Mobile/invokeCsAction?Id=" + "263774090142&message=Kuda";
-
-                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#df782d"));
-
-                        //await Navigation.PushModalAsync(new WebviewPage(link, "My Tasks", true, "#df782d"));
-                        MessagingCenter.Subscribe<string, string>("Route", "OpenMap", async (sender, arg) =>
-                        {
-                            if (!string.IsNullOrEmpty(arg))
-                            {
-                                // call your map
-                            }
-                        });
+                        
                         break;
                  default:
                         break;
@@ -353,7 +336,7 @@ namespace YomoneyApp
             if (Navigation.NavigationStack.Count == 0 ||
                 Navigation.NavigationStack.Last().GetType() != typeof(WaletServices))
             {
-                await Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
+                await Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks, viewModel.Orders));
             }
         }
 

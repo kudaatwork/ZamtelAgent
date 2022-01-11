@@ -13,41 +13,41 @@ namespace YomoneyApp.Views.GeoPages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RouteDetails : ContentPage
     {
-        MapPageViewModel mapPageViewModel;
+        HomeViewModel viewModel;
 
         public RouteDetails(string routeName, string role, decimal routeRate, decimal routeCost, string routeDuration, string routeDistance)
         {
             InitializeComponent();
-            BindingContext = mapPageViewModel = new MapPageViewModel(this);
+            BindingContext = viewModel = new HomeViewModel(this);
 
             if (!String.IsNullOrEmpty(routeName))
             {
-                mapPageViewModel.RouteName = routeName;
+                viewModel.RouteName = routeName;
             }
 
             if (!String.IsNullOrEmpty(role))
             {
-                mapPageViewModel.Role = role;
+                viewModel.Role = role;
             }
 
             if (!String.IsNullOrEmpty(routeRate.ToString()))
             {
-                mapPageViewModel.RouteRate = routeRate;
+                viewModel.RouteRate = routeRate;
             }
 
             if (!String.IsNullOrEmpty(routeCost.ToString()))
             {
-                mapPageViewModel.RouteCost = routeCost;
+                viewModel.RouteCost = routeCost;
             }
 
             if (!String.IsNullOrEmpty(routeDuration))
             {
-                mapPageViewModel.RouteDuration = routeDuration;
+                viewModel.RouteDuration = routeDuration;
             }
 
             if (!String.IsNullOrEmpty(routeDistance))
             {
-                mapPageViewModel.RouteDistance = routeDistance;
+                viewModel.RouteDistance = routeDistance;
             }           
         }
 

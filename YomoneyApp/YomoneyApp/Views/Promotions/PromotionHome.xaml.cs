@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
+//using Xamarin.Forms.Platform.iOS;
 using Xamarin.Forms.Xaml;
 
 namespace YomoneyApp.Views.Promotions

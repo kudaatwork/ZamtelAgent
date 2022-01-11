@@ -36,7 +36,7 @@
                             <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                 <Image Source="amount.png" Aspect="AspectFill" Margin="0"/>
                             </Frame>
-                            <local:MyCustomeEntry Text="{Binding Amount}" FontAttributes="None"  Keyboard="Numeric" Placeholder="Value of the voucher" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                            <local:MyCustomeEntry Text="{Binding Amount}" FontAttributes="None"  Keyboard="Numeric" Placeholder="Amount" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                         </StackLayout>
                     </Frame>
 
@@ -79,7 +79,7 @@
                 </StackLayout>
             </ScrollView>
             <Button x:Name="ButtonPayment" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" FontAttributes="Bold" CornerRadius="15" BorderRadius="6"
-			TextColor="White" 	Text="Make Payment" CommandParameter="{Binding}" Clicked="Voucher_Clicked"/>
+			TextColor="White" 	Text="Make Payment" CommandParameter="{Binding Meni}" Clicked="Voucher_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

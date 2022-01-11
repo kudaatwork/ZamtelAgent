@@ -26,19 +26,27 @@ namespace YomoneyApp.Views.Promotions
         {
             InitializeComponent();
             BindingContext = viewModel = new PromotionsViewModel(this, selected);
+            viewModel.Title = "Promotion Search";
            SelectedItem =selected;
+            InitSearch();
 
         }
         private void searchBar_Focused(object sender, FocusEventArgs e)
         {
             
         }
-        private void text_Changed(object sender, FocusEventArgs e)
+        private async void filterSearch(string search_text)
         {
-            var view = sender as Xamarin.Forms.SearchBar;
-            
-            SelectedItem.Note = view.SearchCommandParameter.ToString();
-            viewModel.GetSearchPromotions(SelectedItem);
+            if (string.IsNullOrEmpty(search_text) && search_text.Length >=3)
+            {
+                SelectedItem.Note = search_text;
+                await viewModel.ExecuteGetSearchCommand(SelectedItem);
+            }
+        }
+        private void InitSearch()
+        {
+            searchBar.TextChanged += (s, e) => filterSearch(searchBar.Text);
+            searchBar.SearchButtonPressed += (s, e) => filterSearch(searchBar.Text);
         }
         
     }

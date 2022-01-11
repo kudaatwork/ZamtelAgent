@@ -47,6 +47,7 @@ namespace YomoneyApp.Views.Fileuploads
 
             FileImage.Source = ImageSource.FromStream(() =>
             {
+                btnUploadImage.IsVisible = true;
                 return _mediaFile.GetStream();
             });
         }
@@ -69,6 +70,7 @@ namespace YomoneyApp.Views.Fileuploads
 
             FileImage.Source = ImageSource.FromStream(() =>
             {
+                btnUploadImage.IsVisible = true;
                 return _mediaFile.GetStream();
             });
         }

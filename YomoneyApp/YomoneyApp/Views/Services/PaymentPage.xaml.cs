@@ -18,6 +18,7 @@ namespace YomoneyApp.Views.Services
     public partial class PaymentPage : ContentPage
     {   
         WalletServicesViewModel viewModel;
+        MenuItem SelectedItem;
         public Action<MenuItem> ItemSelected
         {
             get { return viewModel.ItemSelected; }
@@ -35,7 +36,7 @@ namespace YomoneyApp.Views.Services
             viewModel.Currency = mnu.Currency;
             viewModel.Budget = string.Format("{0:#.00}", mnu.Amount);
             viewModel.Title = mnu.Title;
-
+            SelectedItem = mnu;
             viewModel.ServiceId = mnu.ServiceId;
             PickerStore.SelectedIndexChanged += (sender, e) =>
             {
@@ -65,7 +66,7 @@ namespace YomoneyApp.Views.Services
             base.OnAppearing();
             try
             {
-                var stores = await viewModel.GetPaymentsAsync();
+                var stores = await viewModel.GetPaymentsAsync(SelectedItem);
                 
                 if (viewModel.Category == null || viewModel.Category == "")
                 {

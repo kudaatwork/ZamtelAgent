@@ -61,9 +61,9 @@ namespace YomoneyApp.Views.Services
         {
             bool saved = false;
             FileUpload fileUpload = new FileUpload();
-                     
+
             try
-            {   
+            {
                 using (var bitmap = await signatureView.GetImageStreamAsync(SignatureImageFormat.Png))
                 {
                     AccessSettings acnt = new AccessSettings();
@@ -73,7 +73,7 @@ namespace YomoneyApp.Views.Services
                     var bytes = new byte[bitmap.Length];
                     await bitmap.ReadAsync(bytes, 0, (int)bitmap.Length);
                     string base64 = System.Convert.ToBase64String(bytes);
-                  
+
                     var fileName1 = "sigFile";
 
                     var fileName2 = DateTime.Now.ToString("ddMMyyHHmmss");
@@ -82,14 +82,14 @@ namespace YomoneyApp.Views.Services
 
                     fileUpload.Name = fileName;
                     fileUpload.Type = "png";
-                    fileUpload.PhoneNumber = AccountViewModel.fileUpload.PhoneNumber;
+                    fileUpload.PhoneNumber = HomeViewModel.fileUpload.PhoneNumber;
                     fileUpload.Image = base64;
-                    fileUpload.ServiceId = AccountViewModel.fileUpload.ServiceId;
-                    fileUpload.ActionId = AccountViewModel.fileUpload.ActionId;
-                    fileUpload.SupplierId = AccountViewModel.fileUpload.SupplierId;
-                    fileUpload.Purpose = AccountViewModel.fileUpload.Purpose;
-                    fileUpload.FormId = AccountViewModel.fileUpload.FormId;
-                    fileUpload.FieldId = AccountViewModel.fileUpload.FieldId;
+                    fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
+                    fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
+                    fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
+                    fileUpload.Purpose = HomeViewModel.fileUpload.Purpose;
+                    fileUpload.FormId = HomeViewModel.fileUpload.FormId;
+                    fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
 
                     try
                     {
@@ -120,9 +120,9 @@ namespace YomoneyApp.Views.Services
                                 var resultResponse = JsonConvert.DeserializeObject<string>(result);
 
                                 if (!resultResponse.Contains("Error"))
-                                {                                  
+                                {
                                     await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
-                                    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + resultResponse, "Signature Form", false, null));
+                                    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + resultResponse, "Signature Form", false, null,true));
                                 }
                                 else
                                 {

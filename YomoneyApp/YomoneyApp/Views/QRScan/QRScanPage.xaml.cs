@@ -34,7 +34,7 @@ namespace YomoneyApp.Views.QRScan
                 TryHarder = true,
                 AutoRotate = false,
                 TryInverted = true,
-                DelayBetweenContinuousScans = 2000,
+                DelayBetweenContinuousScans = 1000,
             };
 
             ScannerView.OnScanResult += (result) =>

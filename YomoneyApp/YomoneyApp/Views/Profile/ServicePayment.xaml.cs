@@ -41,7 +41,7 @@ namespace YomoneyApp.Views.Spend
             {
                 try
                 {
-                    var stores = await viewModel.GetPaymentsAsync();
+                    var stores = await viewModel.GetPaymentsAsync(SelectedItem);
                     PickerStore.Items.Clear();
                     foreach (var store in stores)
                         PickerStore.Items.Add(store.Title.Trim());

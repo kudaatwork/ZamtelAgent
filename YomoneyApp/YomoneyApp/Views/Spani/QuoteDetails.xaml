@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"
     xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar"
-             NavigationPage.HasNavigationBar="True"
+   NavigationPage.HasNavigationBar="True"
 	IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout BackgroundColor="White">
@@ -91,6 +91,8 @@
                                         <Label Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                         <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                     <Label Text="{Binding Amount}" TextColor="#2e6910" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label x:Name="SupplierId" Text="{Binding SupplierId}" IsVisible="False"></Label>
+                                        <Button Text="View Profile" Clicked="Button_Clicked" BorderRadius="6" TextColor="White" BackgroundColor="#79c606" Command="{Binding ViewProfileCommand}" CommandParameter="{Binding}"></Button>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

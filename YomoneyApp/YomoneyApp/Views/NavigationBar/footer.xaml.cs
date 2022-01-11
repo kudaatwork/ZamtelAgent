@@ -17,10 +17,13 @@ namespace YomoneyApp.Views.NavigationBar
     public partial class footer : ContentView
     {
         HomeViewModel viewModel;
+
         public footer()
         {
             InitializeComponent();
             BindingContext = viewModel = new YomoneyApp.HomeViewModel(null);
+
+            //viewModel.ExecuteGetDashboardItemsCommand();
 
             btnHome.Clicked += async (sender, e) =>
             {
@@ -96,7 +99,7 @@ namespace YomoneyApp.Views.NavigationBar
                     cnt++;
                 }
 
-                await  Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks));
+                await  Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks, viewModel.Orders));
             };
         }
     }

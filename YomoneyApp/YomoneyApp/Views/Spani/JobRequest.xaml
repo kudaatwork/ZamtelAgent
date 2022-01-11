@@ -10,6 +10,7 @@
      NavigationPage.HasNavigationBar="False"
 	IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout  BackgroundColor="White" VerticalOptions="FillAndExpand">
             <StackLayout  Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
                 <Grid>
@@ -40,6 +41,7 @@
 
                 </Grid>
             </StackLayout>
+            
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
@@ -48,12 +50,12 @@
 	    	 VerticalOptions="Center" 
 	    	 Text="{Binding Message}"/>
             </StackLayout>
-
+            
             <StackLayout BackgroundColor="White" Padding="10,0,10,10" VerticalOptions="FillAndExpand">
 
-                <Label Grid.Row="0" Padding="15,15,15,0" Margin="0,0,0,20" FontSize="Small" Text="Request for a service you need a consultant/freelancer to assist you on." TextColor="Gray" />
+                <Label  Padding="15,15,15,0" Margin="0,0,0,20" FontSize="Small" Text="Request for a service you need a consultant/freelancer to assist you on." TextColor="Gray" />
 
-                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                <Frame BackgroundColor="Transparent"  BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
@@ -62,7 +64,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                <Frame BackgroundColor="Transparent"  BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
@@ -71,7 +73,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                <Frame BackgroundColor="Transparent"  BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
@@ -100,10 +102,10 @@
 
                 <Label Margin="5,0,0,15" FontSize="Small" Text="Date you want the job done" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" TextColor="#df782d" />
 
-                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                <Frame BackgroundColor="Transparent"  BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            <Image Source="date_picker.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
                         <DatePicker Date="{Binding Date, Mode=TwoWay}" WidthRequest="330" Grid.Column="0"/>
                     </StackLayout>
@@ -120,11 +122,12 @@
 
             </StackLayout>
 
-            <StackLayout BackgroundColor="White" Padding="10">
+            <StackLayout  BackgroundColor="White" Padding="10">
                 <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#79c606" Text="SUBMIT" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" Command="{Binding SaveRequestCommand}"/>
             </StackLayout>
-
+         
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>    
        

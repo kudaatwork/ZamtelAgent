@@ -35,7 +35,7 @@ namespace YomoneyApp
         string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
-
+        public MenuItem Meni { get; set; }
         public ObservableRangeCollection<MenuItem> ServiceOptions { get; set; }
 
         public ObservableRangeCollection<MenuItem> Currencies { get; set; }
@@ -45,6 +45,7 @@ namespace YomoneyApp
         public ServiceViewModel(Page page, MenuItem selected) : base(page)
         {
             Title = selected.Title;
+            Meni = selected;
             MediaSource = selected.WebLink;
             Description = selected.Description;
             ServiceOptions = new ObservableRangeCollection<MenuItem>();
@@ -209,7 +210,9 @@ namespace YomoneyApp
                             break;
 
                     }
+
                     //page.Navigation.PushAsync(new SelectPage(selectedAction));
+
                     selectedAction = null;
                     SelectedAction = null;
                 }
@@ -1490,7 +1493,7 @@ namespace YomoneyApp
                     {
                         itm.WebLink = itm.WebLink.Trim() + "&Customer=" + uname;
                     }
-                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(itm.WebLink, itm.Title, false, itm.ThemeColor));
+                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(itm.WebLink, itm.Title, false, itm.ThemeColor,false));
                     return;
                 }
                 trn.MTI = "0200";
@@ -1545,18 +1548,18 @@ namespace YomoneyApp
                             case 9: // webview  
                                 if (px.Note == "External")
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false,px.ThemeColor ));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false,px.ThemeColor, px.IsShare));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                 }
                                 break;
                             case 2:
                             case 3:// "Payment":
                                 if (px.HasProducts)
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor,px.IsShare));
                                     //await page.Navigation.PushAsync(new ServiceActionProducts(px));
                                 }
                                 else
@@ -1581,12 +1584,12 @@ namespace YomoneyApp
                             case 5:
                                 if (px.HasProducts)
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor,px.IsShare));
                                     //await page.Navigation.PushAsync(new ServiceActionProducts(px));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor,px.IsShare));
                                 }
                                 break;
                             case 13: // OTP        
@@ -1610,11 +1613,11 @@ namespace YomoneyApp
                             default:
                                 if (px.Note == "External")
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                 }
                                 break;
                                

@@ -20,7 +20,7 @@ using YomoneyApp;
 using YomoneyApp.Models.Work;
 using YomoneyApp.Models;
 using Xamarin.Forms.PlatformConfiguration;
-using static Android.App.ActivityManager;
+//using static Android.App.ActivityManager;
 
 namespace YomoneyApp
 {
@@ -46,9 +46,11 @@ namespace YomoneyApp
         }
 
         private ObservableRangeCollection<ChatMessage> _messages;
-        public ObservableRangeCollection<ChatMessage> Messages {
+        public ObservableRangeCollection<ChatMessage> Messages
+        {
             get { return _messages; }
-            set {
+            set
+            {
                 _messages = value;
                 OnPropertyChanged("Messages");
             }
@@ -88,9 +90,11 @@ namespace YomoneyApp
         }
 
         private ChatMessage _chatMessage;
-        public ChatMessage ChatMessage {
+        public ChatMessage ChatMessage
+        {
             get { return _chatMessage; }
-            set {
+            set
+            {
                 _chatMessage = value;
                 OnPropertyChanged("ChatMessage");
             }
@@ -325,7 +329,7 @@ namespace YomoneyApp
 
             var edate = msg.Date.AddMinutes(1);
 
-           var today = DateTime.Now.Date;
+            var today = DateTime.Now.Date;
             var dbmm = db.GetMessagesAsync().Result.ToList();
             _messages.Clear();
             _messages.AddRange(dbmm);
@@ -829,9 +833,9 @@ namespace YomoneyApp
         {
             bool isInBackground = true;
 
-            RunningAppProcessInfo myProcess = new RunningAppProcessInfo();
-            Android.App.ActivityManager.GetMyMemoryState(myProcess);
-            isInBackground = myProcess.Importance != Android.App.Importance.Foreground;
+            //RunningAppProcessInfo myProcess = new RunningAppProcessInfo();
+            //Android.App.ActivityManager.GetMyMemoryState(myProcess);
+            //isInBackground = myProcess.Importance != Android.App.Importance.Foreground;
 
             return isInBackground;
         }
@@ -843,8 +847,10 @@ namespace YomoneyApp
         /// <summary>
         /// Command to Send Message
         /// </summary>
-        public Command SendMessageCommand {
-            get {
+        public Command SendMessageCommand
+        {
+            get
+            {
                 /*return sendMessageCommand ??
                     (sendMessageCommand = new Command(async () => await ExecuteSendMessageCommand(), () => { return !IsBusy; }));*/
                 return sendMessageCommand ??
@@ -1094,7 +1100,8 @@ namespace YomoneyApp
 
                 // IsBusy = false;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
             }
         }
@@ -1127,12 +1134,12 @@ namespace YomoneyApp
                 string uname = acnt.UserName;
 
                 var db = new YomoneyRepository(dbPath);
-                
+
                 var today = DateTime.Now.Date;
                 var dbmm = db.GetMessagesAsync().Result.ToList();
                 _messages.Clear();
                 _messages.AddRange(dbmm);
-                                               
+
             }
             catch (Exception ex)
             {
@@ -1143,9 +1150,9 @@ namespace YomoneyApp
             {
                 IsBusy = false;
                 getChatsCommand.ChangeCanExecute();
-            }                      
-                if (showAlert)
-                    await page.DisplayAlert("Oh Oooh", "There has been an error in gathering messages.", "OK");
+            }
+            if (showAlert)
+                await page.DisplayAlert("Oh Oooh", "There has been an error in gathering messages.", "OK");
         }
 
         #endregion
@@ -1298,10 +1305,9 @@ namespace YomoneyApp
                 string uname = acnt.UserName;
                 await _chatServices.GetLocationPoints(lp);
 
-
                 // IsBusy = false;
             }
-            catch(Exception ex)            
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -1315,8 +1321,10 @@ namespace YomoneyApp
         /// <summary>
         /// Command to Send Message
         /// </summary>
-        public Command JoinRoomCommand {
-            get {
+        public Command JoinRoomCommand
+        {
+            get
+            {
                 return joinRoomCommand ??
                     (joinRoomCommand = new Command(ExecuteJoinRoomCommand));
             }
@@ -1382,7 +1390,7 @@ namespace YomoneyApp
 
         public Action RefreshScrollDown { get; internal set; }
         #endregion
-    }  
+    }
 
 }
 

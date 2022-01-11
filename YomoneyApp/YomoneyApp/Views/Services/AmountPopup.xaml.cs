@@ -39,12 +39,13 @@ namespace YomoneyApp.Views.Services
             base.OnAppearing();
             try
             {
-                var stores = await viewModel.GetCurrenciesAsync();
-                PickerCurrency.Items.Clear();
                 if (string.IsNullOrEmpty(SelectedItem.Currency))
                 {
-                    SelectedItem.Currency = "USD";
+                    SelectedItem.Currency = "ZWL";
                 }
+                var stores = await viewModel.GetCurrenciesAsync(SelectedItem);
+                PickerCurrency.Items.Clear();
+                
 
                 foreach (var store in stores)
                 {

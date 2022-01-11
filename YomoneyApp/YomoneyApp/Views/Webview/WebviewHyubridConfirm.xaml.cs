@@ -20,15 +20,26 @@ namespace YomoneyApp.Views.Webview
         ChatViewModel viewM;
         MenuItem mnu;
 
-        MapPageViewModel mapPage = new MapPageViewModel(null);
+      //  MapPageViewModel mapPage = new MapPageViewModel(null);
 
-        AccountViewModel accountViewModel = new AccountViewModel(null);
+       // AccountViewModel accountViewModel = new AccountViewModel(null);
 
-        public WebviewHyubridConfirm(string sourceUrl, string title, bool isModal, string navcolour)
+        public WebviewHyubridConfirm(string sourceUrl, string title, bool isModal, string navcolour, bool showNav = true)
         {
             InitializeComponent();
             BindingContext = homeViewModel = new HomeViewModel(this);
             viewM = new YomoneyApp.ChatViewModel(this);//ViewModelLocator.ChatMainViewModel;
+           
+            if (sourceUrl.Contains("Mobile/Forms") || showNav == false)
+            {
+                NavigationPage.SetHasNavigationBar(this,false);
+                //((NavigationPage)Application.Current.MainPage).IsVisible = false;
+                //homeViewModel.ShowNav = false;
+            }
+            else
+            {
+                NavigationPage.SetHasNavigationBar(this, true);
+            }
 
             homeViewModel.Title = title;
 
@@ -60,32 +71,32 @@ namespace YomoneyApp.Views.Webview
           //  url = sourceUrl;
             homeViewModel.Source = sourceUrl;
 
-            ButtonClose.Clicked += async (sender, e) =>
-            {
-                await App.Current.MainPage.Navigation.PopModalAsync();
-                //await Navigation.PopModalAsync();
-            };
+            //ButtonClose.Clicked += async (sender, e) =>
+            //{
+            //    await App.Current.MainPage.Navigation.PopModalAsync();
+            //    //await Navigation.PopModalAsync();
+            //};
 
             var hybridWebView = new HybridWebView
             {
                 Uri = sourceUrl               
             };
 
-            hybridWebView.RegisterAction(data => mapPage.DisplayMap(data));
+            hybridWebView.RegisterAction(data => homeViewModel.DisplayMap(data));
 
-            Padding = new Thickness(0, 20, 0, 0);
+            Padding = new Thickness(0, 0, 0, 0);
             Content = hybridWebView;
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            await progress.ProgressTo(0.9, 900, Easing.SpringIn);
+            //await progress.ProgressTo(0.9, 900, Easing.SpringIn);
         }        
 
         void webOnEndNavigating(object sender, WebNavigatedEventArgs e)
         {
-            progress.IsVisible = false;
+           // progress.IsVisible = false;
             try
             {
                 switch (e.Result)
@@ -130,7 +141,7 @@ namespace YomoneyApp.Views.Webview
 
         private void Webview_Navigating(object sender, WebNavigatingEventArgs e)
         {           
-           progress.IsVisible = true;           
+          // progress.IsVisible = true;           
         }
     }
 }

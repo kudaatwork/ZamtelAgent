@@ -48,8 +48,10 @@ namespace YomoneyApp.Views.Services
             _mediaFile = await CrossMedia.Current.PickPhotoAsync();
             if (_mediaFile == null) return;
 
+            SavePhoto.IsEnabled = true;
             FileImage.Source = ImageSource.FromStream(() =>
            {
+               
                return _mediaFile.GetStream();
            });
         }  
@@ -68,50 +70,13 @@ namespace YomoneyApp.Views.Services
                 Name = "MyImage.jpg"
             });
             if (_mediaFile == null) return;
-
+            SavePhoto.IsEnabled = true;
             FileImage.Source = ImageSource.FromStream(() =>
             {
                 return _mediaFile.GetStream();  
             });
         }
 
-      /*  private async void SavePhoto_Clicked(object sender, EventArgs e)
-        {
-            AccessSettings acnt = new AccessSettings();
-            string pass = acnt.Password;
-            string uname = acnt.UserName;
-            ByteArrayContent byteArrayContent = new ByteArrayContent(File.ReadAllBytes(_mediaFile.Path));
-
-            Uri webService = new Uri("https://www.yomoneyservice.com/api/vend/Upload");
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, webService);
-            requestMessage.Headers.ExpectContinue = false;
-
-            MultipartFormDataContent multiPartContent = new MultipartFormDataContent("----MyGreatBoundary");
-            //ByteArrayContent byteArrayContent = new ByteArrayContent(fileContents);
-            byteArrayContent.Headers.Add("Content-Type", "application/octet-stream");
-            Guid uniqueId = Guid.NewGuid();
-            multiPartContent.Add(byteArrayContent, "file", "image" + uniqueId + ".jpg");
-            requestMessage.Content = multiPartContent;
-            HttpClient httpClient = new HttpClient();
-            try
-            {
-                HttpResponseMessage httpRequest = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, CancellationToken.None);
-                var responseContent = await httpRequest.Content.ReadAsStringAsync();
-               // ProgressBarWidth += Percentage;
-            }
-            catch (Exception u)
-            {
-                if (u.Message == "Object reference not set to an instance of an object.")
-                {
-                    await DisplayAlert("Error", "Please select an image or take a photo.", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-                }
-            }
-        }*/
-        
         private async void SavePhoto_Clicked(object sender, EventArgs e)
         {
             AccessSettings acnt = new AccessSettings();
@@ -139,7 +104,7 @@ namespace YomoneyApp.Views.Services
 
             fileUpload.Name = fileName;
             fileUpload.Type = type;
-            fileUpload.PhoneNumber = viewModel.PhoneNumber;
+            fileUpload.PhoneNumber = uname;
             fileUpload.Image = base64;
             fileUpload.Purpose = "Profile Picture";
             fileUpload.ServiceId = 0;

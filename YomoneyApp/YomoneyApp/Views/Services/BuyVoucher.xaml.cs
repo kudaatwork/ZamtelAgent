@@ -58,11 +58,11 @@ namespace YomoneyApp.Views.Services
             try
             {
                 
-                var stores = await walletViewModel.GetCurrenciesAsync();
+                var stores = await walletViewModel.GetCurrenciesAsync(SelectedItem);
                 PickerCurrency.Items.Clear();
                 if (string.IsNullOrEmpty(SelectedItem.Currency))
                 {
-                    SelectedItem.Currency = "USD";
+                    SelectedItem.Currency = "ZWL";
                 }
 
                 foreach (var store in stores)

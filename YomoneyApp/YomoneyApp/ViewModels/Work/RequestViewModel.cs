@@ -17,6 +17,7 @@ using YomoneyApp.Views.Chat;
 using YomoneyApp.Views.Services;
 using Xamarin.Essentials;
 using YomoneyApp.Models;
+using YomoneyApp.Views.Webview;
 
 namespace YomoneyApp
 {
@@ -33,6 +34,8 @@ namespace YomoneyApp
         public ObservableRangeCollection<Placemark> GeoPlaces { get; set; }
         public ObservableCollection<string> SubCategories { get; set; }
         public ObservableRangeCollection<MenuItem> Currencies { get; set; }
+        public ObservableRangeCollection<MenuItem> myButtonSource { get; set; }
+
         public RequestViewModel(Page page) : base(page)
         {
             dataStore = DependencyService.Get<IDataStore>();
@@ -42,6 +45,7 @@ namespace YomoneyApp
             GeoPlaces = new ObservableRangeCollection<Placemark>();
             SubCategories = new ObservableCollection<string>();
             Currencies = new ObservableRangeCollection<MenuItem>();
+            myButtonSource = new ObservableRangeCollection<MenuItem>();
         }
         public Action<MenuItem> ItemSelected { get; set; }
 
@@ -229,6 +233,55 @@ namespace YomoneyApp
                 }
             }
         }
+
+        #region Poplar Job categories
+        private Command getPopularCategories;
+
+        public Command GetPopularCategories
+        {
+            get
+            {
+                return getPopularCategories ??
+                    (getPopularCategories = new Command(async () => await ExecuteGetPopularCategoriesCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetPopularCategoriesCommand()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = false;
+
+            try
+            {
+                List<MenuItem> popularJobCategories = new List<MenuItem>();
+
+                List<MenuItem> popJobCategories = new List<MenuItem>();
+
+                Random random = new Random();
+
+                var jobCategories = await GetStoreAsync("JobSectors");
+
+                foreach (var item in jobCategories)
+                {
+                    item.Title = item.Title?.Trim();
+                    item.Id = item.Id?.Trim();
+                    item.Image = item.Image?.Trim();                
+                }
+
+                //var newjbCategories = jobCategories.OrderBy(x => random.Next()).Take(8);
+
+                myButtonSource.Clear();
+
+                myButtonSource.AddRange(jobCategories);
+            }
+            catch (Exception ex)
+            {
+                //showAlert = true;
+            }
+        }
+        #endregion
 
         private Command forceRefreshCommand;
 
@@ -564,7 +617,7 @@ namespace YomoneyApp
 
         }
 
-        public async Task<IEnumerable<MenuItem>> GetStoreAsync( string note)
+        public async Task<List<MenuItem>> GetStoreAsync( string note)
         {
             if (IsBusy)
                 return new List<MenuItem>();
@@ -1602,6 +1655,43 @@ namespace YomoneyApp
             }
         }
 
+        #region ViewProfile Command
+        private Command viewProfileCommand;
+
+        public Command ViewProfileCommand
+        {
+            get
+            {
+                return viewProfileCommand ??
+                    (viewProfileCommand = new Command(async () => await ExecuteViewProfileCommand(SupplierId), () => { return !IsBusy; }));
+            }
+        }
+
+        private async Task ExecuteViewProfileCommand(string SupplierId)
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            ViewProfileCommand.ChangeCanExecute();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(SupplierId))
+                {                   
+
+                    await page.Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + SupplierId, "My Profile", false, null,true));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException);
+            }
+        }
+        #endregion
+
+
         private Command getBidCommand;
 
         public Command GetBidCommand
@@ -1673,7 +1763,9 @@ namespace YomoneyApp
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+                   
                     servics.Where(u => u.SupplierId == uname).ToList();
+
                     if (servics.Count > 0)
                     {
                         foreach (var itm in servics)
@@ -2626,6 +2718,7 @@ namespace YomoneyApp
                 trn.ProcessingCode = ProcessingCode;
                 trn.Narrative = JsonConvert.SerializeObject(jp);
                 trn.Note = "AwardBid";
+                trn.Currency = Currency;
                 //trn.AgentCode = selectedOption.SupplierId;
                 // trn.Quantity = selectedOption.Count;
                 // trn.Product = selectedOption.Description;
@@ -2647,6 +2740,7 @@ namespace YomoneyApp
                 Body += "&Quantity=" + trn.Quantity;
                 Body += "&Note=" + trn.Note;
                 Body += "&Mpin=" + trn.Mpin;
+                Body += "&Currency=" + trn.Currency;
 
                 var client = new HttpClient();
                 var myContent = Body;
@@ -2969,6 +3063,7 @@ namespace YomoneyApp
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 await page.DisplayAlert("Oh Oooh :(", "Unable to save feedback, please try again.", "OK");
             }
             finally
@@ -2980,6 +3075,13 @@ namespace YomoneyApp
         #endregion
 
         #region Object 
+
+        string supplierId = "";
+        public string SupplierId
+        {
+            get { return supplierId; }
+            set { SetProperty(ref supplierId, value); }
+        }
 
         double longitude ;
         public double Longitude
@@ -3029,7 +3131,21 @@ namespace YomoneyApp
             get { return showNavigation; }
             set { SetProperty(ref showNavigation, value); }
         }
-        
+
+        bool hasCategory = false;
+        public bool HasCategory
+        {
+            get { return hasCategory; }
+            set { SetProperty(ref hasCategory, value); }
+        }
+
+        bool hasNoCategory = false;
+        public bool HasNoCategory
+        {
+            get { return hasNoCategory; }
+            set { SetProperty(ref hasNoCategory, value); }
+        }
+
         string phone = string.Empty;
         public string PhoneNumber
         {

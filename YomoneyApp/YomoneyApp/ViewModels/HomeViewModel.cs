@@ -15,11 +15,18 @@ using Xamarin.Essentials;
 using Plugin.Toasts;
 using YomoneyApp.Models;
 using System.Linq;
+using YomoneyApp.Models.Image;
+using System.Web;
+using YomoneyApp.Views.GeoPages;
+using YomoneyApp.Views.Services;
+using Xamarin.Forms.GoogleMaps;
 
 namespace YomoneyApp
 {
     public class HomeViewModel : ViewModelBase
     {
+        public static FileUpload fileUpload = new FileUpload();
+
         readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
         string Latitude = "";
@@ -36,77 +43,11 @@ namespace YomoneyApp
 
             accData = new MenuItem();
             //TemplateSelector = new MyTemplateSelector(); //new DataTemplate (typeof(MyView));
+
             
-;        }
-      
+        }
         public int Position { get; set; }
-
-        #region Get Dashboard Items
-        private Command getDashboardItems;
-
-        public Command GetDashboardItems
-        {
-            get
-            {
-                return getDashboardItems ??
-                    (getDashboardItems = new Command(async () => await ExecuteGetDashboardItemsCommand(), () => { return !IsBusy; }));
-            }
-        }
-
-        public async Task ExecuteGetDashboardItemsCommand()
-        {
-            // dashboard request 
-            if (IsBusy)
-                return;
-
-            IsBusy = false;
-           
-            try
-            {
-                List<MenuItem> mnu = new List<MenuItem>();
-                TransactionRequest trn = new TransactionRequest();
-
-                AccessSettings acnt = new Services.AccessSettings();
-                
-                string uname = acnt.UserName;
-                
-                trn.CustomerMSISDN = uname;
-               
-                string Body = "";
-
-                Body += uname;               
-
-                HttpClient client = new HttpClient();
-               
-                var myContent = Body;
-               
-                string paramlocal = string.Format(HostDomain + "/Mobile/GetDashboard/{0}", myContent);
-                
-                string result = await client.GetStringAsync(paramlocal);
-               
-                if (result != "System.IO.MemoryStream")
-                {
-                    if (result != null)
-                    {
-                        char[] delimiter = new char[] { '_' };
-
-                        string[] parts = result.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
-
-                        LoyaltySchemes = parts[0].Split(',').LastOrDefault().Replace('"', ' ');
-                        Services = parts[1].Split(',').LastOrDefault().Replace('"', ' ');
-                        Tasks = parts[2].Split(',').LastOrDefault().Replace('"', ' ');
-                    }                    
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                showAlert = true;
-            }
-        }
-        #endregion
-
+     
         private Command getStoresCommand;
 
         public Command GetStoresCommand
@@ -124,17 +65,17 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
 
-             IsBusy = false;
+            IsBusy = false;
             #region get location 
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.High);
                 var location = await Geolocation.GetLocationAsync(request);
-                
+
                 if (location != null)
                 {
-                    Latitude =  location.Latitude.ToString();
-                    Longitude =  location.Longitude.ToString();
+                    Latitude = location.Latitude.ToString();
+                    Longitude = location.Longitude.ToString();
                 }
             }
             catch (FeatureNotSupportedException fnsEx)
@@ -145,13 +86,13 @@ namespace YomoneyApp
                 try
                 {
                     AccessSettings ac = new Services.AccessSettings();
-                    bool shownotify = false; 
+                    bool shownotify = false;
                     var sh = ac.GetSetting("LocationNotification").Result;
                     if (sh == null) shownotify = true;
-                    if(sh != null)
+                    if (sh != null)
                     {
-                       var e = DateTime.Parse(sh.ToString());
-                        if(DateTime.Now.Subtract(e).Minutes > 30)
+                        var e = DateTime.Parse(sh.ToString());
+                        if (DateTime.Now.Subtract(e).Minutes > 30)
                         {
                             shownotify = true;
                         }
@@ -163,9 +104,9 @@ namespace YomoneyApp
 
                         var options = new NotificationOptions()
                         {
-
-                            Title = "Switch On Location",
-                            Description = "To get deals near you on yomoney, switch on your location"
+                            IsClickable = true,
+                            Title = "Switch on your location",
+                            Description = "To get deals near you on YoApp, switch on your location!"
                         };
 
                         var result = notificator.Notify(options);
@@ -250,7 +191,7 @@ namespace YomoneyApp
                         ac.DeleteCredentials();
                         await page.Navigation.PushAsync(new AccountMain());
 
-                    }                  
+                    }
                 }
 
             }
@@ -278,7 +219,7 @@ namespace YomoneyApp
                 return;
 
             IsBusy = false;
-            
+
             try
             {
                 myButtonSource.Clear();
@@ -305,7 +246,7 @@ namespace YomoneyApp
                 mnu.Image = "jobs_icon.png";
                 mnu.Section = "Yomoney";
                 mnu.TransactionType = 2;
-               
+
                 myButtonSource.Add(mnu);
                 mnu = new MenuItem();
                 mnu.Title = "Promotions";
@@ -322,7 +263,7 @@ namespace YomoneyApp
                 mnu.Section = "5-0001-0000000";
                 mnu.TransactionType = 6;
                 mnu.Description = "YoLifestyle";
-                myButtonSource.Add(mnu);                              
+                myButtonSource.Add(mnu);
 
                 mnu = new MenuItem();
                 mnu.Title = "Services";
@@ -382,7 +323,7 @@ namespace YomoneyApp
                         servics.ToArray();
                         myButtonSource.AddRange(servics);
                     }
-                   
+
                 }
 
             }
@@ -391,6 +332,305 @@ namespace YomoneyApp
                 showAlert = true;
             }
         }
+        #endregion
+
+        #region Webview Stuff
+        public static GoogleDirection googleDirectionGlobal;
+
+        public static List<RoutesInfo> routes = new List<RoutesInfo>();
+
+        static string originAddress = string.Empty;
+        static string destinationAddress = string.Empty;
+
+        public static List<Position> polygonLocationPoints = new List<Position>
+        {
+            new Position(-17.822804831359214,31.044133453637883),
+            new Position(-17.82215113840043,31.04730918913408),
+            new Position(-17.824275631749476,31.048939972226727),
+            new Position(-17.825828130102487,31.047738342579514),
+            new Position(-17.825828130102487,31.044991760528745)
+        };
+
+        #region Display Map with points from Server
+        public async void DisplayMap(string serverData)
+        {
+            try
+            {
+                string dencodedServerData = HttpUtility.HtmlDecode(serverData);
+
+                char[] delimite = new char[] { '_' };
+
+                string[] parts = dencodedServerData.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+                if (parts.Length > 5 || parts.Length <= 1)
+                {
+                    CheckData(serverData);
+                }
+                else
+                {
+                    var routeId = parts[0];
+                    var name = parts[1];
+                    var rate = Convert.ToDecimal(parts[2]);
+                    var role = parts[3].Trim().ToLower();
+                    var destinations = parts[4];
+
+                    RouteName = parts[1].Trim();
+                    RouteRate = Convert.ToDecimal(parts[2]);
+                    Role = parts[3].Trim();
+
+                    routes = JsonConvert.DeserializeObject<List<RoutesInfo>>(destinations);
+                    originAddress = routes[0].Address;
+                    destinationAddress = routes[1].Address;
+
+                    if (rate > 0) // Only if Rate is Greater than 0
+                    {
+                        if (role == "driver" || role == "passenger") // Drivers and Passengers
+                        {
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await App.Current.MainPage.Navigation.PushAsync(new Directions(RouteName, Role, RouteRate, RouteCost, RouteDuration,
+                                   RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
+
+                                // await App.Current.MainPage.Navigation.PushAsync(new PolylognView());
+                            });
+                        }
+                        else
+                        {
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await App.Current.MainPage.Navigation.PushAsync(new Viewers(RouteName, Role, RouteRate, RouteCost, RouteDuration,
+                                    RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
+                            });
+                        }
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("Error", "There isn't any route rate alloted to this trip. Please contact your service provider for more information", "Ok");
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new HomePage());
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                await page.DisplayAlert("Error", "There has been an error in loading your routes from the server. " +
+                    "Contact customer support from more information", "Ok");
+
+                await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+            }
+        }
+
+        public async void CheckData(string serverData)
+        {
+            var dencodedServerData = string.Empty;
+
+            if (!String.IsNullOrEmpty(serverData))
+            {
+                dencodedServerData = HttpUtility.HtmlDecode(serverData);
+            }
+
+            char[] delimite = new char[] { '_' };
+
+            string[] parts = dencodedServerData.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length > 5)
+            {
+                var purpose = parts[0].ToUpper().Trim();
+                var supplier = parts[1];
+                var serviceId = parts[2];
+                var actionId = parts[3];
+                var formId = parts[4];
+                var fieldId = parts[5];
+                var phoneNumber = parts[6];
+
+                MenuItem menuItem = new MenuItem();
+
+                switch (purpose)
+                {
+                    case "SIGNATURE":
+
+                        fileUpload.Purpose = purpose;
+                        fileUpload.SupplierId = supplier;
+                        fileUpload.ServiceId = Convert.ToInt64(serviceId);
+                        fileUpload.ActionId = Convert.ToInt64(actionId);
+                        fileUpload.FormId = formId;
+                        fileUpload.FieldId = fieldId;
+                        fileUpload.PhoneNumber = phoneNumber;
+
+                        //await serviceViewModel.ExecuteRenderActionCommand(null);
+
+                        menuItem.ActionId = fileUpload.ActionId;
+                        menuItem.ServiceId = fileUpload.ServiceId;
+                        menuItem.SupplierId = fileUpload.SupplierId;
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new SignaturePage(menuItem));
+                        });
+
+                        //await page.Navigation.PushAsync(new SignaturePage(null));
+
+                        break;
+
+                    case "UPLOAD":
+                        break;
+
+                    case "ROUTE":
+                        DisplayMap(serverData);
+                        break;
+
+                    case "PAYMENT":
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (parts.Length == 1)
+            {
+                var formPurpose = parts[0].ToUpper().Trim();
+
+                if (formPurpose == "BACK")
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await App.Current.MainPage.Navigation.PopAsync();
+                    });
+                }
+            }
+            else
+            {
+
+            }
+
+
+        }
+
+        #endregion
+
+        #region Load Routes using PolyLines
+        public async Task<System.Collections.Generic.List<Xamarin.Forms.GoogleMaps.Position>> LoadRoutes(string mode, string waypoints)
+        {
+            try
+            {
+                var googleDirection = await ApiServices.ServiceClientInstance.GetDirections(originAddress, destinationAddress, mode, waypoints);
+
+                googleDirectionGlobal = googleDirection;
+
+                if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
+                {
+                    foreach (var item in googleDirection.Routes)
+                    {
+                        foreach (var item2 in item.Legs)
+                        {
+                            RouteDistance = item2.Distance.Text;
+                            RouteDuration = item2.Duration.Text;
+
+                            var cost = item2.Distance.Value * RouteRate;
+
+                            RouteRate = cost;
+                        }
+                    }
+
+                    var positions = (Enumerable.ToList(PolylineHelper.Decode(googleDirection.Routes.First().OverviewPolyline.Points)));
+                    return positions;
+                }
+                else
+                {
+                    await page.DisplayAlert("Alert", "Could not load route", "Ok");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+        #endregion
+
+        #region Models
+        string origin = string.Empty;
+        public string Origin
+        {
+            get { return origin; }
+            set { SetProperty(ref origin, value); }
+        }
+
+        string routeName = string.Empty;
+        public string RouteName
+        {
+            get { return routeName; }
+            set { SetProperty(ref routeName, value); }
+        }
+
+        string role = string.Empty;
+        public string Role
+        {
+            get { return role; }
+            set { SetProperty(ref role, value); }
+        }
+
+        decimal routeRate = 0m;
+        public decimal RouteRate
+        {
+            get { return routeRate; }
+            set { SetProperty(ref routeRate, value); }
+        }
+
+        decimal routeCost = 0m;
+        public decimal RouteCost
+        {
+            get { return routeCost; }
+            set { SetProperty(ref routeCost, value); }
+        }
+
+        string destination = string.Empty;
+        public string Destination
+        {
+            get { return destination; }
+            set { SetProperty(ref destination, value); }
+        }
+
+        string routeDuration = string.Empty;
+        public string RouteDuration
+        {
+            get { return routeDuration; }
+            set { SetProperty(ref routeDuration, value); }
+        }
+
+        string routeDistance = string.Empty;
+        public string RouteDistance
+        {
+            get { return routeDistance; }
+            set { SetProperty(ref routeDistance, value); }
+        }
+
+        string routeRealTimeDistance = string.Empty;
+        public string RouteRealTimeDistance
+        {
+            get { return routeRealTimeDistance; }
+            set { SetProperty(ref routeRealTimeDistance, value); }
+        }
+
+        string routeRealTimeDuration = string.Empty;
+        public string RouteRealTimeDuration
+        {
+            get { return routeRealTimeDuration; }
+            set { SetProperty(ref routeRealTimeDuration, value); }
+        }
+
+        string routeRealTimeInstructions = string.Empty;
+        public string RouteRealTimeInstructions
+        {
+            get { return routeRealTimeInstructions; }
+            set { SetProperty(ref routeRealTimeInstructions, value); }
+        }
+        #endregion
         #endregion
 
         #region get location
@@ -530,7 +770,7 @@ namespace YomoneyApp
             if (page.Navigation.NavigationStack.Count == 0 ||
                     page.Navigation.NavigationStack.GetType() != typeof(WaletServices))
             {
-                await page.Navigation.PushAsync(new WaletServices(LoyaltySchemes, Services, Tasks));
+                await page.Navigation.PushAsync(new WaletServices(LoyaltySchemes, Services, Tasks,Orders));
             }
         }
 
@@ -579,7 +819,7 @@ namespace YomoneyApp
                     {
                         Credit = response.Balance;
                         //Credit = Math.Round(decimal.Parse(response.Balance), 2).ToString() + " Credits";
-                        Points  = Math.Round((decimal)(response.Amount), 2).ToString() + " Points";
+                        Points = Math.Round((decimal)(response.Amount), 2).ToString() + " Points";
                     }
                     else
                     {
@@ -588,15 +828,15 @@ namespace YomoneyApp
                     }
 
                 }
-                
+
             }
             catch (Exception ex)
             {
-                Credit  = "--.--";
+                Credit = "--.--";
                 Points = "--.-- Points";
                 accData = mnu;
             }
-            
+
         }
         #endregion
 
@@ -614,19 +854,19 @@ namespace YomoneyApp
 
         private static void ExecuteGetAdvertDetailCommand(MenuItem mn)
         {
-           
+
 
             // IsBusy = true;
 
             try
             {
                 NavigationPage pag = new NavigationPage();
-                ServiceViewModel svm = new ServiceViewModel(pag,mn);
+                ServiceViewModel svm = new ServiceViewModel(pag, mn);
                 svm.RenderServiceAction(mn);
             }
             catch (Exception ex)
             {
-                
+
             }
         }
         #endregion
@@ -647,8 +887,8 @@ namespace YomoneyApp
 
         private async Task ExecuteCheckUserCommand()
         {
-          //  if (IsBusy)
-               // return;
+            //  if (IsBusy)
+            // return;
 
             IsBusy = true;
             showAlert = false;
@@ -689,7 +929,7 @@ namespace YomoneyApp
                 Body += "&Quantity=" + trn.Quantity;
                 Body += "&Mpin=" + trn.Mpin;
                 Body += "&Note=" + trn.Note;
-               
+
 
                 HttpClient client = new HttpClient();
                 var myContent = Body;
@@ -707,7 +947,7 @@ namespace YomoneyApp
                         AccessSettings ac = new Services.AccessSettings();
                         ac.DeleteCredentials();
                         await page.Navigation.PushAsync(new AccountMain());
-                       
+
                     }
                     else
                     {
@@ -764,7 +1004,12 @@ namespace YomoneyApp
             get { return tasks; }
             set { SetProperty(ref tasks, value); }
         }
-
+        string orders = string.Empty;
+        public string Orders
+        {
+            get { return orders; }
+            set { SetProperty(ref orders, value); }
+        }
         string source = string.Empty;
         public string Source
         {
@@ -778,8 +1023,14 @@ namespace YomoneyApp
             get { return points; }
             set { SetProperty(ref points, value); }
         }
-      
-      
+
+        bool showNav = true;
+        public bool ShowNav
+        {
+            get { return showNav; }
+            set { SetProperty(ref showNav, value); }
+        }
+
 
         #endregion
     }

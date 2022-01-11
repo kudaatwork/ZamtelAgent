@@ -37,7 +37,16 @@ namespace YomoneyApp.Services
             {
                 GoogleDirection googleDirection = new GoogleDirection();
 
-                var request = $"api/directions/json?mode={mode}&transit_routing_preference=less_driving&origin={originAddress}&destination={destinationAddress}&waypoints=optimize:true{waypoints}&key={AppConstants.GoogleMapsApiKey}";
+                var request = string.Empty;
+
+                if (string.IsNullOrEmpty(waypoints))
+                {
+                    request = $"api/directions/json?mode={mode}&transit_routing_preference=less_driving&origin={originAddress}&destination={destinationAddress}&key={AppConstants.GoogleMapsApiKey}";
+                }
+                else
+                {
+                    request = $"api/directions/json?mode={mode}&transit_routing_preference=less_driving&origin={originAddress}&destination={destinationAddress}&waypoints=optimize:true{waypoints}&key={AppConstants.GoogleMapsApiKey}";
+                }                
 
                 var response = await client.GetAsync(request).ConfigureAwait(false);
 

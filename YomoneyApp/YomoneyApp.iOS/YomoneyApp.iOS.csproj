@@ -456,4 +456,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\yomoneywhiteCenter.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\orders-dashboard.png" />
+  </ItemGroup>
 </Project>

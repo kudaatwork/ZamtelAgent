@@ -8,7 +8,7 @@
     x:Class="YomoneyApp.HomePage"
     NavigationPage.HasNavigationBar="True"
     NavigationPage.HasBackButton="false"
-	Title="YoApp Home"
+	Title="Yoapp"
 	IsBusy="{Binding IsBusy}"
     BackgroundColor="#FFFFFF">
     

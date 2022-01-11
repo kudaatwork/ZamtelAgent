@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
+             x:Class="YomoneyApp.Views.Profile.PersonalDetails"
+             Title="Personal Details"
+             NavigationPage.HasNavigationBar="True">
+    
+    <StackLayout BackgroundColor="White">
+        <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="White">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="Transparent" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+	    	        VerticalOptions="Center" 
+	    	        Text="{Binding Message}"/>
+            </StackLayout>
+
+            <ScrollView>
+                <StackLayout VerticalOptions="FillAndExpand">
+
+                    <Label Margin="15,10,15,5" FontSize="Small" Text="Fill in your personal details and submit for verification. 
+                       If you verify your account, you will get the benefit of getting the verified status on the app and get deals from people who will be able to trust you" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="Gray" />
+
+                    <Label Margin="15,5,0,0" FontSize="Small" Text="Gender" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,10,0,0" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="gender.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <Picker x:Name="Gender" Title="Select Gender" WidthRequest="330"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Label Margin="15,5,0,0" FontSize="Small" Text="Active Country" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,10,0,0" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="earth.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <Picker x:Name="Countries" Title="Select Country" WidthRequest="330"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Label Margin="15,5,0,0" FontSize="Small" Text="Date of Birth" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                    <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="date_picker.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <DatePicker Date="{Binding Date, Mode=TwoWay}" WidthRequest="330" Grid.Column="0"/>
+                        </StackLayout>
+                    </Frame>
+                                        
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,10,0,0" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="person_name.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Id}" FontAttributes="None" Keyboard="Default" Placeholder="National ID Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Button x:Name="btnPickPhoto" Clicked="btnPickPhoto_Clicked" BackgroundColor="#79c606" Text="UPLOAD ID OR PASSPORT" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+
+                    <Image x:Name="FileImage" WidthRequest="100" HeightRequest="50"></Image>
+
+                    <Button x:Name="btnTakePhoto" Clicked="btnTakePhoto_Clicked" BackgroundColor="#79c606" Text="TAKE PHOTO" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+
+                    <Image x:Name="FileTaken" WidthRequest="100" HeightRequest="50"></Image>
+
+                </StackLayout>
+            </ScrollView>
+
+            <StackLayout  Padding="10" BackgroundColor="White">
+                    <Button x:Name="ButtonSubmitFeedback" Clicked="ButtonSubmitFeedback_Clicked" BackgroundColor="#79c606" IsEnabled="False" Text="SUBMIT" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
+                </StackLayout>
+            
+
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

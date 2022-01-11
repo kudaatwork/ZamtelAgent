@@ -19,16 +19,10 @@
                     TextColor="White"
 	    	        Text="{Binding Message}"/>
                 </StackLayout>
-                
+
                 <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d" Padding="0,10,0,10">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>                       
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Text="{Binding Currency}" Grid.Column="0" HorizontalOptions="End"   FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
-                        <Label Text="{Binding Budget}" Grid.Column="1" HorizontalOptions="Start"   FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
-                    </Grid>
+                    <Label Text="{Binding Currency}"  HorizontalOptions="Center" FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
+                    <Label Text="{Binding Budget}"  HorizontalOptions="Center" FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
                     <Label Text="{Binding Section}" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="NoWrap"/>
                     <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="WordWrap"/>
                 </StackLayout>

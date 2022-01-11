@@ -28,7 +28,7 @@ namespace YomoneyApp.Views.GeoPages
     [DesignTimeVisible(false)]
     public partial class Directions : ContentPage
     {
-        MapPageViewModel mapPageViewModel;
+        HomeViewModel HomeViewModel;
         ChatViewModel chatViewModel;
         Location oldLocation = null;
         CancellationTokenSource cts;
@@ -37,31 +37,31 @@ namespace YomoneyApp.Views.GeoPages
             string routeRealTimeDistance, string routeRealTimeInstructions)
         {
             InitializeComponent();
-            BindingContext = mapPageViewModel = new MapPageViewModel(this);
+            BindingContext = HomeViewModel = new HomeViewModel(this);
             chatViewModel = new ChatViewModel(this);
-            mapPageViewModel.RouteName = routeName;
-            mapPageViewModel.Role = role;
-            mapPageViewModel.RouteRate = routeRate;
-            mapPageViewModel.RouteCost = routeCost;
-            mapPageViewModel.RouteDuration = routeDuration;
-            mapPageViewModel.RouteDistance = routeDistance;
-            mapPageViewModel.RouteRealTimeDistance = routeRealTimeDistance;
-            mapPageViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
-
-            DisplayRoutes();
+            HomeViewModel.RouteName = routeName;
+            HomeViewModel.Role = role;
+            HomeViewModel.RouteRate = routeRate;
+            HomeViewModel.RouteCost = routeCost;
+            HomeViewModel.RouteDuration = routeDuration;
+            HomeViewModel.RouteDistance = routeDistance;
+            HomeViewModel.RouteRealTimeDistance = routeRealTimeDistance;
+            HomeViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
         }
 
         #region LoadMap
         public async void DisplayRoutes()
         {
-            var groupName = mapPageViewModel.RouteName.Replace(" ", "");
+            var groupName = HomeViewModel.RouteName.Replace(" ", "");
 
             chatViewModel.ExecuteJoinLocationPointGroupCommand(new RoutesInfo { Name = groupName });
 
             #region Using Points/Destinations
             try
             {
-                var locations = MapPageViewModel.routes;
+                var locations = HomeViewModel.routes;
+
+                map.Pins.Clear();
 
                 if (locations != null)
                 {
@@ -74,7 +74,7 @@ namespace YomoneyApp.Views.GeoPages
                             // Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("CarPins.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "CarPins.png", WidthRequest = 20, HeightRequest = 20 }),
                             Position = new Position(Convert.ToDouble(item.Latitude), Convert.ToDouble(item.Longitude)),
                             Address = item.Address
-                        };
+                        };                        
 
                         map.Pins.Add(mapPins);
                     }
@@ -104,7 +104,7 @@ namespace YomoneyApp.Views.GeoPages
 
                 // Draw Route on the Map
 
-                var pathcontent = await mapPageViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
+                var pathcontent = await HomeViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
 
                 foreach (var p in pathcontent)
                 {
@@ -131,7 +131,7 @@ namespace YomoneyApp.Views.GeoPages
         {
             // Get Route
 
-            var locations = MapPageViewModel.routes;
+            var locations = HomeViewModel.routes;
 
             StringBuilder waypointsRoutes = new StringBuilder();
 
@@ -147,7 +147,7 @@ namespace YomoneyApp.Views.GeoPages
                 }
             }
 
-            var pathcontent = await mapPageViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
+            var pathcontent = await HomeViewModel.LoadRoutes("driving", waypointsRoutes.ToString());
 
             map.Polylines.Clear();
 
@@ -173,6 +173,43 @@ namespace YomoneyApp.Views.GeoPages
 
             map.Polylines.Add(polyline2);
 
+            #region Simulation Code
+            //var currentPosition = new Position(Convert.ToDouble(locations[0].Latitude), Convert.ToDouble(locations[0].Longitude));
+
+            //map.Pins.Clear();
+
+            //Pin mapPin = new Pin()
+            //{
+            //    Label = "Traveller",
+            //    Type = PinType.Place,
+            //    Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("CarPins.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "CarPins.png", WidthRequest = 20, HeightRequest = 20 }),
+            //    Position = new Position(Convert.ToDouble(locations[0].Latitude), Convert.ToDouble(locations[0].Longitude)),
+            //    //Address = item.Address
+            //};
+
+            //map.Pins.Add(mapPin);
+
+            //map.MoveToRegion(MapSpan.FromCenterAndRadius(currentPosition, Distance.FromMiles(0.3)));
+
+            //#region Demo/Simulation Code
+            //var positionIndex = 1;
+
+            //Device.StartTimer(TimeSpan.FromSeconds(3), () =>
+            //{
+            //    if (pathcontent.Count > positionIndex)
+            //    {
+            //        UpdatePostions(pathcontent[positionIndex]);
+            //        positionIndex++;
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //});
+            #endregion            
+
+            #region LiveLocation Code
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(30));
@@ -181,11 +218,22 @@ namespace YomoneyApp.Views.GeoPages
 
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
-                // var location = MapPageViewModel.routes[0];
-
                 if (location != null)
                 {
                     var currentPosition = new Position(Convert.ToDouble(location.Latitude), Convert.ToDouble(location.Longitude));
+
+                    map.Pins.Clear();
+
+                    Pin mapPin = new Pin()
+                    {
+                        Label = "Traveller",
+                        Type = PinType.Place,
+                        Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("CarPins.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "CarPins.png", WidthRequest = 20, HeightRequest = 20 }),
+                        Position = new Position(Convert.ToDouble(location.Latitude), Convert.ToDouble(location.Longitude)),
+                        //Address = item.Address
+                    };
+
+                    map.Pins.Add(mapPin);
 
                     map.MoveToRegion(MapSpan.FromCenterAndRadius(currentPosition, Distance.FromMiles(0.3)));
 
@@ -197,37 +245,21 @@ namespace YomoneyApp.Views.GeoPages
                     });
                     #endregion
 
-                    #region Demo/Simulation Code
-                    //var positionIndex = 1;
-
-                    //Device.StartTimer(TimeSpan.FromSeconds(3), () =>
-                    //{
-                    //    if (pathcontent.Count > positionIndex)
-                    //    {
-                    //        UpdatePostions(pathcontent[positionIndex]);
-                    //        positionIndex++;
-                    //        return true;
-                    //    }
-                    //    else
-                    //    {
-                    //        return false;
-                    //    }
-                    //});
-                    #endregion
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            #endregion
         }
         #endregion
 
         #region Update Simulated Locations
         async void UpdatePostions(Xamarin.Forms.GoogleMaps.Position position)
         {
-            if (map.Pins.Count == 1 && map.Polylines != null && map.Polylines?.Count > 1)
-                return;
+            //if (map.Pins.Count == 1 && map.Polylines != null && map.Polylines?.Count > 1)
+          //      return;
 
             var destinationPin = map.Pins.FirstOrDefault();
 
@@ -235,37 +267,52 @@ namespace YomoneyApp.Views.GeoPages
             {
                 destinationPin.Position = new Xamarin.Forms.GoogleMaps.Position(position.Latitude, position.Longitude);
 
-                var groupName = mapPageViewModel.RouteName.Replace(" ", "");
+                var groupName = HomeViewModel.RouteName.Replace(" ", "");
 
                 chatViewModel.ExecuteSendLocationPointCommand(new RoutesInfo { Latitude = position.Latitude.ToString(), Longitude = position.Longitude.ToString(), Name = groupName });
 
+                map.Pins.Clear();
+
+                Pin mapPin = new Pin()
+                {
+                    Label = "Traveller",
+                    Type = PinType.Place,
+                    Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("CarPins.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "CarPins.png", WidthRequest = 20, HeightRequest = 20 }),
+                    Position = new Position(Convert.ToDouble(position.Latitude), Convert.ToDouble(position.Longitude)),
+                    //Address = item.Address
+                };
+
+                map.Pins.Add(mapPin);
+
                 map.MoveToRegion(MapSpan.FromCenterAndRadius(destinationPin.Position, Distance.FromMiles(0.3)));
 
-                var placemarks = await Geocoding.GetPlacemarksAsync(destinationPin.Position.Latitude, destinationPin.Position.Longitude);
-                var placemark = placemarks?.FirstOrDefault();
-                if (placemark != null)
+                #region Commented Out Code
+                //var placemarks = await Geocoding.GetPlacemarksAsync(destinationPin.Position.Latitude, destinationPin.Position.Longitude);
+                //var placemark = placemarks?.FirstOrDefault();
+                //if (placemark != null)
+                //{
+                //    var geocodeAddress =
+                //        $"AdminArea:       {placemark.AdminArea}\n" +
+                //        $"CountryCode:     {placemark.CountryCode}\n" +
+                //        $"CountryName:     {placemark.CountryName}\n" +
+                //        $"FeatureName:     {placemark.FeatureName}\n" +
+                //        $"Locality:        {placemark.Locality}\n" +
+                //        $"PostalCode:      {placemark.PostalCode}\n" +
+                //        $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                //        $"SubLocality:     {placemark.SubLocality}\n" +
+                //        $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                //        $"Location :       {placemark.Location}\n" +
+                //        $"Thoroughfare:    {placemark.Thoroughfare}\n";
+
+                //    Debug.WriteLine(geocodeAddress);
+                //}
+
+                //CrossLocalNotifications.Current.Show("Location Updated", "You checked in to " + placemark.FeatureName + " " + placemark.Locality + " " + placemark.SubLocality, 101, DateTime.Now.AddSeconds(5));
+                #endregion                
+
+                if (HomeViewModel.googleDirectionGlobal.Routes != null && HomeViewModel.googleDirectionGlobal.Routes.Count > 0)
                 {
-                    var geocodeAddress =
-                        $"AdminArea:       {placemark.AdminArea}\n" +
-                        $"CountryCode:     {placemark.CountryCode}\n" +
-                        $"CountryName:     {placemark.CountryName}\n" +
-                        $"FeatureName:     {placemark.FeatureName}\n" +
-                        $"Locality:        {placemark.Locality}\n" +
-                        $"PostalCode:      {placemark.PostalCode}\n" +
-                        $"SubAdminArea:    {placemark.SubAdminArea}\n" +
-                        $"SubLocality:     {placemark.SubLocality}\n" +
-                        $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
-                        $"Location :       {placemark.Location}\n" +
-                        $"Thoroughfare:    {placemark.Thoroughfare}\n";
-
-                    Debug.WriteLine(geocodeAddress);
-                }
-
-                CrossLocalNotifications.Current.Show("Location Updated", "You checked in to " + placemark.FeatureName + " " + placemark.Locality + " " + placemark.SubLocality, 101, DateTime.Now.AddSeconds(5));
-
-                if (MapPageViewModel.googleDirectionGlobal.Routes != null && MapPageViewModel.googleDirectionGlobal.Routes.Count > 0)
-                {
-                    var legs = MapPageViewModel.googleDirectionGlobal.Routes.First().Legs;
+                    var legs = HomeViewModel.googleDirectionGlobal.Routes.First().Legs;
 
                     //var leg = legs.Where(x => x.Steps.Where(x => (PolylineHelper.Decode(x.Polyline.Points).Where(x => x.Latitude == position.Latitude && x.Longitude == position.Longitude)))).FirstOrDefault();
 
@@ -277,9 +324,9 @@ namespace YomoneyApp.Views.GeoPages
 
                             if (stepPositions.FirstOrDefault().Latitude == position.Latitude && stepPositions.FirstOrDefault().Longitude == position.Longitude)
                             {
-                                mapPageViewModel.RouteRealTimeDistance = step.Distance.Text;
-                                mapPageViewModel.RouteRealTimeDuration = step.Duration.Text;
-                                mapPageViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
+                                HomeViewModel.RouteRealTimeDistance = step.Distance.Text;
+                                HomeViewModel.RouteRealTimeDuration = step.Duration.Text;
+                                HomeViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
 
                                 static string StripHTML(string input)
                                 {
@@ -317,13 +364,26 @@ namespace YomoneyApp.Views.GeoPages
                 {
                     var newPosition = new Position(location.Latitude, location.Longitude);
 
-                    var groupName = mapPageViewModel.RouteName.Replace(" ", "");
+                    var groupName = HomeViewModel.RouteName.Replace(" ", "");
 
                     chatViewModel.ExecuteSendLocationPointCommand(new RoutesInfo { Latitude = newPosition.Latitude.ToString(), Longitude = newPosition.Longitude.ToString(), Name = groupName });
 
+                    map.Pins.Clear();
+
+                    Pin mapPin = new Pin()
+                    {
+                        Label = "Traveller",
+                        Type = PinType.Place,
+                        Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("CarPins.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "CarPins.png", WidthRequest = 20, HeightRequest = 20 }),
+                        Position = new Position(Convert.ToDouble(location.Latitude), Convert.ToDouble(location.Longitude)),
+                        //Address = item.Address
+                    };
+
+                    map.Pins.Add(mapPin);
+
                     map.MoveToRegion(MapSpan.FromCenterAndRadius(newPosition, Distance.FromMiles(0.3)));
 
-                    var legs = MapPageViewModel.googleDirectionGlobal.Routes.First().Legs;
+                    var legs = HomeViewModel.googleDirectionGlobal.Routes.First().Legs;
 
                     //var leg = legs.Where(x => x.Steps.Where(x => (PolylineHelper.Decode(x.Polyline.Points).Where(x => x.Latitude == position.Latitude && x.Longitude == position.Longitude)))).FirstOrDefault();
 
@@ -335,9 +395,9 @@ namespace YomoneyApp.Views.GeoPages
 
                             //if (step.StartLocation <= newPosition)
                             //{
-                                mapPageViewModel.RouteRealTimeDistance = step.Distance.Text;
-                            mapPageViewModel.RouteRealTimeDuration = step.Duration.Text;
-                            mapPageViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
+                                HomeViewModel.RouteRealTimeDistance = step.Distance.Text;
+                            HomeViewModel.RouteRealTimeDuration = step.Duration.Text;
+                            HomeViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
 
                             static string StripHTML(string input)
                             {
@@ -361,7 +421,10 @@ namespace YomoneyApp.Views.GeoPages
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            await UpdateLiveLocations();
+
+            DisplayRoutes();
+
+            //await UpdateLiveLocations();
         }
         #endregion
 
@@ -383,8 +446,8 @@ namespace YomoneyApp.Views.GeoPages
                 button.IsEnabled = true;
             }
 
-            Navigation.PushAsync(new RouteDetails(mapPageViewModel.RouteName, mapPageViewModel.Role, mapPageViewModel.RouteRate, mapPageViewModel.RouteCost, mapPageViewModel.RouteDuration,
-                                mapPageViewModel.RouteDistance));
+            Navigation.PushAsync(new RouteDetails(HomeViewModel.RouteName, HomeViewModel.Role, HomeViewModel.RouteRate, HomeViewModel.RouteCost, HomeViewModel.RouteDuration,
+                                HomeViewModel.RouteDistance));         
         }
         #endregion
     }

@@ -6,6 +6,8 @@
     <Product>YOAPP</Product>
     <Company>YOAPP</Company>
     <Version>2.1.7</Version>
+    <ApplicationIcon>YoIcon6.ico</ApplicationIcon>
+    <Win32Resource />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -88,6 +90,9 @@
     <EmbeddedResource Update="Views\GeoPages\MapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\GeoPages\PolylognView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\GeoPages\RouteDetails.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -132,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NavigationBar\footer.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Profile\PersonalDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Promotions\PromotionCategory.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

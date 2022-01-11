@@ -21,19 +21,19 @@
 
             <Grid>
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="400" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Frame BackgroundColor="#df782d" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                         <Image Source="image4.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
-                <StackLayout Margin="12,350,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="320" HorizontalOptions="FillAndExpand">
+                <StackLayout Margin="12,260,12,0">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="280" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label Text="Security Questions" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
-                                <Label Text="Provide the answer to the question you choose" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                <Label Text="Security Questions" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0"></Label>
+                                <Label Text="Provide an answer you would remember should you want to reset your password" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                             </StackLayout>
 
-                            <StackLayout Margin="0,15,0,0">
+                            <StackLayout Margin="0,0,0,0">
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Vertical">

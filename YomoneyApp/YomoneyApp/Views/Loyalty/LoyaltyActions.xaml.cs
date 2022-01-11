@@ -35,7 +35,15 @@ namespace YomoneyApp.Views.Profile.Loyalty
                 }
                 await Navigation.PopAsync();
             };
-
+        }
+      
+        private async void ButtonClose_Clicked(object sender, EventArgs e)
+        {
+            for (var counter = 1; counter < 2; counter++)
+            {
+                Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+            }
+            await Navigation.PopAsync();
         }
 
         protected override void OnAppearing()

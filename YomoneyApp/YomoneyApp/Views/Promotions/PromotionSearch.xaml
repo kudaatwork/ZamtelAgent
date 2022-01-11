@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Promotions.PromotionSearch"
-              NavigationPage.HasNavigationBar="False">
+              NavigationPage.HasNavigationBar="True"
+             Title="Promotion Search">
     <ContentPage.Content>
         <StackLayout>
             <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
@@ -17,7 +18,7 @@
                    Placeholder="search promo"
                    PlaceholderColor="Orange"
                    BackgroundColor="White"
-                   TextChanged="text_Changed"          
+                            
                    Focused="searchBar_Focused"
                    CancelButtonColor="White"
                    SearchCommand="{Binding PerformSearch}"

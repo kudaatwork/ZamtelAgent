@@ -36,7 +36,7 @@
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="keypad.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Subscriber Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Phone Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
 
@@ -45,7 +45,7 @@
                         <Frame BackgroundColor="Transparent" IsVisible="{Binding IsConfirm}" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="amount.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding Budget}" FontAttributes="None" Keyboard="Numeric" Placeholder="Payment Amount" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry Text="{Binding Budget}" FontAttributes="None" Keyboard="Numeric" Placeholder="Amount" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
                                 

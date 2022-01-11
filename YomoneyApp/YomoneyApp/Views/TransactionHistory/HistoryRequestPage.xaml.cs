@@ -43,7 +43,9 @@ namespace YomoneyApp.Views.TransactionHistory
                 try
                 {
                     var stores = await viewModel.GetHistoryPickerAsync(SelectedItem.TransactionType.ToString());
+                   
                     PickerStore.Items.Clear();
+
                     foreach (var store in stores)
                         PickerStore.Items.Add(store.Title.Trim());
                 }

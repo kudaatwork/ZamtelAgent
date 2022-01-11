@@ -24,7 +24,8 @@ namespace YomoneyApp.Views.Login
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new NewAccount());
+            //await Navigation.PushAsync(new NewAccount());
+            viewModel.GetVerificationAsync();
         }
 
         private void ButtonSignIn_Clicked(object sender, EventArgs e)

@@ -26,7 +26,7 @@ namespace YomoneyApp.Views.Spani
         public Oppotunities()
         {
             InitializeComponent();
-            BindingContext = viewModel = new RequestViewModel(this);
+            BindingContext = viewModel = new RequestViewModel(this);            
         }
         
         public void PlaceClicked(object sender, EventArgs e)
@@ -99,7 +99,7 @@ namespace YomoneyApp.Views.Spani
                 if (Navigation.NavigationStack.Count == 0 ||
                 Navigation.NavigationStack.Last().GetType() != typeof(CreateSpaniProfile))
                 {
-                    Navigation.PushModalAsync(new CreateSpaniProfile());
+                    Navigation.PushModalAsync(new CreateSpaniProfile(null));
                     Navigation.PopAsync();
                 }
             }
@@ -107,14 +107,111 @@ namespace YomoneyApp.Views.Spani
             { }
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
-            if (viewModel.Stores.Count > 0 || viewModel.IsBusy)
-                return;
 
-            viewModel.GetOppotunitiesCommand.Execute(null);
+            try
+            {
+                if (viewModel.Stores.Count > 0 || viewModel.IsBusy)
+                    return;
+
+                viewModel.GetOppotunitiesCommand.Execute(null);
+
+                await viewModel.ExecuteGetPopularCategoriesCommand();
+
+                //PickerStore.Items.Clear();
+                //foreach (var store in stores)
+                //    PickerStore.Items.Add(store.Title.Trim());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + ", Inner Exception:" + ex.InnerException + ", Stack Trace:" + ex.StackTrace);
+            
+            }
+            
             
         }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            // var tx = CategoryName.Text;
+            //var Sender = (Button)sender;
+           //var title = Sender.Text.Trim();
+
+            var sender2 = (Label)sender;
+            var title2 = sender2.Text.Trim();
+
+            //var view = sender as Xamarin.Forms.Button;
+            if (Navigation.NavigationStack.Count == 0 ||
+            Navigation.NavigationStack.Last().GetType() != typeof(CreateSpaniProfile))
+            {
+                if (title2 != null)
+                {
+                    await Navigation.PushModalAsync(new CreateSpaniProfile(title2));
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await Navigation.PushModalAsync(new CreateSpaniProfile(null));
+                    await Navigation.PopAsync();
+                }
+            }
+            
+        }
+
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            // var tx = CategoryName.Text;
+            //var Sender = (Button)sender;
+            //var title = Sender.Text.Trim();
+
+            var sender2 = (Label)sender;
+            var title2 = sender2.Text.Trim();
+
+            //var view = sender as Xamarin.Forms.Button;
+            if (Navigation.NavigationStack.Count == 0 ||
+            Navigation.NavigationStack.Last().GetType() != typeof(CreateSpaniProfile))
+            {
+                if (title2 != null)
+                {
+                    await Navigation.PushModalAsync(new CreateSpaniProfile(title2));
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await Navigation.PushModalAsync(new CreateSpaniProfile(null));
+                    await Navigation.PopAsync();
+                }
+            }
+        }
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            // var tx = CategoryName.Text;
+            //var Sender = (Button)sender;
+            //var title = Sender.Text.Trim();
+
+            var sender2 = (Label)sender;
+            var title2 = sender2.Text.Trim();
+
+            //var view = sender as Xamarin.Forms.Button;
+            if (Navigation.NavigationStack.Count == 0 ||
+            Navigation.NavigationStack.Last().GetType() != typeof(CreateSpaniProfile))
+            {
+                if (title2 != null)
+                {
+                    await Navigation.PushModalAsync(new CreateSpaniProfile(title2));
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await Navigation.PushModalAsync(new CreateSpaniProfile(null));
+                    await Navigation.PopAsync();
+                }
+            }
+        }
+
+
     }
 }

@@ -22,7 +22,7 @@ namespace YomoneyApp
     public class TransactionViewModel : ViewModelBase
     {
         string HostDomain = "https://www.yomoneyservice.com";
-        string ProcessingCode = "350000";
+       
         public MenuItem selec;
         readonly IDataStore dataStore;
         public bool ForceSync { get; set; }
@@ -35,7 +35,7 @@ namespace YomoneyApp
         {
             Title = selected.Title;
             selec = selected;
-            BannerImage =  "Transactions.jpg";
+            BannerImage = "InvestimentBanner.png";
            
             dataStore = DependencyService.Get<IDataStore>();
             Transactions = new ObservableRangeCollection<MenuItem>();
@@ -159,22 +159,9 @@ namespace YomoneyApp
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
                 trn.CustomerAccount = uname + ":" + pass;
-                /*trn.MTI = "0200";
-                trn.ProcessingCode = "320000";
-                trn.Note = "Supplier";
-                trn.TerminalId = "ClientApp";
-                trn.TransactionRef = Email;
-                trn.ServiceProvider = mn.SupplierId;
-                trn.Narrative = "Bill Payment";
-                trn.ServiceId = mn.ServiceId;//Categories.Where(u => u.Title == category).FirstOrDefault().TransactionType;
-                trn.Product = mn.ActionId.ToString();// Categories.Where(u => u.Title == category).FirstOrDefault().Id;
-                trn.ActionId = mn.ActionId;
-                trn.Amount = decimal.Parse(mn.Amount);
-                trn.CustomerMSISDN = AccountNumber;
-                trn.Currency = mn.Currency ;
-                trn.CustomerData = PhoneNumber;
-                trn.OrderLines = Ptitle;
-                trn.TransactionType = mn.TransactionType;*/
+                trn.TransactionRef = mn.Id;
+                trn.TransactionType = mn.TransactionType;
+               
                 string Body = "";
                 Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                 Body += "&CustomerAccount=" + trn.CustomerAccount;
