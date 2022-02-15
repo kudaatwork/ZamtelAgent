@@ -27,7 +27,7 @@ namespace YomoneyApp
     {
         public static FileUpload fileUpload = new FileUpload();
 
-        readonly string HostDomain = "http://192.168.100.150:5000";
+        readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";
@@ -42,9 +42,7 @@ namespace YomoneyApp
             myButtonSource = new ObservableRangeCollection<MenuItem>();
 
             accData = new MenuItem();
-            //TemplateSelector = new MyTemplateSelector(); //new DataTemplate (typeof(MyView));
-
-            
+            //TemplateSelector = new MyTemplateSelector(); //new DataTemplate (typeof(MyView));            
         }
         public int Position { get; set; }
      
@@ -323,9 +321,7 @@ namespace YomoneyApp
                         servics.ToArray();
                         myButtonSource.AddRange(servics);
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
@@ -335,6 +331,7 @@ namespace YomoneyApp
         #endregion
 
         #region Webview Stuff
+
         public static GoogleDirection googleDirectionGlobal;
 
         public static List<RoutesInfo> routes = new List<RoutesInfo>();
@@ -369,6 +366,7 @@ namespace YomoneyApp
                 else
                 {
                     var routeId = parts[0];
+                    RouteId = parts[0];
                     var name = parts[1];
                     var rate = Convert.ToDecimal(parts[2]);
                     var role = parts[3].Trim().ToLower();
@@ -382,26 +380,26 @@ namespace YomoneyApp
                     originAddress = routes[0].Address;
                     destinationAddress = routes[1].Address;
 
-                    if (rate > 0) // Only if Rate is Greater than 0
+                    if (rate >= 0) // Only if Rate is Greater than 0
                     {
-                        if (role == "driver" || role == "passenger") // Drivers and Passengers
-                        {
+                  //      if (role == "driver" || role == "passenger") // Drivers and Passengers
+                  //      {
                             Device.BeginInvokeOnMainThread(async () =>
                             {
-                                await App.Current.MainPage.Navigation.PushAsync(new Directions(RouteName, Role, RouteRate, RouteCost, RouteDuration,
+                                await App.Current.MainPage.Navigation.PushAsync(new Directions(RouteId, RouteName, Role, RouteRate, RouteCost, RouteDuration,
                                    RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
 
                                 // await App.Current.MainPage.Navigation.PushAsync(new PolylognView());
                             });
-                        }
-                        else
-                        {
-                            Device.BeginInvokeOnMainThread(async () =>
-                            {
-                                await App.Current.MainPage.Navigation.PushAsync(new Viewers(RouteName, Role, RouteRate, RouteCost, RouteDuration,
-                                    RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
-                            });
-                        }
+            //            }
+            ///           else
+            //            {
+            //                Device.BeginInvokeOnMainThread(async () =>
+            //                {
+            //                    await App.Current.MainPage.Navigation.PushAsync(new Viewers(RouteName, Role, RouteRate, RouteCost, RouteDuration,
+            //                        RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
+            //                });
+            //            }
                     }
                     else
                     {
@@ -1031,7 +1029,13 @@ namespace YomoneyApp
             set { SetProperty(ref showNav, value); }
         }
 
-
+        string routeId = string.Empty;
+        public string RouteId
+        {
+            get { return routeId; }
+            set { SetProperty(ref routeId, value); }
+        }
+                
         #endregion
     }
 }

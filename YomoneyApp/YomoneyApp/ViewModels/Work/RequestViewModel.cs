@@ -18,12 +18,72 @@ using YomoneyApp.Views.Services;
 using Xamarin.Essentials;
 using YomoneyApp.Models;
 using YomoneyApp.Views.Webview;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace YomoneyApp
 {
     public class RequestViewModel : ViewModelBase 
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        IGoogleMapsApiService googleMapsApi = new GoogleMapsApiService();
+
+        string _originLatitud;
+        string _originLongitud;
+
+        GooglePlaceAutoCompletePrediction _placeSelected;
+        public GooglePlaceAutoCompletePrediction PlaceSelected
+        {
+            get
+            {
+                return _placeSelected;
+            }
+            set
+            {
+                IsAdvert = false;
+                _placeSelected = value;
+                if (_placeSelected != null)
+                    GetPlaceDetailCommand.Execute(_placeSelected);
+            }
+        }
+
+        public ICommand FocusOriginCommand { get; set; }
+        public ICommand GetPlacesCommand { get; set; }
+        public ICommand GetPlaceDetailCommand { get; set; }
+
+        public ObservableRangeCollection<GooglePlaceAutoCompletePrediction> Places { get; set; }
+        public ObservableCollection<GooglePlaceAutoCompletePrediction> RecentPlaces { get; set; } = new ObservableCollection<GooglePlaceAutoCompletePrediction>();
+       
+        // public ObservableRangeCollection<MenuItem> Categories { get; set; }
+        public bool ShowRecentPlaces { get; set; }
+        // bool _isAddressFocused = true;
+
+        string address;
+        public string Address
+        {
+            get
+            {
+                return address;
+            }
+            set
+            {
+                //IsAdvert = true;
+                address = value;
+
+                if (!string.IsNullOrEmpty(address))
+                {
+                    // _isAddressFocused = true;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Address"));
+
+                    if (isShow == false)
+                    {
+                        GetPlacesCommand.Execute(address);
+                    }
+                }
+            }
+        }
+
+        string HostDomain = "https://www.yomoneyservice.com";
         string ProcessingCode = "350000";
      
         readonly IDataStore dataStore;
@@ -45,9 +105,18 @@ namespace YomoneyApp
             GeoPlaces = new ObservableRangeCollection<Placemark>();
             SubCategories = new ObservableCollection<string>();
             Currencies = new ObservableRangeCollection<MenuItem>();
+            Places = new ObservableRangeCollection<GooglePlaceAutoCompletePrediction>();
             myButtonSource = new ObservableRangeCollection<MenuItem>();
+
+            ShowLocation = true;
+
+            GetPlacesCommand = new Command<string>(async (param) => await GetPlacesByName(param));
+            GetPlaceDetailCommand = new Command<GooglePlaceAutoCompletePrediction>(async (param) => await GetPlacesDetail(param));
         }
         public Action<MenuItem> ItemSelected { get; set; }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         MenuItem  selectedJob;
 
@@ -75,6 +144,74 @@ namespace YomoneyApp
                 }
             }
         }
+
+        #region Places
+
+        public async Task GetPlacesByName(string placeText)
+        {
+            IsAdvert = true;
+
+            GooglePlaceAutoCompleteResult places = new GooglePlaceAutoCompleteResult();
+            List<GooglePlaceAutoCompletePrediction> placeResult = new List<GooglePlaceAutoCompletePrediction>();
+
+            places = await googleMapsApi.GetPlaces(placeText);
+
+            placeResult = places.AutoCompletePlaces;
+
+            if (placeResult != null && placeResult.Count > 0)
+            {
+                Places.ReplaceRange(placeResult);
+
+                //googlePlaceAutoCompletePredictions.Add(prediction2);
+
+                //Places.ReplaceRange(googlePlaceAutoCompletePredictions);
+            }
+
+            ShowRecentPlaces = (placeResult == null || placeResult.Count == 0);
+        }
+
+        public async Task GetPlacesDetail(GooglePlaceAutoCompletePrediction placeA)
+        {
+            IsAdvert = false;
+            isShow = true;
+
+            var place = await googleMapsApi.GetPlaceDetails(placeA.PlaceId);
+
+            if (place != null)
+            {
+                Address = place.Address;
+                //minLatitude = Convert.ToDouble(place.Latitude);
+               // minLongitude = Convert.ToDouble(place.Longitude);
+                Places.Clear();
+                isShow = false;
+                showLocation = false;
+                showLabel = true;
+                //_isAddressFocused = false;
+                //FocusOriginCommand.Execute(null);
+
+                //else
+                //{
+                //    _destinationLatitud = $"{place.Latitude}";
+                //    _destinationLongitud = $"{place.Longitude}";
+
+                //    RecentPlaces.Add(placeA);
+
+                //    if (_originLatitud == _destinationLatitud && _originLongitud == _destinationLongitud)
+                //    {
+                //        await App.Current.MainPage.DisplayAlert("Error", "Origin route should be different than destination route", "Ok");
+                //    }
+                //    else
+                //    {
+                //        //LoadRouteCommand.Execute(null);
+                //        await App.Current.MainPage.Navigation.PopAsync(false);
+                //        CleanFields();
+                //    }
+
+                //}
+            }
+        }
+
+        #endregion
 
         MenuItem cancelJob;
 
@@ -1007,7 +1144,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no active service requests";
-                        mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1184,7 +1321,7 @@ namespace YomoneyApp
                         {
                             mn = new YomoneyApp.MenuItem();
                             mn.Description = "You have no active service requests";
-                            mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
+                            mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                             mn.HasProducts = false; // use it as show navigation
                             mn.IsEmptyList = true;
                             List<MenuItem> resp = new List<MenuItem>();
@@ -1392,7 +1529,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "Be the first to post a request";
-                        mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1680,7 +1817,7 @@ namespace YomoneyApp
                 if (!string.IsNullOrEmpty(SupplierId))
                 {                   
 
-                    await page.Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + SupplierId, "My Profile", false, null,true));
+                    await page.Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + SupplierId, "My Profile", false, null,true));
 
                 }
             }
@@ -1843,7 +1980,7 @@ namespace YomoneyApp
                         
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no quoted requests";
-                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotes";
                         mn.IsEmptyList = true;
@@ -2024,7 +2161,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotations";
                         //List<MenuItem> resp = new List<MenuItem>();
@@ -2189,7 +2326,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Request Quotes";
                         List<MenuItem> resp = new List<MenuItem>();
@@ -3076,6 +3213,49 @@ namespace YomoneyApp
 
         #region Object 
 
+        bool showLabel = false;
+        public bool ShowLabel
+        {
+            get { return showLabel; }
+            set
+            {
+                //SetProperty(ref isAdvert, value);
+                showLabel = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ShowLabel"));
+            }
+        }
+
+        bool showLocation = false;
+        public bool ShowLocation
+        {
+            get { return showLocation; }
+            set
+            {
+                //SetProperty(ref isAdvert, value);
+                showLocation = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ShowLocation"));
+            }
+        }
+
+        bool isShow = false;
+        public bool IsShow
+        {
+            get { return isShow; }
+            set { SetProperty(ref isShow, value); }
+        }
+
+        bool isAdvert = false;
+        public bool IsAdvert
+        {
+            get { return isAdvert; }
+            set
+            {
+                //SetProperty(ref isAdvert, value);
+                isAdvert = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsAdvert"));
+            }
+        }
+
         string supplierId = "";
         public string SupplierId
         {
@@ -3208,12 +3388,12 @@ namespace YomoneyApp
             set { SetProperty(ref message, value); }
         }
 
-        string address = string.Empty;
-        public string Address
-        {
-            get { return address; }
-            set { SetProperty(ref address, value); }
-        }
+        //string address = string.Empty;
+        //public string Address
+        //{
+        //    get { return address; }
+        //    set { SetProperty(ref address, value); }
+        //}
 
         string jobPostId = string.Empty;
         public string JobPostId

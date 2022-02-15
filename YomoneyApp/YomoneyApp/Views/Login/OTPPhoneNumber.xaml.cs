@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels.Countries;
 
 namespace YomoneyApp.Views.Login
 {
@@ -13,10 +14,13 @@ namespace YomoneyApp.Views.Login
     public partial class OTPPhoneNumber : ContentPage
     {
         AccountViewModel viewModel;
+        CountryPickerViewModel countryPickerViewModel;
+
         public OTPPhoneNumber()
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
+            countryPickerViewModel = new CountryPickerViewModel(this);
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
@@ -30,6 +34,13 @@ namespace YomoneyApp.Views.Login
             {
                 button.IsEnabled = true;
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            viewModel.ExecuteGetCurrentGeolocationCommand();
         }
     }
 }

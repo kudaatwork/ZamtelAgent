@@ -19,7 +19,7 @@ using Xamarin.Forms.Xaml;
 using YomoneyApp.Models;
 using YomoneyApp.Services;
 using YomoneyApp.ViewModels;
-
+using YomoneyApp.ViewModels.Geo;
 
 namespace YomoneyApp.Views.GeoPages
 {
@@ -32,13 +32,16 @@ namespace YomoneyApp.Views.GeoPages
         ChatViewModel chatViewModel;
         Location oldLocation = null;
         CancellationTokenSource cts;
+        GeoLocationViewModel geoLocationViewModel;
 
-        public Directions(string routeName, string role, decimal routeRate, decimal routeCost, string routeDuration, string routeDistance,
+        public Directions(string routeId, string routeName, string role, decimal routeRate, decimal routeCost, string routeDuration, string routeDistance,
             string routeRealTimeDistance, string routeRealTimeInstructions)
         {
             InitializeComponent();
             BindingContext = HomeViewModel = new HomeViewModel(this);
             chatViewModel = new ChatViewModel(this);
+            geoLocationViewModel = new GeoLocationViewModel(this);
+            HomeViewModel.RouteId = routeId;
             HomeViewModel.RouteName = routeName;
             HomeViewModel.Role = role;
             HomeViewModel.RouteRate = routeRate;
@@ -47,10 +50,20 @@ namespace YomoneyApp.Views.GeoPages
             HomeViewModel.RouteDistance = routeDistance;
             HomeViewModel.RouteRealTimeDistance = routeRealTimeDistance;
             HomeViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
+
+            //geoLocationViewModel.RouteId = routeId;
+            //geoLocationViewModel.RouteName = routeName;
+            //geoLocationViewModel.Role = role;
+            //geoLocationViewModel.RouteRate = routeRate;
+            //geoLocationViewModel.RouteCost = routeCost;
+            //geoLocationViewModel.RouteDuration = routeDuration;
+            //geoLocationViewModel.RouteDistance = routeDistance;
+            //geoLocationViewModel.RouteRealTimeDistance = routeRealTimeDistance;
+            //geoLocationViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
         }
 
         #region LoadMap
-        public async void DisplayRoutes()
+        public async Task DisplayRoutes()
         {
             var groupName = HomeViewModel.RouteName.Replace(" ", "");
 
@@ -240,7 +253,7 @@ namespace YomoneyApp.Views.GeoPages
                     #region Live Code
                     Device.StartTimer(TimeSpan.FromSeconds(5), () =>
                     {
-                        UpdateLiveLocations();
+                        UpdateLiveLocations(pathcontent[pathcontent.Count-1]);
                         return true;
                     });
                     #endregion
@@ -350,11 +363,11 @@ namespace YomoneyApp.Views.GeoPages
         #endregion       
 
         #region Update Live Locations
-        async Task UpdateLiveLocations()
+        async Task UpdateLiveLocations(Position destinationPosition)
         {
             try
             {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(30));
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(15));
 
                 cts = new CancellationTokenSource();
 
@@ -383,6 +396,43 @@ namespace YomoneyApp.Views.GeoPages
 
                     map.MoveToRegion(MapSpan.FromCenterAndRadius(newPosition, Distance.FromMiles(0.3)));
 
+                    #region Determine if you have reached the destination and if the Packages are more than 1
+
+                    //Location currentLocation = new Location(newPosition.Latitude, newPosition.Longitude);
+                    //Location destinationLocation = new Location(destinationPosition.Latitude, destinationPosition.Longitude);
+
+                    //var distance = Location.CalculateDistance(currentLocation, destinationLocation, DistanceUnits.Kilometers);
+
+                    var distance = EarthDistance(newPosition.Latitude, destinationPosition.Latitude, newPosition.Longitude, destinationPosition.Longitude); // distance in km
+
+                    if (distance < 0.5) // 
+                    {
+                        await DisplayAlert("Route Info", "You have reached your destination, please confirm the package items delivered.", "Ok");
+
+                        // Pull the Order Details
+
+                        geoLocationViewModel.ExecuteGetPackagesSavedCommand(); // Retrieve the Packages Data
+
+                        if (geoLocationViewModel.OrderedItems.Count > 1)
+                        {
+                            await Navigation.PushAsync(new OrderPackages());
+                        }
+                        else
+                        {
+                            foreach (var item in geoLocationViewModel.OrderedItems)
+                            {
+                                if (item.HasProducts)
+                                {
+                                    geoLocationViewModel.ItemsList.ReplaceRange(geoLocationViewModel.OrderedItems); // To be fixed. ReplaceRange with the ProductLines
+                                }
+                            }
+
+                            await Navigation.PushAsync(new OrderDetails());
+                        }                        
+                    }
+
+                    #endregion
+
                     var legs = HomeViewModel.googleDirectionGlobal.Routes.First().Legs;
 
                     //var leg = legs.Where(x => x.Steps.Where(x => (PolylineHelper.Decode(x.Polyline.Points).Where(x => x.Latitude == position.Latitude && x.Longitude == position.Longitude)))).FirstOrDefault();
@@ -395,7 +445,7 @@ namespace YomoneyApp.Views.GeoPages
 
                             //if (step.StartLocation <= newPosition)
                             //{
-                                HomeViewModel.RouteRealTimeDistance = step.Distance.Text;
+                            HomeViewModel.RouteRealTimeDistance = step.Distance.Text;
                             HomeViewModel.RouteRealTimeDuration = step.Duration.Text;
                             HomeViewModel.RouteRealTimeInstructions = StripHTML(step.HtmlInstructions);
 
@@ -418,13 +468,51 @@ namespace YomoneyApp.Views.GeoPages
         #endregion
 
         #region Customize Behaviour when map becomes visible
-        protected async override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            DisplayRoutes();
+            await DisplayRoutes();
 
+            geoLocationViewModel.RouteId = HomeViewModel.RouteId;
+
+            await geoLocationViewModel.ExecuteGetPackageDetailsCommand(); // Get Packages for the route from the server           
+            
             //await UpdateLiveLocations();
+        }
+        #endregion
+
+        #region Calculating Distance
+        static double ToRadians(double angleIn10thofaDegree)
+        {
+            // Angle in 10th of a degree
+
+            return (angleIn10thofaDegree *
+                           Math.PI) / 180;
+        }
+                
+        static double EarthDistance(double lat1, double lat2, double lon1, double lon2)
+        {
+            // The math module contains a function named toRadians which converts from degrees to radians.
+            lon1 = ToRadians(lon1);
+            lon2 = ToRadians(lon2);
+            lat1 = ToRadians(lat1);
+            lat2 = ToRadians(lat2);
+
+            // Haversine formula
+            double dlon = lon2 - lon1;
+            double dlat = lat2 - lat1;
+
+            double a = Math.Pow(Math.Sin(dlat / 2), 2) + Math.Cos(lat1) * Math.Cos(lat2) * Math.Pow(Math.Sin(dlon / 2), 2);
+
+            double c = 2 * Math.Asin(Math.Sqrt(a));
+
+            // Radius of earth in kilometers. 
+
+            double r = 6371;
+
+            // result
+            return (c * r);
         }
         #endregion
 
@@ -450,5 +538,6 @@ namespace YomoneyApp.Views.GeoPages
                                 HomeViewModel.RouteDistance));         
         }
         #endregion
+        
     }
 }

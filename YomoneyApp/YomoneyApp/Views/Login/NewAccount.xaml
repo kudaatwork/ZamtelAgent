@@ -4,7 +4,7 @@
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" 
              NavigationPage.HasNavigationBar="False"
              x:Class="YomoneyApp.ViewModels.Login.NewAccount"             
-             xmlns:local="clr-namespace:YomoneyApp" xmlns:local1="clr-namespace:YomoneyApp.CustomeRenderer"
+             xmlns:local="clr-namespace:YomoneyApp" xmlns:local1="clr-namespace:YomoneyApp.CustomeRenderer" xmlns:forms="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              Title="Create Account"
              IsBusy="{Binding IsBusy}"
              >
@@ -23,12 +23,12 @@
         
         <Grid>
             <StackLayout Padding="0" Margin="0">
-                <Frame BackgroundColor="#df782d" HeightRequest="220" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                <Frame BackgroundColor="#df782d" HeightRequest="205" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                     <Image Source="image6.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
                 </Frame>
             </StackLayout>
-            <StackLayout Margin="12,120,12,0">
-                <Frame BackgroundColor="White" HasShadow="True" HeightRequest="530" HorizontalOptions="FillAndExpand">
+            <StackLayout Margin="12,100,12,0">
+                <Frame BackgroundColor="White" HasShadow="True" HeightRequest="620" HorizontalOptions="FillAndExpand">
                     <StackLayout>
                         <StackLayout HorizontalOptions="CenterAndExpand">
                             <Label Text="SIGN UP" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
@@ -55,21 +55,69 @@
 
                             <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
-                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                        <Image Source="keypad3.png" Aspect="AspectFill" Margin="0"/>
-                                    </Frame>
-                                    <local1:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Phone e.g. 263778999999" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                        <Frame
+                                            CornerRadius="10"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                            Margin="10,0,0,0"
+                                            Padding="0,0,5,5"    
+                                            HeightRequest="30"
+                                            WidthRequest="80"
+                                            IsClippedToBounds="True"
+                                            BackgroundColor="White">
+
+                                            <StackLayout Orientation="Horizontal"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand">
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding ShowPopupCommand}"/>
+                                                </StackLayout.GestureRecognizers>
+
+                                                <forms:SvgCachedImage
+                                                        Margin="5,5,0,0"
+                                                        HeightRequest="30"
+                                                        Source="{Binding SelectedCountry.FlagUrl}"
+                                                        VerticalOptions="StartAndExpand"
+                                                        WidthRequest="22" 
+                                                       />
+
+                                                <Label Text="{Binding SelectedCountry.CountryCode, StringFormat='+{0}'}"
+                                                        VerticalTextAlignment="Center"
+                                                        Margin="0,5,0,0"
+                                                        HorizontalTextAlignment="End"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"/>
+
+
+
+
+                                            </StackLayout>
+                                        </Frame>
+                                        <local1:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Phone e.g. 778999999" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                 </StackLayout>
                             </Frame>
 
-                                <Label FontSize="Small" Text="Date of Birth" Margin="10,5,0,0" TextColor="#df782d"/>
+                                <Label FontSize="Small" Text="Gender" Margin="10,5,0,0" TextColor="#df782d"/>
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal" >
                                         <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                            <Image Source="date_picker1.png" Aspect="AspectFill" Margin="0"/>
+                                            <Image Source="gender45.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
-                                        <local1:MyDataPicker Date="{Binding Date, Mode=TwoWay}" WidthRequest="210"/>
+                                        <Picker x:Name="Gender" Title="Select Gender" WidthRequest="280" Grid.Column="0"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <Label FontSize="Small" Text="Date of Birth" Margin="10,5,0,0" TextColor="#df782d"/>
+
+                                <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,5" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal" >
+                                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="datep.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <DatePicker Date="{Binding Date, Mode=TwoWay}" WidthRequest="280" Grid.Column="0"/>
                                     </StackLayout>
                                 </Frame>
 
@@ -103,9 +151,9 @@
                             </Label>
                         </StackLayout>
 
-                        <StackLayout>
+                       <!-- <StackLayout>
                             <Image Source="yoapp.png" Aspect="AspectFit" Margin="0,40,0,0" HeightRequest="90" WidthRequest="20"></Image>
-                        </StackLayout>
+                        </StackLayout> -->
                     </StackLayout>
                 </Frame>
             </StackLayout>

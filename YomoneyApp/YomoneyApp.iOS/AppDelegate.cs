@@ -11,6 +11,7 @@ using UIKit;
 using Xamarin.Forms.PlatformConfiguration;
 using CarouselView.FormsPlugin.iOS;
 using YomoneyApp.Constants;
+using FFImageLoading.Forms.Platform;
 
 namespace YomoneyApp.iOS
 {
@@ -40,6 +41,8 @@ namespace YomoneyApp.iOS
             //LibVLCSharpFormsRenderer.Init();
             CrossMediaManager.Current.Init();
             global::Xamarin.Forms.Forms.Init();
+            Rg.Plugins.Popup.Popup.Init();
+            CachedImageRenderer.Init();
             Xamarin.FormsGoogleMaps.Init(AppConstants.GoogleMapsApiKey);
             CarouselViewRenderer.Init();
             LoadApplication(new App(dbPath));

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels.Countries;
 
 namespace YomoneyApp.Views.Login
 {
@@ -13,11 +14,13 @@ namespace YomoneyApp.Views.Login
     public partial class QuestionVerification : ContentPage
     {
         AccountViewModel viewModel;
+        CountryPickerViewModel countryPickerViewModel;
 
         public QuestionVerification()
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
+            countryPickerViewModel = new CountryPickerViewModel(this);
         }
 
         private void ButtonSignIn_Clicked(object sender, EventArgs e)
@@ -26,6 +29,13 @@ namespace YomoneyApp.Views.Login
             {
                 button.IsEnabled = true;
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            viewModel.ExecuteGetCurrentGeolocationCommand();
         }
     }
 }

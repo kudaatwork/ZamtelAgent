@@ -17,7 +17,7 @@ namespace YomoneyApp.Models
         public int offset { get; set; }
     }
 
-    public class StructuredFormatting
+    public class StructuredFormattingg
     {
         public string main_text { get; set; }
         public List<MainTextMatchedSubstring> main_text_matched_substrings { get; set; }

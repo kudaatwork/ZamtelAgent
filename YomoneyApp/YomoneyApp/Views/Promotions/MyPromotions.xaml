@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:me="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="YomoneyApp.Views.Promotions.MyPromotions"
+             NavigationPage.HasNavigationBar="True"
+             Title="{Binding Title}">
+    
+    <StackLayout>
+        
+        <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="0" IsVisible="{Binding IsBusy}">
+            <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+            <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+        </StackLayout>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="130"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Frame HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3" HasShadow="True" BackgroundColor="#df782d">
+                <StackLayout>
+                    <Label Grid.Row="0" HorizontalOptions="Center"
+               VerticalOptions="Start" 
+               TextColor="White" 
+               FontAttributes="None" 
+               FontSize="20"
+               Text="Service Balance"></Label>
+
+                    <Label Grid.Row="0" HorizontalOptions="CenterAndExpand"
+               VerticalOptions="End" 
+               TextColor="White" 
+               FontAttributes="Bold" 
+               FontSize="30"
+               Text="{Binding Amount}"></Label>
+                </StackLayout>
+
+            </Frame>
+
+            <Button Grid.Row="1" Grid.Column="0" x:Name="TopUp" BackgroundColor="#69ad05" BorderRadius="6" TextColor="White" Clicked="TopUp_Clicked" Text="Top Up" Margin="5,0,0,0" />
+            <Button Grid.Row="1" Grid.Column="1" x:Name="ViewLeads" BackgroundColor="#69ad05" BorderRadius="6" TextColor="White" Text="View Leads" Clicked="ViewLeads_Clicked" />
+            <Button Grid.Row="1" Grid.Column="2" x:Name="CreateNew" BackgroundColor="#69ad05" BorderRadius="6" TextColor="White" Clicked="CreateNew_Clicked" Text="Create New" Margin="0,0,5,0" />
+
+            <ListView 
+            IsVisible="{Binding IsNotNullAdverts}"
+            Margin="0,-70,0,0"
+            Grid.Row="3"
+            Grid.ColumnSpan="3"
+				x:Name="StoreList"
+                SelectionMode="None"
+				ItemsSource="{Binding ServiceList}"
+				IsGroupingEnabled="false"
+            	HasUnevenRows="true"
+                SeparatorVisibility="None"
+                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                IsPullToRefreshEnabled="True"                
+                VerticalOptions="FillAndExpand" 
+                HorizontalOptions="FillAndExpand"
+                >
+
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.Height>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                            </ViewCell.Height>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <Frame BackgroundColor="White" Padding="10,0,10,10" Margin="8,6,8,6" CornerRadius="10" HasShadow="True" me:ShadowEffect.Opacity="0.6">
+                                <StackLayout>
+
+                                    <!-- Advert -->
+
+                                    <Grid IsVisible="{Binding IsAdvert}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="60"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="60"/>
+                                        </Grid.RowDefinitions>
+
+                                        <controls:CircleImage 
+                                        
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center" 
+                                            BorderThickness="2"
+                                             Aspect="AspectFit">
+                                            <controls:CircleImage.WidthRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.WidthRequest>
+                                            <controls:CircleImage.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.HeightRequest>
+                                            <controls:CircleImage.Source>
+                                                <UriImageSource Uri="{Binding UserImage}" CacheValidity="14" CachingEnabled="true"/>
+                                            </controls:CircleImage.Source>
+                                        </controls:CircleImage>
+
+                                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Padding="2"  Text="{Binding Note}" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#df782d"  LineBreakMode="WordWrap" />
+                                        <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Source="{Binding Image}" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Padding="10,3" Text="{Binding Title}" FontAttributes="None" TextColor="#df782d" FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Padding="10,3" Text="{Binding Description}" FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Button   
+                                            IsVisible="{Binding IsShare}"
+                                            Grid.Row="4" 
+                                            Grid.Column="0"
+                                            Padding="10,3" 
+                                            VerticalOptions="Start"
+                                            Background="Transparent"
+                                            Clicked="Button_Clicked"
+                                            CommandParameter ="{Binding}"
+                                            ImageSource="deactivate.png"/>
+
+                                        <Button   
+                                            IsVisible="{Binding IsEmptyList}"
+                                            Grid.Row="4" 
+                                            Grid.Column="0"
+                                            Padding="10,3" 
+                                            VerticalOptions="Start"
+                                            Background="Transparent"
+                                            Clicked="Button_Clicked_2"
+                                            CommandParameter ="{Binding}"
+                                            ImageSource="activate.png"/>
+
+                                        <Label Grid.Row="4" Grid.Column="0" IsVisible="{Binding IsShare}" HorizontalOptions="Center" FontAttributes="Bold" VerticalOptions="End" Text="Deactivate" TextColor="Black"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Label Grid.Row="4" Grid.Column="0" IsVisible="{Binding IsEmptyList}" HorizontalOptions="Center" VerticalOptions="End" FontAttributes="Bold" Text="Activate" TextColor="Black"  FontSize="Small" LineBreakMode="WordWrap"/>
+                                        
+                                        <Button                                        
+                                        Grid.Row="4" 
+                                        Grid.Column="1"
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="remove.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Button_Clicked_1"/>
+
+                                        <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="EndAndExpand" Text="Remove" FontAttributes="Bold" TextColor="Black"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Label Grid.Row="4" Grid.Column="3" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Text="{Binding Status}" TextColor="{Binding ThemeColor}" FontAttributes="Bold" FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Label Grid.Row="4" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="End" Text="Status" TextColor="Black" FontAttributes="Bold" FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        
+                                    </Grid>
+
+                                    <Grid IsVisible="{Binding IsNotAdvert}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="60"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="60"/>
+                                        </Grid.RowDefinitions>
+
+                                        <controls:CircleImage 
+                                        
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center" 
+                                            BorderThickness="2"
+                                             Aspect="AspectFit">
+                                            <controls:CircleImage.WidthRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.WidthRequest>
+                                            <controls:CircleImage.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.HeightRequest>
+                                            <controls:CircleImage.Source>
+                                                <UriImageSource Uri="{Binding UserImage}" CacheValidity="14" CachingEnabled="true"/>
+                                            </controls:CircleImage.Source>
+                                        </controls:CircleImage>
+
+                                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Padding="2"  Text="{Binding Note}" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#df782d"  LineBreakMode="WordWrap" />
+                                        <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Source="{Binding Image}" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Padding="10,3" Text="{Binding Title}" FontAttributes="None" TextColor="#df782d" FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Padding="10,3" Text="{Binding Description}" FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Button   
+                                            IsVisible="{Binding IsShare}"
+                                            Grid.Row="4" 
+                                            Grid.Column="0"
+                                            Padding="10,3" 
+                                            VerticalOptions="Start"
+                                            Background="Transparent"
+                                            Clicked="Button_Clicked"
+                                            CommandParameter ="{Binding}"
+                                            ImageSource="deactivate.png"/>
+
+                                        <Button   
+                                            IsVisible="{Binding IsEmptyList}"
+                                            Grid.Row="4" 
+                                            Grid.Column="0"
+                                            Padding="10,3" 
+                                            VerticalOptions="Start"
+                                            Background="Transparent"
+                                            Clicked="Button_Clicked_2"
+                                            CommandParameter ="{Binding}"
+                                            ImageSource="activate.png"/>
+
+                                        <Label Grid.Row="4" Grid.Column="0" IsVisible="{Binding IsShare}" HorizontalOptions="Center" FontAttributes="Bold" VerticalOptions="End" Text="Deactivate" TextColor="Black"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Label Grid.Row="4" Grid.Column="0" IsVisible="{Binding IsEmptyList}" HorizontalOptions="Center" VerticalOptions="End" FontAttributes="Bold" Text="Activate" TextColor="Black"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Button                                        
+                                        Grid.Row="4" 
+                                        Grid.Column="1"
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="remove.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Button_Clicked_1"/>
+
+                                        <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="EndAndExpand" Text="Remove" FontAttributes="Bold" TextColor="Black"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Label Grid.Row="4" Grid.Column="3" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Text="{Binding Status}" TextColor="{Binding ThemeColor}" FontAttributes="Bold" FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Label Grid.Row="4" Grid.Column="3" HorizontalOptions="Center" VerticalOptions="End" Text="Status" TextColor="Black" FontAttributes="Bold" FontSize="Small" LineBreakMode="WordWrap"/>
+
+
+                                    </Grid>
+
+                                </StackLayout>
+                            </Frame>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView 
+            IsVisible="{Binding IsNullAdverts}"
+            Margin="0,-69,0,0"
+            Grid.Row="3"
+            Grid.ColumnSpan="3"
+				x:Name="StoreList2"
+                SelectionMode="None"
+				ItemsSource="{Binding ServiceList}"
+				IsGroupingEnabled="false"
+            	HasUnevenRows="true"
+                SeparatorVisibility="None"
+                IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                IsPullToRefreshEnabled="True"                
+                VerticalOptions="FillAndExpand" 
+                HorizontalOptions="FillAndExpand"
+                >
+
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.Height>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="28"/>
+                            </ViewCell.Height>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <Frame BackgroundColor="White" Padding="0,0,0,0" Margin="8,6,8,10" CornerRadius="10" HasShadow="True" me:ShadowEffect.Opacity="0.6">
+                                <StackLayout>
+
+                                    <!-- Advert -->
+
+                                    <Grid IsVisible="{Binding IsAdvert}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+
+                                        </Grid.RowDefinitions>
+
+                                        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Source="{Binding Image}" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
+
+                                        <!--<Button
+                                        Grid.Row="4" 
+                                        Grid.Column="3"
+                                        Grid.ColumnSpan="1"
+                                        CornerRadius="10"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="Transparent"
+                                        FontAttributes="Bold"
+                                        TextColor="#79c606"
+                                        Text="More"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Learn_Clicked"/>-->
+                                    </Grid>
+
+                                    <Grid IsVisible="{Binding IsNotAdvert}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="65"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="60"/>
+                                            <RowDefinition Height="220" />
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="60"/>
+                                        </Grid.RowDefinitions>
+
+                                        <controls:CircleImage 
+                                         Grid.Row="0"
+                                        Grid.Column="0"
+                                        VerticalOptions="Center"
+                                          HorizontalOptions="Center" 
+                                              BorderThickness="2"
+                                               Aspect="AspectFit">
+                                            <controls:CircleImage.WidthRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.WidthRequest>
+                                            <controls:CircleImage.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="55" WinPhone="75"/>
+                                            </controls:CircleImage.HeightRequest>
+                                            <controls:CircleImage.Source>
+                                                <UriImageSource Uri="{Binding UserImage}" CacheValidity="14" CachingEnabled="true"/>
+                                            </controls:CircleImage.Source>
+                                        </controls:CircleImage>
+
+                                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"   Text="{Binding Note}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#df782d"  LineBreakMode="WordWrap" />
+                                        <me:MediaElement Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Source="{Binding Media}" MediaFailed="MediaElement_MediaFailed" ShowsPlaybackControls="True"  Aspect="AspectFill" HorizontalOptions="FillAndExpand" AutoPlay="True" />
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Padding="5,3" Text="{Binding Title}" TextColor="Black" FontSize="Medium" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Padding="5,3"  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="0"
+                                        Padding="10,3" 
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="like.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Button_Clicked_3"/>
+
+                                        <Label Grid.Row="4" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="End"  Text="{Binding Count}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Button
+                                        Grid.Row="4" 
+                                        Grid.Column="1"
+                                        VerticalOptions="Start"
+                                        Background="Transparent"
+                                        ImageSource="Promoshare.png"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Button_Clicked_5"/>
+
+                                        <Label Grid.Row="4" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="End"  Text="Share" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
+
+                                        <Button
+                                        Grid.Row="4" 
+                                        Padding="20,0,20,0"
+                                        Grid.Column="3"
+                                        Grid.ColumnSpan="1"
+                                        CornerRadius="10"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                            FontAttributes="Bold"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#79c606"
+                                        Text=" More"
+                                        CommandParameter ="{Binding}"
+                                        Clicked="Button_Clicked_6"/>
+                                    </Grid>
+                                </StackLayout>
+                            </Frame>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--<Frame Grid.Row="3" Grid.ColumnSpan="3" IsVisible="{Binding IsNullAdverts}" BackgroundColor="Orange">
+            <StackLayout Orientation="Horizontal" IsVisible="{Binding IsNullAdverts}">
+                <Frame BackgroundColor="Transparent" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsNullAdverts}">
+                    <Image Source="ad1.png" Aspect="AspectFill" Margin="0" IsVisible="{Binding IsNullAdverts}"/>
+                </Frame>
+                <Button IsVisible="{Binding IsNullAdverts}" x:Name="CreateNewAd" BackgroundColor="#69ad05" BorderRadius="6" TextColor="White" Clicked="CreateNew_Clicked" Text="Create New" Margin="0,0,5,0" />
+            </StackLayout>
+        </Frame>-->
+
+        </Grid>
+
+
+    </StackLayout>
+</ContentPage>

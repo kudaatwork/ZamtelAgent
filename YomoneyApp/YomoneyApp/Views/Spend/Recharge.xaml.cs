@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels.Countries;
 
 namespace YomoneyApp.Views.Spend
 {
@@ -14,6 +15,8 @@ namespace YomoneyApp.Views.Spend
     {
         SpendViewModel viewModel;
         MenuItem selected;
+        CountryPickerViewModel countryPickerViewModel;
+
         public Action<MenuItem> ItemSelected
         {
             get { return viewModel.ItemSelected; }
@@ -22,10 +25,11 @@ namespace YomoneyApp.Views.Spend
 
         public Recharge(MenuItem mm)
         {
-
             InitializeComponent();
             selected = mm;
             BindingContext = viewModel = new SpendViewModel(this);
+            countryPickerViewModel = new CountryPickerViewModel(this);
+
             viewModel.RetryText = "Retry";
 
             if (mm.Note == "Reward Service")
@@ -57,10 +61,12 @@ namespace YomoneyApp.Views.Spend
                     PickerStore.Items.Clear();
                     foreach (var store in stores)
                         PickerStore.Items.Add(store.Title.Trim());
+
+                    viewModel.ExecuteGetCurrentGeolocationCommand();
                 }
                 catch (Exception ex)
                 {
-
+                    await DisplayAlert("YoApp Services Error!", "Unable to gather YoApp Services", "Ok");
                 }
 
             }

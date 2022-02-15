@@ -133,8 +133,11 @@ namespace YomoneyApp.Views.Promotions
 
         }
 
-        private void Button_Clicked(object sender, EventArgs e) // Post Lead
+        private async void Button_Clicked(object sender, EventArgs e) // Post Lead
         {
+            viewModel.IsBusy = true;
+            viewModel.Message = "Loading";
+
             try
             {
                 var view = sender as Xamarin.Forms.Button;
@@ -144,10 +147,14 @@ namespace YomoneyApp.Views.Promotions
 
                 PromotionsViewModel promotion = new PromotionsViewModel(this, menuItem);
                 promotion.GetLeads(menuItem);
+
+                viewModel.IsBusy = false;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+
+                await DisplayAlert("Leads Error!", "Unable to gather leads from the server. Please check your internet connection and try again", "Ok");
             }
         }
     }

@@ -33,6 +33,14 @@
                     <On Platform="UWP" 
                           Value="/Assets/FontAwesome5Regular.otf#Font Awesome 5 Free" />
                 </OnPlatform>
-            </ResourceDictionary>
+
+            <Style TargetType="BoxView"
+                   x:Key="SeparatorBoxView">
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Color" Value="Gray"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Opacity" Value="0.1"/>
+            </Style>
+        </ResourceDictionary>
         </Application.Resources>
 </Application>

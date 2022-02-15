@@ -21,9 +21,11 @@ namespace YomoneyApp
         public long ActionId { set; get; }
         public long TransactionType { set; get; }
         public string SupplierId { set; get; }
+        public string Status { get; set; }
         public string UserImage { set; get; }
         public string Amount { set; get; }
         public string WebLink { set; get; }
+        public bool IsDelivered { get; set; }
         public int Count { set; get; }
         public DateTime date { set; get; }
         public ZXingBarcodeImageView Barcode { set; get; }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Services.CommingSoon"
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
-             Title="Coming Soon">
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout BackgroundColor="#df782d" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">

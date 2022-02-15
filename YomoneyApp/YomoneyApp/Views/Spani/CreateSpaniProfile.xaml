@@ -7,14 +7,14 @@
     xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp"    
     Title="New Job Skill"
 	IsBusy="{Binding IsBusy}">
-    
+
     <ContentPage.Content>
         <StackLayout BackgroundColor="White">
             <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-                <StackLayout HeightRequest="30" HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+                <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
                     <Grid >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="60"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -27,17 +27,16 @@
                            TextColor="White"  
                            LineBreakMode="NoWrap"/>
                         <Button 
-                    Grid.Row="0"
-                    Grid.Column="0"
-			        x:Name="ButtonClose"
-			        BackgroundColor="Transparent"
-			        BorderRadius="6"
-			        TextColor="White" 
-                    FontAttributes="Bold"
-			        Image="back.png"
-                    HorizontalOptions="Start"  
-			        />
-
+                            Grid.Row="0"
+                            Grid.Column="0"
+			                x:Name="ButtonClose"
+			                BackgroundColor="Transparent"
+			                BorderRadius="6"
+			                TextColor="White" 
+                            FontAttributes="Bold"
+			                Image="back.png"
+                            HorizontalOptions="Start"  
+			                />
                     </Grid>
                 </StackLayout>
                 <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
@@ -52,7 +51,7 @@
                 <StackLayout BackgroundColor="White" Padding="10,0,10,10" VerticalOptions="FillAndExpand">
 
                     <Label Grid.Row="0" Padding="15,15,15,0" Margin="0,0,0,20" FontSize="Small" Text="Create a profile to showcase your business and have an oppotunity to bid for jobs to the millions of users on the platform" TextColor="Gray" />
-                    
+
                     <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
@@ -62,7 +61,7 @@
                         </StackLayout>
                     </Frame>
 
-                   <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding HasCategory}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding HasCategory}" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <Frame BackgroundColor="Transparent" IsVisible="{Binding HasCategory}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                 <Image Source="biller.png" Aspect="AspectFill" IsVisible="{Binding HasCategory}" Margin="0"/>
@@ -97,6 +96,68 @@
                             <local:MyCustomeEntry x:Name="EditorAddress" Text="{Binding Address}" FontAttributes="None" Keyboard="Default" Placeholder="Operational Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                         </StackLayout>
                     </Frame>
+
+                    <ListView VerticalOptions="FillAndExpand"
+                        BackgroundColor="Transparent" 
+                        IsVisible="{Binding IsAdvert}"
+                        Footer=""
+                        SelectionMode="Single"
+                        SelectedItem="{Binding PlaceSelected, Mode=TwoWay}"
+                        x:Name="list"
+                        ItemsSource="{Binding Places}"
+                        HasUnevenRows="true"
+                        SeparatorColor="Gray"
+                        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                        IsPullToRefreshEnabled="True"
+                       >
+                        <ListView.Triggers>
+                            <DataTrigger TargetType="ListView"
+                                 Binding="{Binding ShowRecentPlaces}"
+                                 Value="False">
+                                <Setter Property="ItemsSource" Value="{Binding Places}" />
+                            </DataTrigger>
+                        </ListView.Triggers>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="15"
+                                      RowSpacing="2"
+                                      ColumnSpacing="15"
+                                      >
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Source="ic_location"
+                                             HeightRequest="20"
+                                             WidthRequest="20"
+                                             VerticalOptions="Start"
+                                             Grid.Row="0"
+                                             Grid.Column="0"
+                                             Grid.RowSpan="2"
+                                           />
+
+                                        <Label LineBreakMode="MiddleTruncation"
+                                               Text="{Binding StructuredFormatting.MainText}"
+                                               Grid.Row="0"
+                                               Grid.Column="1"/>
+
+                                        <Label LineBreakMode="MiddleTruncation"
+                                                 Text="{Binding StructuredFormatting.SecondaryText}" 
+                                                 TextColor="Gray" 
+                                                 Grid.Row="1"
+                                                 Grid.Column="1"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
                     <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">

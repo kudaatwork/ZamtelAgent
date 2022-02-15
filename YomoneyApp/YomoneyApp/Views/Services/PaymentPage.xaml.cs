@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels.Countries;
 
 namespace YomoneyApp.Views.Services
 {
@@ -19,6 +20,8 @@ namespace YomoneyApp.Views.Services
     {   
         WalletServicesViewModel viewModel;
         MenuItem SelectedItem;
+        CountryPickerViewModel countryPickerViewModel;
+
         public Action<MenuItem> ItemSelected
         {
             get { return viewModel.ItemSelected; }
@@ -29,18 +32,25 @@ namespace YomoneyApp.Views.Services
         {
             InitializeComponent();
             BindingContext = viewModel = new YomoneyApp.WalletServicesViewModel(this);
-            if(string.IsNullOrWhiteSpace(mnu.Currency))
+            countryPickerViewModel = new CountryPickerViewModel(this);
+
+            if (string.IsNullOrEmpty(mnu.Currency))
             {
                 mnu.Currency = "ZWL";
             }
+
             viewModel.Currency = mnu.Currency;
             viewModel.Budget = string.Format("{0:#.00}", mnu.Amount);
             viewModel.Title = mnu.Title;
+
             SelectedItem = mnu;
+
             viewModel.ServiceId = mnu.ServiceId;
+
             PickerStore.SelectedIndexChanged += (sender, e) =>
             {
                 viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
+
                 if (viewModel.Category != "PAYNOW PAYMENT")
                 {
                     viewModel.Ptitle = viewModel.Category.Substring(0, 1) + viewModel.Category.Substring(1, viewModel.Category.Length - 1).ToLower() + " Account Number ";
@@ -64,6 +74,7 @@ namespace YomoneyApp.Views.Services
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
             try
             {
                 var stores = await viewModel.GetPaymentsAsync(SelectedItem);
@@ -74,11 +85,13 @@ namespace YomoneyApp.Views.Services
                     foreach (var store in stores)
                         PickerStore.Items.Add(store.Title.Trim());
                 }
-                
+
+                viewModel.ExecuteGetCurrentGeolocationCommand();
+
             }
             catch (Exception ex)
             {
-
+                await DisplayAlert("Payment Error!", "Unable to gather the payment options", "Ok");
             }
 
         }

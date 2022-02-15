@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:vm="clr-namespace:YomoneyApp.ViewModels.Countries" 
+             xmlns:forms="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="YomoneyApp.Views.ActiveCountry.ActiveCountryPicker"
+             Title="{Binding Title}">
+    
+   <!-- <ContentPage.BindingContext>
+        <vm:CountryPickerViewModel />
+    </ContentPage.BindingContext>-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#df782d</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <StackLayout>
+    <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+        <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+        <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+    </StackLayout>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Source="overlay3.jpg" Aspect="Fill" HeightRequest="140" VerticalOptions="StartAndExpand"/>
+
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" Margin="10,30,10,10">
+            <Label Text="Active Country Status" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+            <Label Text="Below is the your active country" TextColor="White" FontSize="16" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+                <Label HorizontalOptions="CenterAndExpand"  Text="If your want to view services available in another country of your choice, you can select a different active country." FontSize="14"/>
+                <Frame
+                    CornerRadius="10"
+                    VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"
+                    Margin="0,20,0,0"
+                    Padding="0"
+                    BorderColor="Gray"
+                    IsClippedToBounds="True"
+                    BackgroundColor="White">
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowPopupCommand}"/>
+                        </StackLayout.GestureRecognizers>
+                        <forms:SvgCachedImage
+                            HeightRequest="26"
+                            Source="{Binding SelectedCountry.FlagUrl}"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="26" 
+                            Margin="20,10,0,10"/>
+                        <Label Text="{Binding SelectedCountry.CountryName}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start"
+                               Margin="10,0"
+                               HorizontalOptions="Start"
+                               VerticalOptions="CenterAndExpand"/>
+                        <Label Text="{Binding SelectedCountry.CountryCode, StringFormat='(+{0})'}"
+                               VerticalTextAlignment="Center"
+                               Margin="20,0"
+                               HorizontalTextAlignment="End"
+                               HorizontalOptions="EndAndExpand"
+                               VerticalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </Frame>
+
+                <Button x:Name="ButtonSignIn" Command="{Binding SubmitActiveCountryCommand}" Clicked="ButtonSignIn_Clicked" Text="SUBMIT" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"></Button>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+    </StackLayout>
+
+</ContentPage>

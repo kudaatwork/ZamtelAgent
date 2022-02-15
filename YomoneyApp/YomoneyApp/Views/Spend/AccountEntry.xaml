@@ -54,7 +54,7 @@
                     <Entry 
 			        Text="{Binding PhoneNumber}" 
                     VerticalOptions="End"
-			        Placeholder="mobile number for sms"
+			        Placeholder="Mobile Number for SMS"
                     IsVisible="{Binding SendSms}"
 			        Keyboard="Telephone" />
 

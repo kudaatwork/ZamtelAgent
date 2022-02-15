@@ -21,12 +21,16 @@ using Plugin.Share;
 using Plugin.Share.Abstractions;
 using YomoneyApp.Views.TemplatePages;
 using ZXing.Net.Mobile.Forms;
+using Xamarin.Essentials;
+using YomoneyApp.Utils;
+using System.Threading;
+using YomoneyApp.Models;
 
 namespace YomoneyApp
 {
     public class SpendViewModel : ViewModelBase
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         string ProcessingCode = "350000";
         string title = "";
@@ -43,6 +47,8 @@ namespace YomoneyApp
             get { return _evaluateJavascript; }
             set { _evaluateJavascript = value; }
         }
+
+        CancellationTokenSource cts;
 
         public SpendViewModel(Page page) : base(page)
         {
@@ -121,7 +127,89 @@ namespace YomoneyApp
             }
             Message = "Data Copied";
 
-        }    
+        }
+        #endregion
+
+        #region Get Current Location
+        private Command getCurrentGeolocationCommand;
+
+        public Command GetCurrentGeolocationCommand
+        {
+            get
+            {
+                return getCurrentGeolocationCommand ??
+                    (getCurrentGeolocationCommand = new Command(async () => await ExecuteGetCurrentGeolocationCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetCurrentGeolocationCommand()
+        {
+            //if (!IsBusy)
+            //    return;
+
+            IsBusy = true;
+            Message = "Loading International No.s...";
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(15));
+
+                cts = new CancellationTokenSource();
+
+                var location = await Geolocation.GetLocationAsync(request, cts.Token);
+
+                if (location != null)
+                {
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                    var placemark = placemarks?.FirstOrDefault();
+
+                    if (placemark != null)
+                    {
+                        var geocodeAddress =
+                            $"AdminArea:       {placemark.AdminArea}\n" +
+                            $"CountryCode:     {placemark.CountryCode}\n" +
+                            $"CountryName:     {placemark.CountryName}\n" +
+                            $"FeatureName:     {placemark.FeatureName}\n" +
+                            $"Locality:        {placemark.Locality}\n" +
+                            $"PostalCode:      {placemark.PostalCode}\n" +
+                            $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                            $"SubLocality:     {placemark.SubLocality}\n" +
+                            $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                            $"Thoroughfare:    {placemark.Thoroughfare}\n";
+
+                        SelectedCountry = CountryUtils.GetCountryModelByName(placemark.CountryName);
+
+                        IsBusy = false;
+
+                    }
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+
+                await page.DisplayAlert("Error!", "The location feature is not supported on the device", "Ok");
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+
+                await page.DisplayAlert("Error!", "The location feature is not enabled on the device", "Ok");
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+
+                await page.DisplayAlert("Error!", "The location feature is not permitted on the device", "Ok");
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+
+                await page.DisplayAlert("Error!", "Unable to get the loaction on this device", "Ok");
+            }
+        }
+
         #endregion
 
         MenuItem selectedAction;
@@ -367,7 +455,7 @@ namespace YomoneyApp
             }
 
             if (showAlert)
-                await page.DisplayAlert("Error!", "Unable to gather " + Category + " services.Check your internet connection", "OK");
+                await page.DisplayAlert("Services Error!", "Unable to gather services from the server. Check your internet connection", "OK");
 
 
         }
@@ -377,7 +465,7 @@ namespace YomoneyApp
             if (IsBusy)
                 return new List<MenuItem>();
 
-            Message = "loading billers...";
+            Message = "Loading billers...";
             IsBusy = true;
             try
             {
@@ -952,9 +1040,11 @@ namespace YomoneyApp
             // if (ForceSync)
             //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            if (string.IsNullOrWhiteSpace(AccountNumber) || string.IsNullOrWhiteSpace(Budget))
+            ActualPhoneNumber = SelectedCountry.CountryCode + AccountNumber;
+
+            if (string.IsNullOrEmpty(AccountNumber) || string.IsNullOrEmpty(Budget))
             {
-                await page.DisplayAlert("Enter All Fields", "Please enter all fields", "OK");
+                await page.DisplayAlert("Blank Fields Error!", "Please enter all fields", "OK");
                 return;
             }            
             
@@ -995,7 +1085,7 @@ namespace YomoneyApp
                             trn.ProcessingCode = "320000";
                             trn.Narrative = "7";
                             trn.Note = "Yomoney";
-                            trn.CustomerData = PhoneNumber;
+                            trn.CustomerData = ActualPhoneNumber;
                             trn.TerminalId = "ClientApp";
                             trn.TransactionRef = "";
                             trn.TransactionType = 2;
@@ -1030,16 +1120,19 @@ namespace YomoneyApp
                             Body += "&TransactionType=" + trn.TransactionType ;
                             Body += "&ActionId=" + trn.ActionId;
 
-
                             HttpClient client = new HttpClient();
+
                             client.Timeout = TimeSpan.FromSeconds(180);
+
                             var myContent = Body;
+
                             string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
                             string result = await client.GetStringAsync(paramlocal);
+                            
                             if (result != "System.IO.MemoryStream")
                             {
-
                                 var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+                               
                                 if (response.ResponseCode == "Success" || response.ResponseCode == "00000" || response.ResponseCode == "11304")
                                 {
                                     #region SendToken
@@ -1078,12 +1171,10 @@ namespace YomoneyApp
                                 }
                                 else
                                 {
-
                                     Retry = true;
                                     IsConfirm = false;
-                                    await page.DisplayAlert("Recharge Error", response.Description, "OK");
+                                    await page.DisplayAlert("Recharge Error!", response.Description, "OK");
                                 }
-
                             }
 
                         }
@@ -1691,6 +1782,15 @@ namespace YomoneyApp
             get { return budget; }
             set { SetProperty(ref budget, value); }
         }
+
+        CountryModel selectedCountry;
+
+        public CountryModel SelectedCountry
+        {
+            get { return selectedCountry; }
+            set { SetProperty(ref selectedCountry, value); }
+        }
+
         string currency = "ZWL";
         public string Currency
         {
@@ -1772,6 +1872,13 @@ namespace YomoneyApp
         {
             get { return description; }
             set { SetProperty(ref description, value); }
+        }
+
+        string actualPhoneNumber = string.Empty;
+        public string ActualPhoneNumber
+        {
+            get { return actualPhoneNumber; }
+            set { SetProperty(ref actualPhoneNumber, value); }
         }
 
         string subcategory = string.Empty;

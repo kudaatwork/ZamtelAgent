@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.ViewModels.Countries;
 
 namespace YomoneyApp.Views.Services
 {
@@ -16,6 +17,7 @@ namespace YomoneyApp.Views.Services
         ServiceViewModel viewModel;
         WalletServicesViewModel walletViewModel ;
         MenuItem SelectedItem;
+        CountryPickerViewModel countryPickerViewModel;
 
         public Action<MenuItem> ItemSelected
         {
@@ -28,6 +30,8 @@ namespace YomoneyApp.Views.Services
             InitializeComponent();
             BindingContext = viewModel = new ServiceViewModel(this, selected);
             walletViewModel = new WalletServicesViewModel(this);
+            countryPickerViewModel = new CountryPickerViewModel(this);
+
             SelectedItem = selected;
             PickerCurrency.SelectedIndexChanged += (sender, e) =>
             {
@@ -55,11 +59,13 @@ namespace YomoneyApp.Views.Services
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
             try
-            {
-                
+            {                
                 var stores = await walletViewModel.GetCurrenciesAsync(SelectedItem);
+
                 PickerCurrency.Items.Clear();
+
                 if (string.IsNullOrEmpty(SelectedItem.Currency))
                 {
                     SelectedItem.Currency = "ZWL";
@@ -67,9 +73,10 @@ namespace YomoneyApp.Views.Services
 
                 foreach (var store in stores)
                 {
-
                     PickerCurrency.Items.Add(store.Title.Trim());
                 }
+
+                viewModel.ExecuteGetCurrentGeolocationCommand();
             }
             catch (Exception ex)
             {

@@ -27,13 +27,17 @@ using FluentValidation.Validators;
 using System.Runtime.InteropServices;
 using YomoneyApp.Models;
 using YomoneyApp.Models.Work;
+using YomoneyApp.Utils;
+using System.Threading;
 
 namespace YomoneyApp
 { 
     public class ServiceViewModel : ViewModelBase
     {  
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
+
+        CancellationTokenSource cts;
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
         public MenuItem Meni { get; set; }
         public ObservableRangeCollection<MenuItem> ServiceOptions { get; set; }
@@ -406,6 +410,88 @@ namespace YomoneyApp
             set
             {
                 SetProperty(ref description, value);
+            }
+        }
+
+        #endregion
+
+        #region Get Current Location
+        private Command getCurrentGeolocationCommand;
+
+        public Command GetCurrentGeolocationCommand
+        {
+            get
+            {
+                return getCurrentGeolocationCommand ??
+                    (getCurrentGeolocationCommand = new Command(async () => await ExecuteGetCurrentGeolocationCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetCurrentGeolocationCommand()
+        {
+            //if (!IsBusy)
+            //    return;
+
+            IsBusy = true;
+            Message = "Loading International No.s...";
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(15));
+
+                cts = new CancellationTokenSource();
+
+                var location = await Geolocation.GetLocationAsync(request, cts.Token);
+
+                if (location != null)
+                {
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                    var placemark = placemarks?.FirstOrDefault();
+
+                    if (placemark != null)
+                    {
+                        var geocodeAddress =
+                            $"AdminArea:       {placemark.AdminArea}\n" +
+                            $"CountryCode:     {placemark.CountryCode}\n" +
+                            $"CountryName:     {placemark.CountryName}\n" +
+                            $"FeatureName:     {placemark.FeatureName}\n" +
+                            $"Locality:        {placemark.Locality}\n" +
+                            $"PostalCode:      {placemark.PostalCode}\n" +
+                            $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                            $"SubLocality:     {placemark.SubLocality}\n" +
+                            $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                            $"Thoroughfare:    {placemark.Thoroughfare}\n";
+
+                        SelectedCountry = CountryUtils.GetCountryModelByName(placemark.CountryName);
+
+                        IsBusy = false;
+
+                    }
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+
+                await page.DisplayAlert("Error!", "The location feature is not supported on the device", "Ok");
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+
+                await page.DisplayAlert("Error!", "The location feature is not enabled on the device", "Ok");
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+
+                await page.DisplayAlert("Error!", "The location feature is not permitted on the device", "Ok");
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+
+                await page.DisplayAlert("Error!", "Unable to get the loaction on this device", "Ok");
             }
         }
 
@@ -1015,10 +1101,13 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
 
-            if (string.IsNullOrWhiteSpace(PhoneNumber) || string.IsNullOrWhiteSpace(Amount) || string.IsNullOrWhiteSpace(ReceiverName) || string.IsNullOrWhiteSpace(ReceiverSurname) ||
-                string.IsNullOrWhiteSpace(Id))
+            ActualPhoneNumber = SelectedCountry.CountryCode + PhoneNumber;
+
+            if (string.IsNullOrEmpty(PhoneNumber) || string.IsNullOrEmpty(Amount) || 
+                string.IsNullOrEmpty(ReceiverName) || string.IsNullOrEmpty(ReceiverSurname) ||
+                string.IsNullOrEmpty(Id))
             {
-                await page.DisplayAlert("Enter All Fields", "Please enter all fields", "OK");
+                await page.DisplayAlert("Blank Fields Error!", "Please enter all fields", "OK");
                 return;
             }
 
@@ -1053,7 +1142,7 @@ namespace YomoneyApp
                             CustomerService cs = new CustomerService();
                             
                             cs.CustomerMobileNumber = acnt.UserName;
-                            cs.ReceiverMobile = PhoneNumber;
+                            cs.ReceiverMobile = ActualPhoneNumber;
                             cs.ReceiversName = receiverName;
                             cs.ReceiversSurname = receiverSurname;
                             cs.Balance = decimal.Parse(Amount);
@@ -1098,8 +1187,10 @@ namespace YomoneyApp
 
                             var client = new HttpClient();
                             var myContent = Body;
+                           
                             string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
                             string result = await client.GetStringAsync(paramlocal);
+                            
                             if (result != "System.IO.MemoryStream")
                             {
                                 var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
@@ -1111,11 +1202,11 @@ namespace YomoneyApp
                                 }
                                 else if (response.ResponseCode == "11102")
                                 {
-                                    await page.DisplayAlert("Job Award Error", response.Description, "OK");
+                                    await page.DisplayAlert("Job Award Error!", response.Description, "OK");
                                 }
                                 else
                                 {
-                                    await page.DisplayAlert("Job Award Error ", "Job Could not be awarded please try again later ", "OK");
+                                    await page.DisplayAlert("Job Award Error!", "Job Could not be awarded please try again later ", "OK");
                                 }
                                 try
                                 {
@@ -1628,11 +1719,11 @@ namespace YomoneyApp
                     {
                         if (response.ResponseCode == "11102")
                         {
-                            await page.DisplayAlert("Service Maintenance ", "Service is under maintenance please try again later", "OK");
+                            await page.DisplayAlert("Service Maintenance!", "Service is under maintenance, please try again later", "OK");
                         }
                         else
                         {
-                            await page.DisplayAlert("Transaction Error ", "Please try again letter ", "OK");
+                            await page.DisplayAlert("Server Error!", "There has been an error in retrieving the service from the server, please try again later", "OK");
                         }
                     }
                 }
@@ -1995,6 +2086,29 @@ namespace YomoneyApp
         #endregion
 
         #region Objects
+
+        string actualPhoneNumber = string.Empty;
+        public string ActualPhoneNumber
+        {
+            get { return actualPhoneNumber; }
+            set { SetProperty(ref actualPhoneNumber, value); }
+        }
+
+        string message = string.Empty;
+        public string Message
+        {
+            get { return message; }
+            set { SetProperty(ref message, value); }
+        }
+
+        CountryModel selectedCountry;
+
+        public CountryModel SelectedCountry
+        {
+            get { return selectedCountry; }
+            set { SetProperty(ref selectedCountry, value); }
+        }
+
         string purpose = string.Empty;
         public string Purpose
         {

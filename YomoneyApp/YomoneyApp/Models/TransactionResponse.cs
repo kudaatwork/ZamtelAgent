@@ -10,8 +10,11 @@ using System.Text;
         {
             public string ResponseCode { get; set; }
             public string Description { get; set; }
+            public string Country { get; set; }
             public string Balance { get; set; }
-            public string TransactionCode { get; set; }
+        public string Status { get; set; }
+        public string Currency { get; set; }
+        public string TransactionCode { get; set; }
             public List<Vouchers> vouchers { get; set; }
             public string AgentCode { get; set; }
             public string Mpin { get; set; }

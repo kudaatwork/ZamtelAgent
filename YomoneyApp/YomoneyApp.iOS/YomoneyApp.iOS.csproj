@@ -71,6 +71,8 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\CustomSearchBarRenderer.cs" />
+    <Compile Include="Renderers\CustomViewCellRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +161,9 @@
     <PackageReference Include="FluentValidation">
       <Version>10.3.0</Version>
     </PackageReference>
+    <PackageReference Include="libphonenumber-csharp">
+      <Version>8.12.38</Version>
+    </PackageReference>
     <PackageReference Include="MagicGradients">
       <Version>1.2.0</Version>
     </PackageReference>
@@ -182,6 +187,12 @@
     </PackageReference>
     <PackageReference Include="Refractored.MvvmHelpers">
       <Version>1.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Rg.Plugins.Popup">
+      <Version>2.0.0.14</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.8.116</Version>
     </PackageReference>
     <PackageReference Include="Toasts.Forms.Plugin">
       <Version>3.3.2</Version>
@@ -211,6 +222,9 @@
       <Version>3.0.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
+      <Version>2.4.11.982</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>5.0.0.2012</Version>
     </PackageReference>
@@ -219,6 +233,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.GoogleMaps">
       <Version>3.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms.PancakeView">
+      <Version>2.3.0.759</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
@@ -458,5 +475,245 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\orders-dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\account_number.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\accountname.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\amount.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\biller.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\chaticon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\coffee.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\date_picker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\date_picker1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\earth.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\email.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\email_image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\email2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\email3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\gender.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\gmail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\home_tasks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Image4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image7.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\image9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\jobs12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\keypad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\keypad2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\keypad3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\like.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\loyalty12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\more.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\namesure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\orders_dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\otp_image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\overlay.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\overlay2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\password.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\password2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\person_name.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Promoshare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\promotions12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\shareee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\skype.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\splash_bottom.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\splash_logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\splash_screen.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\splash2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\splash3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tasks12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\telephone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\unloack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\whatsapp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\yoapp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\yoapp5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\yoLoyalty.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\yomyServices.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\yosignOut.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\yotasks.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\overlay3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\radius.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\age.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\agender.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\advert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\adescription.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\atitle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\link.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_location.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_location%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_location%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_location_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_location_red%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_location_red%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_search%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_search%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\deactivate.png" />
   </ItemGroup>
 </Project>

@@ -30,7 +30,7 @@ namespace YomoneyApp.Views.Webview
             BindingContext = homeViewModel = new HomeViewModel(this);
             viewM = new YomoneyApp.ChatViewModel(this);//ViewModelLocator.ChatMainViewModel;
            
-            if (sourceUrl.Contains("Mobile/Forms") || showNav == false)
+            if (sourceUrl.Contains("Mobile") || showNav == false)
             {
                 NavigationPage.SetHasNavigationBar(this,false);
                 //((NavigationPage)Application.Current.MainPage).IsVisible = false;

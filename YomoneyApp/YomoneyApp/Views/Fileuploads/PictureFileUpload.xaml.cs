@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YomoneyApp.Models.Image;
+using YomoneyApp.Services;
 
 namespace YomoneyApp.Views.Fileuploads
 {
@@ -77,6 +78,7 @@ namespace YomoneyApp.Views.Fileuploads
         private async void btnUploadImage_Clicked(object sender, EventArgs e)
         {
             FileUpload fileUpload = new FileUpload();
+            AccessSettings accessSettings = new AccessSettings();
 
             var stream = _mediaFile.GetStream();
             var bytes = new byte[stream.Length];
@@ -97,7 +99,7 @@ namespace YomoneyApp.Views.Fileuploads
 
             fileUpload.Type = type;
 
-            fileUpload.PhoneNumber = "263784607691";
+            fileUpload.PhoneNumber = accessSettings.UserName;
 
             fileUpload.Image = base64;
 
@@ -105,14 +107,14 @@ namespace YomoneyApp.Views.Fileuploads
 
             try
             {
-                string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 httpWebRequest.Timeout = 120000;
                 //httpWebRequest.CookieContainer = new CookieContainer();
                 //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                //cookie.Domain = "http://192.168.100.150:5000";
+                //cookie.Domain = "https://www.yomoneyservice.com";
                 //httpWebRequest.CookieContainer.Add(cookie);
 
                 var json = JsonConvert.SerializeObject(fileUpload);
@@ -137,9 +139,10 @@ namespace YomoneyApp.Views.Fileuploads
                 Console.WriteLine(ex.Message);
             }
 
+            #region Commented Out Code
             //try
             //{
-                
+
             //        var stream = _mediaFile.GetStream();
             //        var bytes = new byte [stream.Length];
             //        await stream.ReadAsync(bytes, 0, (int)stream.Length);
@@ -153,8 +156,8 @@ namespace YomoneyApp.Views.Fileuploads
 
             //    // content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
 
-            //    var uploadUrl = "http://192.168.100.150:5000/Mobile/FileUploader";
-                
+            //    var uploadUrl = "https://www.yomoneyservice.com/Mobile/FileUploader";
+
             //    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
             //   (
             //       delegate { return true; }
@@ -191,7 +194,9 @@ namespace YomoneyApp.Views.Fileuploads
             //catch (Exception ex)
             //{
             //    Console.WriteLine(ex.Message);
-            //}           
+            //}
+            #endregion
+
         }
 
         private void btnPickUpload_Clicked(object sender, EventArgs e)

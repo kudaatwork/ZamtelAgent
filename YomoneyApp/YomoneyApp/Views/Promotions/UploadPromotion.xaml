@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             ios:Page.UseSafeArea="true"
+             xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"             
+             x:Class="YomoneyApp.Views.Promotions.UploadPromotion" 
+            
+             NavigationPage.HasNavigationBar="True"
+             Title="Create Advert">
+
+    <StackLayout BackgroundColor="White">
+
+        <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+            <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}"/>
+            <Label HorizontalOptions="Center"
+	    	 VerticalOptions="Center" 
+	    	 Text="{Binding Message}"/>
+        </StackLayout>
+
+        <ScrollView>
+            <StackLayout BackgroundColor="White" Padding="10,0,10,10" VerticalOptions="FillAndExpand">
+
+                <Label Padding="15,15,15,0" Margin="0,0,0,20" FontSize="Small" Text="Create your advert here to showcase your business and have an opportunity to share to the millions of users on the platform" TextColor="Gray" />
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="atitle.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Name}" FontAttributes="None" Keyboard="Default" Placeholder="Title" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="adescription.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="advert.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="AdvertPosition" Title="Select Advert Position" WidthRequest="280" Grid.Column="0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="advert.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="AdvertType" Title="Select Advert Type" WidthRequest="280"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="advert.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker  x:Name="LinkType" Title="Select Link Type" WidthRequest="280" Grid.Column="0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" IsVisible="{Binding HasParameter}" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" IsVisible="{Binding HasParameter}" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="advert.png" Aspect="AspectFill" IsVisible="{Binding HasParameter}" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding SiteUrl}" FontAttributes="None" Keyboard="Default" IsVisible="{Binding HasParameter}" 
+                                              Placeholder="Web Link" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,10" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="agender.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="Sex" Title="Select Sex" WidthRequest="280"/>
+                    </StackLayout>
+                </Frame>
+
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Target Age: From" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,10" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="age.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="TargetAge" Title="Select Minimum Target Age" WidthRequest="280" Grid.Column="0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Target Age: To" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,10" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="age.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker x:Name="TargetAge2" Title="Select Maximum Target Age" WidthRequest="280" Grid.Column="0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Expiry Date" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="date_picker.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <DatePicker Date="{Binding ExpireryDate, Mode=TwoWay}" WidthRequest="280"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" >
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <Picker  x:Name="Currency" Title="Select Currency" WidthRequest="280"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,15" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry x:Name="MaximumDailyBudget" Text="{Binding DailyMax}" FontAttributes="None" Keyboard="Numeric" Placeholder="Maximum Daily Budget" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Search your address in the address field below" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry x:Name="Address" Text="{Binding Location}" IsVisible="{Binding ShowLocation}" FontAttributes="Italic" ClassId="origin" ReturnType="Search" Keyboard="Default" Placeholder="Search for Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <Label FontSize="14" IsVisible="{Binding ShowLabel}" Margin="0,5,20,0" Text="{Binding Location}" TextColor="Black" />
+                    </StackLayout>
+                </Frame>
+
+                <ListView VerticalOptions="FillAndExpand"
+                        BackgroundColor="Transparent" 
+                        IsVisible="{Binding IsAdvert}"
+                        Footer=""
+                        SelectionMode="Single"
+                        SelectedItem="{Binding PlaceSelected, Mode=TwoWay}"
+                        x:Name="list"
+                        ItemsSource="{Binding Places}"
+                        HasUnevenRows="true"
+                        SeparatorColor="Gray"
+                        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                        IsPullToRefreshEnabled="True"
+                        ios:ListView.SeparatorStyle="FullWidth">
+                    <ListView.Triggers>
+                        <DataTrigger TargetType="ListView"
+                                 Binding="{Binding ShowRecentPlaces}"
+                                 Value="False">
+                            <Setter Property="ItemsSource" Value="{Binding Places}" />
+                        </DataTrigger>
+                    </ListView.Triggers>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="15"
+                                      RowSpacing="2"
+                                      ColumnSpacing="15"
+                                      >
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Source="ic_location"
+                                             HeightRequest="20"
+                                             WidthRequest="20"
+                                             VerticalOptions="Start"
+                                             Grid.Row="0"
+                                             Grid.Column="0"
+                                             Grid.RowSpan="2"
+                                           />
+
+                                    <Label LineBreakMode="MiddleTruncation"
+                                               Text="{Binding StructuredFormatting.MainText}"
+                                               Grid.Row="0"
+                                               Grid.Column="1"/>
+
+                                    <Label LineBreakMode="MiddleTruncation"
+                                                 Text="{Binding StructuredFormatting.SecondaryText}" 
+                                                 TextColor="Gray" 
+                                                 Grid.Row="1"
+                                                 Grid.Column="1"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,10" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Image Source="radius.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <local:MyCustomeEntry Text="{Binding Radius}" FontAttributes="None" Keyboard="Numeric" Placeholder="Radius Coverage" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                    </StackLayout>
+                </Frame>
+
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Recommended Size: 600 x 800 (jpg, png, mp4, mkv)" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                <Button x:Name="btnPickAdImage" Clicked="btnPickAdImage_Clicked" BackgroundColor="#df782d" Text="UPLOAD ADVERT IMAGE" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+
+                <Image x:Name="FileImage" WidthRequest="200" HeightRequest="200"></Image>
+
+                <Button x:Name="btnSubmitPromotion" CommandParameter ="{Binding}" Clicked="btnSubmitPromotion_Clicked" BackgroundColor="#79c606" Text="SUMBIT PROMOTION" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+
+            </StackLayout>
+        </ScrollView>
+
+    </StackLayout>
+
+</ContentPage>

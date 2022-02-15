@@ -17,6 +17,7 @@ using System.IO;
 using MediaManager;
 using CarouselView.FormsPlugin.Droid;
 using Android;
+using FFImageLoading.Forms.Platform;
 
 //using MediaManager;
 
@@ -80,6 +81,9 @@ namespace YomoneyApp.Droid
             //var yomoneyRepository = new YomoneyRepository(dbPath);
             CarouselViewRenderer.Init();
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Rg.Plugins.Popup.Popup.Init(this);
+            CachedImageRenderer.Init(true);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.FormsGoogleMaps.Init(this, savedInstanceState); // initialize for Xamarin.Forms.GoogleMaps
             LoadApplication(new App(dbPath));
         }

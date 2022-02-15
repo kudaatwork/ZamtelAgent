@@ -14,12 +14,16 @@ namespace YomoneyApp.Views.Spani
     public partial class CreateSpaniProfile : ContentPage
     {
         RequestViewModel viewModel;
-        
+        PromotionsViewModel promotionsViewModel;
         public CreateSpaniProfile()
         {
             InitializeComponent();
 
             BindingContext = viewModel = new RequestViewModel(this);
+
+            MenuItem menuItem = new MenuItem();
+            menuItem.Title = "Create Advert";
+            promotionsViewModel = new PromotionsViewModel(this, menuItem);
 
             PickerStore.SelectedIndexChanged += async (sender, e) =>
             {

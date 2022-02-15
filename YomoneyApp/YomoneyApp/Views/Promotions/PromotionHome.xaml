@@ -154,7 +154,7 @@
                                         Grid.Column="2"
                                         VerticalOptions="Start"
                                         Background="Transparent"
-                                        ImageSource="shareee.png"
+                                        ImageSource="chaticon.png"
                                         CommandParameter ="{Binding}"
                                         Clicked="Button_Clicked"/>
 
@@ -168,7 +168,7 @@
                                         VerticalOptions="Start"
                                         HorizontalOptions="Start"
                                         BackgroundColor="Transparent"
-                                            FontAttributes="Bold"
+                                        FontAttributes="Bold"
                                         TextColor="#79c606"
                                         Text="More"
                                         CommandParameter ="{Binding}"

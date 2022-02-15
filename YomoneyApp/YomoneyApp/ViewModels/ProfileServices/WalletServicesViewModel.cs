@@ -16,13 +16,20 @@ using YomoneyApp.Views.Webview;
 using YomoneyApp.Views.Services;
 using YomoneyApp.Views.Profile.Loyalty;
 using YomoneyApp.Views;
+using YomoneyApp.Views.Promotions;
+using Xamarin.Essentials;
+using YomoneyApp.Utils;
+using YomoneyApp.Models;
+using System.Threading;
 
 namespace YomoneyApp
 {
     public class WalletServicesViewModel : ViewModelBase
     {
         readonly IDataStore dataStore;
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
+
+        CancellationTokenSource cts;
         public ObservableRangeCollection<MenuItem> Stores { get; set; }
         public ObservableRangeCollection<Grouping<string, MenuItem>> StoresGrouped { get; set; }
         public ObservableRangeCollection<MenuItem> Categories { get; set; }
@@ -98,7 +105,7 @@ namespace YomoneyApp
                     {
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
-                        string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
+                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
 
                         page.Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#df782d",false));
 
@@ -110,9 +117,27 @@ namespace YomoneyApp
                     {
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
-                        string link = "http://192.168.100.150:5000/Mobile/OrderList?Id=" + uname;
+                        string link = "https://www.yomoneyservice.com/Mobile/OrderList?Id=" + uname;
 
                         page.Navigation.PushAsync(new WebviewHyubridConfirm(link, "Purchase Orders", true, "#df782d",false));
+
+                        //page.Navigation.PushModalAsync(new WebviewPage(link, "My Tasks", true, "#df782d"));
+                        SelectedStore = null;
+                        selectedStore = null;
+                    }
+                    else if (selectedStore.Title == "My Promotions")
+                    {
+                        //AccessSettings acnt = new AccessSettings();
+                        //string uname = acnt.UserName;
+                        //string link = "https://www.yomoneyservice.com/Mobile/OrderList?Id=" + uname;
+
+                        MenuItem mn = new YomoneyApp.MenuItem();
+                        mn.Title = "My Promotions";
+                        mn.TransactionType = 23;
+                        mn.Section = "PROMOTIONS";
+                        mn.SupplierId = "All";
+
+                        page.Navigation.PushAsync(new MyPromotions(mn));
 
                         //page.Navigation.PushModalAsync(new WebviewPage(link, "My Tasks", true, "#df782d"));
                         SelectedStore = null;
@@ -149,6 +174,88 @@ namespace YomoneyApp
             }
         }
 
+        #region Get Current Location
+        private Command getCurrentGeolocationCommand;
+
+        public Command GetCurrentGeolocationCommand
+        {
+            get
+            {
+                return getCurrentGeolocationCommand ??
+                    (getCurrentGeolocationCommand = new Command(async () => await ExecuteGetCurrentGeolocationCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetCurrentGeolocationCommand()
+        {
+            //if (!IsBusy)
+            //    return;
+
+            IsBusy = true;
+            Message = "Loading International No.s...";
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(15));
+
+                cts = new CancellationTokenSource();
+
+                var location = await Geolocation.GetLocationAsync(request, cts.Token);
+
+                if (location != null)
+                {
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                    var placemark = placemarks?.FirstOrDefault();
+
+                    if (placemark != null)
+                    {
+                        var geocodeAddress =
+                            $"AdminArea:       {placemark.AdminArea}\n" +
+                            $"CountryCode:     {placemark.CountryCode}\n" +
+                            $"CountryName:     {placemark.CountryName}\n" +
+                            $"FeatureName:     {placemark.FeatureName}\n" +
+                            $"Locality:        {placemark.Locality}\n" +
+                            $"PostalCode:      {placemark.PostalCode}\n" +
+                            $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                            $"SubLocality:     {placemark.SubLocality}\n" +
+                            $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                            $"Thoroughfare:    {placemark.Thoroughfare}\n";
+
+                        SelectedCountry = CountryUtils.GetCountryModelByName(placemark.CountryName);
+
+                        IsBusy = false;
+
+                    }
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+
+                await page.DisplayAlert("Error!", "The location feature is not supported on the device", "Ok");
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+
+                await page.DisplayAlert("Error!", "The location feature is not enabled on the device", "Ok");
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+
+                await page.DisplayAlert("Error!", "The location feature is not permitted on the device", "Ok");
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+
+                await page.DisplayAlert("Error!", "Unable to get the loaction on this device", "Ok");
+            }
+        }
+
+        #endregion
+
         private Command getStoresCommand;
 
         public Command GetStoresCommand
@@ -160,33 +267,40 @@ namespace YomoneyApp
             }
         }
 
+        #region Menus Below
+
         public async Task ExecuteGetStoresCommand()
         {
             if (IsBusy)
                 return;
 
             if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+                IsBusy = true;
             GetStoresCommand.ChangeCanExecute();
             var showAlert = false;
+
             try
             {
                 Stores.Clear();
+
                 List<MenuItem> mnu = new List<MenuItem>();
-                mnu.Add(new MenuItem { Title = "My Tasks", Image = "http://192.168.100.150:5000/Content/Spani/Images/tasks.jpg", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "Tasks" });
-                mnu.Add(new MenuItem { Title = "Purchase Orders", Image = "http://192.168.100.150:5000/Content/Spani/Images/orders.jpg", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "Purchase Orders" });
-                mnu.Add(new MenuItem { Title = "Loyalty Points", Image= "http://192.168.100.150:5000/Content/Spani/Images/Loyalty.jpg", Section = "Loyalty", ServiceId = 1, SupplierId = "All",TransactionType = 6 });
-                mnu.Add(new MenuItem { Title = "My Services", Image = "http://192.168.100.150:5000/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
-                mnu.Add(new MenuItem { Title = "Sign Out", Image = "http://192.168.100.150:5000/Content/Spani/Images/signOut.jpg", Section = "Yomoney", ServiceId = 5, SupplierId = "All", TransactionType = 1 });
+
+                mnu.Add(new MenuItem { Title = "My Tasks", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "Tasks" });
+                mnu.Add(new MenuItem { Title = "My Promotions", Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg", Section = "Promotions", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "My Promotions" });
+                mnu.Add(new MenuItem { Title = "Purchase Orders", Image = "https://www.yomoneyservice.com/Content/Spani/Images/orders.jpg", Section = "Web", ServiceId = 1, SupplierId = "5-0001-0000000", TransactionType = 6, Description = "Purchase Orders" });
+                mnu.Add(new MenuItem { Title = "Loyalty Points", Image = "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg", Section = "Loyalty", ServiceId = 1, SupplierId = "All", TransactionType = 6 });
+                mnu.Add(new MenuItem { Title = "My Services", Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg", Section = "Yomoney", ServiceId = 11, SupplierId = "All", TransactionType = 1 });
+                mnu.Add(new MenuItem { Title = "Sign Out", Image = "https://www.yomoneyservice.com/Content/Spani/Images/signOut.jpg", Section = "Yomoney", ServiceId = 5, SupplierId = "All", TransactionType = 1 });
+
                 Stores.ReplaceRange(mnu);
-                
             }
             catch (Exception ex)
             {
                 showAlert = true;
-                await page.DisplayAlert("Error!", ex.Message, "OK");
+                Console.WriteLine(ex.Message);
+                //await page.DisplayAlert("Error!", ex.Message, "OK");
             }
             finally
             {
@@ -194,10 +308,12 @@ namespace YomoneyApp
                 GetStoresCommand.ChangeCanExecute();
             }
 
-            //if (showAlert)
-             //   await page.DisplayAlert("Error!", "Unable to gather menus.", "OK");
+            if (showAlert)
+               await page.DisplayAlert("Error!", "Unable to gather dashboard menus.", "OK");
 
         }
+
+        #endregion        
 
         #region Get Dashboard Items
         private Command getDashboardItems;
@@ -364,7 +480,6 @@ namespace YomoneyApp
             }
         }
         #endregion
-
        
         #region Submit Personal Details
         private Command submitPersonalDetailsCommand;
@@ -967,9 +1082,17 @@ namespace YomoneyApp
             // if (ForceSync)
             //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            if (string.IsNullOrWhiteSpace(PhoneNumber))
+            ActualPhoneNumber = SelectedCountry.CountryCode + PhoneNumber;
+
+            if (string.IsNullOrEmpty(Category))
             {
-                await page.DisplayAlert("Error!", "Please enter all fields", "OK");
+                await page.DisplayAlert("Payment Method Error!", "Please enter your payment method", "OK");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(PhoneNumber))
+            {
+                await page.DisplayAlert("Phone Number Error!", "Please enter your phone number", "OK");
                 return;
             }
 
@@ -995,14 +1118,16 @@ namespace YomoneyApp
                 trn.Amount = decimal.Parse(Budget);
                 trn.Currency = Currency;
                 trn.TransactionType = 8;
+
                 if (PhoneNumber == null)
                 {
                     trn.CustomerMSISDN = uname;
                 }
                 else
                 {
-                    trn.CustomerMSISDN = PhoneNumber;
+                    trn.CustomerMSISDN = ActualPhoneNumber;
                 }
+
                 string Body = "";
                 Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                 Body += "&CustomerAccount=" + trn.CustomerAccount;
@@ -1029,16 +1154,21 @@ namespace YomoneyApp
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
 
                 client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
+
                 string result = await client.GetStringAsync(paramlocal);
+
                 if (result != "System.IO.MemoryStream")
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
                     if (response.ResponseCode == "00000" || response.ResponseCode == "Success")
                     {
                         if (response.Description == "WebRedirect")
                         {
                             var servics = response.Narrative;
+
                             string source = HostDomain + "/Mobile/" + servics;
+
                             await page.Navigation.PushAsync(new WebviewHyubridConfirm(source, response.Note, false,null,true));
                         }
                         else
@@ -1129,11 +1259,26 @@ namespace YomoneyApp
 
         #region Object 
 
+        CountryModel selectedCountry;
+
+        public CountryModel SelectedCountry
+        {
+            get { return selectedCountry; }
+            set { SetProperty(ref selectedCountry, value); }
+        }
+
         bool personalDetails = false;
         public bool PersonalDetails
         {
             get { return personalDetails; }
             set { SetProperty(ref personalDetails, value); }
+        }
+
+        bool isVerified = false;
+        public bool IsVerified
+        {
+            get { return isVerified; }
+            set { SetProperty(ref isVerified, value); }
         }
 
         bool idImage = false;
@@ -1229,6 +1374,13 @@ namespace YomoneyApp
         {
             get { return budget; }
             set { SetProperty(ref budget, value); }
+        }
+
+        string actualPhoneNumber = string.Empty;
+        public string ActualPhoneNumber
+        {
+            get { return actualPhoneNumber; }
+            set { SetProperty(ref actualPhoneNumber, value); }
         }
 
         string balance = string.Empty;

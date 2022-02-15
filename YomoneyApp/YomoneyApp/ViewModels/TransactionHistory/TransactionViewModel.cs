@@ -21,7 +21,7 @@ namespace YomoneyApp
 {
     public class TransactionViewModel : ViewModelBase
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
        
         public MenuItem selec;
         readonly IDataStore dataStore;

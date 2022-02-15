@@ -20,7 +20,7 @@ namespace YomoneyApp.Views.Services
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignaturePage : ContentPage
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         MenuItem SelectedItem;
         private Point[] points;
@@ -93,14 +93,14 @@ namespace YomoneyApp.Views.Services
 
                     try
                     {
-                        string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
+                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
                         var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                         httpWebRequest.ContentType = "application/json";
                         httpWebRequest.Method = "POST";
                         httpWebRequest.Timeout = 120000;
                         //httpWebRequest.CookieContainer = new CookieContainer();
                         //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                        //cookie.Domain = "http://192.168.100.150:5000";
+                        //cookie.Domain = "https://www.yomoneyservice.com";
                         //httpWebRequest.CookieContainer.Add(cookie);
 
                         var json = JsonConvert.SerializeObject(fileUpload);

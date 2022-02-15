@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Spend.Recharge"
               xmlns:xviews="clr-namespace:YomoneyApp.Views.Services;assembly=YomoneyApp"
-              xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
+              xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer" xmlns:forms="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              Title="Recharge Services"
 	IsBusy="{Binding IsBusy}">
     
@@ -33,10 +33,43 @@
 
                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal">
-                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                            <Image Source="keypad.png" Aspect="AspectFill" Margin="0"/>
+                        <Frame
+                                            CornerRadius="10"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                            Margin="10,0,0,0"
+                                            Padding="0,0,5,5"    
+                                            HeightRequest="30"
+                                            WidthRequest="80"
+                                            IsClippedToBounds="True"
+                                            BackgroundColor="White">
+
+                            <StackLayout Orientation="Horizontal"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowPopupCommand}"/>
+                                </StackLayout.GestureRecognizers>
+
+                                <forms:SvgCachedImage
+                                                        Margin="5,5,0,0"
+                                                        HeightRequest="30"
+                                                        Source="{Binding SelectedCountry.FlagUrl}"
+                                                        VerticalOptions="StartAndExpand"
+                                                        WidthRequest="22" 
+                                                       />
+
+                                <Label Text="{Binding SelectedCountry.CountryCode, StringFormat='+{0}'}"
+                                                        VerticalTextAlignment="Center"
+                                                        Margin="0,5,0,0"
+                                                        HorizontalTextAlignment="End"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"/>
+                            </StackLayout>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Phone Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Phone Number e.g. 77899999" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
 

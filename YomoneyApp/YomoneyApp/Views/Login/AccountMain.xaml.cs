@@ -22,6 +22,8 @@ namespace YomoneyApp.Views.Login
             ButtonJoin.Clicked += async (sender, e) =>
             {
                 await Navigation.PushAsync(new NewAccount());
+
+                //await Navigation.PushAsync(new WaletServices("", "", "", ""));
             };
 
             ButtonLogin.Clicked += async (sender, e) =>

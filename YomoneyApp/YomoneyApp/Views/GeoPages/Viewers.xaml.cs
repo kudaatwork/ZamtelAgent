@@ -40,9 +40,7 @@ namespace YomoneyApp.Views.GeoPages
             HomeViewModel.RouteDuration = routeDuration;
             HomeViewModel.RouteDistance = routeDistance;
             HomeViewModel.RouteRealTimeDistance = routeRealTimeDistance;
-            HomeViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;
-
-            LoadTrip();
+            HomeViewModel.RouteRealTimeInstructions = routeRealTimeInstructions;           
 
         }
 
@@ -367,5 +365,12 @@ namespace YomoneyApp.Views.GeoPages
             Navigation.PushAsync(new HomePage());
         }
         #endregion        
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            LoadTrip();
+        }
     }
 }

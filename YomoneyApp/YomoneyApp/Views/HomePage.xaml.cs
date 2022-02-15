@@ -22,6 +22,7 @@ using YomoneyApp.Views.Webview;
 using YomoneyApp.Views.GeoPages;
 using YomoneyApp.Views.Fileuploads;
 using YomoneyApp.Views.Login;
+using YomoneyApp.Views.ActiveCountry;
 
 namespace YomoneyApp
 {
@@ -47,7 +48,38 @@ namespace YomoneyApp
                 SupplierId = "All", 
                 TransactionType = 3 
             };
-                        
+
+            MenuItem menuItem = new MenuItem
+            {
+                Title = "Create Advert"              
+            };
+
+            #region Tool Bar Menu
+
+            var demoOrdersForm = new ToolbarItem
+            {
+                Command = new Command(() =>
+                {                 
+                    Navigation.PushAsync(new OrderDetails());
+                }),
+
+                Text = "Order Details",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };
+
+            var uploadPromotion = new ToolbarItem
+            {               
+                Command = new Command(() =>
+                {
+                    Navigation.PushAsync(new UploadPromotion(menuItem));
+                }),
+
+                Text = "Create Advert",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };
+
             var Profile = new ToolbarItem
             {
                 Command = new Command(() =>
@@ -55,9 +87,9 @@ namespace YomoneyApp
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
-                    //Navigation.PushAsync(new WebviewPage("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+                    //Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
 
-                    Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
+                    Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
                 }),
 
                 Text = "My Profile",
@@ -93,7 +125,7 @@ namespace YomoneyApp
                 Order = ToolbarItemOrder.Secondary
             };
 
-            var trsansactionHistory = new ToolbarItem
+            var transactionHistory = new ToolbarItem
             {
                 Command = new Command(() =>
                 {
@@ -116,7 +148,7 @@ namespace YomoneyApp
                         cnt++;
                     }
 
-                     Navigation.PushAsync(new Transactions());
+                    Navigation.PushAsync(new Transactions());
                 }),
 
                 Text = "Transaction History",
@@ -173,27 +205,49 @@ namespace YomoneyApp
                 Text = "Sign Out",
                 Priority = 0,
                 Order = ToolbarItemOrder.Secondary
-            };           
+            };
 
+            var activeCountry = new ToolbarItem
+            {
+                Command = new Command(() =>
+                {
+                    MenuItem menuItem = new YomoneyApp.MenuItem();
+
+                    menuItem.Title = "Active Country";
+                    Navigation.PushAsync(new ActiveCountryPicker());
+                }),
+
+                Text = "Select Active Country",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };
+
+            ToolbarItems.Add(uploadPromotion);
+            ToolbarItems.Add(demoOrdersForm);
+            //ToolbarItems.Add(activeCountry);
             ToolbarItems.Add(Dashboard);
             ToolbarItems.Add(Profile);
             ToolbarItems.Add(PImage);
-            ToolbarItems.Add(trsansactionHistory);
+            ToolbarItems.Add(transactionHistory);
             //ToolbarItems.Add(customerSupport);
             ToolbarItems.Add(signOut);
+            #endregion
 
             //topCorousel.GestureRecognizers.Add(gesture);
 
+            #region Tabs Menu
             ButtonPay.Clicked += async (sender, e) =>
             {
-               await Navigation.PushAsync(new QRScanPage());
+                await Navigation.PushAsync(new QRScanPage());
             };
 
             ButtonContacts.Clicked += async (sender, e) =>
             {
                 await Navigation.PushAsync(new ChatTabs());
             };
+            #endregion
 
+            #region Commented Out Code
             //ButtonSpani.Clicked += (sender, e) =>
             //{
             //    // await Navigation.PushAsync(new SpaniHome());
@@ -207,7 +261,7 @@ namespace YomoneyApp
             //    mnu.TransactionType = 23;
             //    mnu.Section = "PROMOTIONS";
             //    mnu.SupplierId = "All";
-               
+
             //    await Navigation.PushAsync(new PromotionCategories(mnu));
             //};
 
@@ -222,7 +276,7 @@ namespace YomoneyApp
             //    //await Navigation.PushAsync(new ServiceCategories(mnu));
             //    mnu.Title = "Services";
             //    await Navigation.PushAsync(new ServiceVariations(mnu));
-                
+
             //};
 
             //ButtonEnjoy.Clicked += async (sender, e) =>
@@ -242,7 +296,7 @@ namespace YomoneyApp
             //    mnu.Section = "Supplier";
             //    mnu.SupplierId = "5-0001-0000000";
             //    mnu.Description = "YoLifestyle";
-               
+
             //    await Navigation.PushAsync(new LoyaltyRewards(mnu));
             //};
 
@@ -250,8 +304,10 @@ namespace YomoneyApp
             //{
             //    await Navigation.PushAsync(new TopupPage());
             //};
-
+            #endregion
         }
+
+        #region Bottom Button Menu
         private async void Section_Clicked(object sender, EventArgs e)
         {
             try
@@ -260,16 +316,16 @@ namespace YomoneyApp
                 MenuItem mn = new YomoneyApp.MenuItem();
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
-                switch(mn.Title.ToUpper())
+                switch (mn.Title.ToUpper())
                 {
                     case "AIRTIME":
                     case "RECHARGE":
-                       await Navigation.PushAsync(new Recharge(mn));
+                        await Navigation.PushAsync(new Recharge(mn));
                         break;
                     case "BILL PAYMENTS":
                         await Navigation.PushAsync(new PayBill(mn));
                         break;
-                    case "PROMOTIONS":              
+                    case "PROMOTIONS":
                         mn.Title = "PROMOTIONS";
                         mn.TransactionType = 23;
                         mn.Section = "PROMOTIONS";
@@ -293,15 +349,15 @@ namespace YomoneyApp
                     case "TASKS":
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
-                        string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
+                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
                         string title = "My Tasks";
 
-                        
-                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#df782d",false));
 
-                        
+                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#df782d", false));
+
+
                         break;
-                 default:
+                    default:
                         break;
                 }
                 //ServiceViewModel svm = new ServiceViewModel(this, mn);
@@ -312,7 +368,9 @@ namespace YomoneyApp
                 Console.WriteLine(ex.Message);
             }
         }
+        #endregion
 
+        #region Adverts
         private void Advert_Clicked(object sender, EventArgs e)
         {
             try
@@ -330,7 +388,9 @@ namespace YomoneyApp
                 Console.WriteLine(ex.Message);
             }
         }
+        #endregion
 
+        #region YoApp Wallet Balance
         async void MyWallet(object sender, EventArgs e)
         {
             if (Navigation.NavigationStack.Count == 0 ||
@@ -339,6 +399,7 @@ namespace YomoneyApp
                 await Navigation.PushAsync(new WaletServices(viewModel.LoyaltySchemes, viewModel.Services, viewModel.Tasks, viewModel.Orders));
             }
         }
+        #endregion
 
         protected override async void OnAppearing()
         {
