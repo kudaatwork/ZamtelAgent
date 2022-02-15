@@ -239,7 +239,6 @@ namespace YomoneyApp
                             App.AuthToken = password;
                             resp = "00000";
                         }
-
                         if (resp == "00000")
                         {
                             //await page.Navigation.PushAsync(new HomePage());

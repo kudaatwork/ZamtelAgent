@@ -20,10 +20,12 @@ namespace YomoneyApp.Droid
             _context = context;
         }
 
+        //public virtual int PaddingTop { get; set; }
+
         protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
         {
             base.OnElementChanged(e);
-
+                        
             if (e.OldElement != null)
             {
                 Control.RemoveJavascriptInterface("jsBridge");

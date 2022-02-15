@@ -420,6 +420,43 @@ namespace YomoneyApp
         }
         #endregion
 
+        public async Task ExecuteGetPopularCategoriesCommand()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = false;
+
+            try
+            {
+                List<MenuItem> popularJobCategories = new List<MenuItem>();
+
+                List<MenuItem> popJobCategories = new List<MenuItem>();
+
+                Random random = new Random();
+
+                var jobCategories = await GetStoreAsync("JobSectors");
+
+                foreach (var item in jobCategories)
+                {
+                    item.Title = item.Title?.Trim();
+                    item.Id = item.Id?.Trim();
+                    item.Image = item.Image?.Trim();                
+                }
+
+                //var newjbCategories = jobCategories.OrderBy(x => random.Next()).Take(8);
+
+                myButtonSource.Clear();
+
+                myButtonSource.AddRange(jobCategories);
+            }
+            catch (Exception ex)
+            {
+                //showAlert = true;
+            }
+        }
+        #endregion
+
         private Command forceRefreshCommand;
 
         public Command ForceRefreshCommand
@@ -1789,6 +1826,18 @@ namespace YomoneyApp
             else
             {
                 ItemSelected.Invoke(myQuote);
+            }
+        }
+
+        #region ViewProfile Command
+        private Command viewProfileCommand;
+
+        public Command ViewProfileCommand
+        {
+            get
+            {
+                return viewProfileCommand ??
+                    (viewProfileCommand = new Command(async () => await ExecuteViewProfileCommand(SupplierId), () => { return !IsBusy; }));
             }
         }
 

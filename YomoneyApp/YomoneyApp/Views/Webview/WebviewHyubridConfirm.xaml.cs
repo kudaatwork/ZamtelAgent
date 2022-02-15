@@ -43,33 +43,33 @@ namespace YomoneyApp.Views.Webview
 
             homeViewModel.Title = title;
 
-            mnu = new MenuItem();
-            mnu.HasProducts = true;
-            mnu.Title = title;
-            mnu.IsAdvert = false;
+                mnu = new MenuItem();
+                mnu.HasProducts = true;
+                mnu.Title = title;
+                mnu.IsAdvert = false;
 
-            if (isModal) // used to determin if navigation should show
-            {
-                mnu.IsAdvert = true;
-            }
+                if (isModal) // used to determin if navigation should show
+                {
+                    mnu.IsAdvert = true;
+                }
 
-            if (!string.IsNullOrEmpty(navcolour)) // used to determin if navigation should show
-            {
-                mnu.ThemeColor = navcolour;
-                var themeColor = Color.FromHex(navcolour);
+                if (!string.IsNullOrEmpty(navcolour)) // used to determin if navigation should show
+                {
+                    mnu.ThemeColor = navcolour;
+                    var themeColor = Color.FromHex(navcolour);
 
-                ((NavigationPage)Application.Current.MainPage).BarBackgroundColor = themeColor;
-            }
-            else
-            {
-                mnu.ThemeColor = "#df782d";
-            }
+                    ((NavigationPage)Application.Current.MainPage).BarBackgroundColor = themeColor;
+                }
+                else
+                {
+                    mnu.ThemeColor = "#df782d";
+                }
 
-            mnu.IsShare = true;
-            mnu.IsEmptyList = false;
-            BindingContext = mnu;
-          //  url = sourceUrl;
-            homeViewModel.Source = sourceUrl;
+                mnu.IsShare = true;
+                mnu.IsEmptyList = false;
+                BindingContext = mnu;
+                //  url = sourceUrl;
+                homeViewModel.Source = sourceUrl;
 
             //ButtonClose.Clicked += async (sender, e) =>
             //{
@@ -77,10 +77,10 @@ namespace YomoneyApp.Views.Webview
             //    //await Navigation.PopModalAsync();
             //};
 
-            var hybridWebView = new HybridWebView
-            {
-                Uri = sourceUrl               
-            };
+                var hybridWebView = new HybridWebView
+                {
+                    Uri = sourceUrl
+                };
 
             hybridWebView.RegisterAction(data => homeViewModel.DisplayMap(data));
 

@@ -21,12 +21,48 @@ namespace YomoneyApp.Views.Spani
 
             BindingContext = viewModel = new RequestViewModel(this);
 
+            PickerStore.SelectedIndexChanged += async (sender, e) =>
+            {
+                viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
+                //viewModel.GetSubcategoriesCommand.Execute(null);
+                var stores = await viewModel.GetStoreAsync("JobSubCategory");
+                foreach (var store in stores)
+                    PickerSubcategory.Items.Add(store.Title.Trim());
+            };
+
+            PickerSubcategory.SelectedIndexChanged += (sender, e) =>
+            {
+                viewModel.Subcategory = PickerSubcategory.Items[PickerSubcategory.SelectedIndex];
+            };
+
+            ButtonClose.Clicked += async (sender, e) =>
+            {
+                await App.Current.MainPage.Navigation.PopModalAsync();
+                // await Navigation.PopModalAsync();
+            };
+
+            EditorAddress.TextChanged += async (sender, e) =>
+            {
+                if (e.NewTextValue.Length > 5)
+                {
+                    await viewModel.GetGeoAddressAsync(e.NewTextValue);
+                }
+            };
+        }
+
+        public CreateSpaniProfile(string categorySelected)
+        {
+            InitializeComponent();
+
+            BindingContext = viewModel = new RequestViewModel(this);
+
             MenuItem menuItem = new MenuItem();
             menuItem.Title = "Create Advert";
             promotionsViewModel = new PromotionsViewModel(this, menuItem);
 
             PickerStore.SelectedIndexChanged += async (sender, e) =>
             {
+
                 viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
                 //viewModel.GetSubcategoriesCommand.Execute(null);
                 var stores = await viewModel.GetStoreAsync("JobSubCategory");

@@ -53,6 +53,8 @@ namespace YomoneyApp.Views.Fileuploads
             });
         }
         #endregion
+
+
         private async void btnTakePhoto_Clicked(object sender, EventArgs e)
         {
             await CrossMedia.Current.Initialize();

@@ -51,7 +51,7 @@ namespace YomoneyApp.Views.TransactionHistory
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.Message);
                 }
 
             }

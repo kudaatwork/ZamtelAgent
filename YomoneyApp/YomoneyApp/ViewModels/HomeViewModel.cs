@@ -34,6 +34,7 @@ namespace YomoneyApp
         public ObservableRangeCollection<MenuItem> myItemsSource { get; set; }
         public ObservableRangeCollection<MenuItem> myButtonSource { get; set; }
         public MenuItem accData { get; set; }
+
         public HomeViewModel(Page page) : base(page)
         {
             Title = "YoApp";

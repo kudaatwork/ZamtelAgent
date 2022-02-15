@@ -350,6 +350,7 @@ namespace YomoneyApp
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
                         string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+                        
                         string title = "My Tasks";
 
 

@@ -1133,7 +1133,6 @@ namespace YomoneyApp
                     {
                         if (arg == "Payment Success")
                        {
-
                             AccessSettings acnt = new Services.AccessSettings();
                             string pass = acnt.Password;
                             string uname = acnt.UserName;
@@ -1213,13 +1212,17 @@ namespace YomoneyApp
                                     await App.Current.MainPage.Navigation.PopModalAsync();
                                     //page.Navigation.PopModalAsync();
                                 }
-                                catch { }
+                                catch(Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
                             }
                         }
                         else
                         {
                             await page.DisplayAlert("Payment Failed", "Unable to Award Job, the 5% commitment fee was not paid.", "OK");
                         }
+                       // MessagingCenter.Unsubscribe<string, string>("PaymentRequest", "NotifyMsg");
                     });
                 
             }
