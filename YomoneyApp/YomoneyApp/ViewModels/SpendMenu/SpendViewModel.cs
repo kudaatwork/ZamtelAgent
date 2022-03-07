@@ -1562,6 +1562,7 @@ namespace YomoneyApp
                             trn.ServiceProvider = Email;
                             trn.Narrative = category;
                             trn.Product = Categories.Where(u => u.Title == category).FirstOrDefault().Id;
+
                             if (Retry)
                             {
                                 trn.Note = "Reward Service";

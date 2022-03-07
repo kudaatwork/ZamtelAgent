@@ -2515,11 +2515,8 @@ namespace YomoneyApp
             finally
             {
                 IsBusy = false;
-                saveProfileCommand?.ChangeCanExecute();
+                saveRequestCommand?.ChangeCanExecute();
             }
-
-           
-
         }
         #endregion
 
@@ -2560,8 +2557,8 @@ namespace YomoneyApp
 
         async Task ExecuteSaveProfileCommand()
         {
-            if (IsBusy)
-                return;
+            //if (IsBusy)
+            //    return;
             if (string.IsNullOrWhiteSpace(Ptitle))
             {
                 await page.DisplayAlert("Enter Company", "Please enter a trade name or your name is you are not a company.", "OK");
@@ -2633,12 +2630,15 @@ namespace YomoneyApp
                 if (result != "System.IO.MemoryStream")
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
                     if(response.ResponseCode == "00000" || response.ResponseCode == "Success")
                     {
                         //await page.Navigation.PopModalAsync();
 
                         await page.DisplayAlert("Success!", "New Job skill added successfully. Go to My Profile to check out your skill.", "OK");
-
+                       
+                        IsBusy = false;
+                        
                         await App.Current.MainPage.Navigation.PopModalAsync();
                         await page.Navigation.PushAsync(new SpaniWorkSpace());
                     }
@@ -3324,6 +3324,18 @@ namespace YomoneyApp
         {
             get { return latitude; }
             set { SetProperty(ref latitude, value); }
+        }
+
+        bool isBusy = false;
+        public new bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                //SetProperty(ref isAdvert, value);
+                isBusy = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsBusy"));
+            }
         }
 
         string sessionId = "";
