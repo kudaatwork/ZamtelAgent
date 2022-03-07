@@ -19,7 +19,7 @@
 			    	 VerticalOptions="Center"
 			    	 Text="Loading..."/>
             </StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+           <!-- <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -47,7 +47,7 @@
 			      />
 
                 </Grid>
-            </StackLayout>
+            </StackLayout> -->
             <ListView
 				x:Name="BidList"
 				ItemsSource="{Binding Stores}"

@@ -111,6 +111,20 @@ namespace YomoneyApp
                 Order = ToolbarItemOrder.Secondary
             };
 
+            var imagep = new ToolbarItem
+            {
+                Command = new Command(() =>
+                {
+                    MenuItem px = new YomoneyApp.MenuItem();
+                    px.Title = "Profile Image";
+                    Navigation.PushAsync(new PictureFileUpload());
+                }),
+
+                Text = "Profile Picture",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };
+
             var Dashboard = new ToolbarItem
             {
                 Command = new Command(() =>
@@ -222,8 +236,9 @@ namespace YomoneyApp
                 Order = ToolbarItemOrder.Secondary
             };
 
+            //ToolbarItems.Add(imagep);
             ToolbarItems.Add(uploadPromotion);
-            ToolbarItems.Add(demoOrdersForm);
+            //ToolbarItems.Add(demoOrdersForm);
             //ToolbarItems.Add(activeCountry);
             ToolbarItems.Add(Dashboard);
             ToolbarItems.Add(Profile);

@@ -230,8 +230,12 @@ namespace YomoneyApp
                         string resp = "";                        
 
                         try
-                        {
+                        {               
                             resp = ac.SaveCredentials(actualPhoneNumber, password).Result;
+
+                            PhoneNumber = null;
+                            ActualPhoneNumber = null;
+                            Password = null;
                         }
                         catch
                         {
@@ -458,7 +462,16 @@ namespace YomoneyApp
                 TransactionRequest trn = new TransactionRequest();
                 trn.Narrative = Name + "_" + ContactName + "_" + "NA" + "_" + ActualPhoneNumber + "_" + "NA" + "_" + Password + "_" + Date + "_" + Gender;
 
-                await page.Navigation.PushAsync(new VerificationPage(PhoneNumber));
+                Name = null;
+                ContactName = null;                
+                Date = DateTime.Now.Date;
+                Password = null;
+                ConfirmPassword = null;
+
+                await page.Navigation.PushAsync(new VerificationPage(ActualPhoneNumber));
+
+                //ActualPhoneNumber = null;
+                //PhoneNumber = null;
                 //IsBusy = false;
 
                 MessagingCenter.Subscribe<string, string>("VerificationRequest", "VerifyMsg", async (sender, arg) =>
@@ -745,8 +758,10 @@ namespace YomoneyApp
 
             try
             {
+                AccessSettings accessSettings = new AccessSettings();
+
                 TransactionRequest trn = new TransactionRequest();
-                trn.Narrative = PhoneNumber + "_" + SecurityQuestion + "_" + Answer;
+                trn.Narrative = accessSettings.UserName + "_" + SecurityQuestion + "_" + Answer;
 
                 string Body = "";
 
@@ -778,7 +793,7 @@ namespace YomoneyApp
                             {
                                 if (response.Note.ToUpper().Trim() == "RESET")
                                 {
-                                    await page.Navigation.PushAsync(new PasswordReset(PhoneNumber, "NA"));
+                                    await page.Navigation.PushAsync(new PasswordReset(accessSettings.UserName, "NA"));
                                 }
                                 else
                                 {
@@ -797,7 +812,7 @@ namespace YomoneyApp
                         {
                             if (response.Note.ToUpper().Trim() == "RESET")
                             {
-                                await page.Navigation.PushAsync(new PasswordReset(PhoneNumber, "NA"));
+                                await page.Navigation.PushAsync(new PasswordReset(accessSettings.UserName, "NA"));
                             }
                             else
                             {
@@ -901,9 +916,10 @@ namespace YomoneyApp
                 }
                 else
                 {
-                    await page.DisplayAlert("Error", "There has been an error in loading your security questions. Please contact customer support", "OK");
+                    await page.DisplayAlert("Error", httpResponse.Description, "OK");
 
                     await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+
                 }
             }
         }
@@ -980,8 +996,9 @@ namespace YomoneyApp
 
             try
             {
+                AccessSettings accessSettings = new AccessSettings();
                 TransactionRequest trn = new TransactionRequest();
-                trn.Narrative = Email + "_" + PhoneNumber;
+                trn.Narrative = Email + "_" + accessSettings.UserName;
 
                 string Body = "";
 
@@ -1005,7 +1022,7 @@ namespace YomoneyApp
                         {
                             await page.DisplayAlert("Email Validation", "Email Validated Successfully", "OK");
 
-                            await page.Navigation.PushAsync(new PasswordReset(PhoneNumber, Email));
+                            await page.Navigation.PushAsync(new PasswordReset(accessSettings.UserName, Email));
                         }
                         catch (Exception e)
                         {

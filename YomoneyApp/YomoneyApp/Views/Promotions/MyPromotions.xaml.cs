@@ -35,7 +35,11 @@ namespace YomoneyApp.Views.Promotions
         {
             base.OnAppearing();
 
+            viewModel.IsBusy = true;
+
             viewModel.GetCurrentUserPromotions(SelectedItem);
+
+            viewModel.IsBusy = false;
         }
 
         private async void Button_Clicked(object sender, EventArgs e)

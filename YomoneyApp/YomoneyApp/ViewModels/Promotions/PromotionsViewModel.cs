@@ -593,8 +593,8 @@ namespace YomoneyApp
             set { SetProperty(ref currency, value); }
         }
 
-        decimal dailymax = 0m;
-        public decimal DailyMax
+        Nullable<decimal> dailymax = null;
+        public Nullable<decimal> DailyMax
         {
             get { return dailymax; }
             set { SetProperty(ref dailymax, value); }
@@ -607,8 +607,8 @@ namespace YomoneyApp
             set { SetProperty(ref maxage, value); }
         }
 
-        int radius = 0;
-        public int Radius
+        Nullable<int> radius = null;
+        public Nullable<int> Radius
         {
             get { return radius; }
             set { SetProperty(ref radius, value); }
@@ -1466,9 +1466,9 @@ namespace YomoneyApp
 
         private async Task ExecuteGetUserPromotionsCommand(MenuItem itm)
         {
-            if (IsBusy)
-                return;
-            if (ForceSync)
+            //if (IsBusy)
+            //    return;
+            //if (ForceSync)
                 //Settings.LastSync = DateTime.Now.AddDays(-30);
 
                 IsBusy = true;
@@ -2978,10 +2978,10 @@ namespace YomoneyApp
 
                     if (result != "System.IO.MemoryStream")
                     {
-                        var px = new MenuItem();
+                        //var px = new MenuItem();
                         var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                        var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-                        px = servics.FirstOrDefault();
+                        //var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+                       // px = servics.FirstOrDefault();
 
                         if (response.ResponseCode == "00000")
                         {
@@ -3157,9 +3157,9 @@ namespace YomoneyApp
             }
             #endregion
 
-            var disableResult = await page.DisplayAlert("Alert!", "Do you really want to delete this Ad?", "Yes", "No");
+            var deleteResult = await page.DisplayAlert("Alert!", "Do you really want to delete this Ad?", "Yes", "No");
 
-            if (disableResult)
+            if (deleteResult)
             {
                 IsBusy = true;
                 Message = "Deleting Ad...";
@@ -3227,10 +3227,10 @@ namespace YomoneyApp
 
                     if (result != "System.IO.MemoryStream")
                     {
-                        var px = new MenuItem();
+                       // var px = new MenuItem();
                         var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                        var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-                        px = servics.FirstOrDefault();
+                        //var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+                       // px = servics.FirstOrDefault();
 
                         if (response.ResponseCode == "00000")
                         {
@@ -3250,14 +3250,14 @@ namespace YomoneyApp
                         {
                             IsBusy = false;
 
-                            await page.DisplayAlert("Ad Deletion Error!", "There has been an error in disabling your ad. Please check your internet connection and try again", "Ok");
+                            await page.DisplayAlert("Ad Deletion Error!", "There has been an error in deleting your ad. Please check your internet connection and try again", "Ok");
                         }
                     }
                     else
                     {
                         IsBusy = false;
 
-                        await page.DisplayAlert("Ad Deletion Error!", "There has been an error in disabling your ad. Please check your internet connection and try again", "Ok");
+                        await page.DisplayAlert("Ad Deletion Error!", "There has been an error in deleting your ad. Please check your internet connection and try again", "Ok");
                     }
                 }
                 catch (Exception ex)
@@ -3265,7 +3265,7 @@ namespace YomoneyApp
                     IsBusy = false;
                     // showAlert = false;
 
-                    await page.DisplayAlert("Ad Deletion Error!", "There has been an error in disabling your ad. Please check your internet connection and try again", "Ok");
+                    await page.DisplayAlert("Ad Deletion Error!", "There has been an error in deleting your ad. Please check your internet connection and try again", "Ok");
                 }
                 finally
                 {

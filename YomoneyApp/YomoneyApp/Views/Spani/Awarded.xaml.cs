@@ -27,11 +27,11 @@ namespace YomoneyApp.Views.Spani
         {
             InitializeComponent();
             BindingContext = viewModel = new RequestViewModel(this);
-            ButtonClose.Clicked += async (sender, e) =>
-            {
-                await App.Current.MainPage.Navigation.PopModalAsync();
-                //await Navigation.PopModalAsync();
-            };
+            //ButtonClose.Clicked += async (sender, e) =>
+            //{
+            //    await App.Current.MainPage.Navigation.PopModalAsync();
+            //    //await Navigation.PopModalAsync();
+            //};
 
         }
 

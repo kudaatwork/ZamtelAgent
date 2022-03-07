@@ -40,7 +40,7 @@
                                     <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                         <Image Source="accountname.png" Aspect="AspectFill" Margin="0"/>
                                     </Frame>
-                                    <local1:MyCustomeEntry Text="{Binding Name}" FontAttributes="None" Placeholder="Username e.g. John Doe" Keyboard="Default" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
+                                    <local1:MyCustomeEntry x:Name="Name" Text="{Binding Name}" FontAttributes="None" Placeholder="Username e.g. John Doe" Keyboard="Default" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
                                 </StackLayout>
                             </Frame>
 

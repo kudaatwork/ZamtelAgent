@@ -32,6 +32,7 @@ namespace YomoneyApp.ViewModels.Login
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new SignIn());
+            
         }
 
         protected override void OnAppearing()

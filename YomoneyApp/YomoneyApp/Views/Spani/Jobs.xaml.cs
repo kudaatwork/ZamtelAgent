@@ -93,7 +93,7 @@ namespace YomoneyApp.Views.Spani
 
                     string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
 
-                    await Navigation.PushModalAsync(new WebviewPage(link, "Awarded Jobs", true, "#df782d"));
+                    await Navigation.PushModalAsync(new WebviewHyubridConfirm(link, "Awarded Jobs", true, "#df782d"));
 
                     //await Navigation.PushAsync(new WebviewHyubridConfirm(link, "Awarded Jobs", true, "#df782d"));
                 }

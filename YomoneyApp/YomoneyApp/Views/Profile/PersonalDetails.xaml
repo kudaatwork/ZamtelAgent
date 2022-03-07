@@ -66,11 +66,11 @@
 
                     <Button x:Name="btnPickPhoto" Clicked="btnPickPhoto_Clicked" BackgroundColor="#79c606" Text="UPLOAD ID OR PASSPORT" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
-                    <Image x:Name="FileImage" WidthRequest="100" HeightRequest="50"></Image>
+                    <Image x:Name="FileImage" WidthRequest="100" HeightRequest="100"></Image>
 
                     <Button x:Name="btnTakePhoto" Clicked="btnTakePhoto_Clicked" BackgroundColor="#79c606" Text="TAKE PHOTO" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
-                    <Image x:Name="FileTaken" WidthRequest="100" HeightRequest="50"></Image>
+                    <Image x:Name="FileTaken" WidthRequest="100" HeightRequest="100"></Image>
 
                 </StackLayout>
             </ScrollView>

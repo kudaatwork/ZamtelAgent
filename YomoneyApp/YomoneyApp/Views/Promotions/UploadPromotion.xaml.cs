@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -219,217 +220,373 @@ namespace YomoneyApp.Views.Promotions
             promotionsViewModel.IsBusy = true;
             promotionsViewModel.Message = "Loading...";
 
-            //if (string.IsNullOrEmpty(promotionsViewModel.Name))
+            if (string.IsNullOrEmpty(promotionsViewModel.Name))
+            {
+                await DisplayAlert("Advert Name Error!", "Please fill in the name", "Ok");
+                promotionsViewModel.IsBusy = false;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(promotionsViewModel.Description))
+            {
+                await DisplayAlert("Advert Description Error!", "Please fill in the description", "Ok");
+                promotionsViewModel.IsBusy = false;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(promotionsViewModel.AdPosition))
+            {
+                await DisplayAlert("Advert Advert Position Error!", "Please fill in the Ad Position field", "Ok");
+                promotionsViewModel.IsBusy = false;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(promotionsViewModel.Adtype))
+            {
+                await DisplayAlert("Advert Advert Type Error!", "Please fill in the Ad Type field", "Ok");
+                promotionsViewModel.IsBusy = false;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(promotionsViewModel.LinkParameterName))
+            {
+                await DisplayAlert("Advert Link Type Error!", "Please fill in the Link Type field", "Ok");
+                promotionsViewModel.IsBusy = false;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(promotionsViewModel.Sex))
+            {
+                await DisplayAlert("Advert Gender Error!", "Please fill in the Gender field", "Ok");
+                promotionsViewModel.IsBusy = false;
+                return;
+            }
+
+            using (var httpClient = new HttpClient())
+            {
+                try
+                {
+                    httpClient.BaseAddress = new Uri("http://102.130.113.195:8090/");
+                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var content = new MultipartFormDataContent();
+
+                    content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
+
+                    var uploadServiceBaseAddress = "api/Files/Upload";
+
+                    System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
+                    var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, content);
+
+                    var response = httpResponseMessage.Content.ReadAsStringAsync();
+
+                    var result = JsonConvert.DeserializeObject<string>(response.Result);
+
+                    if (result.ToUpper() == "FAILED")
+                    {
+                        await DisplayAlert("Advert Upload Error!", "There was an error saving the Ad. Please try again", "OK");
+                        promotionsViewModel.IsBusy = false;
+                    }
+                    else
+                    {
+                        AccessSettings acnt = new AccessSettings();
+                        string pass = acnt.Password;
+                        string uname = acnt.UserName;
+
+                        FileUpload fileUpload = new FileUpload();
+
+                        string strPath = _mediaFile.Path;
+
+                        var fileName = Path.GetFileName(strPath); // filename
+
+                        char[] delimite = new char[] { '.' };
+
+                        string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+                        var type = parts[1];
+
+                        fileUpload.Name = fileName;
+                        fileUpload.Type = type;
+                        fileUpload.PhoneNumber = uname;
+                        fileUpload.Image = result;
+                        fileUpload.Purpose = "Advert";
+                        fileUpload.ServiceId = 0;
+                        fileUpload.ActionId = 0;
+
+                        var view = sender as Xamarin.Forms.Button;
+                        Advert advert = new Advert();
+
+                        var x = JsonConvert.SerializeObject(view.CommandParameter);
+                        advert = JsonConvert.DeserializeObject<Advert>(x);
+
+                        var promotion = JsonConvert.SerializeObject(advert);
+
+                        fileUpload.SupplierId = promotion;
+
+                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                        var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                        httpWebRequest.ContentType = "application/json";
+                        httpWebRequest.Method = "POST";
+                        httpWebRequest.Timeout = 120000;
+                        httpWebRequest.CookieContainer = new CookieContainer();
+                        Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                        cookie.Domain = "www.yomoneyservice.com";
+                        httpWebRequest.CookieContainer.Add(cookie);
+
+                        var json = JsonConvert.SerializeObject(fileUpload);
+
+                        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                        {
+                            streamWriter.Write(json);
+                            streamWriter.Flush();
+                            streamWriter.Close();
+
+                            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                            {
+                                var serverresult = streamReader.ReadToEnd();
+
+                               // var stringResult = JsonConvert.DeserializeObject<string>(result);
+
+                                if (serverresult == "Success")
+                                {
+                                    await DisplayAlert("Advert Upload Success!", "Advert has been submitted successfully and is up for a review", "OK");
+                                    //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+
+                                    AdName = null;
+                                   // promotionsViewModel.Name = null;
+
+                                    promotionsViewModel.Description = null;
+                                    //AdDescription = null;
+
+                                    promotionsViewModel.AdPosition = null;
+                                    //AdvertPosition = null;
+
+                                    promotionsViewModel.Adtype = null;
+                                    //AdvertType = null;
+
+                                    LinkType = null;
+
+                                    PageUrl = null;
+                                    //promotionsViewModel.SiteUrl = null;
+
+                                    Sex = null;
+
+                                    TargetAge = null;
+                                    //promotionsViewModel.MinAge = 0;
+
+                                    TargetAge2 = null;
+                                    //promotionsViewModel.MaxAge = 0;
+
+                                    ExpDate = null;
+                                    //promotionsViewModel.ExpireryDate = DateTime.Now.Date;
+
+                                    Currency = null;
+                                    //promotionsViewModel.Currency = null;
+
+                                    MaximumDailyBudget = null;
+
+                                    Address = null;
+
+                                    AreaRadius = null;
+
+                                    FileImage = null;
+
+                                    MenuItem mn = new YomoneyApp.MenuItem();
+                                    mn.Title = "My Promotions";
+                                    mn.TransactionType = 23;
+                                    mn.Section = "PROMOTIONS";
+                                    mn.SupplierId = "All";
+
+                                    await Navigation.PushAsync(new MyPromotions(mn));
+                                }
+                                else
+                                {
+                                    await DisplayAlert("Advert Upload Error!", "There was an error saving the Ad. Please try again", "OK");
+                                    promotionsViewModel.IsBusy = false;
+                                }
+                                //FileImage.Source.ClearValue();
+
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message + ex.StackTrace + ex.InnerException);
+
+                    await DisplayAlert("Advert Upload Error!", "There was an error saving the Ad. Please try again", "OK");
+                    promotionsViewModel.IsBusy = false;
+                }
+            }
+
+            #region Commented Out Code
+
+            //AccessSettings acnt = new AccessSettings();
+            //string pass = acnt.Password;
+            //string uname = acnt.UserName;
+
+            //bool saved = false;
+
+            //FileUpload fileUpload = new FileUpload();
+
+            //var stream = _mediaFile.GetStream();           
+
+            //var bytes = new byte[stream.Length];
+            //await stream.ReadAsync(bytes, 0, (int)stream.Length);
+            //string base64 = System.Convert.ToBase64String(bytes);
+
+            //string strPath = _mediaFile.Path;
+
+            //var fileName = Path.GetFileName(strPath); // filename
+
+            //char[] delimite = new char[] { '.' };
+
+            //string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+            //var type = parts[1];
+
+            //// FileInfo fileDetail = new FileInfo(fileName);
+
+            ////if (fileDetail.Length > 2097152)
+            ////{
+            ////    await DisplayAlert("File Too Large Error!", "File cannot exceed 2MB", "Ok");
+            ////}
+            ////else
+            ////{
+            //fileUpload.Name = fileName;
+            //fileUpload.Type = type;
+            //fileUpload.PhoneNumber = uname;
+            //fileUpload.Image = base64;
+            //fileUpload.Purpose = "Advert";
+            //fileUpload.ServiceId = 0;
+            //fileUpload.ActionId = 0;
+
+            //var view = sender as Xamarin.Forms.Button;
+            //Advert advert = new Advert();
+
+            //var x = JsonConvert.SerializeObject(view.CommandParameter);
+            //advert = JsonConvert.DeserializeObject<Advert>(x);            
+
+            //var promotion = JsonConvert.SerializeObject(advert);
+
+            //fileUpload.SupplierId = promotion;
+
+            //// var json = JsonConvert.SerializeObject(fileUpload);
+
+            //string Body = string.Empty;
+
+            //Body += "Product=" + base64;
+
+            ////HttpClient client = new HttpClient();
+            ////var myContent = Body;
+            ////string paramlocal = string.Format("https://www.yomoneyservice.com/Mobile/Transaction/?{0}", myContent);
+            ////string resultt = await client.GetStringAsync(paramlocal);
+            ////if (resultt != "System.IO.MemoryStream")
+            ////{
+            ////    var stringResult = JsonConvert.DeserializeObject<string>(resultt);
+
+            ////    if (stringResult == "")
+            ////    {
+
+            ////    }
+            ////}
+
+            //TransactionRequest transactionRequest = new TransactionRequest();
+
+            //transactionRequest.AgentCode = "admin@cfs.co.zw:cfs6778";
+            //transactionRequest.MTI = "0100";
+            ////transactionRequest.Note = base64;
+
+            //HttpClient client = new HttpClient();
+
+            //Uri uri = new Uri("https://www.yomoneyservice.com/Mobile/FileUploader");
+            ////string url = String.Format("https://www.yomoneyservice.com/yoclient/transaction");
+            //var payload = JsonConvert.SerializeObject(fileUpload);
+            //HttpContent httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
+            //HttpResponseMessage result = await client.PostAsync(uri, httpContent);
+
+            //string response = await result.Content.ReadAsStringAsync();
+            //saved = false;
+
+            ////try
+            ////{
+            ////    string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+            ////    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+            ////    httpWebRequest.ContentType = "application/json";
+            ////    httpWebRequest.Method = "POST";
+            ////    httpWebRequest.Timeout = 120000;
+            ////    httpWebRequest.CookieContainer = new CookieContainer();
+            ////    Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+            ////    cookie.Domain = "www.yomoneyservice.com";
+            ////    httpWebRequest.CookieContainer.Add(cookie);
+
+            ////    var json = JsonConvert.SerializeObject(fileUpload);
+
+            ////    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            ////    {
+            ////        streamWriter.Write(json);
+            ////        streamWriter.Flush();
+            ////        streamWriter.Close();
+
+            ////        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            ////        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            ////        {
+            ////            var result = streamReader.ReadToEnd();
+
+            ////            var stringResult = JsonConvert.DeserializeObject<string>(result);
+
+            ////            if (stringResult == "Success")
+            ////            {
+            ////                promotionsViewModel.IsBusy = false;
+            ////                promotionsViewModel.Message = "";
+            ////                saved = true;
+            ////            }
+            ////            else
+            ////            {
+            ////                promotionsViewModel.IsBusy = false;
+            ////                promotionsViewModel.Message = "";
+            ////                saved = false;
+            ////            }
+            ////            //FileImage.Source.ClearValue();
+
+            ////        }
+            ////    }
+            ////}
+            ////catch (Exception ex)
+            ////{
+            ////    promotionsViewModel.IsBusy = false;s
+            ////    promotionsViewModel.Message = "";
+            ////    Console.WriteLine(ex.Message);
+            ////    saved = false;
+            ////}
+            ////}           
+
+            //if (saved)
             //{
-            //    await DisplayAlert("Advert Name Error!", "Please fill in the name", "Ok");
-            //    promotionsViewModel.IsBusy = false;
-            //    return;
-            //}
+            //    await DisplayAlert("Advert Upload Success!", "Advert has been submitted successfully and is up for a review", "OK");
+            //    //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
 
-            //if (string.IsNullOrEmpty(promotionsViewModel.Description))
-            //{
-            //    await DisplayAlert("Advert Description Error!", "Please fill in the description", "Ok");
-            //    promotionsViewModel.IsBusy = false;
-            //    return;
-            //}
+            //    MenuItem mn = new YomoneyApp.MenuItem();
+            //    mn.Title = "My Promotions";
+            //    mn.TransactionType = 23;
+            //    mn.Section = "PROMOTIONS";
+            //    mn.SupplierId = "All";
 
-            //if (string.IsNullOrEmpty(promotionsViewModel.AdPosition))
-            //{
-            //    await DisplayAlert("Advert Advert Position Error!", "Please fill in the Ad Position field", "Ok");
-            //    promotionsViewModel.IsBusy = false;
-            //    return;
-            //}
-
-            //if (string.IsNullOrEmpty(promotionsViewModel.Adtype))
-            //{
-            //    await DisplayAlert("Advert Advert Type Error!", "Please fill in the Ad Type field", "Ok");
-            //    promotionsViewModel.IsBusy = false;
-            //    return;
-            //}
-
-            //if (string.IsNullOrEmpty(promotionsViewModel.LinkParameterName))
-            //{
-            //    await DisplayAlert("Advert Link Type Error!", "Please fill in the Link Type field", "Ok");
-            //    promotionsViewModel.IsBusy = false;
-            //    return;
-            //}
-
-            //if (string.IsNullOrEmpty(promotionsViewModel.Sex))
-            //{
-            //    await DisplayAlert("Advert Gender Error!", "Please fill in the Gender field", "Ok");
-            //    promotionsViewModel.IsBusy = false;
-            //    return;
-            //}
-
-            AccessSettings acnt = new AccessSettings();
-            string pass = acnt.Password;
-            string uname = acnt.UserName;
-
-            bool saved = false;
-
-            FileUpload fileUpload = new FileUpload();
-
-            var stream = _mediaFile.GetStream();           
-
-            var bytes = new byte[stream.Length];
-            await stream.ReadAsync(bytes, 0, (int)stream.Length);
-            string base64 = System.Convert.ToBase64String(bytes);
-
-            string strPath = _mediaFile.Path;
-
-            var fileName = Path.GetFileName(strPath); // filename
-
-            char[] delimite = new char[] { '.' };
-
-            string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
-
-            var type = parts[1];
-
-            // FileInfo fileDetail = new FileInfo(fileName);
-
-            //if (fileDetail.Length > 2097152)
-            //{
-            //    await DisplayAlert("File Too Large Error!", "File cannot exceed 2MB", "Ok");
+            //    await Navigation.PushAsync(new MyPromotions(mn));
             //}
             //else
             //{
-            fileUpload.Name = fileName;
-            fileUpload.Type = type;
-            fileUpload.PhoneNumber = uname;
-            fileUpload.Image = base64;
-            fileUpload.Purpose = "Advert";
-            fileUpload.ServiceId = 0;
-            fileUpload.ActionId = 0;
-
-            var view = sender as Xamarin.Forms.Button;
-            Advert advert = new Advert();
-
-            var x = JsonConvert.SerializeObject(view.CommandParameter);
-            advert = JsonConvert.DeserializeObject<Advert>(x);            
-
-            var promotion = JsonConvert.SerializeObject(advert);
-
-            fileUpload.SupplierId = promotion;
-
-            // var json = JsonConvert.SerializeObject(fileUpload);
-
-            string Body = string.Empty;
-
-            Body += "Product=" + base64;
-
-            //HttpClient client = new HttpClient();
-            //var myContent = Body;
-            //string paramlocal = string.Format("https://www.yomoneyservice.com/Mobile/Transaction/?{0}", myContent);
-            //string resultt = await client.GetStringAsync(paramlocal);
-            //if (resultt != "System.IO.MemoryStream")
-            //{
-            //    var stringResult = JsonConvert.DeserializeObject<string>(resultt);
-
-            //    if (stringResult == "")
-            //    {
-
-            //    }
+            //    await DisplayAlert("Advert Upload Error!", "There was an error saving the Ad. Please try again", "OK");
+            //    promotionsViewModel.IsBusy = false;
             //}
 
-            TransactionRequest transactionRequest = new TransactionRequest();
-
-            transactionRequest.AgentCode = "admin@cfs.co.zw:cfs6778";
-            transactionRequest.MTI = "0100";
-            //transactionRequest.Note = base64;
-
-            HttpClient client = new HttpClient();
-
-            Uri uri = new Uri("https://www.yomoneyservice.com/Mobile/FileUploader");
-            //string url = String.Format("https://www.yomoneyservice.com/yoclient/transaction");
-            var payload = JsonConvert.SerializeObject(fileUpload);
-            HttpContent httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
-            HttpResponseMessage result = await client.PostAsync(uri, httpContent);
-
-            string response = await result.Content.ReadAsStringAsync();
-            saved = false;
-
-            //try
-            //{
-            //    string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
-            //    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            //    httpWebRequest.ContentType = "application/json";
-            //    httpWebRequest.Method = "POST";
-            //    httpWebRequest.Timeout = 120000;
-            //    httpWebRequest.CookieContainer = new CookieContainer();
-            //    Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-            //    cookie.Domain = "www.yomoneyservice.com";
-            //    httpWebRequest.CookieContainer.Add(cookie);
-
-            //    var json = JsonConvert.SerializeObject(fileUpload);
-
-            //    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            //    {
-            //        streamWriter.Write(json);
-            //        streamWriter.Flush();
-            //        streamWriter.Close();
-
-            //        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-            //        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            //        {
-            //            var result = streamReader.ReadToEnd();
-
-            //            var stringResult = JsonConvert.DeserializeObject<string>(result);
-
-            //            if (stringResult == "Success")
-            //            {
-            //                promotionsViewModel.IsBusy = false;
-            //                promotionsViewModel.Message = "";
-            //                saved = true;
-            //            }
-            //            else
-            //            {
-            //                promotionsViewModel.IsBusy = false;
-            //                promotionsViewModel.Message = "";
-            //                saved = false;
-            //            }
-            //            //FileImage.Source.ClearValue();
-
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    promotionsViewModel.IsBusy = false;s
-            //    promotionsViewModel.Message = "";
-            //    Console.WriteLine(ex.Message);
-            //    saved = false;
-            //}
-            //}           
-
-            if (saved)
-            {
-                await DisplayAlert("Advert Upload Success!", "Advert has been submitted successfully and is up for a review", "OK");
-                //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
-                
-                MenuItem mn = new YomoneyApp.MenuItem();
-                mn.Title = "My Promotions";
-                mn.TransactionType = 23;
-                mn.Section = "PROMOTIONS";
-                mn.SupplierId = "All";
-
-                await Navigation.PushAsync(new MyPromotions(mn));
-            }
-            else
-            {
-                await DisplayAlert("Advert Upload Error!", "There was an error saving the Ad. Please try again", "OK");
-                promotionsViewModel.IsBusy = false;
-            }
+            #endregion
         }
-
-        //private void Address_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    char key = e.NewTextValue?.Last() ?? ' ';
-
-        //    if (key == 'A')
-        //    {
-                
-        //    }
-        //}
+        
     }
 }

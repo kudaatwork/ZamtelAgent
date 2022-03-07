@@ -30,7 +30,7 @@
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="atitle.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding Name}" FontAttributes="None" Keyboard="Default" Placeholder="Title" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry x:Name="AdName" Text="{Binding Name}" FontAttributes="None" Keyboard="Default" Placeholder="Title" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
 
@@ -39,7 +39,7 @@
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="adescription.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry x:Name="AdDescription" Text="{Binding Description}" FontAttributes="None" Keyboard="Default" Placeholder="Description" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
 
@@ -75,7 +75,7 @@
                         <Frame BackgroundColor="Transparent" CornerRadius="50" IsVisible="{Binding HasParameter}" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="advert.png" Aspect="AspectFill" IsVisible="{Binding HasParameter}" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding SiteUrl}" FontAttributes="None" Keyboard="Default" IsVisible="{Binding HasParameter}" 
+                        <local:MyCustomeEntry x:Name="PageUrl" Text="{Binding SiteUrl}" FontAttributes="None" Keyboard="Default" IsVisible="{Binding HasParameter}" 
                                               Placeholder="Web Link" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
@@ -118,7 +118,7 @@
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="date_picker.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <DatePicker Date="{Binding ExpireryDate, Mode=TwoWay}" WidthRequest="280"/>
+                        <DatePicker x:Name="ExpDate" Date="{Binding ExpireryDate, Mode=TwoWay}" WidthRequest="280"/>
                     </StackLayout>
                 </Frame>
 
@@ -219,7 +219,7 @@
                         <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                             <Image Source="radius.png" Aspect="AspectFill" Margin="0"/>
                         </Frame>
-                        <local:MyCustomeEntry Text="{Binding Radius}" FontAttributes="None" Keyboard="Numeric" Placeholder="Radius Coverage" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        <local:MyCustomeEntry x:Name="AreaRadius" Text="{Binding Radius}" FontAttributes="None" Keyboard="Numeric" Placeholder="Radius Coverage in meters (m)" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                     </StackLayout>
                 </Frame>
 

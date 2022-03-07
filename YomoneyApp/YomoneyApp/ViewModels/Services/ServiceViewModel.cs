@@ -31,9 +31,9 @@ using YomoneyApp.Utils;
 using System.Threading;
 
 namespace YomoneyApp
-{ 
+{
     public class ServiceViewModel : ViewModelBase
-    {  
+    {
         string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
 
@@ -287,9 +287,9 @@ namespace YomoneyApp
                             IsVisible = true;
                             break;
                         case "VIDEO":
-                           // PlayFile(openFile);
+                            // PlayFile(openFile);
                             page.Navigation.PushAsync(new VideoAudioPlayer(openFile));
-                            
+
                             break;
 
                     }
@@ -303,6 +303,40 @@ namespace YomoneyApp
                 }
             }
         }
+
+        #region ImageUpload
+
+        //public Command UploadImage
+        //{
+        //    get
+        //    {
+        //        if (_uploadImage == null)
+        //        {
+        //            _uploadImage = new Command(
+        //                async () =>
+        //                {
+        //                    try
+        //                    {
+        //                        var theFileToUpload = await _imagePickerSvc.GetImageStreamAsync();
+
+        //                        UploadStatus = await _apiSvc.UploadImageAsync(theFileToUpload.StreamSource, theFileToUpload.FileName);
+        //                    }
+        //                    catch (Exception ex)
+        //                    {
+        //                        System.Diagnostics.Debug.WriteLine(ex.Message);
+        //                    }
+        //                },
+        //                () =>
+        //                {
+        //                    return true;
+        //                });
+        //        }
+
+        //        return _uploadImage;
+        //    }
+        //}
+
+        #endregion
 
         #region model
         string id;
@@ -604,7 +638,7 @@ namespace YomoneyApp
                 trn.Narrative = "7";
                 trn.TransactionType = 7;
                 trn.Note = "Currencies";
-               // trn.Product = Category;
+                // trn.Product = Category;
                 // trn.AgentCode = selectedOption.SupplierId;
                 // trn.Quantity = selectedOption.Count;
                 // trn.Product = selectedOption.Description;
@@ -655,7 +689,7 @@ namespace YomoneyApp
             return new List<MenuItem>();
         }
         #endregion
-       
+
         #region load other Services
         public void GetOtherServices(MenuItem mm)
         {
@@ -693,9 +727,9 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
             if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+                IsBusy = true;
             GetVariationsCommand.ChangeCanExecute();
             var showAlert = false;
             try
@@ -705,7 +739,7 @@ namespace YomoneyApp
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
                 AccessSettings acnt = new Services.AccessSettings();
-                string pass =  acnt.Password;
+                string pass = acnt.Password;
                 string uname = acnt.UserName;
 
                 trn.CustomerAccount = uname + ":" + pass;
@@ -738,22 +772,26 @@ namespace YomoneyApp
                 Body += "&TransactionType=" + trn.TransactionType;
 
                 HttpClient client = new HttpClient();
+
                 var myContent = Body;
+
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+
                 string result = await client.GetStringAsync(paramlocal);
+
                 if (result != "System.IO.MemoryStream")
                 {
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                     var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-                                       
+
                     foreach (var gtm in servics)
-                    {                                              
+                    {
                         if (gtm.Image == null)
-                        {                             
-                                gtm.Image = HostDomain + "/Content/Spani/Images/myServices.jpg";     
-                        }                          
+                        {
+                            gtm.Image = HostDomain + "/Content/Spani/Images/myServices.jpg";
+                        }
                     }
-                    
+
                     if (servics.Count > 0)
                     {
                         ServiceOptions.ReplaceRange(servics);
@@ -823,9 +861,9 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
             if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+                IsBusy = true;
             GetCategoriesCommand.ChangeCanExecute();
             var showAlert = false;
             try
@@ -920,7 +958,7 @@ namespace YomoneyApp
                 await page.DisplayAlert("Oh Oooh :(", "Unable to gather " + itm.Title + ". Check your internet connection", "OK");
 
         }
-        
+
         #endregion
 
         #region load serviceProviders
@@ -960,9 +998,9 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
             if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+                IsBusy = true;
             GetProviderCommand.ChangeCanExecute();
             var showAlert = false;
             try
@@ -973,18 +1011,18 @@ namespace YomoneyApp
                 AccessSettings acnt = new Services.AccessSettings();
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
-                
+
                 trn.CustomerAccount = uname + ":" + pass;
                 //trn.CustomerAccount = "263774090142:22398";
                 trn.MTI = "0300";
                 trn.ProcessingCode = "420000";
-                trn.Narrative = "Service Providers";  
-                trn.TransactionType =itm.TransactionType;
+                trn.Narrative = "Service Providers";
+                trn.TransactionType = itm.TransactionType;
                 trn.ServiceId = itm.ServiceId;
                 trn.ServiceProvider = itm.Section;
-               
+
                 trn.Note = itm.Title;
-                
+
                 string Body = "";
                 Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                 Body += "&CustomerAccount=" + trn.CustomerAccount;
@@ -1003,7 +1041,7 @@ namespace YomoneyApp
                 Body += "&Quantity=" + trn.Quantity;
                 Body += "&Note=" + trn.Note;
                 Body += "&Mpin=" + trn.Mpin;
-                Body += "&TransactionType=" +trn.TransactionType;
+                Body += "&TransactionType=" + trn.TransactionType;
 
                 HttpClient client = new HttpClient();
                 var myContent = Body;
@@ -1015,50 +1053,50 @@ namespace YomoneyApp
                     var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
                     var provs = servics.GroupBy(u => u.Title).ToList();
                     List<MenuItem> ProvList = new List<MenuItem>();
-                    foreach (var gtm in provs )
+                    foreach (var gtm in provs)
                     {
                         var i = gtm.FirstOrDefault();
-                       // if (i.Note != null)
-                       // {
-                            MenuItem mn = new MenuItem();
-                            
-                            mn.Title = i.Note;
-                            if (i.Image == null)
+                        // if (i.Note != null)
+                        // {
+                        MenuItem mn = new MenuItem();
+
+                        mn.Title = i.Note;
+                        if (i.Image == null)
+                        {
+                            if (itm.Image != null)
                             {
-                                if (itm.Image  != null)
-                                {
-                                    mn.Image = itm.Image;
-                                }
-                                else if (trn.TransactionType == 1)
-                                {
-                                    mn.Image = HostDomain + "/Content/Spani/Images/myServices.jpg";
-                                }
-                                else
-                                {
-                                    mn.Image = HostDomain + "/Content/Spani/Images/" + trn.TransactionType + ".jpg";
-                                }
+                                mn.Image = itm.Image;
+                            }
+                            else if (trn.TransactionType == 1)
+                            {
+                                mn.Image = HostDomain + "/Content/Spani/Images/myServices.jpg";
                             }
                             else
                             {
-                                char[] delimite = new char[] { '~' };
-                                string[] parts = i.Image.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
-
-                                mn.Image = HostDomain + parts[0];
+                                mn.Image = HostDomain + "/Content/Spani/Images/" + trn.TransactionType + ".jpg";
                             }
-                            mn.SupplierId = i.SupplierId;
-                            mn.TransactionType = i.TransactionType;
-                            mn.Note = trn.Note;
-                            mn.Description = i.Description;
-                        
-                            ProvList.Add(mn);
                         }
+                        else
+                        {
+                            char[] delimite = new char[] { '~' };
+                            string[] parts = i.Image.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+                            mn.Image = HostDomain + parts[0];
+                        }
+                        mn.SupplierId = i.SupplierId;
+                        mn.TransactionType = i.TransactionType;
+                        mn.Note = trn.Note;
+                        mn.Description = i.Description;
+
+                        ProvList.Add(mn);
+                    }
                     //}
                     if (ProvList.Count > 0)
                     {
                         ServiceOptions.ReplaceRange(ProvList);
                     }
                     else
-                    {                       
+                    {
                         await page.Navigation.PushModalAsync(new CommingSoon());
                         await page.Navigation.PopAsync();
                     }
@@ -1103,7 +1141,7 @@ namespace YomoneyApp
 
             ActualPhoneNumber = SelectedCountry.CountryCode + PhoneNumber;
 
-            if (string.IsNullOrEmpty(PhoneNumber) || string.IsNullOrEmpty(Amount) || 
+            if (string.IsNullOrEmpty(PhoneNumber) || string.IsNullOrEmpty(Amount) ||
                 string.IsNullOrEmpty(ReceiverName) || string.IsNullOrEmpty(ReceiverSurname) ||
                 string.IsNullOrEmpty(Id))
             {
@@ -1116,115 +1154,115 @@ namespace YomoneyApp
             try
             {
                 TransactionRequest trn = new RetailKing.Models.TransactionRequest();
-               
-                    MenuItem mn = new YomoneyApp.MenuItem();
-                    char[] delimiter = Currency.ToCharArray();
-                    var amt = Amount;
 
-                    mn.Amount = Amount;
-                    mn.Currency = Currency;
-                    mn.Title = mnu.Title;
+                MenuItem mn = new YomoneyApp.MenuItem();
+                char[] delimiter = Currency.ToCharArray();
+                var amt = Amount;
 
-                    
-                   await page.Navigation.PushModalAsync(new PaymentPage(mn));
+                mn.Amount = Amount;
+                mn.Currency = Currency;
+                mn.Title = mnu.Title;
 
-                    IsBusy = false;
-                    MessagingCenter.Subscribe<string, string>("PaymentRequest", "NotifyMsg", async (sender, arg) =>
+
+                await page.Navigation.PushModalAsync(new PaymentPage(mn));
+
+                IsBusy = false;
+                MessagingCenter.Subscribe<string, string>("PaymentRequest", "NotifyMsg", async (sender, arg) =>
+                {
+                    if (arg == "Payment Success")
                     {
-                        if (arg == "Payment Success")
-                       {
-                            AccessSettings acnt = new Services.AccessSettings();
-                            string pass = acnt.Password;
-                            string uname = acnt.UserName;
+                        AccessSettings acnt = new Services.AccessSettings();
+                        string pass = acnt.Password;
+                        string uname = acnt.UserName;
 
                             #region Voucher Data
                             CustomerService cs = new CustomerService();
-                            
-                            cs.CustomerMobileNumber = acnt.UserName;
-                            cs.ReceiverMobile = ActualPhoneNumber;
-                            cs.ReceiversName = receiverName;
-                            cs.ReceiversSurname = receiverSurname;
-                            cs.Balance = decimal.Parse(Amount);
-                            cs.ReceiversIdentification = id;
-                            cs.Currency = Currency;
+
+                        cs.CustomerMobileNumber = acnt.UserName;
+                        cs.ReceiverMobile = ActualPhoneNumber;
+                        cs.ReceiversName = receiverName;
+                        cs.ReceiversSurname = receiverSurname;
+                        cs.Balance = decimal.Parse(Amount);
+                        cs.ReceiversIdentification = id;
+                        cs.Currency = Currency;
                             #endregion
 
                             trn.CustomerAccount = uname + ":" + pass;
-                            trn.MTI = "0200";
-                            trn.ProcessingCode = "320000";
+                        trn.MTI = "0200";
+                        trn.ProcessingCode = "320000";
                             //trn.Narrative = JsonConvert.SerializeObject(jp);
                             trn.Note = "Supplier";
-                            trn.Amount = decimal.Parse(Amount);
-                            trn.AgentCode = mnu.SupplierId;
-                            trn.ServiceId = mnu.ServiceId;
-                            trn.ServiceProvider = mnu.SupplierId;
-                            trn.TransactionType = 2;
-                            trn.Currency = currency;
-                            trn.ActionId = mnu.ActionId;
-                            trn.CustomerData = JsonConvert.SerializeObject(cs);
+                        trn.Amount = decimal.Parse(Amount);
+                        trn.AgentCode = mnu.SupplierId;
+                        trn.ServiceId = mnu.ServiceId;
+                        trn.ServiceProvider = mnu.SupplierId;
+                        trn.TransactionType = 2;
+                        trn.Currency = currency;
+                        trn.ActionId = mnu.ActionId;
+                        trn.CustomerData = JsonConvert.SerializeObject(cs);
                             // trn.Product = selectedOption.Description;
                             string Body = "";
-                            Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
-                            Body += "&CustomerAccount=" + trn.CustomerAccount;
-                            Body += "&AgentCode=" + trn.AgentCode;
-                            Body += "&Action=Mobile";
-                            Body += "&TerminalId=" + trn.TerminalId;
-                            Body += "&TransactionRef=" + trn.TransactionRef;
-                            Body += "&ServiceId=" + trn.ServiceId;
-                            Body += "&Product=" + trn.Product;
-                            Body += "&Amount=" + trn.Amount;
-                            Body += "&MTI=" + trn.MTI;
-                            Body += "&ProcessingCode=" + trn.ProcessingCode;
-                            Body += "&TransactionType=" + trn.TransactionType;
-                            Body += "&Currency=" + trn.Currency;
-                            Body += "&ServiceProvider=" + trn.ServiceProvider;
-                            Body += "&Narrative=" + trn.Narrative;
-                            Body += "&CustomerData=" + trn.CustomerData;
-                            Body += "&Quantity=" + trn.Quantity;
-                            Body += "&Note=" + trn.Note;
-                            Body += "&Mpin=" + trn.Mpin;
+                        Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+                        Body += "&CustomerAccount=" + trn.CustomerAccount;
+                        Body += "&AgentCode=" + trn.AgentCode;
+                        Body += "&Action=Mobile";
+                        Body += "&TerminalId=" + trn.TerminalId;
+                        Body += "&TransactionRef=" + trn.TransactionRef;
+                        Body += "&ServiceId=" + trn.ServiceId;
+                        Body += "&Product=" + trn.Product;
+                        Body += "&Amount=" + trn.Amount;
+                        Body += "&MTI=" + trn.MTI;
+                        Body += "&ProcessingCode=" + trn.ProcessingCode;
+                        Body += "&TransactionType=" + trn.TransactionType;
+                        Body += "&Currency=" + trn.Currency;
+                        Body += "&ServiceProvider=" + trn.ServiceProvider;
+                        Body += "&Narrative=" + trn.Narrative;
+                        Body += "&CustomerData=" + trn.CustomerData;
+                        Body += "&Quantity=" + trn.Quantity;
+                        Body += "&Note=" + trn.Note;
+                        Body += "&Mpin=" + trn.Mpin;
 
-                            var client = new HttpClient();
-                            var myContent = Body;
-                           
-                            string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
-                            string result = await client.GetStringAsync(paramlocal);
-                            
-                            if (result != "System.IO.MemoryStream")
-                            {
-                                var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+                        var client = new HttpClient();
+                        var myContent = Body;
+
+                        string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+                        string result = await client.GetStringAsync(paramlocal);
+
+                        if (result != "System.IO.MemoryStream")
+                        {
+                            var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                                 //var servics = JsonConvert.DeserializeObject<MenuItem>(response.Narrative);
                                 if (response.ResponseCode == "00000")
-                                {
+                            {
                                     //Message = "Job Awarded Successfully";
                                     await page.DisplayAlert("Success", "You Have successfully Purchased an eVoucher for " + ReceiverName, "OK");
-                                }
-                                else if (response.ResponseCode == "11102")
-                                {
-                                    await page.DisplayAlert("Job Award Error!", response.Description, "OK");
-                                }
-                                else
-                                {
-                                    await page.DisplayAlert("Job Award Error!", "Job Could not be awarded please try again later ", "OK");
-                                }
-                                try
-                                {
-                                    await App.Current.MainPage.Navigation.PopModalAsync();
+                            }
+                            else if (response.ResponseCode == "11102")
+                            {
+                                await page.DisplayAlert("Job Award Error!", response.Description, "OK");
+                            }
+                            else
+                            {
+                                await page.DisplayAlert("Job Award Error!", "Job Could not be awarded please try again later ", "OK");
+                            }
+                            try
+                            {
+                                await App.Current.MainPage.Navigation.PopModalAsync();
                                     //page.Navigation.PopModalAsync();
                                 }
-                                catch(Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
                             }
                         }
-                        else
-                        {
-                            await page.DisplayAlert("Payment Failed", "Unable to Award Job, the 5% commitment fee was not paid.", "OK");
-                        }
-                       // MessagingCenter.Unsubscribe<string, string>("PaymentRequest", "NotifyMsg");
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("Payment Failed", "Unable to Award Job, the 5% commitment fee was not paid.", "OK");
+                    }
+                        // MessagingCenter.Unsubscribe<string, string>("PaymentRequest", "NotifyMsg");
                     });
-                
+
             }
             catch (Exception ex)
             {
@@ -1276,9 +1314,9 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
             if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+                IsBusy = true;
             GetActionCommand.ChangeCanExecute();
             var showAlert = false;
             try
@@ -1291,7 +1329,7 @@ namespace YomoneyApp
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
                 trn.CustomerAccount = uname + ":" + pass;
-               
+
                 trn.MTI = "0300";
                 trn.ProcessingCode = "420000";
                 trn.Narrative = "Supplier Services";
@@ -1345,11 +1383,11 @@ namespace YomoneyApp
 
                             serv.Image = HostDomain + supid[0];
                         }
-                        else if(img != null)
+                        else if (img != null)
                         {
                             serv.Image = img;
                         }
-                    } 
+                    }
                     ServiceOptions.ReplaceRange(servics);
                 }
 
@@ -1409,12 +1447,13 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
             if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+                IsBusy = true;
             GetActionCommand.ChangeCanExecute();
             var showAlert = false;
-            if(itm.Section == "Loyalty")
+
+            if (itm.Section == "Loyalty")
             {
                 #region loyalty
                 if (itm.HasProducts)
@@ -1436,9 +1475,11 @@ namespace YomoneyApp
                 {
 
                     ServiceOptions.Clear();
+
                     List<MenuItem> mnu = new List<MenuItem>();
                     TransactionRequest trn = new TransactionRequest();
                     AccessSettings acnt = new Services.AccessSettings();
+
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
                     trn.CustomerAccount = uname + ":" + pass;
@@ -1446,6 +1487,7 @@ namespace YomoneyApp
                     trn.MTI = "0300";
                     trn.ProcessingCode = "420000";
                     trn.Narrative = "Service Actions";
+
                     if (itm.TransactionType == 0)
                     {
                         trn.TransactionType = 1;
@@ -1454,15 +1496,19 @@ namespace YomoneyApp
                     {
                         trn.TransactionType = itm.TransactionType;
                     }
+
                     trn.ServiceId = itm.ServiceId;
                     trn.ServiceProvider = itm.Section;
                     trn.AgentCode = itm.SupplierId;
                     trn.Product = itm.Id;
+
                     if (itm.Id != null)
                     {
                         trn.ActionId = long.Parse(itm.Id);
                     }
+
                     string Body = "";
+
                     Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                     Body += "&CustomerAccount=" + trn.CustomerAccount;
                     Body += "&AgentCode=" + trn.AgentCode;
@@ -1484,13 +1530,17 @@ namespace YomoneyApp
                     Body += "&TransactionType=" + trn.TransactionType;
 
                     HttpClient client = new HttpClient();
+
                     var myContent = Body;
+
                     string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
                     string result = await client.GetStringAsync(paramlocal);
+
                     if (result != "System.IO.MemoryStream")
                     {
                         var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
                         var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+
                         foreach (var serv in servics)
                         {
                             if (serv.Image != null)
@@ -1505,6 +1555,7 @@ namespace YomoneyApp
                                 serv.Image = itm.Image;
                             }
                         }
+
                         ServiceOptions.ReplaceRange(servics);
                     }
 
@@ -1541,7 +1592,7 @@ namespace YomoneyApp
             {
 
                 RenderActionCommand.Execute(null);
-             //   SelectedService = null;
+                //   SelectedService = null;
             }
             else
             {
@@ -1565,9 +1616,9 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
             if (ForceSync)
-             //Settings.LastSync = DateTime.Now.AddDays(-30);
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
 
-            IsBusy = true;
+                IsBusy = true;
             RenderActionCommand.ChangeCanExecute();
             var showAlert = false;
             try
@@ -1581,15 +1632,19 @@ namespace YomoneyApp
                 string uname = acnt.UserName;
                 trn.CustomerAccount = uname + ":" + pass;
                 //trn.CustomerAccount = "263774090142:22398";
+
                 if (!string.IsNullOrEmpty(itm.WebLink))
                 {
                     if (itm.WebLink.Contains("/Mobile/") || itm.WebLink.Contains("/Mobile//"))
                     {
                         itm.WebLink = itm.WebLink.Trim() + "&Customer=" + uname;
                     }
-                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(itm.WebLink, itm.Title, false, itm.ThemeColor,false));
+
+                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(itm.WebLink, itm.Title, false, itm.ThemeColor, false));
+
                     return;
                 }
+
                 trn.MTI = "0200";
                 trn.ProcessingCode = "320000";
                 trn.Narrative = "Service";
@@ -1598,11 +1653,14 @@ namespace YomoneyApp
                 trn.ServiceProvider = itm.Section;
                 trn.AgentCode = itm.SupplierId;
                 trn.Product = itm.Id;
+
                 if (itm.Id != null)
                 {
                     trn.ActionId = long.Parse(itm.Id);
                 }
+
                 string Body = "";
+
                 Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                 Body += "&CustomerAccount=" + trn.CustomerAccount;
                 Body += "&AgentCode=" + trn.AgentCode;
@@ -1624,25 +1682,29 @@ namespace YomoneyApp
                 Body += "&TransactionType=" + trn.TransactionType;
 
                 HttpClient client = new HttpClient();
+
                 var myContent = Body;
+
                 string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
                 string result = await client.GetStringAsync(paramlocal);
+
                 if (result != "System.IO.MemoryStream")
                 {
                     var px = new MenuItem();
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                    
+
                     if (response.ResponseCode == "00000")
                     {
                         var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
                         px = servics.FirstOrDefault();
+
                         switch (px.TransactionType)
                         {
                             case 10:
                             case 9: // webview  
                                 if (px.Note == "External")
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false,px.ThemeColor, px.IsShare));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                 }
                                 else
                                 {
@@ -1653,7 +1715,7 @@ namespace YomoneyApp
                             case 3:// "Payment":
                                 if (px.HasProducts)
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor,px.IsShare));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                     //await page.Navigation.PushAsync(new ServiceActionProducts(px));
                                 }
                                 else
@@ -1678,17 +1740,17 @@ namespace YomoneyApp
                             case 5:
                                 if (px.HasProducts)
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor,px.IsShare));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                     //await page.Navigation.PushAsync(new ServiceActionProducts(px));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor,px.IsShare));
+                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                 }
                                 break;
                             case 13: // OTP        
                                 await page.Navigation.PushAsync(new OTPPage(px));
-                                break; 
+                                break;
                             case 14: // file upload       
                                 await page.Navigation.PushAsync(new FileUploadPage(px));
                                 break;
@@ -1714,7 +1776,7 @@ namespace YomoneyApp
                                     await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor, px.IsShare));
                                 }
                                 break;
-                               
+
                         }
 
                     }
@@ -1761,7 +1823,7 @@ namespace YomoneyApp
             if (ItemSelected == null)
             {
                 ActionProductsCommand.Execute(null);
-               
+
                 //  SelectedService = null;
             }
             else
@@ -1794,7 +1856,7 @@ namespace YomoneyApp
             try
             {
 
-                
+
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
                 AccessSettings acnt = new Services.AccessSettings();
@@ -1841,13 +1903,13 @@ namespace YomoneyApp
                 {
                     var px = new MenuItem();
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                    
+
                     if (response.ResponseCode == "00000")
                     {
                         var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
                         px = servics.FirstOrDefault();
                         ServiceOptions.ReplaceRange(servics);
-                        
+
                     }
                     else
                     {
@@ -1887,7 +1949,7 @@ namespace YomoneyApp
             {
 
                 MediaFileCommand.Execute(null);
-              //  SelectedService = null;
+                //  SelectedService = null;
             }
             else
             {
@@ -1927,7 +1989,7 @@ namespace YomoneyApp
                 string uname = acnt.UserName;
                 trn.CustomerAccount = uname + ":" + pass;
                 //trn.CustomerAccount = "263774090142:22398";
-                
+
                 trn.MTI = "0300";
                 trn.ProcessingCode = "480000";
                 trn.Narrative = "Service";
@@ -1966,7 +2028,7 @@ namespace YomoneyApp
                 {
                     var px = new MenuItem();
                     var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                    
+
                     if (response.ResponseCode == "00000")
                     {
                         var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
@@ -1983,8 +2045,8 @@ namespace YomoneyApp
                             }
                         }
                         ServiceOptions.ReplaceRange(servics);
-                       // await page.Navigation.PushAsync(new OTPPage(px)); x.ThemeColor));
-                                
+                        // await page.Navigation.PushAsync(new OTPPage(px)); x.ThemeColor));
+
                     }
                     else
                     {
@@ -2025,7 +2087,7 @@ namespace YomoneyApp
 
         private async Task ExecuteSaveFileCommand(MenuItem itm)
         {
-       
+
             var _httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(360000) };
 
             try
@@ -2056,14 +2118,14 @@ namespace YomoneyApp
                     else
                     {
                         //Url is Invalid
-                       // return null;
+                        // return null;
                     }
                 }
             }
             catch (Exception)
             {
                 //Handle Exception
-               // return null;
+                // return null;
             }
         }
         #endregion

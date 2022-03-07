@@ -60,42 +60,6 @@ namespace YomoneyApp.Views.Spani
             menuItem.Title = "Create Advert";
             promotionsViewModel = new PromotionsViewModel(this, menuItem);
 
-            PickerStore.SelectedIndexChanged += async (sender, e) =>
-            {
-
-                viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
-                //viewModel.GetSubcategoriesCommand.Execute(null);
-                var stores = await viewModel.GetStoreAsync("JobSubCategory");
-                foreach (var store in stores)
-                    PickerSubcategory.Items.Add(store.Title.Trim());
-            };
-
-            PickerSubcategory.SelectedIndexChanged += (sender, e) =>
-            {
-                viewModel.Subcategory = PickerSubcategory.Items[PickerSubcategory.SelectedIndex];
-            };
-
-            ButtonClose.Clicked += async (sender, e) =>
-            {
-                await App.Current.MainPage.Navigation.PopModalAsync();
-                // await Navigation.PopModalAsync();
-            };
-
-            EditorAddress.TextChanged += async (sender, e) =>
-            {
-                if (e.NewTextValue.Length > 5)
-                {
-                    await viewModel.GetGeoAddressAsync(e.NewTextValue);
-                }
-            };
-        }
-
-        public CreateSpaniProfile(string categorySelected)
-        {
-            InitializeComponent();
-
-            BindingContext = viewModel = new RequestViewModel(this);
-
             if (!string.IsNullOrEmpty(categorySelected))
             {
                 viewModel.Category = categorySelected;
@@ -131,6 +95,47 @@ namespace YomoneyApp.Views.Spani
             };
         }
 
+        //public CreateSpaniProfile(string categorySelected)
+        //{
+        //    InitializeComponent();
+
+        //    BindingContext = viewModel = new RequestViewModel(this);
+
+        //    if (!string.IsNullOrEmpty(categorySelected))
+        //    {
+        //        viewModel.Category = categorySelected;
+        //    }
+
+        //    PickerStore.SelectedIndexChanged += async (sender, e) =>
+        //    {
+
+        //        viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
+        //        //viewModel.GetSubcategoriesCommand.Execute(null);
+        //        var stores = await viewModel.GetStoreAsync("JobSubCategory");
+        //        foreach (var store in stores)
+        //            PickerSubcategory.Items.Add(store.Title.Trim());
+        //    };
+
+        //    PickerSubcategory.SelectedIndexChanged += (sender, e) =>
+        //    {
+        //        viewModel.Subcategory = PickerSubcategory.Items[PickerSubcategory.SelectedIndex];
+        //    };
+
+        //    ButtonClose.Clicked += async (sender, e) =>
+        //    {
+        //        await App.Current.MainPage.Navigation.PopModalAsync();
+        //        // await Navigation.PopModalAsync();
+        //    };
+
+        //    EditorAddress.TextChanged += async (sender, e) =>
+        //    {
+        //        if (e.NewTextValue.Length > 5)
+        //        {
+        //            await viewModel.GetGeoAddressAsync(e.NewTextValue);
+        //        }
+        //    };
+        //}
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -141,7 +146,7 @@ namespace YomoneyApp.Views.Spani
                 {
                     viewModel.HasCategory = true;
 
-                    PickerStore.SelectedItem = viewModel.Category;                   
+                    PickerStore.SelectedItem = viewModel.Category;
 
                     var stores = await viewModel.GetStoreAsync("JobSubCategory");
 
@@ -160,7 +165,7 @@ namespace YomoneyApp.Views.Spani
 
                     foreach (var store in stores)
                         PickerStore.Items.Add(store.Title.Trim());
-                }                
+                }
             }
             catch (Exception ex)
             {

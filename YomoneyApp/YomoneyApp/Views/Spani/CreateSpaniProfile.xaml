@@ -88,15 +88,6 @@
                         </StackLayout>
                     </Frame>
 
-                    <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
-                        <StackLayout Orientation="Horizontal">
-                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
-                            </Frame>
-                            <local:MyCustomeEntry x:Name="EditorAddress" Text="{Binding Address}" FontAttributes="None" Keyboard="Default" Placeholder="Operational Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
-                        </StackLayout>
-                    </Frame>
-
                     <ListView VerticalOptions="FillAndExpand"
                         BackgroundColor="Transparent" 
                         IsVisible="{Binding IsAdvert}"
@@ -159,6 +150,16 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
+
+                    <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="account_number.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry x:Name="EditorAddress" Text="{Binding Address}" FontAttributes="Italic" Keyboard="Default" Placeholder="Search Operational Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+                   
                     <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">

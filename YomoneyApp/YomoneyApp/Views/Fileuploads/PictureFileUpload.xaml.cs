@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YomoneyApp.Models.Image;
@@ -46,6 +46,11 @@ namespace YomoneyApp.Views.Fileuploads
 
             //LocalPathLabel.Text = _mediaFile.Path;
 
+           // var file = await MediaPicker.PickPhotoAsync();
+
+            //if (file == null)
+            //    return;            
+
             FileImage.Source = ImageSource.FromStream(() =>
             {
                 btnUploadImage.IsVisible = true;
@@ -53,7 +58,6 @@ namespace YomoneyApp.Views.Fileuploads
             });
         }
         #endregion
-
 
         private async void btnTakePhoto_Clicked(object sender, EventArgs e)
         {
@@ -82,64 +86,78 @@ namespace YomoneyApp.Views.Fileuploads
             FileUpload fileUpload = new FileUpload();
             AccessSettings accessSettings = new AccessSettings();
 
-            var stream = _mediaFile.GetStream();
-            var bytes = new byte[stream.Length];
-            await stream.ReadAsync(bytes, 0, (int)stream.Length);
-            string base64 = System.Convert.ToBase64String(bytes);
+           // var stream = _mediaFile.GetStream();
+            //var bytes = new byte[stream.Length];
+            //await stream.ReadAsync(bytes, 0, (int)stream.Length);
+            //string base64 = System.Convert.ToBase64String(bytes);
 
-            string strPath = _mediaFile.Path;
+            //string strPath = _mediaFile.Path;
 
-            var fileName = Path.GetFileName(strPath); // filename
+            //var fileName = Path.GetFileName(strPath); // filename
 
-            char[] delimite = new char[] { '.' };
+            //char[] delimite = new char[] { '.' };
 
-            string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+            //string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
 
-            var type = parts[1];
+            //var type = parts[1];
 
-            fileUpload.Name = fileName;
+            var file = await MediaPicker.PickPhotoAsync();
 
-            fileUpload.Type = type;
+            if (file == null)
+                return;
 
-            fileUpload.PhoneNumber = accessSettings.UserName;
+            var content = new MultipartFormDataContent();
 
-            fileUpload.Image = base64;
+            content.Add(new StreamContent(await file.OpenReadAsync()), "file", file.FileName);
+
+            var httpClient = new HttpClient();
+            var response = await httpClient.PostAsync("http://102.130.120.163:8058/UploadFile", content);
+
+            StatusLabel.Text = response.StatusCode.ToString();
+
+            //fileUpload.Name = fileName;
+
+            //fileUpload.Type = type;
+
+            //fileUpload.PhoneNumber = accessSettings.UserName;
+
+            //fileUpload.Image = base64;
 
             //var imageBase = new ImageBase(base64);
 
-            try
-            {
-                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Method = "POST";
-                httpWebRequest.Timeout = 120000;
-                //httpWebRequest.CookieContainer = new CookieContainer();
-                //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                //cookie.Domain = "https://www.yomoneyservice.com";
-                //httpWebRequest.CookieContainer.Add(cookie);
+            //try
+            //{
+            //    string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+            //    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+            //    httpWebRequest.ContentType = "application/json";
+            //    httpWebRequest.Method = "POST";
+            //    httpWebRequest.Timeout = 120000;
+            //    //httpWebRequest.CookieContainer = new CookieContainer();
+            //    //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+            //    //cookie.Domain = "https://www.yomoneyservice.com";
+            //    //httpWebRequest.CookieContainer.Add(cookie);
 
-                var json = JsonConvert.SerializeObject(fileUpload);
+            //    var json = JsonConvert.SerializeObject(fileUpload);
 
-                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                {
-                    streamWriter.Write(json);
-                    streamWriter.Flush();
-                    streamWriter.Close();
+            //    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            //    {
+            //        streamWriter.Write(json);
+            //        streamWriter.Flush();
+            //        streamWriter.Close();
 
-                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            //        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
-                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                    {
-                        var result = streamReader.ReadToEnd();
-                        //yoappResponse = JsonConvert.DeserializeObject<YoAppResponse>(result);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            //        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            //        {
+            //            var result = streamReader.ReadToEnd();
+            //            //yoappResponse = JsonConvert.DeserializeObject<YoAppResponse>(result);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
 
             #region Commented Out Code
             //try

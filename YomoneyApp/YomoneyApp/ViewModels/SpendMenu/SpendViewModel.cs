@@ -25,6 +25,8 @@ using Xamarin.Essentials;
 using YomoneyApp.Utils;
 using System.Threading;
 using YomoneyApp.Models;
+using YomoneyApp.Popups;
+using System.Windows.Input;
 
 namespace YomoneyApp
 {
@@ -58,6 +60,9 @@ namespace YomoneyApp
             Categories = new ObservableRangeCollection<MenuItem>();
             Denominations = new ObservableRangeCollection<MenuItem>();
             SubCategories = new ObservableCollection<string>();
+
+            ShowPopupCommand = new Command(async _ => await ExecuteShowPopupCommand());
+            CountrySelectedCommand = new Command(country => ExecuteCountrySelectedCommand(country as CountryModel));
         }
 
         public Action<MenuItem> ItemSelected { get; set; }
@@ -459,6 +464,36 @@ namespace YomoneyApp
 
 
         }
+
+        #region CountryPicker Functionality
+
+        #region Commands
+
+        public ICommand ShowPopupCommand { get; }
+        public ICommand CountrySelectedCommand { get; }
+
+        #endregion Commands
+
+        #region Private Methods
+
+        public Task ExecuteShowPopupCommand()
+        {
+            var popup = new ChooseCountryPopup(SelectedCountry)
+            {
+                CountrySelectedCommand = CountrySelectedCommand
+            };
+
+            return Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popup);
+        }
+
+        public void ExecuteCountrySelectedCommand(CountryModel country)
+        {
+            SelectedCountry = country;
+        }
+
+        #endregion Private Methods
+
+        #endregion
 
         public async Task<IEnumerable<MenuItem>> GetStoreAsync(string note)
         {
@@ -1455,7 +1490,6 @@ namespace YomoneyApp
                 return;
             }
 
-
             IsBusy = true;
 
             try
@@ -1469,6 +1503,7 @@ namespace YomoneyApp
                 trn.ProcessingCode = "300000";
                 trn.Narrative = Description;
                 trn.Note = "Bill Payment";
+
                 if (Categories.Count > 0)
                 {
                     var biller = Categories.Where(u => u.Title == category).FirstOrDefault();
@@ -1519,6 +1554,7 @@ namespace YomoneyApp
                     if (result != "System.IO.MemoryStream")
                     {
                         var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+                        
                         if (response.ResponseCode == "00000")
                         {
                             trn.CustomerData = response.CustomerData;

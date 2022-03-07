@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Services.ServiceBilling" 
-             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
+             xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer" xmlns:forms="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              Title="{Binding Title}"
 	  IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
@@ -17,9 +17,17 @@
             </StackLayout>
             <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand">
-                    
-                 
-                        <Label
+
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" IsVisible="{Binding RequireAccount}" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" IsVisible="{Binding RequireAccount}" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="person_name.png" Aspect="AspectFill" Margin="0" IsVisible="{Binding RequireAccount}"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding AccountNumber}" FontAttributes="None" IsVisible="{Binding RequireAccount}" Keyboard="Telephone" Placeholder="Billing Account" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                   <!-- <Label
 			        
 			        FontSize="Small"
 			        Text="Account Number"
@@ -34,10 +42,18 @@
                     IsVisible="{Binding RequireAccount}"
                     VerticalOptions="End"
 			        Placeholder="Billing Account"
-			        Keyboard="Telephone" />
+			        Keyboard="Telephone" /> -->
 
-                        <Label
-			       
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Category}" FontAttributes="None" Keyboard="Default" Placeholder="Billing Service" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                   <!-- <Label			       
 			        FontSize="Small"
 			        Text="Biller"
                     VerticalTextAlignment="Center"
@@ -48,10 +64,18 @@
 			        
 			        Text="{Binding Category}" 
                     VerticalOptions="End"
-			        Placeholder="Billing Service" />
-           
-                    <Label
-			     
+			        Placeholder="Billing Service" />-->
+
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25"  IsVisible="{Binding HasProducts}" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" >
+                            <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0"  IsVisible="{Binding HasProducts}" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill"  IsVisible="{Binding HasProducts}" Margin="0"/>
+                            </Frame>
+                            <Picker x:Name="PickerProducts" Title="Select Package" WidthRequest="330"  IsVisible="{Binding HasProducts}"/>
+                        </StackLayout>
+                    </Frame>
+
+                <!--    <Label			     
 			        FontSize="Small"
 			        Text="Select Package"
                     IsVisible="{Binding HasProducts}"
@@ -63,10 +87,18 @@
 			        x:Name="PickerProducts"
                     IsVisible="{Binding HasProducts}"
                     VerticalOptions="End" 
-			        />
+			        />-->
 
+                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" IsVisible="{Binding IsConfirm}" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" IsVisible="{Binding IsConfirm}" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="biller.png" Aspect="AspectFill" IsVisible="{Binding IsConfirm}" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry Text="{Binding Budget}" FontAttributes="None" IsVisible="{Binding IsConfirm}" Keyboard="Numeric" Placeholder="Payment Amount" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
 
-                    <Label
+                 <!--   <Label
 			        FontSize="Small"
                     IsVisible="{Binding IsConfirm}"
                     VerticalTextAlignment="Center"
@@ -79,17 +111,75 @@
                     IsVisible="{Binding IsConfirm}"
                     VerticalOptions="End"
 			        Placeholder="Payment Amount"
-			        Keyboard="Telephone" />
+			        Keyboard="Telephone" /> -->
 
-                        <Label
-			        FontSize="Small"
-                    VerticalTextAlignment="Start" 
-			        Text="Send Fiscal Invoice By Email"
-                    BackgroundColor="Transparent"
-			        TextColor="#df782d" />
-                        <Switch HorizontalOptions="Start"   VerticalOptions="End" IsToggled="{Binding SendEmail,Mode=TwoWay}"/>
+                       <!-- <Label FontSize="Small" VerticalTextAlignment="Start" Text="Send Fiscal Invoice By Email"  BackgroundColor="Transparent" TextColor="#df782d" /> -->
 
-                        <Label
+                    <Label Margin="15,0,0,0" FontSize="Small" Text="Send Fiscal Invoice By Email" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                    <Switch Margin="15,0,0,0" HorizontalOptions="Start" VerticalOptions="End" IsToggled="{Binding SendEmail,Mode=TwoWay}"/>
+
+                    <Frame BackgroundColor="Transparent" IsVisible="{Binding SendEmail}" BorderColor="Transparent" Padding="0" Margin="0,0,0,15" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame BackgroundColor="Transparent" IsVisible="{Binding SendEmail}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="email.png" Aspect="AspectFill" IsVisible="{Binding SendEmail}" Margin="0"/>
+                            </Frame>
+                            <local:MyCustomeEntry IsVisible="{Binding SendEmail}" Text="{Binding Email}" FontAttributes="None" Keyboard="Default" Placeholder="Email Address" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Label Margin="15,0,0,0" FontSize="Small" Text="Send Sms Response" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
+                    <Switch Margin="15,0,0,0" HorizontalOptions="Start" VerticalOptions="End" IsToggled="{Binding SendSms,Mode=TwoWay}"/>
+
+                    <Frame BackgroundColor="Transparent" IsVisible="{Binding SendSms}" BorderColor="Transparent" Padding="0" Margin="0,0,0,15" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                         <!--   <Frame BackgroundColor="Transparent" IsVisible="{Binding SendSms}" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                <Image Source="email.png" Aspect="AspectFill" IsVisible="{Binding SendSms}" Margin="0"/>
+                            </Frame>-->
+
+                            <Frame
+                                            CornerRadius="10"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                            Margin="10,0,0,0"
+                                            Padding="0,0,5,5"    
+                                            HeightRequest="30"
+                                            WidthRequest="80"
+                                            IsClippedToBounds="True"
+                                            BackgroundColor="White">
+
+                                <StackLayout Orientation="Horizontal"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand">
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ShowPopupCommand}"/>
+                                    </StackLayout.GestureRecognizers>
+
+                                    <forms:SvgCachedImage
+                                                        Margin="5,5,0,0"
+                                                        HeightRequest="30"
+                                                        Source="{Binding SelectedCountry.FlagUrl}"
+                                                        VerticalOptions="StartAndExpand"
+                                                        WidthRequest="22" 
+                                                       />
+
+                                    <Label Text="{Binding SelectedCountry.CountryCode, StringFormat='+{0}'}"
+                                                        VerticalTextAlignment="Center"
+                                                        Margin="0,5,0,0"
+                                                        HorizontalTextAlignment="End"
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <local:MyCustomeEntry IsVisible="{Binding SendSms}" Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Mobile Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!--  <Label
 			            
 			            FontSize="Small"
                          VerticalTextAlignment="Center"
@@ -104,9 +194,9 @@
                         VerticalOptions="End"
 			            Placeholder="Email Address"
                         IsVisible="{Binding SendEmail}"
-			            Keyboard="Default" />
+			            Keyboard="Default" />-->
                     
-                        <Label
+                  <!--      <Label
 			        
 			        FontSize="Small"
                     VerticalTextAlignment="Start" 
@@ -131,7 +221,7 @@
                     VerticalOptions="End"
 			        Placeholder="mobile number for sms"
                     IsVisible="{Binding SendSms}"
-			        Keyboard="Telephone" />
+			        Keyboard="Telephone" /> -->
                     
                 </StackLayout>
             </ScrollView>

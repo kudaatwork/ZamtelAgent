@@ -12,7 +12,6 @@ namespace YomoneyApp.Views.Services
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ServiceBilling : ContentPage
     {
-
         SpendViewModel viewModel;
         List<MenuItem> itm = new List<MenuItem>();
         public Action<MenuItem> ItemSelected

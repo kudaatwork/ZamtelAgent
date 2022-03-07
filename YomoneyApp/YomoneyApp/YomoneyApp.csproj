@@ -43,6 +43,7 @@
     <PackageReference Include="CardsView" Version="2.8.0" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="6.0.0" />
     <PackageReference Include="FluentValidation" Version="10.3.3" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.56.0.2601" />
     <PackageReference Include="libphonenumber-csharp" Version="8.12.38" />
     <PackageReference Include="MagicGradients" Version="1.3.0" />
     <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.2" />

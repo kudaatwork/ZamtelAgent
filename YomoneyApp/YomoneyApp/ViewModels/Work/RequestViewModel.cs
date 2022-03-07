@@ -23,7 +23,7 @@ using System.Windows.Input;
 
 namespace YomoneyApp
 {
-    public class RequestViewModel : ViewModelBase 
+    public class RequestViewModel : ViewModelBase, INotifyPropertyChanged
     {
         IGoogleMapsApiService googleMapsApi = new GoogleMapsApiService();
 
@@ -420,42 +420,42 @@ namespace YomoneyApp
         }
         #endregion
 
-        public async Task ExecuteGetPopularCategoriesCommand()
-        {
-            if (IsBusy)
-                return;
+        //public async Task ExecuteGetPopularCategoriesCommand()
+        //{
+        //    if (IsBusy)
+        //        return;
 
-            IsBusy = false;
+        //    IsBusy = false;
 
-            try
-            {
-                List<MenuItem> popularJobCategories = new List<MenuItem>();
+        //    try
+        //    {
+        //        List<MenuItem> popularJobCategories = new List<MenuItem>();
 
-                List<MenuItem> popJobCategories = new List<MenuItem>();
+        //        List<MenuItem> popJobCategories = new List<MenuItem>();
 
-                Random random = new Random();
+        //        Random random = new Random();
 
-                var jobCategories = await GetStoreAsync("JobSectors");
+        //        var jobCategories = await GetStoreAsync("JobSectors");
 
-                foreach (var item in jobCategories)
-                {
-                    item.Title = item.Title?.Trim();
-                    item.Id = item.Id?.Trim();
-                    item.Image = item.Image?.Trim();                
-                }
+        //        foreach (var item in jobCategories)
+        //        {
+        //            item.Title = item.Title?.Trim();
+        //            item.Id = item.Id?.Trim();
+        //            item.Image = item.Image?.Trim();                
+        //        }
 
-                //var newjbCategories = jobCategories.OrderBy(x => random.Next()).Take(8);
+        //        //var newjbCategories = jobCategories.OrderBy(x => random.Next()).Take(8);
 
-                myButtonSource.Clear();
+        //        myButtonSource.Clear();
 
-                myButtonSource.AddRange(jobCategories);
-            }
-            catch (Exception ex)
-            {
-                //showAlert = true;
-            }
-        }
-        #endregion
+        //        myButtonSource.AddRange(jobCategories);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //showAlert = true;
+        //    }
+        //}
+        //#endregion
 
         private Command forceRefreshCommand;
 
@@ -1842,16 +1842,16 @@ namespace YomoneyApp
         }
 
         #region ViewProfile Command
-        private Command viewProfileCommand;
+        //private Command viewProfileCommand;
 
-        public Command ViewProfileCommand
-        {
-            get
-            {
-                return viewProfileCommand ??
-                    (viewProfileCommand = new Command(async () => await ExecuteViewProfileCommand(SupplierId), () => { return !IsBusy; }));
-            }
-        }
+        //public Command ViewProfileCommand
+        //{
+        //    get
+        //    {
+        //        return viewProfileCommand ??
+        //            (viewProfileCommand = new Command(async () => await ExecuteViewProfileCommand(SupplierId), () => { return !IsBusy; }));
+        //    }
+        //}
 
         private async Task ExecuteViewProfileCommand(string SupplierId)
         {
@@ -3361,18 +3361,42 @@ namespace YomoneyApp
             set { SetProperty(ref showNavigation, value); }
         }
 
+        //bool hasCategory = false;
+        //public bool HasCategory
+        //{
+        //    get { return hasCategory; }
+        //    set { SetProperty(ref hasCategory, value); }
+        //}
+
         bool hasCategory = false;
         public bool HasCategory
         {
             get { return hasCategory; }
-            set { SetProperty(ref hasCategory, value); }
+            set
+            {
+                //SetProperty(ref isAdvert, value);
+                hasCategory = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HasCategory"));
+            }
         }
+
+        //bool hasNoCategory = false;
+        //public bool HasNoCategory
+        //{
+        //    get { return hasNoCategory; }
+        //    set { SetProperty(ref hasNoCategory, value); }
+        //}
 
         bool hasNoCategory = false;
         public bool HasNoCategory
         {
             get { return hasNoCategory; }
-            set { SetProperty(ref hasNoCategory, value); }
+            set
+            {
+                //SetProperty(ref isAdvert, value);
+                hasNoCategory = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HasNoCategory"));
+            }
         }
 
         string phone = string.Empty;
@@ -3389,11 +3413,23 @@ namespace YomoneyApp
             set { SetProperty(ref action, value); }
         }
 
+        //string category = string.Empty;
+        //public string Category
+        //{
+        //    get { return category; }
+        //    set { SetProperty(ref category, value); }
+        //}
+
         string category = string.Empty;
         public string Category
         {
             get { return category; }
-            set { SetProperty(ref category, value); }
+            set
+            {
+                //SetProperty(ref isAdvert, value);
+                category = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Category"));
+            }
         }
 
         string ptitle = string.Empty;
@@ -3488,3 +3524,4 @@ namespace YomoneyApp
 
 }
 
+#endregion

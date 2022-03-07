@@ -25,11 +25,11 @@
 
                 <Image x:Name="FileImage" WidthRequest="300" HeightRequest="300"></Image>
 
-                <Label x:Name="StatusLabel" Text="Upload Status" FontSize="Medium" Padding="30,10,30,10"></Label>
+                <Label x:Name="StatusLabel" Text="Upload Status" FontSize="Small" Padding="30,10,30,10"></Label>
 
-               <!-- <Button x:Name="btnPickUpload" Clicked="btnPickUpload_Clicked" BackgroundColor="#79c606" Text="PICK AND UPLOAD" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>-->
+                <!-- <Button x:Name="btnPickUpload" Clicked="btnPickUpload_Clicked" BackgroundColor="#79c606" Text="PICK AND UPLOAD" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>-->
 
-                <Button x:Name="btnUploadImage" IsVisible="False" Clicked="btnUploadImage_Clicked" BackgroundColor="#79c606" Text="UPLOAD IMAGE" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
+                <Button x:Name="btnUploadImage" IsVisible="True" Clicked="btnUploadImage_Clicked" BackgroundColor="#79c606" Text="UPLOAD IMAGE" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
 
             </StackLayout>
 
