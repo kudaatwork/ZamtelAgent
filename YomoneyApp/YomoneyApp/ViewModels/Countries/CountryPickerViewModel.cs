@@ -192,6 +192,14 @@ namespace YomoneyApp.ViewModels.Countries
 
         public async Task ExecuteSubmitActiveCountryCommand()
         {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+            Message = "Submitting Active Country...";
+
             try
             {
                 List<MenuItem> mnu = new List<MenuItem>();
@@ -229,16 +237,25 @@ namespace YomoneyApp.ViewModels.Countries
                     {
                         //IsCountryUpdated = true;
                         //viewModel.CallAlert();
+                        IsBusy = false;
+                        Message = "";
+
                         await page.DisplayAlert("Success!", "Active Country Updated Successfully! You will now be sig services withing the Active Country you've just selected", "Ok");
                     }
                     else
                     {
+                        IsBusy = false;
+                        Message = "";
+
                         await page.DisplayAlert("Erorr!", "Sorry, there has been an error in updating your Active Country", "Ok");
                     }
                 }
             }
             catch (Exception ex)
             {
+                IsBusy = false;
+                Message = "";
+
                 await page.DisplayAlert("Erorr!", "Sorry, there has been an error in updating your Active Country", "Ok");
             }            
         }

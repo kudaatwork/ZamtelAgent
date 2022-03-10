@@ -25,6 +25,7 @@ using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Auth.OAuth2.Flows;
 using static Google.Apis.Drive.v3.DriveService;
 using YomoneyApp.Constants;
+using System.Text.RegularExpressions;
 
 namespace YomoneyApp.Views.Services
 {
@@ -252,7 +253,7 @@ namespace YomoneyApp.Views.Services
             {
                 try
                 {
-                    httpClient.BaseAddress = new Uri("http://102.130.113.195:8090/");
+                    httpClient.BaseAddress = new Uri("http://102.130.120.163:8058/");
                     httpClient.DefaultRequestHeaders.Accept.Clear();
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -260,9 +261,10 @@ namespace YomoneyApp.Views.Services
 
                     content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
 
-                    var uploadServiceBaseAddress = "api/Files/Upload";
+                    var uploadServiceBaseAddress = "api/ProfileImages/Upload";
 
                     System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                    httpClient.Timeout = TimeSpan.FromMinutes(3);
 
                     var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, content);
 
@@ -270,7 +272,9 @@ namespace YomoneyApp.Views.Services
 
                     var result = JsonConvert.DeserializeObject<string>(response.Result);
 
-                    if (result.ToUpper() == "FAILED")
+                    //var result = response.Result;
+
+                    if (response.Result.ToUpper() == "FAILED")
                     {
                         await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
                         viewModel.IsBusy = false;
@@ -293,10 +297,16 @@ namespace YomoneyApp.Views.Services
 
                         var type = parts[1];
 
-                        fileUpload.Name = fileName;
+                        string regExp = "[^a-zA-Z0-9]";
+
+                        var finalFileName = Regex.Replace(fileName, regExp, "_");
+
+                        //fileName.Replace(" ", "_");
+
+                        fileUpload.Name = finalFileName;
                         fileUpload.Type = type;
                         fileUpload.PhoneNumber = uname;
-                        fileUpload.Image = result;
+                        fileUpload.Image = "http://102.130.120.163:8058" + result;
                         fileUpload.Purpose = "Profile Picture";
                         fileUpload.ServiceId = 0;
                         fileUpload.ActionId = 0;
@@ -326,7 +336,7 @@ namespace YomoneyApp.Views.Services
                             {
                                 var serverresult = streamReader.ReadToEnd();
 
-                                if (serverresult != null)
+                                if (serverresult.Contains("/Mobile/JobProfile"))
                                 {
                                     await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
                                     viewModel.IsBusy = false;

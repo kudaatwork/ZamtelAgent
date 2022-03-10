@@ -22,11 +22,12 @@
 	    	        Text="{Binding Message}"/>
                 </StackLayout>
 
-                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d" Padding="0,10,0,10">
+                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d" Padding="0,10,0,10">         
+
                     <Label Text="{Binding Currency}"  HorizontalOptions="Center" FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
                     <Label Text="{Binding Budget}"  HorizontalOptions="Center" FontSize="30" TextColor="White"  LineBreakMode="NoWrap"/>
-                    <Label Text="{Binding Section}" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="NoWrap"/>
-                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="WordWrap"/>
+                    <Label Text="{Binding Section}" FontSize="Medium" HorizontalOptions="Center" TextColor="White" LineBreakMode="NoWrap"/>
+                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" TextColor="White" LineBreakMode="WordWrap"/>
                 </StackLayout>
             </StackLayout>
             
@@ -34,6 +35,15 @@
                 <ScrollView VerticalOptions="FillAndExpand">
 
                 <StackLayout Padding="10" VerticalOptions="FillAndExpand">
+
+                        <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,15,0,15" HorizontalOptions="FillAndExpand">
+                            <StackLayout Orientation="Horizontal" >
+                                <Frame BackgroundColor="Transparent" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                    <Image Source="amount.png" Aspect="AspectFill" Margin="0"/>
+                                </Frame>
+                                <Picker x:Name="PickerCurrency" Title="Change Currency" WidthRequest="330"/>
+                            </StackLayout>
+                        </Frame>
 
                         <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,25,0,25" HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal" >

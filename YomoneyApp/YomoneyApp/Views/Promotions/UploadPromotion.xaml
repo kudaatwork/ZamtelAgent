@@ -227,7 +227,7 @@
 
                 <Button x:Name="btnPickAdImage" Clicked="btnPickAdImage_Clicked" BackgroundColor="#df782d" Text="UPLOAD ADVERT IMAGE" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
-                <Image x:Name="FileImage" WidthRequest="200" HeightRequest="200"></Image>
+                <Image x:Name="FileImage" WidthRequest="300" HeightRequest="300"></Image>
 
                 <Button x:Name="btnSubmitPromotion" CommandParameter ="{Binding}" Clicked="btnSubmitPromotion_Clicked" BackgroundColor="#79c606" Text="SUMBIT PROMOTION" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 

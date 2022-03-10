@@ -412,7 +412,7 @@ namespace YomoneyApp.Views.Profile
                 {
                     try
                     {
-                        httpClient.BaseAddress = new Uri("http://102.130.113.195:8090/");
+                        httpClient.BaseAddress = new Uri("http://102.130.120.163:8058/");
                         httpClient.DefaultRequestHeaders.Accept.Clear();
                         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -456,7 +456,7 @@ namespace YomoneyApp.Views.Profile
                             fileUpload.Name = fileName;
                             fileUpload.Type = type;
                             fileUpload.PhoneNumber = uname;
-                            fileUpload.Image = result;
+                            fileUpload.Image = "http://102.130.120.163:8058" + result;
                             fileUpload.Purpose = "VerifyId";
                             fileUpload.ServiceId = 0;
                             fileUpload.ActionId = 0;                            
@@ -686,7 +686,7 @@ namespace YomoneyApp.Views.Profile
                             fileUpload.Name = fileName;
                             fileUpload.Type = type;
                             fileUpload.PhoneNumber = uname;
-                            fileUpload.Image = result;
+                            fileUpload.Image = "http://102.130.120.163:8058" + result;
                             fileUpload.Purpose = "VerifyImage";
                             fileUpload.ServiceId = 0;
                             fileUpload.ActionId = 0;

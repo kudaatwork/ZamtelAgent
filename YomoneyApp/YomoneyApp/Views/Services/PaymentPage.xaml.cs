@@ -17,10 +17,11 @@ namespace YomoneyApp.Views.Services
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PaymentPage : ContentPage
-    {   
+    {
         WalletServicesViewModel viewModel;
         MenuItem SelectedItem;
         CountryPickerViewModel countryPickerViewModel;
+        RequestViewModel requestViewModel;
 
         public Action<MenuItem> ItemSelected
         {
@@ -33,6 +34,7 @@ namespace YomoneyApp.Views.Services
             InitializeComponent();
             BindingContext = viewModel = new YomoneyApp.WalletServicesViewModel(this);
             countryPickerViewModel = new CountryPickerViewModel(this);
+            requestViewModel = new RequestViewModel(this);
 
             if (string.IsNullOrEmpty(mnu.Currency))
             {
@@ -69,6 +71,34 @@ namespace YomoneyApp.Views.Services
                     }
                 }
             };
+
+            PickerCurrency.SelectedIndexChanged += async (sender, e) =>
+            {
+                viewModel.FromCurrency = viewModel.Currency;
+                viewModel.ToCurrency = PickerCurrency.Items[PickerCurrency.SelectedIndex];
+                viewModel.AmountToBeConverted = viewModel.Budget;
+
+                await viewModel.ExecuteGetExchangeRateCommand();
+
+                try
+                {
+                    MenuItem mn = new YomoneyApp.MenuItem();
+                    mn.Amount = String.Format("{0:n}", Math.Round(decimal.Parse(viewModel.Budget), 2).ToString());
+                    //mn.Title = Category;
+                    mn.Currency = viewModel.Currency;
+
+                    var stores = await viewModel.GetPaymentsAsync(mn);
+
+                    PickerStore.Items.Clear();
+                    foreach (var store in stores)
+                        PickerStore.Items.Add(store.Title.Trim());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }                
+
+            };
         }
 
         protected override async void OnAppearing()
@@ -78,7 +108,7 @@ namespace YomoneyApp.Views.Services
             try
             {
                 var stores = await viewModel.GetPaymentsAsync(SelectedItem);
-                
+
                 if (viewModel.Category == null || viewModel.Category == "")
                 {
                     PickerStore.Items.Clear();
@@ -88,10 +118,39 @@ namespace YomoneyApp.Views.Services
 
                 viewModel.ExecuteGetCurrentGeolocationCommand();
 
+                //var currencies = await requestViewModel.GetCurrenciesAsync();
+                //PickerCurrency.Items.Clear();
+                //foreach (var cur in currencies)
+                //    PickerCurrency.Items.Add(cur.Title.Trim());
+
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Payment Error!", "Unable to gather the payment options", "Ok");
+            }
+
+            try
+            {
+                //var stores = await viewModel.GetPaymentsAsync(SelectedItem);
+
+                //if (viewModel.Category == null || viewModel.Category == "")
+                //{
+                //    PickerStore.Items.Clear();
+                //    foreach (var store in stores)
+                //        PickerStore.Items.Add(store.Title.Trim());
+                //}
+
+                //viewModel.ExecuteGetCurrentGeolocationCommand();
+
+                var currencies = await requestViewModel.GetCurrenciesAsync();
+                PickerCurrency.Items.Clear();
+                foreach (var cur in currencies)
+                    PickerCurrency.Items.Add(cur.Title.Trim());
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Payment Error!", "Unable to gather currencies", "Ok");
             }
 
         }

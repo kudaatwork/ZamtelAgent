@@ -59,6 +59,24 @@ namespace YomoneyApp.Views.Spani
                 PickerStore.Items.Clear();
                 foreach (var store in stores)
                     PickerStore.Items.Add(store.Title.Trim());
+
+                //var currencies = await viewModel.GetCurrenciesAsync();
+                //PickerCurrency.Items.Clear();
+                //foreach (var cur in currencies)
+                //    PickerCurrency.Items.Add(cur.Title.Trim());
+            }
+            catch (Exception ex)
+            {
+               
+            }
+
+            try
+            {
+                //var stores = await viewModel.GetStoreAsync("JobSectors");
+                //PickerStore.Items.Clear();
+                //foreach (var store in stores)
+                //    PickerStore.Items.Add(store.Title.Trim());
+
                 var currencies = await viewModel.GetCurrenciesAsync();
                 PickerCurrency.Items.Clear();
                 foreach (var cur in currencies)
@@ -66,9 +84,9 @@ namespace YomoneyApp.Views.Spani
             }
             catch (Exception ex)
             {
-               
+
             }
-            
+
         }
     }
 }

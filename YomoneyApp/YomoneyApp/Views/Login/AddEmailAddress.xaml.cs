@@ -18,7 +18,7 @@ namespace YomoneyApp.Views.Login
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
-            viewModel.PhoneNumber = phone;
+            viewModel.ActualPhoneNumber = phone;
         }
 
        /* private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)

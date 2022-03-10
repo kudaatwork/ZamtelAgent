@@ -291,6 +291,89 @@ namespace YomoneyApp
 
         #endregion
 
+        #region Exchange Rate
+
+        private Command getExchangeRateCommand;
+
+        public Command GetExchangeRateCommand
+        {
+            get
+            {
+                return getExchangeRateCommand ??
+                    (getExchangeRateCommand = new Command(async () => await ExecuteGetExchangeRateCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetExchangeRateCommand()
+        {
+            //if (IsBusy)
+            //    return;
+
+            //if (ForceSync)
+                //Settings.LastSync = DateTime.Now.AddDays(-30);
+
+            IsBusy = true;
+            Message = "Loading New Rate...";
+
+            GetExchangeRateCommand.ChangeCanExecute();
+            var showAlert = false;
+
+            try
+            {                
+                string Body = ""; 
+                
+                Body += "ServiceProvider=5-0001-0000000";
+                Body += "&from=" + FromCurrency;
+                Body += "&to=" + ToCurrency;
+                Body += "&amount=" +AmountToBeConverted;           
+
+                var client = new HttpClient();
+                
+                var myContent = Body;
+               
+                string paramlocal = string.Format(HostDomain + "/Mobile/Exchange/?{0}", myContent);
+                
+                string result = await client.GetStringAsync(paramlocal);
+                
+                if (result != "System.IO.MemoryStream")
+                {
+                    char[] delimite = new char[] { ',' };
+
+                    string[] parts = result.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+                    Currency = ToCurrency;
+                    Budget = String.Format("{0:n}", Math.Round(decimal.Parse(parts[3]), 2).ToString());
+                                       
+                    //MenuItem mn = new YomoneyApp.MenuItem();
+                    //mn.Amount = String.Format("{0:n}", Math.Round(decimal.Parse(budget), 2).ToString());
+                    //mn.Title = Category;
+
+                    //await page.Navigation.PushAsync(new PaymentPage(mn));
+                }
+                else
+                {
+                    showAlert = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                showAlert = true;
+                Console.WriteLine(ex.Message);
+                //await page.DisplayAlert("Error!", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                GetExchangeRateCommand.ChangeCanExecute();
+            }
+
+            if (showAlert)
+                await page.DisplayAlert("Error!", "Unable to get the Exchange Rate", "OK");
+
+        }
+
+        #endregion
+
         private Command getStoresCommand;
 
         public Command GetStoresCommand
@@ -1335,6 +1418,34 @@ namespace YomoneyApp
         {
             get { return gender; }
             set { SetProperty(ref gender, value); }
+        }
+
+        string fromCurrency = string.Empty;
+        public string FromCurrency
+        {
+            get { return fromCurrency; }
+            set { SetProperty(ref fromCurrency, value); }
+        }
+
+        string toCurrency = string.Empty;
+        public string ToCurrency
+        {
+            get { return toCurrency; }
+            set { SetProperty(ref toCurrency, value); }
+        }
+
+        string serviceProvider = string.Empty;
+        public string ServiceProvider
+        {
+            get { return serviceProvider; }
+            set { SetProperty(ref serviceProvider, value); }
+        }
+
+        string amountToBeConverted = string.Empty;
+        public string AmountToBeConverted
+        {
+            get { return amountToBeConverted; }
+            set { SetProperty(ref amountToBeConverted, value); }
         }
 
         string activeCountry = string.Empty;

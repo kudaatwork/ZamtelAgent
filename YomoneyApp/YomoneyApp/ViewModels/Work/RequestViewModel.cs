@@ -3008,6 +3008,7 @@ namespace YomoneyApp
             {
                 TransactionRequest trn = new RetailKing.Models.TransactionRequest();
                 string myinput = await InputBox(currentPage, "Award Bid", myQuote.Description, myQuote.Title );
+               
                 if (myinput == "Yes")
                 {
                     MenuItem mn = new YomoneyApp.MenuItem();
@@ -3016,8 +3017,11 @@ namespace YomoneyApp
 
                     mn.Amount = String.Format("{0:n}", (decimal.Parse(amt[1]) * decimal.Parse("0.05")).ToString());
                     mn.Title = "Pay 5% of job to Award";
+                    mn.Currency = myQuote.Currency;
+                    
                     myQuote.Amount = amt[1];
-                   await page.Navigation.PushModalAsync(new PaymentPage(mn));
+                   
+                    await page.Navigation.PushModalAsync(new PaymentPage(mn));
                   
                     IsBusy = false;
                     MessagingCenter.Subscribe<string, string>("PaymentRequest", "NotifyMsg", async (sender, arg) =>

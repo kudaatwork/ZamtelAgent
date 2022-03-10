@@ -1077,12 +1077,24 @@ namespace YomoneyApp
 
             ActualPhoneNumber = SelectedCountry.CountryCode + AccountNumber;
 
-            if (string.IsNullOrEmpty(AccountNumber) || string.IsNullOrEmpty(Budget))
+            if (string.IsNullOrEmpty(AccountNumber))
             {
                 await page.DisplayAlert("Blank Fields Error!", "Please enter all fields", "OK");
                 return;
-            }            
-            
+            }
+
+            if (string.IsNullOrEmpty(AccountNumber))
+            {
+                await page.DisplayAlert("Enter Account Number!", "Please enter account number", "OK");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Budget))
+            {
+                await page.DisplayAlert("Enter Account Number!", "Please enter all fields", "OK");
+                return;
+            }
+
             var showAlert = false;
 
             //IsBusy = true;
@@ -1269,6 +1281,7 @@ namespace YomoneyApp
                 MenuItem mn = new YomoneyApp.MenuItem();
                 mn.Amount = String.Format("{0:n}", Math.Round(decimal.Parse(budget), 2).ToString());
                 mn.Title = Category;
+                mn.Currency = Currency;
             
                 IsBusy = true;
                 Message = "Processing " + mn.Title;
@@ -1478,17 +1491,24 @@ namespace YomoneyApp
         {
             if (IsBusy)
                 return;
-            if (string.IsNullOrWhiteSpace(Budget))
+
+            if (string.IsNullOrEmpty(Category))
             {
-                await page.DisplayAlert("Enter Amount", "Please enter a amount for the payment .", "OK");
+                await page.DisplayAlert("Select Biller", "Please select the biller.", "OK");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(AccountNumber) && RequireAccount == true)
+            if (string.IsNullOrEmpty(AccountNumber))
             {
                 await page.DisplayAlert("Enter Account", "Please enter the billing account.", "OK");
                 return;
             }
+
+            if (string.IsNullOrEmpty(Budget))
+            {
+                await page.DisplayAlert("Enter Amount", "Please enter a amount for the payment .", "OK");
+                return;
+            }           
 
             IsBusy = true;
 

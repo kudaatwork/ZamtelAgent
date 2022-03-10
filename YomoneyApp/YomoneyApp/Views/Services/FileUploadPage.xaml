@@ -25,8 +25,9 @@
                     <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
                 </Grid.Padding>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="11*"/>
+                    <RowDefinition Height="8*"/>
                    
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -42,6 +43,7 @@
 			        TextColor="White" 
 			        Text="Gallary"
 			        Clicked="PickPhoto_Clicked"/>
+                
                 <Button 
                     Grid.Row="0"
                     Grid.Column="1"
@@ -51,10 +53,15 @@
 			        TextColor="White" 
 			        Text="Take Photo"
 			        Clicked="TakePhoto_Clicked"/>
+
+                <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="2,0,0,0" FontSize="15" Text="Recommended Size: 200 x 200 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+
                 <Image x:Name="FileImage"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
+                    WidthRequest="200" 
+                    HeightRequest="200"
                     />
                 
             </Grid>

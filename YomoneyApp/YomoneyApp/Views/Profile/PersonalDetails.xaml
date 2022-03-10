@@ -66,11 +66,15 @@
 
                     <Button x:Name="btnPickPhoto" Clicked="btnPickPhoto_Clicked" BackgroundColor="#79c606" Text="UPLOAD ID OR PASSPORT" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
-                    <Image x:Name="FileImage" WidthRequest="100" HeightRequest="100"></Image>
+                    <Label Margin="10,0,0,0" FontSize="15" Text="Recommended Size: 600 x 800 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                    
+                    <Image x:Name="FileImage" WidthRequest="300" HeightRequest="300"></Image>
 
                     <Button x:Name="btnTakePhoto" Clicked="btnTakePhoto_Clicked" BackgroundColor="#79c606" Text="TAKE PHOTO" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
-                    <Image x:Name="FileTaken" WidthRequest="100" HeightRequest="100"></Image>
+                    <Label Margin="10,0,0,0" FontSize="15" Text="Resized to: 200 x 200 (png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                    
+                    <Image x:Name="FileTaken" WidthRequest="300" HeightRequest="300"></Image>
 
                 </StackLayout>
             </ScrollView>

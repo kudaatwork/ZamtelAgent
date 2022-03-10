@@ -233,8 +233,8 @@ namespace YomoneyApp
                         {               
                             resp = ac.SaveCredentials(actualPhoneNumber, password).Result;
 
-                            PhoneNumber = null;
-                            ActualPhoneNumber = null;
+                            //PhoneNumber = null;
+                            //ActualPhoneNumber = null;
                             Password = null;
                         }
                         catch
@@ -294,7 +294,7 @@ namespace YomoneyApp
                                         else
                                         {
                                             // Prompt user to enter Email
-                                            await page.Navigation.PushAsync(new AddEmailAddress(PhoneNumber));
+                                            await page.Navigation.PushAsync(new AddEmailAddress(ActualPhoneNumber));
                                         }
                                     }
                                     else
@@ -597,6 +597,8 @@ namespace YomoneyApp
             if (IsBusy)
                 return;
 
+            //ActualPhoneNumber = SelectedCountry.CountryCode + PhoneNumber;
+
             string pattern = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
 
             if (string.IsNullOrWhiteSpace(Email))
@@ -617,7 +619,7 @@ namespace YomoneyApp
             try
             {
                 TransactionRequest trn = new TransactionRequest();
-                trn.Narrative = Email + "_" + PhoneNumber;
+                trn.Narrative = Email + "_" + ActualPhoneNumber;
 
                 string Body = "";
 
@@ -661,7 +663,20 @@ namespace YomoneyApp
                         }
                         else
                         {
-                            await page.DisplayAlert("Error", "here has been an error in checking your questsions", "OK");
+                            await page.DisplayAlert("Info!", "Answer the questions that follow to improve your security on the App", "OK");
+
+                            try
+                            {
+                                LoadQuestions();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+
+                                await page.DisplayAlert("Error!", "There has been an error in loading your questions. Contact Customer Support.", "OK");
+
+                                await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+                            }
                         }
                     }
                     else
