@@ -76,6 +76,7 @@
 			    Text="Yes"
                 Command ="{Binding GetTokenCommand}"
 			   />
+                
                 <Button 
                  Grid.Row="0"
                  Grid.Column="1"
@@ -86,6 +87,7 @@
 			     TextColor="White" 
 			     Text="No"
                  Clicked="CancelClicked"/>
+                
                 <Button 
                 Grid.Row="0"
                 Grid.Column="0"
@@ -100,6 +102,7 @@
                 CommandParameter="{Binding Stores}"
                 Clicked="ShareClicked"
 			   />
+                
                 <Button 
                 Grid.Row="0"
                 Grid.Column="0"
@@ -112,6 +115,7 @@
 			    Text="{Binding RetryText}"
                 Command ="{Binding GetRetryTokenCommand}"
 			   />
+                
                 <Button 
                  Grid.Row="0"
                  Grid.Column="1"
@@ -123,6 +127,7 @@
 			     TextColor="White" 
 			     Text="Cancel"
                  Clicked="CancelClicked"/>
+                
             </Grid>
         </StackLayout>
     </ContentPage.Content>

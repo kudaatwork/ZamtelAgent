@@ -14,6 +14,8 @@ using System.IO;
 using System.Net;
 using YomoneyApp.Models.Image;
 using YomoneyApp.Views.Webview;
+using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 
 namespace YomoneyApp.Views.Services
 {
@@ -59,6 +61,7 @@ namespace YomoneyApp.Views.Services
 
         private async void SaveImageClicked(object sender, EventArgs e)
         {
+            viewModel.IsBusy = true;
             bool saved = false;
             FileUpload fileUpload = new FileUpload();
 
@@ -66,77 +69,140 @@ namespace YomoneyApp.Views.Services
             {
                 using (var bitmap = await signatureView.GetImageStreamAsync(SignatureImageFormat.Png))
                 {
-                    AccessSettings acnt = new AccessSettings();
-                    string pass = acnt.Password;
-                    string uname = acnt.UserName;
+
+                    //using (FileStream file = new FileStream("", FileMode.Create, System.IO.FileAccess.Write))
+                    //{
+                    //    bitmap.CopyTo(file);
+                    //}
 
                     var bytes = new byte[bitmap.Length];
                     await bitmap.ReadAsync(bytes, 0, (int)bitmap.Length);
                     string base64 = System.Convert.ToBase64String(bytes);
-
-                    var fileName1 = "sigFile";
-
-                    var fileName2 = DateTime.Now.ToString("ddMMyyHHmmss");
-
-                    var fileName = fileName1 + "_" + fileName2;
-
-                    fileUpload.Name = fileName;
-                    fileUpload.Type = "png";
-                    fileUpload.PhoneNumber = HomeViewModel.fileUpload.PhoneNumber;
                     fileUpload.Image = base64;
-                    fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
-                    fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
-                    fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
-                    fileUpload.Purpose = HomeViewModel.fileUpload.Purpose;
-                    fileUpload.FormId = HomeViewModel.fileUpload.FormId;
-                    fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
 
-                    try
+                    //var fileName1 = "sigFile";
+
+                    #region Upload Signature to server
+
+                    var httpClient = new HttpClient();
+
+                    httpClient.BaseAddress = new Uri("http://102.130.120.163:8058/");
+                    // httpClient.DefaultRequestHeaders.Accept.Clear();
+                    // httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // var content = new MultipartFormDataContent();
+
+                    // content.Add(new StreamContent(bitmap), "\"file\"", $"\"Content\\Uploads\"");
+
+                    var json1 = JsonConvert.SerializeObject(fileUpload);
+                    var data = new StringContent(json1, Encoding.UTF8, "application/json");
+
+                    var uploadServiceBaseAddress = "api/Signature/Upload";
+
+                    System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                    httpClient.Timeout = TimeSpan.FromMinutes(3);
+
+                    var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, data);
+
+                    var response = httpResponseMessage.Content.ReadAsStringAsync();
+
+                    var result = JsonConvert.DeserializeObject<string>(response.Result);
+
+                    //var result = response.Result;
+
+                    if (response.Result.ToUpper() == "FAILED")
                     {
-                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
-                        var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                        httpWebRequest.ContentType = "application/json";
-                        httpWebRequest.Method = "POST";
-                        httpWebRequest.Timeout = 120000;
-                        //httpWebRequest.CookieContainer = new CookieContainer();
-                        //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                        //cookie.Domain = "https://www.yomoneyservice.com";
-                        //httpWebRequest.CookieContainer.Add(cookie);
+                        await DisplayAlert("File Upload", "There was an error saving the signature.", "OK");
+                        viewModel.IsBusy = false;
+                    }
+                    else
+                    {
+                        AccessSettings acnt = new AccessSettings();
+                        string pass = acnt.Password;
+                        string uname = acnt.UserName;
 
-                        var json = JsonConvert.SerializeObject(fileUpload);
+                        //var bytes = new byte[bitmap.Length];
+                        //await bitmap.ReadAsync(bytes, 0, (int)bitmap.Length);
+                        //string base64 = System.Convert.ToBase64String(bytes);
 
-                        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                        char[] delimite = new char[] { '/' };
+
+                        string[] parts1 = result.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+                        var fileName = parts1[2];
+
+                        char[] delimiter = new char[] { '.' };
+
+                        string[] parts = fileName.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+
+                        var type = parts[1];
+
+                        string regExp = "[^a-zA-Z0-9]";
+
+                        var finalFileName = Regex.Replace(fileName, regExp, "_");
+
+                        fileUpload.Name = finalFileName;
+                        fileUpload.Type = "png";
+                        fileUpload.PhoneNumber = HomeViewModel.fileUpload.PhoneNumber;
+                        fileUpload.Image = "http://102.130.120.163:8058" + result;
+                        fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
+                        fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
+                        fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
+                        fileUpload.Purpose = HomeViewModel.fileUpload.Purpose;
+                        fileUpload.FormId = HomeViewModel.fileUpload.FormId;
+                        fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
+
+                        try
                         {
-                            streamWriter.Write(json);
-                            streamWriter.Flush();
-                            streamWriter.Close();
+                            string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
+                            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                            httpWebRequest.ContentType = "application/json";
+                            httpWebRequest.Method = "POST";
+                            httpWebRequest.Timeout = 120000;
+                            //httpWebRequest.CookieContainer = new CookieContainer();
+                            //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                            //cookie.Domain = "https://www.yomoneyservice.com";
+                            //httpWebRequest.CookieContainer.Add(cookie);
 
-                            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                            var json = JsonConvert.SerializeObject(fileUpload);
 
-                            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                             {
-                                var result = streamReader.ReadToEnd();
+                                streamWriter.Write(json);
+                                streamWriter.Flush();
+                                streamWriter.Close();
 
-                                var resultResponse = JsonConvert.DeserializeObject<string>(result);
+                                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
-                                if (!resultResponse.Contains("Error"))
+                                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                                 {
-                                    await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
-                                    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + resultResponse, "Signature Form", false, null,true));
-                                }
-                                else
-                                {
-                                    await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                                    var result2 = streamReader.ReadToEnd();
+
+                                    var resultResponse = JsonConvert.DeserializeObject<string>(result2);
+
+                                    if (!resultResponse.Contains("Error"))
+                                    {
+                                        viewModel.IsBusy = false;
+                                        await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
+                                        await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + resultResponse, "Signature Form", false, null, true));
+                                    }
+                                    else
+                                    {                                        
+                                        await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                                        viewModel.IsBusy = false;
+                                    }
                                 }
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
 
-                        await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                            await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                        }
                     }
+
+                    #endregion                    
 
                     //if (saved)
                     //{

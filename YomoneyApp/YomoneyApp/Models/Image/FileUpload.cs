@@ -6,8 +6,7 @@ namespace YomoneyApp.Models.Image
 {
     public class FileUpload
     {
-        public string PhoneNumber { get; set; }
-        public string ActualImage { get; set; }
+        public string PhoneNumber { get; set; }      
         public string Image { get; set; }       
         public string Type { get; set; }        
         public string Purpose { get; set; }

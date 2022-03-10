@@ -753,7 +753,7 @@ namespace YomoneyApp
             get
             {
                 return getRetryTokenCommand ??
-                    (getTokenCommand = new Command(async () => await ExecuteGetRetryTokenCommand(), () => { return !IsBusy; }));
+                    (getRetryTokenCommand = new Command(async () => await ExecuteGetRetryTokenCommand(), () => { return !IsBusy; }));
             }
         }
 
@@ -875,7 +875,7 @@ namespace YomoneyApp
                 finally
                 {
                     IsBusy = false;
-                    GetTokenCommand.ChangeCanExecute();
+                    GetRetryTokenCommand.ChangeCanExecute();
                 }
                 #endregion
 
@@ -908,21 +908,27 @@ namespace YomoneyApp
 
             IsBusy = true;
             GetTokenCommand.ChangeCanExecute();
+
             var showAlert = false;
+
             if (sendSms == false)
             {
                 PhoneNumber = "";
             }
+
             //string myinput = await PaymentCall(page.Navigation, "Payment");
             MenuItem mn = new YomoneyApp.MenuItem();
+
             mn.Amount = String.Format("{0:n}", Math.Round(decimal.Parse(budget), 2).ToString());
             mn.Title = Category;
             mn.ServiceId = ServiceId;
+            mn.Currency = Currency;
+
             await page.Navigation.PushAsync(new PaymentPage(mn));
+
             //IsBusy = false;
             MessagingCenter.Subscribe<string, string>("PaymentRequest", "NotifyMsg", async (sender, arg) =>
             {
-
                 if (arg == "Payment Success")
                 {
                     IsBusy = true;
