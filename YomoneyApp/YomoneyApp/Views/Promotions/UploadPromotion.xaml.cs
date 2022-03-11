@@ -307,7 +307,9 @@ namespace YomoneyApp.Views.Promotions
 
                         var type = parts[1];
 
-                        fileUpload.Name = fileName;
+                        var finalFileName = fileName.Replace(" ", "_");
+
+                        fileUpload.Name = finalFileName;
                         fileUpload.Type = type;
                         fileUpload.PhoneNumber = uname;
                         fileUpload.Image = "http://102.130.120.163:8058" + result;

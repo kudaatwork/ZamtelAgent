@@ -49,9 +49,7 @@ namespace YomoneyApp
 
             ShowPopupCommand = new Command(async _ => await ExecuteShowPopupCommand());
             CountrySelectedCommand = new Command(country => ExecuteCountrySelectedCommand(country as CountryModel));
-        }
-
-       
+        }       
 
         #region Get Current Location
         private Command getCurrentGeolocationCommand;

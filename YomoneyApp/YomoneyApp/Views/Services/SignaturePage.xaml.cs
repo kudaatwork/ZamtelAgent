@@ -137,17 +137,73 @@ namespace YomoneyApp.Views.Services
 
                         var type = parts[1];
 
-                        string regExp = "[^a-zA-Z0-9]";
+                        //string regExp = "[^a-zA-Z0-9]";
 
-                        var finalFileName = Regex.Replace(fileName, regExp, "_");
+                        var finalFileName = fileName.Replace(" ", "_");
 
                         fileUpload.Name = finalFileName;
                         fileUpload.Type = "png";
                         fileUpload.PhoneNumber = HomeViewModel.fileUpload.PhoneNumber;
-                        fileUpload.Image = "http://102.130.120.163:8058" + result;
+                        fileUpload.Image = "http://102.130.120.163:8058" + result;                        
+
+                        if (string.IsNullOrEmpty(HomeViewModel.fileUpload.SupplierId))
+                        {
+                            var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
+
+                            char[] delimiter2 = new char[] { '&' };
+
+                            string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+
+                            if (parts2[0].Contains("SupplierId"))
+                            {
+                                var supplierId = parts2[0].Trim().Replace("SupplierId=", "");
+                                fileUpload.SupplierId = supplierId;
+                            }                            
+                        }
+                        else
+                        {
+                            fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
+                        }
+
+                        if (HomeViewModel.fileUpload.ActionId == 0)
+                        {
+                            var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
+
+                            char[] delimiter2 = new char[] { '&' };
+
+                            string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+
+                            if (parts2[0].Contains("ActionId"))
+                            {
+                                var actionId = parts2[0].Trim().Replace("ActionId=", "");
+                                fileUpload.ActionId = long.Parse(actionId);
+                            }
+                        }
+                        else
+                        {
+                            fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
+                        }
+
+                        if (string.IsNullOrEmpty(HomeViewModel.fileUpload.FormId))
+                        {
+                            var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
+
+                            char[] delimiter2 = new char[] { '&' };
+
+                            string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+
+                            if (parts2[0].Contains("FormId"))
+                            {
+                                var formId = parts2[0].Trim().Replace("FormId=", "");
+                                fileUpload.FormId = formId;
+                            }
+                        }
+                        else
+                        {
+                            fileUpload.FormId = HomeViewModel.fileUpload.FormId;
+                        }
+
                         fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
-                        fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
-                        fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
                         fileUpload.Purpose = HomeViewModel.fileUpload.Purpose;
                         fileUpload.FormId = HomeViewModel.fileUpload.FormId;
                         fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
@@ -199,6 +255,7 @@ namespace YomoneyApp.Views.Services
                             Console.WriteLine(ex.Message);
 
                             await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                            viewModel.IsBusy = false;
                         }
                     }
 

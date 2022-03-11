@@ -453,7 +453,9 @@ namespace YomoneyApp.Views.Profile
 
                             var type = parts[1];
 
-                            fileUpload.Name = fileName;
+                            var finalFileName = fileName.Replace(" ", "_");
+
+                            fileUpload.Name = finalFileName;
                             fileUpload.Type = type;
                             fileUpload.PhoneNumber = uname;
                             fileUpload.Image = "http://102.130.120.163:8058" + result;
@@ -648,7 +650,7 @@ namespace YomoneyApp.Views.Profile
 
                         var content = new MultipartFormDataContent();
 
-                        content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
+                        content.Add(new StreamContent(_takenFile.GetStream()), "\"file\"", $"\"{_takenFile.Path}\"");
 
                         var uploadServiceBaseAddress = "api/Files/Upload";
 
@@ -673,7 +675,7 @@ namespace YomoneyApp.Views.Profile
 
                             FileUpload fileUpload = new FileUpload();
 
-                            string strPath = _mediaFile.Path;
+                            string strPath = _takenFile.Path;
 
                             var fileName = Path.GetFileName(strPath); // filename
 
@@ -683,7 +685,9 @@ namespace YomoneyApp.Views.Profile
 
                             var type = parts[1];
 
-                            fileUpload.Name = fileName;
+                            var finalFileName = fileName.Replace(" ", "_");
+
+                            fileUpload.Name = finalFileName;
                             fileUpload.Type = type;
                             fileUpload.PhoneNumber = uname;
                             fileUpload.Image = "http://102.130.120.163:8058" + result;
@@ -715,20 +719,27 @@ namespace YomoneyApp.Views.Profile
                                 {
                                     var serverresult = streamReader.ReadToEnd();
 
-                                    var stringResult = JsonConvert.DeserializeObject<string>(result);
+                                   // var stringResult = JsonConvert.DeserializeObject<string>(result);
 
-                                    if (stringResult == "Success")
+                                    if (serverresult == "Success")
                                     {
                                         viewModel.IsBusy = true;
                                         viewModel.Message = "Taken Image uploaded Successfully";
 
                                         saved = true;
-                                        viewModel.TakenImage = true;
-
-                                        IsBusy = false;
+                                        viewModel.TakenImage = true;                                        
 
                                         ButtonSubmitFeedback.IsEnabled = false;
                                         ButtonSubmitFeedback.Text = "DONE";
+
+                                        viewModel.IsBusy = false;
+                                        viewModel.Message = string.Empty;
+                                        viewModel.Date = DateTime.Now.Date;
+                                        viewModel.Id = null;
+                                        FileImage = null;
+                                        FileTaken = null;
+                                        viewModel.Gender = null;
+                                        viewModel.ActiveCountry = null;
 
                                         DisplayAlert("Success!", "Personal Details updated successfully. Your account is now undergoing a verification process.", "OK");
 
@@ -738,7 +749,7 @@ namespace YomoneyApp.Views.Profile
                                     {
                                         saved = false;
                                         viewModel.TakenImage = false;
-                                        IsBusy = false;
+                                        viewModel.IsBusy = false;
                                     }
                                     //FileImage.Source.ClearValue();
 
@@ -752,7 +763,7 @@ namespace YomoneyApp.Views.Profile
                                                 
                         viewModel.IdImage = false;
 
-                        IsBusy = false;
+                        viewModel.IsBusy = false;
 
                         ButtonSubmitFeedback.IsEnabled = true;
                         ButtonSubmitFeedback.Text = "RETRY UPLOADING TAKEN IMAGE";
@@ -760,7 +771,7 @@ namespace YomoneyApp.Views.Profile
 
                     if (!saved)
                     {
-                        IsBusy = false;
+                        viewModel.IsBusy = false;
                         ButtonSubmitFeedback.IsEnabled = true;
                         ButtonSubmitFeedback.Text = "RETRY UPLOADING TAKEN IMAGE";
                     }                    

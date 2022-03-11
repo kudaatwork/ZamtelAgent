@@ -295,11 +295,9 @@ namespace YomoneyApp.Views.Services
 
                         string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
 
-                        var type = parts[1];
+                        var type = parts[1];                        
 
-                        string regExp = "[^a-zA-Z0-9]";
-
-                        var finalFileName = Regex.Replace(fileName, regExp, "_");
+                        var finalFileName = fileName.Replace(" ", "_");
 
                         //fileName.Replace(" ", "_");
 
