@@ -20,6 +20,7 @@ using System.Web;
 using YomoneyApp.Views.GeoPages;
 using YomoneyApp.Views.Services;
 using Xamarin.Forms.GoogleMaps;
+using YomoneyApp.Views.QRScan;
 
 namespace YomoneyApp
 {
@@ -477,6 +478,26 @@ namespace YomoneyApp
                         break;
 
                     case "UPLOAD":
+
+                        fileUpload.Purpose = purpose;
+                        fileUpload.SupplierId = supplier;
+                        fileUpload.ServiceId = Convert.ToInt64(serviceId);
+                        fileUpload.ActionId = Convert.ToInt64(actionId);
+                        fileUpload.FormId = formId;
+                        fileUpload.FieldId = fieldId;
+                        fileUpload.PhoneNumber = phoneNumber;
+
+                        //await serviceViewModel.ExecuteRenderActionCommand(null);
+
+                        menuItem.ActionId = fileUpload.ActionId;
+                        menuItem.ServiceId = fileUpload.ServiceId;
+                        menuItem.SupplierId = fileUpload.SupplierId;
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new UploadFile(menuItem));
+                        });
+
                         break;
 
                     case "ROUTE":
@@ -485,6 +506,31 @@ namespace YomoneyApp
 
                     case "PAYMENT":
                         break;
+
+
+                    case "SCAN":
+
+                        fileUpload.Purpose = purpose;
+                        fileUpload.SupplierId = supplier;
+                        fileUpload.ServiceId = Convert.ToInt64(serviceId);
+                        fileUpload.ActionId = Convert.ToInt64(actionId);
+                        fileUpload.FormId = formId;
+                        fileUpload.FieldId = fieldId;
+                        fileUpload.PhoneNumber = phoneNumber;
+
+                        //await serviceViewModel.ExecuteRenderActionCommand(null);
+
+                        menuItem.ActionId = fileUpload.ActionId;
+                        menuItem.ServiceId = fileUpload.ServiceId;
+                        menuItem.SupplierId = fileUpload.SupplierId;
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new Scanner());
+                        });
+
+                        break;
+
                     default:
                         break;
                 }

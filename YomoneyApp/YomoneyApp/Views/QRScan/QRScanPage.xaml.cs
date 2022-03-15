@@ -21,6 +21,7 @@ namespace YomoneyApp.Views.QRScan
         public QRScanPage()
         {
             InitializeComponent();
+
             ScannerView.Options = new ZXing.Mobile.MobileBarcodeScanningOptions
             {
                 PossibleFormats = new List<BarcodeFormat>
@@ -54,6 +55,7 @@ namespace YomoneyApp.Views.QRScan
                     // Show an alert
                    
                        string myinput = await InputBox(this.Navigation, "Payment", result.Text);
+
                        if (!string.IsNullOrEmpty(myinput))
                        {
                            char[] delimiter = new char[] { '\r', '\n' };

@@ -28,7 +28,7 @@ namespace YomoneyApp.Views.Webview
         {
             InitializeComponent();
             BindingContext = homeViewModel = new HomeViewModel(this);
-            viewM = new YomoneyApp.ChatViewModel(this);//ViewModelLocator.ChatMainViewModel;
+            viewM = new YomoneyApp.ChatViewModel(this); //ViewModelLocator.ChatMainViewModel;
            
             if (sourceUrl.Contains("Mobile") || showNav == false)
             {
