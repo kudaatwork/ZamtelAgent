@@ -35,7 +35,7 @@
                                         <Label Text="Please wait for your One-Time-Password. It will arrive within the next 5 minutes." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                                     </StackLayout>
 
-                                    <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,10" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                    <Frame BackgroundColor="Transparent" BorderColor="White" Padding="0" Margin="0,0,0,10" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                         <StackLayout Orientation="Horizontal">
                                             <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                                 <Image Source="unloack.png" Aspect="AspectFill" Margin="0"/>
