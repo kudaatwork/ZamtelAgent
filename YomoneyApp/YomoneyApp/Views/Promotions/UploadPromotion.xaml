@@ -89,7 +89,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Label Margin="15,0,0,0" FontSize="Small" Text="Target Age: From" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Target Age: From" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,10" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
@@ -100,7 +100,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Label Margin="15,0,0,0" FontSize="Small" Text="Target Age: To" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Target Age: To" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,10" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
@@ -111,7 +111,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Label Margin="15,0,0,0" FontSize="Small" Text="Expiry Date" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Expiry Date" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,20" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" >
@@ -140,7 +140,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Label Margin="15,0,0,0" FontSize="Small" Text="Search your address in the address field below" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Search your address in the address field below" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
                 <Frame Grid.Row="1" BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal">
@@ -223,13 +223,13 @@
                     </StackLayout>
                 </Frame>
 
-                <Label Margin="15,0,0,0" FontSize="Small" Text="Recommended Size: 600 x 800 (jpg, png, mp4, mkv)" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                <Label Margin="15,0,0,0" FontSize="Small" Text="Recommended Size: 600 x 800 (jpg, png, mp4, mkv)" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
-                <Button x:Name="btnPickAdImage" Clicked="btnPickAdImage_Clicked" BackgroundColor="#df782d" Text="UPLOAD ADVERT IMAGE" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+                <Button x:Name="btnPickAdImage" Clicked="btnPickAdImage_Clicked" BackgroundColor="#22b24c" Text="UPLOAD ADVERT IMAGE" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
                 <Image x:Name="FileImage" WidthRequest="300" HeightRequest="300"></Image>
 
-                <Button x:Name="btnSubmitPromotion" CommandParameter ="{Binding}" Clicked="btnSubmitPromotion_Clicked" BackgroundColor="#79c606" Text="SUMBIT PROMOTION" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+                <Button x:Name="btnSubmitPromotion" CommandParameter ="{Binding}" Clicked="btnSubmitPromotion_Clicked" BackgroundColor="#22b24c" Text="SUMBIT PROMOTION" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
             </StackLayout>
         </ScrollView>

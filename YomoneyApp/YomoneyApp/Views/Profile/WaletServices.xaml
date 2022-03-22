@@ -24,7 +24,7 @@
         
         <StackLayout Orientation="Vertical" Margin="0,0" HorizontalOptions="Center" VerticalOptions="Center">
 
-            <Button Text="Select Active Country" BackgroundColor="#79c606" Clicked="Button_Clicked_1" Margin="0,5,0,5" Padding="0,10,0,10" TextColor="White" FontAttributes="Bold" CornerRadius="10"></Button>
+            <Button Text="Select Active Country" BackgroundColor="#22b24c" Clicked="Button_Clicked_1" Margin="0,5,0,5" Padding="0,10,0,10" TextColor="White" FontAttributes="Bold" CornerRadius="10"></Button>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">               
                 <Label Text="Your Control Panel" TextColor="White" FontSize="22" FontAttributes="Bold" VerticalOptions="Center"/>                
@@ -52,7 +52,7 @@
                             </Label.GestureRecognizers>
                         </Label>
                         
-                        <Label Text="Pending Tasks" TextColor="#df782d" FontSize="11" HorizontalOptions="Center">
+                        <Label Text="Pending Tasks" TextColor="#22b24c" FontSize="11" HorizontalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_3" NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>
@@ -68,7 +68,7 @@
                             </Label.GestureRecognizers>
                         </Label>
 
-                        <Label Text="Purchase Orders" TextColor="#df782d" FontSize="11" HorizontalOptions="Center">
+                        <Label Text="Purchase Orders" TextColor="#22b24c" FontSize="11" HorizontalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_6" NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>
@@ -84,7 +84,7 @@
                             </Label.GestureRecognizers>
                         </Label>
 
-                        <Label Text="Loyalty Points" TextColor="#df782d" FontSize="11" HorizontalOptions="Center">
+                        <Label Text="Loyalty Points" TextColor="#22b24c" FontSize="11" HorizontalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_5" NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>
@@ -102,7 +102,7 @@
                             </Label.GestureRecognizers>
                         </Label>
                         
-                        <Label Text="Services" TextColor="#df782d" FontSize="11" HorizontalOptions="Center">
+                        <Label Text="Services" TextColor="#22b24c" FontSize="11" HorizontalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>

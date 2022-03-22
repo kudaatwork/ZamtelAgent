@@ -11,8 +11,8 @@
             <StackLayout Padding="-10" HorizontalOptions="FillAndExpand" BackgroundColor="{Binding ThemeColor}" IsVisible="{Binding IsAdvert}">
                 <local:HybridWebView x:Name="hybridWebView" Uri="{Binding Source}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  />
                 <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="{Binding ThemeColor}" IsVisible="{Binding IsAdvert}">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#df782d" FontSize="Large" Text="Connection Error"/>
-                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#df782d" FontSize="Medium" Text="Sorry Page Failed To Load Check Your Internet Connection and retry"/>
+                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#22b24c" FontSize="Large" Text="Connection Error"/>
+                    <Label HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsEmptyList}" TextColor="#22b24c" FontSize="Medium" Text="Sorry Page Failed To Load Check Your Internet Connection and retry"/>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.NavigationBar.footer">
   <ContentView.Content>
-        <Grid RowSpacing="0" ColumnSpacing="0" HorizontalOptions="Fill"  BackgroundColor="#df782d">
+        <Grid RowSpacing="0" ColumnSpacing="0" HorizontalOptions="Fill"  BackgroundColor="#22b24c">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <!--<ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>-->
             </Grid.ColumnDefinitions>
             <Label></Label>
             <Label Grid.Column="0" Grid.Row="0"  Text="Home" TextColor="White" Margin="7" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
@@ -21,7 +21,9 @@
                 Grid.Column="0"
                 ImageSource="home.png"
                 />
-            <Label Grid.Column="1"  Grid.Row="0"  Text="History" TextColor="White" Margin="7"  FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            
+            <!--<Label Grid.Column="1"  Grid.Row="0"  Text="History" TextColor="White" Margin="7"  FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            
             <Button
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
@@ -38,10 +40,10 @@
                 Grid.Column="2"
                 ImageSource="userprofile.png"
                 x:Name="btnProfile"
-                />
+                />-->
             
-            <Label Grid.Column="3" Grid.Row="0" Text="Dashboard" TextColor="White" Margin="7" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
-            <Button HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="3" ImageSource="myservices.png" x:Name="btnMyServices" />
+            <Label Grid.Column="1" Grid.Row="0" Text="Signout" TextColor="White" Margin="7" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            <Button HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" ImageSource="logout.png" x:Name="btnMyServices" />
 
         </Grid>
     </ContentView.Content>

@@ -87,9 +87,9 @@ namespace YomoneyApp
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
-                    //Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+                    //Navigation.PushAsync(new WebviewPage("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
 
-                    Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
+                    Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false, null));
                 }),
 
                 Text = "My Profile",
@@ -251,15 +251,15 @@ namespace YomoneyApp
             //topCorousel.GestureRecognizers.Add(gesture);
 
             #region Tabs Menu
-            ButtonPay.Clicked += async (sender, e) =>
-            {
-                await Navigation.PushAsync(new QRScanPage());
-            };
+            //ButtonPay.Clicked += async (sender, e) =>
+            //{
+            //    await Navigation.PushAsync(new QRScanPage());
+            //};
 
-            ButtonContacts.Clicked += async (sender, e) =>
-            {
-                await Navigation.PushAsync(new ChatTabs());
-            };
+            //ButtonContacts.Clicked += async (sender, e) =>
+            //{
+            //    await Navigation.PushAsync(new ChatTabs());
+            //};
             #endregion
 
             #region Commented Out Code
@@ -364,12 +364,12 @@ namespace YomoneyApp
                     case "TASKS":
                         AccessSettings acnt = new AccessSettings();
                         string uname = acnt.UserName;
-                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+                        string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
                         
                         string title = "My Tasks";
 
 
-                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#df782d", false));
+                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#22b24c", false));
 
 
                         break;

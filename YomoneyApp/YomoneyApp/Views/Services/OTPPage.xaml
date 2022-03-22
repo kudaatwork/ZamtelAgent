@@ -46,7 +46,7 @@
 
                     <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
-                            <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                            <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                 <Image Source="keypad.png" Aspect="AspectFill" Margin="0"/>
                             </Frame>
                             <local:MyCustomeEntry Text="{Binding PhoneNumber}" FontAttributes="None" Keyboard="Telephone" Placeholder="Verification Code" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
@@ -83,13 +83,13 @@
                         VerticalTextAlignment="Start"  
 			            Text="{Binding ResponseDescription}"
                         BackgroundColor="Transparent"
-			            TextColor="#df782d"/>
+			            TextColor="#22b24c"/>
                 </Grid>
 
             </ScrollView>
             <Button 
 			    x:Name="ButtonSignIn"
-			    BackgroundColor="#df782d"
+			    BackgroundColor="#22b24c"
 			    BorderRadius="6"
 			    TextColor="White" 
 			    Text="Verify"

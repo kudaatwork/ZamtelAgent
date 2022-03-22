@@ -11,7 +11,7 @@
         
         <!-- Search Nav -->
         <StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#22b24c">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60"/>
@@ -121,9 +121,9 @@
                                             </controls:CircleImage.Source>
                                         </controls:CircleImage>
 
-                                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"  Padding="2"  Text="{Binding Note}" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#df782d"  LineBreakMode="WordWrap" />
+                                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"  Padding="2"  Text="{Binding Note}" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#22b24c"  LineBreakMode="WordWrap" />
                                         <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"  Source="{Binding Image}" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
-                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"  Padding="10,3" Text="{Binding Title}" FontAttributes="None" TextColor="#df782d" FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"  Padding="10,3" Text="{Binding Title}" FontAttributes="None" TextColor="#22b24c" FontSize="Small" LineBreakMode="NoWrap"/>
                                         <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"  Padding="10,3" Text="{Binding Description}" FontSize="Small" LineBreakMode="WordWrap"/>
 
                                         <Button
@@ -169,7 +169,7 @@
                                         HorizontalOptions="Start"
                                         BackgroundColor="Transparent"
                                         FontAttributes="Bold"
-                                        TextColor="#79c606"
+                                        TextColor="#22b24c"
                                         Text="More"
                                         CommandParameter ="{Binding}"
                                         Clicked="Learn_Clicked"/>-->
@@ -208,7 +208,7 @@
                                             </controls:CircleImage.Source>
                                         </controls:CircleImage>
 
-                                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"   Text="{Binding Note}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#df782d"  LineBreakMode="WordWrap" />
+                                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"   Text="{Binding Note}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" TextColor="#22b24c"  LineBreakMode="WordWrap" />
                                         <me:MediaElement Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Source="{Binding Media}" MediaFailed="MediaElement_MediaFailed" ShowsPlaybackControls="True"  Aspect="AspectFill" HorizontalOptions="FillAndExpand" AutoPlay="True" />
                                         <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Padding="5,3" Text="{Binding Title}" TextColor="Black" FontSize="Medium" LineBreakMode="NoWrap"/>
                                         <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Padding="5,3"  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
@@ -246,7 +246,7 @@
                                         HorizontalOptions="Start"
                                             FontAttributes="Bold"
                                         BackgroundColor="Transparent"
-                                        TextColor="#79c606"
+                                        TextColor="#22b24c"
                                         Text=" More"
                                         CommandParameter ="{Binding}"
                                         Clicked="Learn_Clicked"/>

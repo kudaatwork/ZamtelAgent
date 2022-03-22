@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.Services;
+using YomoneyApp.Views.Login;
 
 namespace YomoneyApp.Views.Services
 {
@@ -26,6 +28,25 @@ namespace YomoneyApp.Views.Services
             InitializeComponent();
             BindingContext = viewModel = new ServiceViewModel(this, selected);
             SelectedItem = selected;
+
+            var signOut = new ToolbarItem
+            {
+                Command = new Command(() =>
+                {
+                    MenuItem px = new YomoneyApp.MenuItem();
+
+                    px.Title = "Sign Out";
+                    AccessSettings ac = new AccessSettings();
+                    ac.DeleteCredentials();
+                    Navigation.PushAsync(new AccountMain());
+                }),
+
+                Text = "Sign Out",
+                Priority = 0,
+                Order = ToolbarItemOrder.Secondary
+            };
+
+            ToolbarItems.Add(signOut);
         }
         protected override void OnAppearing()
         {

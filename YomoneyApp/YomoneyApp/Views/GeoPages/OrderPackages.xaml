@@ -19,7 +19,7 @@
                                 <Label Text="{Binding Title}"  />
                                 <Label Text="{Binding Description}"                             
                                 />
-                                <CheckBox IsChecked="false" Color="#79c606" ></CheckBox>
+                                <CheckBox IsChecked="false" Color="#22b24c" ></CheckBox>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

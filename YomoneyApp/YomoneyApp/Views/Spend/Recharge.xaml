@@ -86,9 +86,9 @@
 
             <StackLayout  Padding="10" BackgroundColor="White">
 
-                <Button x:Name="ButtonNonPay" BackgroundColor="#79c606" Text="{Binding RetryText}" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" IsVisible="{Binding Retry}" Command="{Binding GetRetryRechargeCommand}"/>
+                <Button x:Name="ButtonNonPay" BackgroundColor="#22b24c" Text="{Binding RetryText}" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" IsVisible="{Binding Retry}" Command="{Binding GetRetryRechargeCommand}"/>
 
-                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#79c606" Text="RECHARGE" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" IsVisible="{Binding IsConfirm}" Command="{Binding GetRechargeCommand}"/>
+                <Button x:Name="ButtonSubmitFeedback" BackgroundColor="#22b24c" Text="RECHARGE" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15" IsVisible="{Binding IsConfirm}" Command="{Binding GetRechargeCommand}"/>
             </StackLayout>
             <xWebService:footer x:Name="FooterView"/>
         </StackLayout>

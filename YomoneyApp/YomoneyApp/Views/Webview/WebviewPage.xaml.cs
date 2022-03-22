@@ -43,7 +43,7 @@ namespace YomoneyApp.Views.Webview
             }
             else
             {
-                mnu.ThemeColor = "#df782d";
+                mnu.ThemeColor = "#22b24c";
             }
 
             mnu.IsShare = true;

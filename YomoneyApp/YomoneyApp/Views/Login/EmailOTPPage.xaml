@@ -21,7 +21,7 @@
             </StackLayout>
             <Grid>
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Frame BackgroundColor="#22b24c" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                         <Image Source="otp_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
@@ -38,9 +38,9 @@
                                     <Label Text="Please wait for your One-Time-Password. It will arrive within the next 15 minutes." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                                 </StackLayout>
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,10" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,0,0,10" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="unloack.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
                                         <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Numeric" Placeholder="Verification Code e.g. 33344" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
@@ -49,11 +49,11 @@
 
                             </StackLayout>
 
-                            <Button Clicked="ButtonSignIn_Clicked" x:Name="ButtonSignIn" Command="{Binding VerifyEmailOTPCommand}" Text="VERIFY" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button Clicked="ButtonSignIn_Clicked" x:Name="ButtonSignIn" Command="{Binding VerifyEmailOTPCommand}" Text="VERIFY" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
                                 <Label Text="Want to contact Customer Support? Click " HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
-                                <Label Text="Here" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                <Label Text="Here" TextColor="#22b24c" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
                                     </Label.GestureRecognizers>

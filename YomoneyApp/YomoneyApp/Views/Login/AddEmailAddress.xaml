@@ -24,7 +24,7 @@
 
             <Grid>
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="290" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Frame BackgroundColor="#22b24c" HeightRequest="290" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                         <Image Source="email_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
@@ -38,9 +38,9 @@
 
                             <StackLayout Margin="0,15,0,10">
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="email3.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
                                         <local:MyCustomeEntry Text="{Binding Email}" FontAttributes="None" Keyboard="Default" Placeholder="example@example.com" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
@@ -49,7 +49,7 @@
                                
                             </StackLayout>
 
-                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" Clicked="btnSecurityQtnOption_Clicked_1" Command="{Binding AddEmailCommand}" BackgroundColor="#79c606" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button Text="SUBMIT EMAIL" x:Name="btnSecurityQtnOption" Clicked="btnSecurityQtnOption_Clicked_1" Command="{Binding AddEmailCommand}" BackgroundColor="#22b24c" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         </StackLayout>
                     </Frame>
@@ -58,7 +58,7 @@
             </Grid>
 
             <StackLayout>
-                <Button Text="SKIP" Clicked="btnSecurityQtnOption_Clicked" BackgroundColor="#df782d" Margin="30,20,30,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                <Button Text="SKIP" Clicked="btnSecurityQtnOption_Clicked" BackgroundColor="#22b24c" Margin="30,20,30,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
             </StackLayout>
         </StackLayout>      
     </AbsoluteLayout>

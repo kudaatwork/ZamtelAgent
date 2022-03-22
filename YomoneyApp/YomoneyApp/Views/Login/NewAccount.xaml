@@ -23,7 +23,7 @@
         
         <Grid>
             <StackLayout Padding="0" Margin="0">
-                <Frame BackgroundColor="#df782d" HeightRequest="205" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                <Frame BackgroundColor="#22b24c" HeightRequest="205" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                     <Image Source="image6.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
                 </Frame>
             </StackLayout>
@@ -35,25 +35,25 @@
                         </StackLayout>
 
                         <StackLayout Margin="0,0,0,0">
-                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                            <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
-                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                    <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                         <Image Source="accountname.png" Aspect="AspectFill" Margin="0"/>
                                     </Frame>
                                     <local1:MyCustomeEntry x:Name="Name" Text="{Binding Name}" FontAttributes="None" Placeholder="Username e.g. John Doe" Keyboard="Default" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,10,0"/>
                                 </StackLayout>
                             </Frame>
 
-                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                            <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
-                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                    <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                         <Image Source="namesure.png" Aspect="AspectFill" Margin="0"/>
                                     </Frame>
                                     <local1:MyCustomeEntry Text="{Binding ContactName}" FontAttributes="None" Keyboard="Default" Placeholder="Name and Surname" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                 </StackLayout>
                             </Frame>
 
-                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                            <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
                                         <Frame
                                             CornerRadius="10"
@@ -99,40 +99,40 @@
                                 </StackLayout>
                             </Frame>
 
-                                <Label FontSize="Small" Text="Gender" Margin="10,5,0,0" TextColor="#df782d"/>
+                                <Label FontSize="Small" Text="Gender" Margin="10,5,0,0" TextColor="#22b24c"/>
 
                                 <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal" >
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="gender45.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
                                         <Picker x:Name="Gender" Title="Select Gender" WidthRequest="280" Grid.Column="0"/>
                                     </StackLayout>
                                 </Frame>
 
-                                <Label FontSize="Small" Text="Date of Birth" Margin="10,5,0,0" TextColor="#df782d"/>
+                                <Label FontSize="Small" Text="Date of Birth" Margin="10,5,0,0" TextColor="#22b24c"/>
 
                                 <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,5" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal" >
-                                        <Frame BackgroundColor="Transparent" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
-                                            <Image Source="datep.png" Aspect="AspectFill" Margin="0"/>
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="date_picker1.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
                                         <DatePicker Date="{Binding Date, Mode=TwoWay}" WidthRequest="280" Grid.Column="0"/>
                                     </StackLayout>
                                 </Frame>
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
-                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                    <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                         <Image Source="password2.png" Aspect="AspectFill" Margin="0"/>
                                     </Frame>
                                     <local1:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Password" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                 </StackLayout>
                             </Frame>
 
-                            <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                            <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,5,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
-                                    <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                    <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                         <Image Source="password2.png" Aspect="AspectFill" Margin="0"/>
                                     </Frame>
                                     <local1:MyCustomeEntry Text="{Binding ConfirmPassword}" FontAttributes="None" Keyboard="Default" Placeholder="Confirm Password" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
@@ -140,11 +140,11 @@
                             </Frame>
                         </StackLayout>
 
-                        <Button x:Name="ButtonSubmitFeedback" Command="{Binding JoinCommand}" Text="SIGN UP" BackgroundColor="#79c606" Margin="0,5,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                        <Button x:Name="ButtonSubmitFeedback" Command="{Binding JoinCommand}" Text="SIGN UP" BackgroundColor="#22b24c" Margin="0,5,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,0">
                             <Label Text="Already have an account?" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
-                            <Label Text="Sign In" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                            <Label Text="Sign In" TextColor="#22b24c" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
                                 </Label.GestureRecognizers>

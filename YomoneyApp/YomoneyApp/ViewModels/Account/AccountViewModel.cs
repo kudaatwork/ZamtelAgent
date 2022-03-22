@@ -25,12 +25,13 @@ using System.Windows.Input;
 using YomoneyApp.Popups;
 using System.Threading;
 using YomoneyApp.Utils;
+using YomoneyApp.Views.Webview;
 
 namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
 
@@ -245,77 +246,119 @@ namespace YomoneyApp
                         {
                             //await page.Navigation.PushAsync(new HomePage());
 
-                            if (!string.IsNullOrEmpty(response.Narrative))
-                            {
-                                if (response.Narrative.ToUpper().Trim() == "TRUE") // Has Questions
-                                {
-                                    if (!string.IsNullOrEmpty(response.Note))
-                                    {
-                                        char[] delimite = new char[] { ',' };
+                            #region Commented Out Code
 
-                                        string[] parts = response.Note.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+                            //if (!string.IsNullOrEmpty(response.Narrative))
+                            //{
+                            //    if (response.Narrative.ToUpper().Trim() == "TRUE") // Has Questions
+                            //    {
+                            //        if (!string.IsNullOrEmpty(response.Note))
+                            //        {
+                            //            char[] delimite = new char[] { ',' };
 
-                                        var accountStatus = parts[0].ToUpper().Trim();
-                                        var hasEmail = parts[1];
+                            //            string[] parts = response.Note.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
 
-                                        if (hasEmail.ToUpper().Trim() == "TRUE") // Has Email
-                                        {
-                                            switch (accountStatus)
-                                            {
-                                                case "LOCKED":
+                            //            var accountStatus = parts[0].ToUpper().Trim();
+                            //            var hasEmail = parts[1];
 
-                                                    await page.DisplayAlert("Error", "You have exceeded the number of login attempts. Please contact customer support for help", "OK");
+                            //            if (hasEmail.ToUpper().Trim() == "TRUE") // Has Email
+                            //            {
+                            //                switch (accountStatus)
+                            //                {
+                            //                    case "LOCKED":
 
-                                                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+                            //                        await page.DisplayAlert("Error", "You have exceeded the number of login attempts. Please contact customer support for help", "OK");
 
-                                                    await page.Navigation.PushAsync(new SignIn());
+                            //                        await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
 
-                                                    break;
+                            //                        await page.Navigation.PushAsync(new SignIn());
 
-                                                case "RESET":
+                            //                        break;
 
-                                                    await page.Navigation.PushAsync(new AddEmailAddress(PhoneNumber));
+                            //                    case "RESET":
 
-                                                    break;
+                            //                        await page.Navigation.PushAsync(new AddEmailAddress(PhoneNumber));
 
-                                                case "ACTIVE":
+                            //                        break;
 
-                                                    await page.Navigation.PushAsync(new HomePage());
+                            //                    case "ACTIVE":
 
-                                                    break;
+                            //                        await page.Navigation.PushAsync(new HomePage());
 
-                                                default:
-                                                    await page.Navigation.PushAsync(new HomePage());
-                                                    break;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            // Prompt user to enter Email
-                                            await page.Navigation.PushAsync(new AddEmailAddress(ActualPhoneNumber));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        await page.DisplayAlert("Error!", "There has been an error from the server. Contact customer Support", "OK");
+                            //                        break;
 
-                                        await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
-                                    }
-                                }
-                                else
-                                {
-                                    // Prompt user to enter Questions
-                                    try
-                                    {
-                                        LoadQuestions();
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        await page.DisplayAlert("Error", e.Message, "OK");
-                                    }
-                                }
-                            }
+                            //                    default:
+                            //                        await page.Navigation.PushAsync(new HomePage());
+                            //                        break;
+                            //                }
+                            //            }
+                            //            else
+                            //            {
+                            //                // Prompt user to enter Email
+                            //                await page.Navigation.PushAsync(new AddEmailAddress(ActualPhoneNumber));
+                            //            }
+                            //        }
+                            //        else
+                            //        {
+                            //            await page.DisplayAlert("Error!", "There has been an error from the server. Contact customer Support", "OK");
 
+                            //            await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        // Prompt user to enter Questions
+                            //        try
+                            //        {
+                            //            LoadQuestions();
+                            //        }
+                            //        catch (Exception e)
+                            //        {
+                            //            await page.DisplayAlert("Error", e.Message, "OK");
+                            //        }
+                            //    }
+                            //}
+
+                            #endregion
+
+
+                            #region Zamtel Home Screen
+
+
+                            #region Load Actions
+                            //MenuItem menuItem = new MenuItem();
+
+                            //menuItem.Id = "1";
+                            //menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                            //menuItem.Title = "SIM CARD MANAGEMENT";
+                            //menuItem.Description = "SIM CARD MANAGEMENT";
+                            //menuItem.Section = "Service";
+                            //menuItem.Note = "ZAMTEL";
+                            //menuItem.ServiceId = 1;
+                            //menuItem.TransactionType = 12;
+                            //menuItem.SupplierId = "5-0001-0001052";
+                            ////menuItem.date = "0001-01-01T00:00:00";
+
+                            //await page.Navigation.PushAsync(new ServiceActions(menuItem));
+                            #endregion
+
+                            #region Load Services
+                            MenuItem menuItem = new MenuItem();
+
+                            menuItem.Id = "1";
+                            menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                            menuItem.Title = "WAFAYA";
+                            menuItem.Note = "BANKING";
+                            menuItem.TransactionType = 12;
+                            menuItem.SupplierId = "5-0001-0001052";
+                            //menuItem.date = "0001-01-01T00:00:00";
+
+                            await page.Navigation.PushAsync(new ProviderServices(menuItem));
+                            #endregion
+
+                            //await page.Navigation.PushAsync(new HomePage());
+
+                            #endregion
 
                         }
                         else
@@ -1306,7 +1349,214 @@ namespace YomoneyApp
 
         #endregion
 
+        #region VerifyPhoneNumber
+        Command verifyPhoneNumberCommand;
+        public Command VerifyPhoneNumberCommand
+        {
+            get
+            {
+                return verifyPhoneNumberCommand ??
+                    (verifyPhoneNumberCommand = new Command(async () => await ExecuteVerifyPhoneNumberCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteVerifyPhoneNumberCommand()
+        {
+            if (IsBusy)
+                return;
+
+            ActualPhoneNumber = SelectedCountry.CountryCode + PhoneNumber;
+
+            if (string.IsNullOrEmpty(PhoneNumber))
+            {
+                await page.DisplayAlert("Error!", "Please enter a your mobile number! Phone Number field cannot be empty.", "OK");
+                return;
+            }
+            else if (ActualPhoneNumber.Length > 15)
+            {
+                await page.DisplayAlert("Error!", "Please enter a valid mobile number!", "OK");
+                return;
+            }
+
+            Message = "Submitting Phone Number...";
+            IsBusy = true;
+            verifyEmailCommand?.ChangeCanExecute();
+
+            try
+            {
+                TransactionRequest trn = new TransactionRequest();
+                trn.Narrative = ActualPhoneNumber;
+
+                string Body = "";
+
+                Body += "Narrative=" + trn.Narrative;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/PhoneNumberVerification/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    if (response.ResponseCode == "00000")
+                    {
+                        try
+                        {
+                            await page.Navigation.PushAsync(new Views.Login.OTPPage(ActualPhoneNumber));
+                        }
+                        catch (Exception e)
+                        {
+                            await page.DisplayAlert("Error", e.Message, "OK");
+                        }
+                    }
+                    else
+                    {
+                        await page.DisplayAlert("Error", response.Description, "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await page.DisplayAlert("Email Error", "Unable to add your email address, please check your internet connection and try again.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                verifyEmailCommand?.ChangeCanExecute();
+            }
+        }
+
+        #endregion
+
+
+
         #region Verify
+
+        #region VerifyFormOTPCommand
+
+        Command verifyFormOTPCommand;
+        public Command VerifyFormOTPCommand
+        {
+            get
+            {
+                return verifyFormOTPCommand ??
+                    (verifyFormOTPCommand = new Command(async () => await ExecuteVerifyFormOTPCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteVerifyFormOTPCommand()
+        {
+            if (IsBusy)
+                return;
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                await page.DisplayAlert("Enter Verification Code", "Please enter the verification code sent to your mobile", "OK");
+                return;
+            }
+
+            Message = "Processing...";
+            IsBusy = true;
+            verifyFormOTPCommand?.ChangeCanExecute();
+
+            try
+            {
+                List<MenuItem> mnu = new List<MenuItem>();
+                TransactionRequest trn = new TransactionRequest();
+
+                AccessSettings acnt = new AccessSettings();
+                string pass = acnt.Password;
+                string uname = acnt.UserName;
+
+                phone = uname;
+
+                trn.CustomerAccount = phone + ":" + password;
+                trn.CustomerMSISDN = phone;
+                trn.Mpin = password;
+                trn.CustomerAccount = PhoneNumber;
+                trn.CustomerMSISDN = PhoneNumber;
+                trn.MTI = "0100";
+                trn.ProcessingCode = "220000";
+                trn.Narrative = phone + "_" + password;
+
+                string Body = "";
+                Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+                Body += "&Narrative=" + trn.Narrative;
+                Body += "&CustomerAccount=" + trn.CustomerAccount;
+                Body += "&ProcessingCode=" + trn.ProcessingCode;
+                Body += "&MTI=0100";
+                Body += "&Mpin=" + trn.Mpin;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    MenuItem mn = new MenuItem();
+
+                    if (response.ResponseCode == "00000")
+                    {
+                        // MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
+
+                        await page.DisplayAlert("Success", "OTP Successfully Verified!", "OK");
+
+                        HomeViewModel.fileUpload.FormId = HomeViewModel.fileUpload.FormId + 1;
+
+                        if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
+                        {
+                            string weblink = "http://192.168.100.150:5000/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
+                           HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+                           "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&RecordId=" + HomeViewModel.fileUpload.RecordId +
+                           "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";
+
+                            await page.Navigation.PushAsync(new WebviewHyubridConfirm(weblink, "OTP Verification", false, null, false));
+                        }
+                        else
+                        {
+                            string weblink = "http://192.168.100.150:5000/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
+                           HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+                           "&Customer=" + HomeViewModel.fileUpload.PhoneNumber +
+                           "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";
+
+                            await page.Navigation.PushAsync(new WebviewHyubridConfirm(weblink, "OTP Verification", false, null, false));
+                        }                       
+                    }
+                    else if (response.ResponseCode == "Error" || response.ResponseCode == "00008")
+                    {
+                        mn.Note = phone;
+                        await page.DisplayAlert("Error", "Failed to verify your OTP. Please try again the process.", "OK");
+                    }
+                    else
+                    {
+                        mn.Note = phone;
+                        await page.DisplayAlert("OTP Verification", "Failed to verify your OTP. Please try again the process.", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                await page.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                verifyEmailOTPCommand?.ChangeCanExecute();
+            }
+        }
+
+        #endregion
 
         Command verifyQuestionOTPCommand;
         public Command VerifyQuestionOTPCommand
@@ -1398,6 +1648,100 @@ namespace YomoneyApp
                 verifyQuestionOTPCommand?.ChangeCanExecute();
             }
         }
+
+        #region VerifyPhoneOTPCommand
+
+        Command verifyPhoneOTPCommand;
+        public Command VerifyPhoneOTPCommand
+        {
+            get
+            {
+                return verifyPhoneOTPCommand ??
+                    (verifyPhoneOTPCommand = new Command(async () => await ExecuteVerifyPhoneOTPCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        async Task ExecuteVerifyPhoneOTPCommand()
+        {
+            if (IsBusy)
+                return;
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                await page.DisplayAlert("Enter Verification Code", "Please enter the verification code sent to your mobile", "OK");
+                return;
+            }
+
+            Message = "Processing...";
+            IsBusy = true;
+            verifyPhoneOTPCommand?.ChangeCanExecute();
+
+            try
+            {
+                List<MenuItem> mnu = new List<MenuItem>();
+                TransactionRequest trn = new TransactionRequest();
+
+                trn.CustomerAccount = phone + ":" + password;
+                trn.CustomerMSISDN = phone;
+                trn.Mpin = password;
+                trn.CustomerAccount = PhoneNumber;
+                trn.CustomerMSISDN = PhoneNumber;
+                trn.MTI = "0100";
+                trn.ProcessingCode = "220000";
+                trn.Narrative = phone + "_" + password;
+
+                string Body = "";
+                Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+                Body += "&Narrative=" + trn.Narrative;
+                Body += "&CustomerAccount=" + trn.CustomerAccount;
+                Body += "&ProcessingCode=" + trn.ProcessingCode;
+                Body += "&MTI=0100";
+                Body += "&Mpin=" + trn.Mpin;
+
+                HttpClient client = new HttpClient();
+
+                var myContent = Body;
+
+                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+
+                    MenuItem mn = new MenuItem();
+
+                    if (response.ResponseCode == "00000")
+                    {
+                        // MessagingCenter.Send<string, string>("VerificationRequest", "VerifyMsg", "Verified");
+
+                        await page.Navigation.PushAsync(new PasswordReset(PhoneNumber, ""));
+                    }
+                    else if (response.ResponseCode == "Error" || response.ResponseCode == "00008")
+                    {
+                        mn.Note = phone;
+                        await page.DisplayAlert("Error", "Failed to verify your OTP. Please try again the process.", "OK");
+                    }
+                    else
+                    {
+                        mn.Note = phone;
+                        await page.DisplayAlert("OTP Verification", "Failed to verify your OTP.Please try again the process.", "OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                await page.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                verifyEmailOTPCommand?.ChangeCanExecute();
+            }
+        }
+
+        #endregion
 
         Command verifyEmailOTPCommand;
         public Command VerifyEmailOTPCommand
@@ -1765,11 +2109,17 @@ namespace YomoneyApp
 
                         await page.DisplayAlert("Password Reset", "Password Reset Successful", "OK");
 
+                        IsBusy = false;
+
                         await page.Navigation.PushAsync(new SignIn());
                     }
                     else
                     {
                         ResponseDescription = response.Description;
+
+                        await page.DisplayAlert("Error!", ResponseDescription, "OK");
+
+                        await page.Navigation.PushAsync(new SignIn());
                     }
                 }
             }
@@ -1777,6 +2127,8 @@ namespace YomoneyApp
             {
                 IsBusy = false;
                 await page.DisplayAlert("Oh Oooh :(", "Unable to reset password. Check you internet connection and  try again", "OK");
+
+                await page.Navigation.PushAsync(new SignIn());
             }
             finally
             {

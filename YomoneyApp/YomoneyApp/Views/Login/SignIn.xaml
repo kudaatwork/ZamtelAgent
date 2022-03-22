@@ -25,12 +25,12 @@
 
             <Grid>
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#df782d" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Frame BackgroundColor="#22b24c" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
                         <Image Source="image1.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,220,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="340" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="380" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label Text="SIGN IN" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
@@ -38,7 +38,7 @@
 
                             <StackLayout Margin="0,10,0,0">
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
                                         <Frame
                                             CornerRadius="10"
@@ -82,9 +82,9 @@
                                 </Frame>
 
 
-                                <Frame BackgroundColor="Transparent" BorderColor="#df782d" Padding="0" Margin="0,25,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,25,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
-                                        <Frame BackgroundColor="#df782d" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="password2.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
                                         <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Password" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
@@ -92,14 +92,14 @@
                                 </Frame>
                             </StackLayout>
 
-                            <Button x:Name="ButtonSignIn" Command="{Binding LoginCommand}" Clicked="ButtonSignIn_Clicked" Text="SIGN IN" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                            <Button x:Name="ButtonSignIn" Command="{Binding LoginCommand}" Clicked="ButtonSignIn_Clicked" Text="SIGN IN" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
 
                             <StackLayout Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Color="#79c606" Margin="0,15,0,0"></CheckBox>
+                                <CheckBox IsChecked="False" Color="#22b24c" Margin="0,15,0,0"></CheckBox>
                                 <Label Text="Remember Me" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="0,15,0,0"></Label>
 
-                                <Label Text="Forgot Password?" TextColor="#df782d" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,15,0,0" HorizontalOptions="EndAndExpand">
+                                <Label Text="Forgot Password?" TextColor="#22b24c" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,15,0,0" HorizontalOptions="EndAndExpand">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" NumberOfTapsRequired="1" />
                                     </Label.GestureRecognizers>
@@ -110,17 +110,24 @@
 
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
                                 <Label Text="Don't have an account?" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
-                                <Label Text="Sign Up" TextColor="#df782d" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                <Label Text="Sign Up" TextColor="#22b24c" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
                                     </Label.GestureRecognizers>
                                 </Label>
-
                             </StackLayout>
 
-                            <StackLayout>
-                                <BoxView BackgroundColor="White" HeightRequest="1" Margin="0,30,0,0" HorizontalOptions="CenterAndExpand"></BoxView>
-                                <Image Source="yoapp.png" Aspect="AspectFit" Margin="0" HeightRequest="90" WidthRequest="20"></Image>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                                <Label Text="Received your OTP?" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                                <Label Text="Enter OTP" TextColor="#22b24c" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" NumberOfTapsRequired="1" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+
+                            <StackLayout Grid.Row="2" Margin="0,64,0,0">
+                                <Image Source="icon.png" Aspect="AspectFit" Margin="0" HeightRequest="90" WidthRequest="20"></Image>
                             </StackLayout>
                         </StackLayout>
                     </Frame>

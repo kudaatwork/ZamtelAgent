@@ -22,7 +22,7 @@
                     <Label Margin="15,10,15,5" FontSize="Small" Text="Fill in your personal details and submit for verification. 
                        If you verify your account, you will get the benefit of getting the verified status on the app and get deals from people who will be able to trust you" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="Gray" />
 
-                    <Label Margin="15,5,0,0" FontSize="Small" Text="Gender" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                    <Label Margin="15,5,0,0" FontSize="Small" Text="Gender" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
                     <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,10,0,0" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" >
@@ -33,7 +33,7 @@
                         </StackLayout>
                     </Frame>
 
-                    <Label Margin="15,5,0,0" FontSize="Small" Text="Active Country" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                    <Label Margin="15,5,0,0" FontSize="Small" Text="Active Country" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
                     <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,10,0,0" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" >
@@ -44,7 +44,7 @@
                         </StackLayout>
                     </Frame>
 
-                    <Label Margin="15,5,0,0" FontSize="Small" Text="Date of Birth" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                    <Label Margin="15,5,0,0" FontSize="Small" Text="Date of Birth" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
 
                     <Frame BackgroundColor="Transparent" Grid.Row="2" BorderColor="Transparent" Padding="0" Margin="0,0,0,25" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" >
@@ -64,15 +64,15 @@
                         </StackLayout>
                     </Frame>
 
-                    <Button x:Name="btnPickPhoto" Clicked="btnPickPhoto_Clicked" BackgroundColor="#79c606" Text="UPLOAD ID OR PASSPORT" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+                    <Button x:Name="btnPickPhoto" Clicked="btnPickPhoto_Clicked" BackgroundColor="#22b24c" Text="UPLOAD ID OR PASSPORT" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
-                    <Label Margin="10,0,0,0" FontSize="15" Text="Recommended Size: 600 x 800 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                    <Label Margin="10,0,0,0" FontSize="15" Text="Recommended Size: 600 x 800 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
                     
                     <Image x:Name="FileImage" WidthRequest="300" HeightRequest="300"></Image>
 
-                    <Button x:Name="btnTakePhoto" Clicked="btnTakePhoto_Clicked" BackgroundColor="#79c606" Text="TAKE PHOTO" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
+                    <Button x:Name="btnTakePhoto" Clicked="btnTakePhoto_Clicked" BackgroundColor="#22b24c" Text="TAKE PHOTO" Margin="10,10,10,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"/>
 
-                    <Label Margin="10,0,0,0" FontSize="15" Text="Resized to: 200 x 200 (png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#df782d" />
+                    <Label Margin="10,0,0,0" FontSize="15" Text="Resized to: 200 x 200 (png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
                     
                     <Image x:Name="FileTaken" WidthRequest="300" HeightRequest="300"></Image>
 
@@ -80,7 +80,7 @@
             </ScrollView>
 
             <StackLayout  Padding="10" BackgroundColor="White">
-                    <Button x:Name="ButtonSubmitFeedback" Clicked="ButtonSubmitFeedback_Clicked" BackgroundColor="#79c606" IsEnabled="False" Text="SUBMIT" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
+                    <Button x:Name="ButtonSubmitFeedback" Clicked="ButtonSubmitFeedback_Clicked" BackgroundColor="#22b24c" IsEnabled="False" Text="SUBMIT" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="15"/>
                 </StackLayout>
             
 

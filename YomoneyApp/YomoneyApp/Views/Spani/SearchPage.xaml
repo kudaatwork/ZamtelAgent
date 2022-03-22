@@ -4,7 +4,7 @@
              x:Class="YomoneyApp.Views.Spani.SearchPage">
     <ContentPage.Content>
         <StackLayout  BackgroundColor="White" >
-            <StackLayout  Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+            <StackLayout  Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="#22b24c">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -54,7 +54,7 @@
                     VerticalTextAlignment="Start"   
 			        Text="Category"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Picker 
 			        x:Name="PickerStore"
@@ -66,7 +66,7 @@
                     VerticalTextAlignment="Start" 
 			        Text="Service"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Picker 
 			        x:Name="PickerSubcategory"
@@ -79,7 +79,7 @@
                 <Button 
                 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#df782d"
+			BackgroundColor="#22b24c"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Search"

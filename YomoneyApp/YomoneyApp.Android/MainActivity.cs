@@ -23,7 +23,7 @@ using FFImageLoading.Forms.Platform;
 
 namespace YomoneyApp.Droid
 {
-    [Activity(Label = "YoApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Zamtel Agent App", Icon = "@drawable/ic_launcher", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         const int RequestLocationId = 0;
@@ -33,7 +33,7 @@ namespace YomoneyApp.Droid
             Manifest.Permission.AccessCoarseLocation,
             Manifest.Permission.AccessFineLocation
         };
-
+               
         protected override void OnStart()
         {
             base.OnStart();
@@ -52,8 +52,7 @@ namespace YomoneyApp.Droid
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
-        {        
-
+        {           
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

@@ -11,6 +11,7 @@ using YomoneyApp.ViewModels.Countries;
 using Newtonsoft.Json;
 using YomoneyApp.Models;
 using YomoneyApp.Utils;
+using YomoneyApp.Views.Webview;
 
 namespace YomoneyApp.ViewModels.Login
 {
@@ -20,11 +21,16 @@ namespace YomoneyApp.ViewModels.Login
         AccountViewModel viewModel;
         CountryPickerViewModel countryPickerViewModel;
 
+        string HostDomain = "http://192.168.100.150:5000";
+        string webviewLink = "/Mobile/Forms?SupplierId=5-0001-0001052&serviceId=1&ActionId=3&FormNumber=9&Customer=263784607691&CallType=FirstTime";
+        string title = "Agent Sign Up";
+
         public SignIn()
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
             countryPickerViewModel = new CountryPickerViewModel(this);
+
         }
 
         #region Properties
@@ -40,12 +46,14 @@ namespace YomoneyApp.ViewModels.Login
         #region Tap Gestures
         async void OnTapGestureRecognizerTapped(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new ForgotPasswordOptionPage());
+            await Navigation.PushAsync(new PhoneNumberVerificationPage());
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new NewAccount());
+            //await Navigation.PushAsync(new NewAccount());
+
+            await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
         }
         #endregion
 
@@ -66,6 +74,11 @@ namespace YomoneyApp.ViewModels.Login
             //viewModel.SelectedCountry = countryPickerViewModel.SelectedCountry;
 
             viewModel.ExecuteGetCurrentGeolocationCommand();
+        }
+
+        private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

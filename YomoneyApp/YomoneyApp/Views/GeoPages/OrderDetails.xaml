@@ -33,7 +33,7 @@
                                 <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image}" VerticalOptions="Center"/>
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding Title}"  VerticalOptions="Center"/>
                                 <Label Grid.Row="0" Grid.Column="2" Text="{Binding Description}" VerticalOptions="Center" />
-                                <CheckBox Grid.Row="0" Grid.Column="3" IsChecked="{Binding IsShare}" Color="#79c606" VerticalOptions="Center" />
+                                <CheckBox Grid.Row="0" Grid.Column="3" IsChecked="{Binding IsShare}" Color="#22b24c" VerticalOptions="Center" />
 
                             </Grid>                            
                             
@@ -42,7 +42,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button x:Name="btnSubmit" Command="{Binding SaveChoicesCommand}" Clicked="btnSubmit_Clicked" Text="SUBMIT" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+            <Button x:Name="btnSubmit" Command="{Binding SaveChoicesCommand}" Clicked="btnSubmit_Clicked" Text="SUBMIT" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

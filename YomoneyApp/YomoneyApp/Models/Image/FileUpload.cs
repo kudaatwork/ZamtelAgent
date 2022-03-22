@@ -16,5 +16,6 @@ namespace YomoneyApp.Models.Image
         public long ActionId { get; set; }
         public string FormId { get; set; }
         public string FieldId { get; set; }
+        public string RecordId { get; set; }
     }
 }

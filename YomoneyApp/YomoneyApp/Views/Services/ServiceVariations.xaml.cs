@@ -20,7 +20,6 @@ namespace YomoneyApp.Views.Services
             get { return viewModel.ItemSelected; }
             set { viewModel.ItemSelected = value; }
         }
-
        
         public ServiceVariations(MenuItem selected)
         {

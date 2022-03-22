@@ -34,7 +34,7 @@ namespace YomoneyApp
 {
     public class ServiceViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         //string ProcessingCode = "350000";
 
         CancellationTokenSource cts;
@@ -72,6 +72,8 @@ namespace YomoneyApp
 
                 if (ItemSelected == null)
                 {
+                    var json = JsonConvert.SerializeObject(selectedOption);
+
                     page.Navigation.PushAsync(new ProviderServices(selectedOption));
                     selectedOption = null;
                     SelectedOption = null;
@@ -144,6 +146,8 @@ namespace YomoneyApp
 
                 if (ItemSelected == null)
                 {
+                    var json = JsonConvert.SerializeObject(selectedService);
+
                     page.Navigation.PushAsync(new ServiceActions(selectedService));
                     selectedService = null;
                     SelectedService = null;
@@ -1633,7 +1637,7 @@ namespace YomoneyApp
                 trn.CustomerAccount = uname + ":" + pass;
                 //trn.CustomerAccount = "263774090142:22398";
 
-                if (!string.IsNullOrEmpty(itm.WebLink))
+                 if (!string.IsNullOrEmpty(itm.WebLink))
                 {
                     if (itm.WebLink.Contains("/Mobile/") || itm.WebLink.Contains("/Mobile//"))
                     {

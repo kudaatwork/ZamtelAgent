@@ -60,9 +60,9 @@ namespace YomoneyApp.Views
         {
             AccessSettings acnt = new AccessSettings();
             string uname = acnt.UserName;
-            string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+            string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
 
-            Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#df782d",false));
+            Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#22b24c",false));
         }
 
         private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "My Services";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/myServices.jpg";
             menuItem.Section = "Yomoney";
             menuItem.ServiceId = 11;
             menuItem.SupplierId = "All";
@@ -85,7 +85,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "My Services";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/myServices.jpg";
             menuItem.Section = "Yomoney";
             menuItem.ServiceId = 11;
             menuItem.SupplierId = "All";
@@ -98,9 +98,9 @@ namespace YomoneyApp.Views
         {
             AccessSettings acnt = new AccessSettings();
             string uname = acnt.UserName;
-            string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+            string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
 
-            Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#df782d",false));
+            Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#22b24c",false));
         }
 
         private void TapGestureRecognizer_Tapped_4(object sender, EventArgs e)
@@ -108,7 +108,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "Loyalty Points";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/Loyalty.jpg";
             menuItem.Section = "Loyalty";
             menuItem.ServiceId = 1;
             menuItem.SupplierId = "All";
@@ -122,7 +122,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "Loyalty Points";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/Loyalty.jpg";
             menuItem.Section = "Loyalty";
             menuItem.ServiceId = 1;
             menuItem.SupplierId = "All";
@@ -134,9 +134,9 @@ namespace YomoneyApp.Views
         {
             AccessSettings acnt = new AccessSettings();
             string uname = acnt.UserName;
-            string link = "https://www.yomoneyservice.com/Mobile/PurchaseOrders?Id=" + uname;
+            string link = "http://192.168.100.150:5000/Mobile/PurchaseOrders?Id=" + uname;
 
-            Navigation.PushAsync(new WebviewHyubridConfirm(link, "Purchase Orders", true, "#df782d"));
+            Navigation.PushAsync(new WebviewHyubridConfirm(link, "Purchase Orders", true, "#22b24c"));
         }
 
         private async void Button_Clicked(object sender, EventArgs e)

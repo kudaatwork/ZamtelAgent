@@ -12,7 +12,7 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Color x:Key="Accent">#df782d</Color>
+            <Color x:Key="Accent">#22b24c</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -77,7 +77,7 @@
                     </StackLayout>
                 </Frame>
 
-                <Button x:Name="ButtonSignIn" Command="{Binding SubmitActiveCountryCommand}" Clicked="ButtonSignIn_Clicked" Text="SUBMIT" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"></Button>
+                <Button x:Name="ButtonSignIn" Command="{Binding SubmitActiveCountryCommand}" Clicked="ButtonSignIn_Clicked" Text="SUBMIT" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10"></Button>
             </StackLayout>
         </ScrollView>
     </Grid>

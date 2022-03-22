@@ -97,7 +97,7 @@
                                                IsVisible="{Binding Received}"
                                                 CornerRadius="10"
                                                 Padding="1"                                       
-                                                 BackgroundColor="#79c606"
+                                                 BackgroundColor="#22b24c"
                                                 AbsoluteLayout.LayoutFlags="XProportional">
 
                                             <Grid>
@@ -179,7 +179,7 @@
 
                         <Entry Grid.Row="0" Grid.Column="0" Placeholder="Message" VerticalOptions="End" Text="{Binding ChatMessage.ReceiverId}" IsVisible="False" />
 
-                        <Button Grid.Row="0" Grid.Column="1" x:Name="ButtonSubmitFeedback" Margin="0,0,5,5" BackgroundColor="#df782d" CornerRadius="30" BorderRadius="6"
+                        <Button Grid.Row="0" Grid.Column="1" x:Name="ButtonSubmitFeedback" Margin="0,0,5,5" BackgroundColor="#22b24c" CornerRadius="30" BorderRadius="6"
 			        TextColor="White" FontAttributes="Bold" Text="Send" CommandParameter="{Binding ChatMessage.ReceiverId}" Command="{Binding SendMessageCommand}"/>
                     </Grid>
                 </Grid>

@@ -6,8 +6,8 @@
 	         IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout Padding="10" BackgroundColor="White">
-            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#df782d">
-                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#df782d" IsVisible="{Binding IsBusy}">
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#22b24c">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#22b24c" IsVisible="{Binding IsBusy}">
                     <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
@@ -110,7 +110,7 @@
                     
                 </StackLayout>
             </ScrollView>
-            <Button x:Name="ButtonPayment" BackgroundColor="#79c606" Margin="0,10,0,0" Padding="0,15,0,15" FontAttributes="Bold" CornerRadius="15" BorderRadius="6"
+            <Button x:Name="ButtonPayment" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" FontAttributes="Bold" CornerRadius="15" BorderRadius="6"
 			TextColor="White" 	Text="Make Payment" CommandParameter="{Binding Meni}" Clicked="Voucher_Clicked"/>
         </StackLayout>
     </ContentPage.Content>

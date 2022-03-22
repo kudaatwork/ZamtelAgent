@@ -28,7 +28,7 @@ namespace YomoneyApp
     {
         public static FileUpload fileUpload = new FileUpload();
 
-        readonly string HostDomain = "https://www.yomoneyservice.com";
+        readonly string HostDomain = "http://192.168.100.150:5000";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";
@@ -47,7 +47,53 @@ namespace YomoneyApp
             //TemplateSelector = new MyTemplateSelector(); //new DataTemplate (typeof(MyView));            
         }
         public int Position { get; set; }
-     
+
+        #region Get Service Actions Command
+
+        private Command getServiceActionsCommand;
+
+        public Command GetServiceActionsCommand
+        {
+            get
+            {
+                return getServiceActionsCommand ??
+                    (getServiceActionsCommand = new Command(async () => await ExecuteGetServiceActionsCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetServiceActionsCommand()
+        {
+            // advertising request 
+            if (IsBusy)
+                return;
+
+            IsBusy = false;
+         
+            try
+            {
+                MenuItem menuItem = new MenuItem();
+
+                menuItem.Id = "1";
+                menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                menuItem.Title = "SIM CARD MANAGEMENT";
+                menuItem.Description = "SIM CARD MANAGEMENT";
+                menuItem.Section = "Service";
+                menuItem.Note = "ZAMTEL";
+                menuItem.ServiceId = 1;
+                menuItem.TransactionType = 12;
+                menuItem.SupplierId = "5-0001-0001052";
+                //menuItem.date = "0001-01-01T00:00:00";
+
+                await page.Navigation.PushAsync(new ServiceActions(menuItem));
+            }
+            catch (Exception ex)
+            {
+                showAlert = true;
+            }
+        }
+
+        #endregion
+
         private Command getStoresCommand;
 
         public Command GetStoresCommand
@@ -448,6 +494,13 @@ namespace YomoneyApp
                 var fieldId = parts[5];
                 var phoneNumber = parts[6];
 
+                string recordId = string.Empty;
+
+                if (parts.Length == 8)
+                {
+                    recordId = parts[7];
+                }
+                
                 MenuItem menuItem = new MenuItem();
 
                 switch (purpose)
@@ -460,8 +513,8 @@ namespace YomoneyApp
                         fileUpload.ActionId = Convert.ToInt64(actionId);
                         fileUpload.FormId = formId;
                         fileUpload.FieldId = fieldId;
-                        fileUpload.PhoneNumber = phoneNumber;
-
+                        fileUpload.PhoneNumber = phoneNumber;                       
+                        
                         //await serviceViewModel.ExecuteRenderActionCommand(null);
 
                         menuItem.ActionId = fileUpload.ActionId;
@@ -507,6 +560,58 @@ namespace YomoneyApp
                     case "PAYMENT":
                         break;
 
+                    case "CAMERA":
+
+                        fileUpload.Purpose = purpose;
+                        fileUpload.SupplierId = supplier;
+                        fileUpload.ServiceId = Convert.ToInt64(serviceId);
+                        fileUpload.ActionId = Convert.ToInt64(actionId);
+                        fileUpload.FormId = formId;
+                        fileUpload.FieldId = fieldId;
+                        fileUpload.PhoneNumber = phoneNumber;
+
+                        //await serviceViewModel.ExecuteRenderActionCommand(null);
+
+                        menuItem.ActionId = fileUpload.ActionId;
+                        menuItem.ServiceId = fileUpload.ServiceId;
+                        menuItem.SupplierId = fileUpload.SupplierId;
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new TakePhoto(menuItem));
+                        });
+
+                        break;
+
+                    case "OTP":
+
+                        fileUpload.Purpose = purpose;
+                        fileUpload.SupplierId = supplier;
+                        fileUpload.ServiceId = Convert.ToInt64(serviceId);
+                        fileUpload.ActionId = Convert.ToInt64(actionId);
+                        fileUpload.FormId = formId;
+                        fileUpload.FieldId = fieldId;
+                        fileUpload.PhoneNumber = phoneNumber;
+
+                        if (!string.IsNullOrEmpty(recordId))
+                        {
+                            fileUpload.RecordId = recordId;
+                        }
+
+                        //await serviceViewModel.ExecuteRenderActionCommand(null);
+
+                        menuItem.ActionId = fileUpload.ActionId;
+                        menuItem.ServiceId = fileUpload.ServiceId;
+                        menuItem.SupplierId = fileUpload.SupplierId;
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new VerifyOTP(menuItem));
+                        });
+
+                        break;
+
+                        break;
 
                     case "SCAN":
 

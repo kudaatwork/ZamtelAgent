@@ -15,14 +15,14 @@ using YomoneyApp.Droid;
 namespace MyShop.Droid
 {
    // [Activity(Label = "SplashActivity")]
-    [Activity(Label = "YoApp", Theme = "@style/Theme.Splash", MainLauncher = true,
-         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
-        NoHistory = true)]
+    [Activity(Label = "Zamtel Agent App", Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true)]
     public class SplashActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            System.Threading.Thread.Sleep(1500);
             StartActivity(typeof(MainActivity));
         }                
     }

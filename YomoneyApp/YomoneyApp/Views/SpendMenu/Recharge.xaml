@@ -64,7 +64,7 @@
 			        Grid.Row="1"
 			        FontSize="Medium"
 			        Text="Request Title"
-			        TextColor="#df782d"
+			        TextColor="#22b24c"
                     BackgroundColor="Transparent"
 			        VerticalOptions="Center"  />
 
@@ -79,7 +79,7 @@
 			        FontSize="Medium"
 			        Text="Category"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Picker 
 			        x:Name="PickerStore"
@@ -92,7 +92,7 @@
 			        FontSize="Medium"
 			        Text="Service"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Picker 
 			        x:Name="PickerSubcategory"
@@ -103,7 +103,7 @@
 			        Grid.Row="7"
 			        FontSize="Medium"
 			        Text="Budget $"
-			        TextColor="#df782d"
+			        TextColor="#22b24c"
 			        VerticalOptions="Center" />
 
                     <Entry 
@@ -128,7 +128,7 @@
 			        Grid.Row="11"
 			        FontSize="Medium"
 			        Text="Description"
-			        TextColor="#df782d"
+			        TextColor="#22b24c"
                     BackgroundColor="Transparent"
 			        VerticalOptions="Center"  />
 
@@ -145,7 +145,7 @@
             </ScrollView>
             <Button 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#df782d"
+			BackgroundColor="#22b24c"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Submit"

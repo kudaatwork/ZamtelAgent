@@ -7,7 +7,7 @@
 	         IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout BackgroundColor="White">
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#22b24c">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>

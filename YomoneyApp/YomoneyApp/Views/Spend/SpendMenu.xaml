@@ -57,7 +57,7 @@
                                              Padding="8"
                                              Spacing="4"
                                              VerticalOptions="Center">
-                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d" LineBreakMode="NoWrap"/>
+                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#22b24c" LineBreakMode="NoWrap"/>
                                     <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                 </StackLayout>
                             </Grid>

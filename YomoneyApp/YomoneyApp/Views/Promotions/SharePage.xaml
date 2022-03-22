@@ -33,7 +33,7 @@
                     <Button
                         IsVisible="{Binding IsShare}"
                         Grid.Row="4" 
-			            BackgroundColor="#df782d"
+			            BackgroundColor="#22b24c"
 			            BorderRadius="6"
 			            TextColor="White" 
 			            Text="Share Advert"

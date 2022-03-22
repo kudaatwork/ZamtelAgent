@@ -23,7 +23,7 @@
             </StackLayout>
             
             <StackLayout Padding="15,10,15,0">
-                <Button HorizontalOptions="FillAndExpand" BackgroundColor="#79c606" Clicked="AwardedClicked" Text="MY AWARDED JOBS" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10" CommandParameter="{Binding Id}"/>               
+                <Button HorizontalOptions="FillAndExpand" BackgroundColor="#22b24c" Clicked="AwardedClicked" Text="MY AWARDED JOBS" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="10" CommandParameter="{Binding Id}"/>               
             </StackLayout>
             
             <ListView
@@ -66,7 +66,7 @@
                                         IsVisible="{Binding IsEmptyList}">
                                         <controls:CircleImage VerticalOptions="Center"
                                           HorizontalOptions="Center" 
-                                              BorderColor="#df782d"
+                                              BorderColor="#22b24c"
                                               BorderThickness="2"
                                               Aspect="AspectFill">
                                             <controls:CircleImage.WidthRequest>
@@ -79,7 +79,7 @@
                                                 <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
                                             </controls:CircleImage.Source>
                                         </controls:CircleImage>
-                                        <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#df782d"  LineBreakMode="WordWrap" />
+                                        <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#22b24c"  LineBreakMode="WordWrap" />
                                     </StackLayout>
                               
                                 
@@ -90,11 +90,11 @@
                                              IsVisible="{Binding IsAdvert}">
 
                                     <Image  Source="{Binding Image}" HorizontalOptions="FillAndExpand"/>
-                                    <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
+                                    <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#22b24c"  LineBreakMode="NoWrap"/>
                                     <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
 
                                     <Button
-			                                 BackgroundColor="#df782d"
+			                                 BackgroundColor="#22b24c"
 			                                 BorderRadius="6"
 			                                 TextColor="White" 
 			                                 Text="{Binding SupplierId}"
@@ -110,12 +110,12 @@
                                              VerticalOptions="Center"
                                               IsVisible="{Binding IsNotAdvert}">
 
-                                        <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d"  LineBreakMode="NoWrap"/>
-                                        <Label  Text="{Binding Section}" TextColor="#79c606"  FontSize="Default" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
+                                        <Label  Text="{Binding Title}" FontSize="Medium"  TextColor="#22b24c"  LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Section}" TextColor="#22b24c"  FontSize="Default" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
                                         <Label  Text="{Binding Note}" TextColor="Gray"  FontSize="Small"  LineBreakMode="NoWrap"/>
                                         <Label  Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                         <Label  Text="{Binding Count, StringFormat='Quotes {0}'}" TextColor="Gray"  FontSize="Small" LineBreakMode="NoWrap"/>
-                                        <Label  Text="{Binding Amount}" TextColor="#79c606" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
+                                        <Label  Text="{Binding Amount}" TextColor="#22b24c" FontAttributes="Bold" FontSize="Small" LineBreakMode="NoWrap"/>
 
                                         <Grid RowSpacing="0">
                                             <Grid.RowDefinitions>
@@ -125,10 +125,10 @@
                                                 <ColumnDefinition Width="1*"/>
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Row="0" Grid.Column="0" Text="Job Open" TextColor="#79c606" HorizontalOptions="Start"  FontSize="Small" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
+                                            <Label Grid.Row="0" Grid.Column="0" Text="Job Open" TextColor="#22b24c" HorizontalOptions="Start"  FontSize="Small" FontAttributes="Bold"  LineBreakMode="WordWrap"/>
                                             <Button
                                              Grid.Row="0" Grid.Column="1"
-			                                 BackgroundColor="#df782d"
+			                                 BackgroundColor="#22b24c"
 			                                 BorderRadius="6"
 			                                 TextColor="White" 
 			                                 Text="{Binding SupplierId}"

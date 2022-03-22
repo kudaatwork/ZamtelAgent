@@ -3,6 +3,8 @@
   <domain-config cleartextTrafficPermitted="true">
     <domain includeSubdomains="true">192.168.100.172</domain> <!-- Debug port -->
     <domain includeSubdomains="true">102.130.120.163</domain>
+    <domain includeSubdomains="true">192.168.100.150</domain>
     <!-- Debug port -->
   </domain-config>
+  <base-config cleartextTrafficPermitted="false"/>
 </network-security-config>

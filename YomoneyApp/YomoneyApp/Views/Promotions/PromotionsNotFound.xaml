@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="YomoneyApp.Views.Promotions.PromotionsNotFound">
     <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+        <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#22b24c">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>                    

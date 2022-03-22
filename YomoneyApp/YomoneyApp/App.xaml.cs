@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YomoneyApp.Services;
 using YomoneyApp.Views.Login;
+using YomoneyApp.Views.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace YomoneyApp
@@ -25,13 +26,51 @@ namespace YomoneyApp
             ChatServices sigChat = new ChatServices();
            
             if (!string.IsNullOrEmpty(pass))
-            {               
+            {
+
+                //MenuItem menuItem = new MenuItem();
+
+                //menuItem.Id = "1";
+                //menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                //menuItem.Title = "SIM CARD MANAGEMENT";
+                //menuItem.Description = "SIM CARD MANAGEMENT";
+                //menuItem.Section = "Service";
+                //menuItem.Note = "ZAMTEL";
+                //menuItem.ServiceId = 1;
+                //menuItem.TransactionType = 12;
+                //menuItem.SupplierId = "5-0001-0001052";
+                //menuItem.date = "0001-01-01T00:00:00";
+
+                //await page.Navigation.PushAsync(new ServiceActions(menuItem));
+
+
+                #region Load Services
+                MenuItem menuItem = new MenuItem();
+
+                menuItem.Id = "1";
+                menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                menuItem.Title = "WAFAYA";
+                menuItem.Note = "BANKING";
+                menuItem.TransactionType = 12;
+                menuItem.SupplierId = "5-0001-0001052";
+                //menuItem.date = "0001-01-01T00:00:00";
+
+                //await page.Navigation.PushAsync(new ProviderServices(menuItem));
+                #endregion
+
+
                 // cvm.GetSupportCommand.Execute(null);
-                MainPage = new NavigationPage(new HomePage())
+                MainPage = new NavigationPage(new ProviderServices(menuItem))
                 {
                     BarTextColor = Color.White,
-                    BarBackgroundColor = Color.FromHex("#df782d")
+                    BarBackgroundColor = Color.FromHex("#22b24c")
                 };
+
+                //MainPage = new NavigationPage(new HomePage())
+                //{
+                //    BarTextColor = Color.White,
+                //    BarBackgroundColor = Color.FromHex("#22b24c")
+                //};
 
                 Device.StartTimer(TimeSpan.FromSeconds(30), () =>
                 {
@@ -45,7 +84,7 @@ namespace YomoneyApp
                 MainPage = new NavigationPage(new AccountMain())
                 {
                     BarTextColor = Color.White,
-                    BarBackgroundColor = Color.FromHex("#df782d")
+                    BarBackgroundColor = Color.FromHex("#22b24c")
                 };
 
             }

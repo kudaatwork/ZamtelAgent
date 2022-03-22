@@ -7,8 +7,8 @@
 	  IsBusy="{Binding IsBusy}">
     <ContentPage.Content>
         <StackLayout BackgroundColor="White">
-            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#df782d">
-                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#df782d" IsVisible="{Binding IsBusy}">
+            <StackLayout HorizontalOptions="FillAndExpand"  BackgroundColor="#22b24c">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" BackgroundColor="#22b24c" IsVisible="{Binding IsBusy}">
                     <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
 						   IsVisible="{Binding IsBusy}"/>
@@ -16,7 +16,7 @@
 	    	        VerticalOptions="Center" 
 	    	        Text="{Binding Message}"/>
                 </StackLayout>
-                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#df782d">
+                <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#22b24c">
                     <Label Text="{Binding Balance}" HorizontalOptions="Center"   FontSize="45" TextColor="White"  LineBreakMode="NoWrap"/>
                     <Label Text="Credit Balance" FontSize="Medium" HorizontalOptions="Center"  TextColor="White"  LineBreakMode="NoWrap"/>
                 </StackLayout>
@@ -31,7 +31,7 @@
 			        Text="Payment Option"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Picker 
 			        x:Name="PickerStore"
@@ -43,7 +43,7 @@
 			        Text="Topup Amount $"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Entry 
 			        Text="{Binding Budget}" 
@@ -57,7 +57,7 @@
 			        Text="Account Number"
                     BackgroundColor="Transparent"
                     IsVisible="{Binding ShowNavigation}"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Entry 
 			        Text="{Binding PhoneNumber}" 
@@ -69,7 +69,7 @@
             </ScrollView>
             <Button 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#df782d"
+			BackgroundColor="#22b24c"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Topup Account"

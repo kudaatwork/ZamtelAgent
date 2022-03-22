@@ -5,8 +5,8 @@
              xmlns:design="clr-namespace:YomoneyApp;assembly=YomoneyApp"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#df782d" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+        <StackLayout BackgroundColor="#22b24c" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#22b24c">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>

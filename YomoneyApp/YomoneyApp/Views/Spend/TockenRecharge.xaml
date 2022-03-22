@@ -24,7 +24,7 @@
 			        Text="Service Provider"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Picker 
 			        x:Name="PickerStore"
@@ -38,7 +38,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Amount"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
 
                     <Picker 
 			        x:Name="PickerAmount"
@@ -51,7 +51,7 @@
                     VerticalTextAlignment="Center"
 			        Text="Send Sms Response"
                     BackgroundColor="Transparent" 
-			        TextColor="#df782d" />
+			        TextColor="#22b24c" />
                     <Switch   HorizontalOptions="Start"  VerticalOptions="End" IsToggled="{Binding SendSms}"/>
 
                     <Label
@@ -60,7 +60,7 @@
 			        Text="Subscriber Number"
                     VerticalTextAlignment="Center"
                     BackgroundColor="Transparent"
-			        TextColor="#df782d" 
+			        TextColor="#22b24c" 
                     IsVisible="{Binding SendSms}"/>
 
                     <Entry 
@@ -76,7 +76,7 @@
             </ScrollView>
             <Button 
 			x:Name="ButtonSubmitFeedback"
-			BackgroundColor="#df782d"
+			BackgroundColor="#22b24c"
 			BorderRadius="6"
 			TextColor="White" 
 			Text="Recharge"

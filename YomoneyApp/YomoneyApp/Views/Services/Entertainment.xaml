@@ -44,7 +44,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <controls:CircleImage VerticalOptions="Center"
-                                            BorderColor="#df782d"
+                                            BorderColor="#22b24c"
                                             BorderThickness="2"
                                             Aspect="AspectFill">
                                     <controls:CircleImage.WidthRequest>
@@ -62,7 +62,7 @@
                                             Spacing="4"
                                             VerticalOptions="Center" >
 
-                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#df782d" LineBreakMode="NoWrap"/>
+                                    <Label Text="{Binding Title}" FontSize="Medium"  TextColor="#22b24c" LineBreakMode="NoWrap"/>
                                     <Label Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -84,7 +84,7 @@
                                 </Grid>
 
                                 <Image Source="{Binding Image}" IsVisible="{Binding IsAdvert}" HorizontalOptions="FillAndExpand"/>
-                                <Label Text="{Binding Title}" IsVisible="{Binding IsAdvert}" FontSize="Medium"  TextColor="#df782d" LineBreakMode="NoWrap"/>
+                                <Label Text="{Binding Title}" IsVisible="{Binding IsAdvert}" FontSize="Medium"  TextColor="#22b24c" LineBreakMode="NoWrap"/>
                                 <Label  IsVisible="{Binding IsAdvert}" Text="{Binding Description}" TextColor="Gray"  FontSize="Small" LineBreakMode="WordWrap"/>
                             </StackLayout>
                         </ViewCell>

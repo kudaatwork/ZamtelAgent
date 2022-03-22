@@ -8,7 +8,7 @@
 	         IsBusy="{Binding IsBusy}">
      <ContentPage.Content>
         <StackLayout>
-            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#df782d">
+            <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#22b24c">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -49,7 +49,7 @@
                 <StackLayout HorizontalOptions="CenterAndExpand"  BackgroundColor="#FFF">
                     <controls:CircleImage VerticalOptions="Center"
                                           HorizontalOptions="Center" 
-                                              BorderColor="#df782d"
+                                              BorderColor="#22b24c"
                                               BorderThickness="2"
                                               Aspect="AspectFill">
                         <controls:CircleImage.WidthRequest>
@@ -62,7 +62,7 @@
                             <UriImageSource Uri="{Binding Image}" CacheValidity="14" CachingEnabled="true"/>
                         </controls:CircleImage.Source>
                     </controls:CircleImage>
-                    <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#df782d"  LineBreakMode="WordWrap" />
+                    <Label Text="{Binding Description}" FontSize="Medium" HorizontalOptions="Center"  TextColor="#22b24c"  LineBreakMode="WordWrap" />
                 </StackLayout>
             </StackLayout>
           
