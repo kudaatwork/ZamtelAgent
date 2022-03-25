@@ -28,7 +28,7 @@ namespace YomoneyApp
     {
         public static FileUpload fileUpload = new FileUpload();
 
-        readonly string HostDomain = "http://192.168.100.150:5000";
+        readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
         string Latitude = "";
         string Longitude = "";
@@ -74,7 +74,7 @@ namespace YomoneyApp
                 MenuItem menuItem = new MenuItem();
 
                 menuItem.Id = "1";
-                menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
                 menuItem.Title = "SIM CARD MANAGEMENT";
                 menuItem.Description = "SIM CARD MANAGEMENT";
                 menuItem.Section = "Service";
@@ -521,6 +521,11 @@ namespace YomoneyApp
                         menuItem.ServiceId = fileUpload.ServiceId;
                         menuItem.SupplierId = fileUpload.SupplierId;
 
+                        if (!string.IsNullOrEmpty(recordId))
+                        {
+                            fileUpload.RecordId = recordId;
+                        }
+
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             await App.Current.MainPage.Navigation.PushAsync(new SignaturePage(menuItem));
@@ -545,6 +550,11 @@ namespace YomoneyApp
                         menuItem.ActionId = fileUpload.ActionId;
                         menuItem.ServiceId = fileUpload.ServiceId;
                         menuItem.SupplierId = fileUpload.SupplierId;
+
+                        if (!string.IsNullOrEmpty(recordId))
+                        {
+                            fileUpload.RecordId = recordId;
+                        }
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
@@ -575,6 +585,11 @@ namespace YomoneyApp
                         menuItem.ActionId = fileUpload.ActionId;
                         menuItem.ServiceId = fileUpload.ServiceId;
                         menuItem.SupplierId = fileUpload.SupplierId;
+
+                        if (!string.IsNullOrEmpty(recordId))
+                        {
+                            fileUpload.RecordId = recordId;
+                        }
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
@@ -609,9 +624,7 @@ namespace YomoneyApp
                             await App.Current.MainPage.Navigation.PushAsync(new VerifyOTP(menuItem));
                         });
 
-                        break;
-
-                        break;
+                        break;                       
 
                     case "SCAN":
 
@@ -628,6 +641,11 @@ namespace YomoneyApp
                         menuItem.ActionId = fileUpload.ActionId;
                         menuItem.ServiceId = fileUpload.ServiceId;
                         menuItem.SupplierId = fileUpload.SupplierId;
+
+                        if (!string.IsNullOrEmpty(recordId))
+                        {
+                            fileUpload.RecordId = recordId;
+                        }
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {

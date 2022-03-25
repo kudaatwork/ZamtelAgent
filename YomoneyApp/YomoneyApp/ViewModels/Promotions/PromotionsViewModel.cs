@@ -86,7 +86,7 @@ namespace YomoneyApp
             }
         }
 
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
         public ObservableRangeCollection<MenuItem> ServiceProviders { get; set; }
         public ObservableRangeCollection<MenuItem> ServiceOptions { get; set; }
@@ -1394,7 +1394,7 @@ namespace YomoneyApp
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "http://192.168.100.150:5000/Content/notify/notify.mp3";
+                            it.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";
                         }
                         else
                         {
@@ -1406,7 +1406,7 @@ namespace YomoneyApp
 
                         if (string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png"; ;
+                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
                         }
                     }
 
@@ -1562,13 +1562,13 @@ namespace YomoneyApp
                                 {
                                     it.IsAdvert = true;
                                     it.IsNotAdvert = false;
-                                    it.Media = "http://192.168.100.150:5000/Content/notify/notify.mp3";
+                                    it.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";
                                 }
                                 else if (it.MediaType.Trim() == "Image")
                                 {
                                     it.IsAdvert = true;
                                     it.IsNotAdvert = false;
-                                    it.Media = "http://192.168.100.150:5000/Content/notify/notify.mp3";                                    
+                                    it.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";                                    
                                 }
                                 else
                                 {
@@ -1580,7 +1580,7 @@ namespace YomoneyApp
 
                                 if (string.IsNullOrEmpty(it.UserImage))
                                 {
-                                    it.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png";
+                                    it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png";
                                 }
 
                                 if (it.Status.Trim() == "Active")
@@ -1614,10 +1614,10 @@ namespace YomoneyApp
                             menuItem.SupplierId = "5-0001-0000000";
                             menuItem.Title = "Create your own Promotion";
                             menuItem.TransactionType = 23;
-                            menuItem.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png";
+                            menuItem.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png";
                             menuItem.IsAdvert = true;
                             menuItem.IsNotAdvert = false;
-                            menuItem.Media = "http://192.168.100.150:5000/Content/notify/notify.mp3";
+                            menuItem.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";
 
                             servics.Add(menuItem);
                         }
@@ -1638,10 +1638,10 @@ namespace YomoneyApp
                         menuItem.SupplierId = "5-0001-0000000";
                         menuItem.Title = "Create your own Promotion";
                         menuItem.TransactionType = 23;
-                        menuItem.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png";
+                        menuItem.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png";
                         menuItem.IsAdvert = true;
                         menuItem.IsNotAdvert = false;
-                        menuItem.Media = "http://192.168.100.150:5000/Content/notify/notify.mp3";
+                        menuItem.Media = "https://www.yomoneyservice.com/Content/notify/notify.mp3";
 
                         menuItems.Add(menuItem);
 
@@ -2234,7 +2234,7 @@ namespace YomoneyApp
                         {
                             it.IsAdvert = true;
                             it.IsNotAdvert = false;
-                            it.Media = "http://192.168.100.150:5000/Content//notify//notify.mp3";
+                            it.Media = "https://www.yomoneyservice.com/Content//notify//notify.mp3";
                         }
                         else
                         {
@@ -2245,7 +2245,7 @@ namespace YomoneyApp
                         }
                         if (string.IsNullOrEmpty(it.UserImage))
                         {
-                            it.UserImage = "http://192.168.100.150:5000/Content/Administration/images/user.png"; ;
+                            it.UserImage = "https://www.yomoneyservice.com/Content/Administration/images/user.png"; ;
                         }
                     }
                     SearchResults.ReplaceRange(servics);

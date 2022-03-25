@@ -59,14 +59,14 @@ namespace YomoneyApp.Views.QRScan
                     //fileUpload.Type = "";
                     fileUpload.PhoneNumber = uname;
                     //fileUpload.Image = "";
-                    fileUpload.Purpose = HomeViewModel.fileUpload.Purpose.ToLower();
+                    fileUpload.Purpose = "FORMS";
                     fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
                     fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
                     fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
                     fileUpload.FormId = HomeViewModel.fileUpload.FormId;
                     fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
 
-                    string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                    string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                     var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                     httpWebRequest.ContentType = "application/json";
                     httpWebRequest.Method = "POST";
@@ -100,7 +100,7 @@ namespace YomoneyApp.Views.QRScan
                                     //viewModel.IsBusy = false;
                                     //FileImage.Source = null;
 
-                                    await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000" + serverresult, "File Upload", false, null));
+                                    await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
                                 });
                             }
                             else
@@ -168,7 +168,7 @@ namespace YomoneyApp.Views.QRScan
                 fileUpload.FormId = HomeViewModel.fileUpload.FormId;
                 fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
 
-                string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
@@ -199,7 +199,7 @@ namespace YomoneyApp.Views.QRScan
                             //viewModel.IsBusy = false;
                             //FileImage.Source = null;
 
-                            await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000" + serverresult, "File Upload", false, null));
+                            await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
 
                             //Device.BeginInvokeOnMainThread(async () =>
                             //{

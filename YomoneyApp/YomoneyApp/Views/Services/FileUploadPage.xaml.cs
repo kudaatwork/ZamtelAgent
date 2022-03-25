@@ -35,7 +35,7 @@ namespace YomoneyApp.Views.Services
         ServiceViewModel viewModel;
         MenuItem SelectedItem;
         private MediaFile _mediaFile;
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         public FileUploadPage(MenuItem mnu)
         {
@@ -193,7 +193,7 @@ namespace YomoneyApp.Views.Services
             //    httpWebRequest.Timeout = 120000;
             //    //httpWebRequest.CookieContainer = new CookieContainer();
             //    //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-            //    //cookie.Domain = "http://192.168.100.150:5000";
+            //    //cookie.Domain = "https://www.yomoneyservice.com";
             //    //httpWebRequest.CookieContainer.Add(cookie);
 
             //    var json = JsonConvert.SerializeObject(fileUpload);
@@ -236,7 +236,7 @@ namespace YomoneyApp.Views.Services
             //if (saved)
             //{
             //    await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
-            //    //await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+            //    //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
             //    await Navigation.PushAsync(new HomePage());
             //}
             //else
@@ -310,7 +310,7 @@ namespace YomoneyApp.Views.Services
                         fileUpload.ActionId = 0;
                         fileUpload.SupplierId = "";
 
-                        string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                         var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                         httpWebRequest.ContentType = "application/json";
                         httpWebRequest.Method = "POST";
@@ -339,7 +339,7 @@ namespace YomoneyApp.Views.Services
                                     await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
                                     viewModel.IsBusy = false;
                                     FileImage.Source = null;
-                                    await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000" + serverresult, "My Profile", false, null));
+                                    await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "My Profile", false, null));
                                 }
                                 else
                                 {
@@ -547,7 +547,7 @@ namespace YomoneyApp.Views.Services
         //    if (saved)
         //    {
         //        await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
-        //        //await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+        //        //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
         //        await Navigation.PushAsync(new HomePage());
         //    }
         //    else
@@ -584,7 +584,7 @@ namespace YomoneyApp.Views.Services
         //     formData.Add(new StreamContent(_mediaFile.GetStream()),
         //"\"file\"",
         //$"\"{_mediaFile.Path}\"");
-        //     var uploadBaseAddress = "http://192.168.100.150:5000/api/Vend/Upload";
+        //     var uploadBaseAddress = "https://www.yomoneyservice.com/api/Vend/Upload";
 
         //    // content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
         //     //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;

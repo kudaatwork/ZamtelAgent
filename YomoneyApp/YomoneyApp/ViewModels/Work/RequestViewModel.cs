@@ -83,7 +83,7 @@ namespace YomoneyApp
             }
         }
 
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         string ProcessingCode = "350000";
      
         readonly IDataStore dataStore;
@@ -1181,7 +1181,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no active service requests";
-                        mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1358,7 +1358,7 @@ namespace YomoneyApp
                         {
                             mn = new YomoneyApp.MenuItem();
                             mn.Description = "You have no active service requests";
-                            mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
+                            mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                             mn.HasProducts = false; // use it as show navigation
                             mn.IsEmptyList = true;
                             List<MenuItem> resp = new List<MenuItem>();
@@ -1566,7 +1566,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "Be the first to post a request";
-                        mn.Image = "http://192.168.100.150:5000/Content/Spani/Images/Oppotunity.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Oppotunity.jpg";
                         mn.HasProducts = false; // use it as show navigation
                         mn.IsEmptyList = true;
                         List<MenuItem> resp = new List<MenuItem>();
@@ -1866,7 +1866,7 @@ namespace YomoneyApp
                 if (!string.IsNullOrEmpty(SupplierId))
                 {                   
 
-                    await page.Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + SupplierId, "My Profile", false, null,true));
+                    await page.Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + SupplierId, "My Profile", false, null,true));
 
                 }
             }
@@ -2029,7 +2029,7 @@ namespace YomoneyApp
                         
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no quoted requests";
-                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotes";
                         mn.IsEmptyList = true;
@@ -2210,7 +2210,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Quotations";
                         //List<MenuItem> resp = new List<MenuItem>();
@@ -2375,7 +2375,7 @@ namespace YomoneyApp
                     {
                         MenuItem mn = new YomoneyApp.MenuItem();
                         mn.Description = "You have no request quotations";
-                        mn.Image = "http://192.168.100.150:5000/content/Spani/images/bid.jpg";
+                        mn.Image = "https://www.yomoneyservice.com/content/Spani/images/bid.jpg";
                         mn.HasProducts = false;
                         mn.Title = "Request Quotes";
                         List<MenuItem> resp = new List<MenuItem>();

@@ -22,7 +22,7 @@ namespace YomoneyApp.Views.Services
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignaturePage : ContentPage
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         MenuItem SelectedItem;
         private Point[] points;
@@ -204,21 +204,30 @@ namespace YomoneyApp.Views.Services
                         }
 
                         fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
-                        fileUpload.Purpose = HomeViewModel.fileUpload.Purpose;
+                        fileUpload.Purpose = "FORMS";
                         fileUpload.FormId = HomeViewModel.fileUpload.FormId;
                         fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
 
+                        if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
+                        {
+                            fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
+                        }
+                        else
+                        {
+                            fileUpload.RecordId = "0";
+                        }
+
                         try
                         {
-                            string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader?user=" + uname + ":" + pass + "&upType=Signature");
+                            string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                             httpWebRequest.ContentType = "application/json";
                             httpWebRequest.Method = "POST";
                             httpWebRequest.Timeout = 120000;
-                            //httpWebRequest.CookieContainer = new CookieContainer();
-                            //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                            //cookie.Domain = "http://192.168.100.150:5000";
-                            //httpWebRequest.CookieContainer.Add(cookie);
+                            httpWebRequest.CookieContainer = new CookieContainer();
+                            Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                            cookie.Domain = "www.yomoneyservice.com";
+                            httpWebRequest.CookieContainer.Add(cookie);
 
                             var json = JsonConvert.SerializeObject(fileUpload);
 
@@ -234,13 +243,13 @@ namespace YomoneyApp.Views.Services
                                 {
                                     var result2 = streamReader.ReadToEnd();
 
-                                    var resultResponse = JsonConvert.DeserializeObject<string>(result2);
+                                    //var resultResponse = JsonConvert.DeserializeObject<string>(result2);
 
-                                    if (!resultResponse.Contains("Error"))
+                                    if (!result2.Contains("Error"))
                                     {
                                         viewModel.IsBusy = false;
-                                        await DisplayAlert("Signature Pad", "Raster signature saved to the photo library.", "OK");
-                                        await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + resultResponse, "Signature Form", false, null, true));
+                                        await DisplayAlert("Signature Pad", "Signature successfully saved to the photo library!", "OK");
+                                        await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + result2, "Signature Form", false, null, true));
                                     }
                                     else
                                     {                                        

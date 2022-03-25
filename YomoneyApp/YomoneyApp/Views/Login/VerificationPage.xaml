@@ -33,7 +33,7 @@
                             <StackLayout Margin="0,10,0,10">
 
                                <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label Text="Please wait for your One-Time-Password. It will arrive within the next 15 minutes" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                                <Label Text="Please wait for your One-Time-Password. It will arrive within the next 5 minutes" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
                             </StackLayout>
 
                             <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,0,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">

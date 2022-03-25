@@ -206,6 +206,9 @@
     <Compile Include="CustomRenderer\MyEntryRenderer.cs" />
     <Compile Include="DbStorage\StorageConnectionDroid.cs" />
     <Compile Include="HybridWebViewRenderer.cs" />
+    <Compile Include="ImageCompression.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="JavascriptWebViewClient.cs" />
     <Compile Include="JsBridge.cs" />
     <Compile Include="MainActivity.cs" />
@@ -778,6 +781,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\attachment1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\folders.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\photos.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

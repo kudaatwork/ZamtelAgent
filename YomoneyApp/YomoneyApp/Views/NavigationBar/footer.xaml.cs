@@ -43,7 +43,7 @@ namespace YomoneyApp.Views.NavigationBar
                 //MenuItem menuItem = new MenuItem();
 
                 //menuItem.Id = "1";
-                //menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                //menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
                 //menuItem.Title = "SIM CARD MANAGEMENT";
                 //menuItem.Description = "SIM CARD MANAGEMENT";
                 //menuItem.Section = "Service";
@@ -58,7 +58,7 @@ namespace YomoneyApp.Views.NavigationBar
                 MenuItem menuItem = new MenuItem();
 
                 menuItem.Id = "1";
-                menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
                 menuItem.Title = "WAFAYA";
                 menuItem.Note = "BANKING";
                 menuItem.TransactionType = 12;
@@ -104,7 +104,7 @@ namespace YomoneyApp.Views.NavigationBar
             //    string pass = acnt.Password;
             //    string uname = acnt.UserName;
 
-            //    string uri = "http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname;
+            //    string uri = "https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname;
 
             //   // await Navigation.PushAsync(new WebviewHyubridConfirm(uri));
 

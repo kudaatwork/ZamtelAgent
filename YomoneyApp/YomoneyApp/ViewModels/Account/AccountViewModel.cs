@@ -31,7 +31,7 @@ namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
 
@@ -329,7 +329,7 @@ namespace YomoneyApp
                             //MenuItem menuItem = new MenuItem();
 
                             //menuItem.Id = "1";
-                            //menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                            //menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
                             //menuItem.Title = "SIM CARD MANAGEMENT";
                             //menuItem.Description = "SIM CARD MANAGEMENT";
                             //menuItem.Section = "Service";
@@ -346,7 +346,7 @@ namespace YomoneyApp
                             MenuItem menuItem = new MenuItem();
 
                             menuItem.Id = "1";
-                            menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
+                            menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
                             menuItem.Title = "WAFAYA";
                             menuItem.Note = "BANKING";
                             menuItem.TransactionType = 12;
@@ -552,22 +552,28 @@ namespace YomoneyApp
 
                                         if (!string.IsNullOrEmpty(response.Note))
                                         {
-                                            switch (response.Note.ToUpper().Trim())
-                                            {
-                                                case "ACTIVE":
+                                            await page.DisplayAlert("Success!", "Your YoApp account has been created successfully!", "OK");
 
-                                                    await page.DisplayAlert("Account Creation", "Account Created Successfully!", "OK");
+                                            await page.Navigation.PushAsync(new HomePage());
 
-                                                    await page.Navigation.PushAsync(new AddEmailAddress(phone));
+                                            #region Normal SignUp Process
+                                            //switch (response.Note.ToUpper().Trim())
+                                            //{
+                                            //    case "ACTIVE":
 
-                                                    break;
+                                            //        await page.DisplayAlert("Account Creation", "Account Created Successfully!", "OK");
 
-                                                default:
-                                                    await page.DisplayAlert("Account Creation Error", "There is something wrong on creating your account. Contact Customer Support", "OK");
+                                            //        await page.Navigation.PushAsync(new AddEmailAddress(phone));
 
-                                                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
-                                                    break;
-                                            }
+                                            //        break;
+
+                                            //    default:
+                                            //        await page.DisplayAlert("Account Creation Error", "There is something wrong on creating your account. Contact Customer Support", "OK");
+
+                                            //        await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
+                                            //        break;
+                                            //}
+                                            #endregion
                                         }
                                         else
                                         {
@@ -1433,8 +1439,6 @@ namespace YomoneyApp
 
         #endregion
 
-
-
         #region Verify
 
         #region VerifyFormOTPCommand
@@ -1515,7 +1519,7 @@ namespace YomoneyApp
 
                         if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
                         {
-                            string weblink = "http://192.168.100.150:5000/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
+                            string weblink = "https://www.yomoneyservice.com/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
                            HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
                            "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&RecordId=" + HomeViewModel.fileUpload.RecordId +
                            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";
@@ -1524,7 +1528,7 @@ namespace YomoneyApp
                         }
                         else
                         {
-                            string weblink = "http://192.168.100.150:5000/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
+                            string weblink = "https://www.yomoneyservice.com/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
                            HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
                            "&Customer=" + HomeViewModel.fileUpload.PhoneNumber +
                            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";

@@ -4,7 +4,7 @@
               xmlns:local="MyShop"
              xmlns:controls="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms"
              x:Class="YomoneyApp.Views.Services.SignaturePage"
-              Title="SIGN HERE">
+             Title="SIGN HERE">
     <StackLayout>
         <StackLayout HorizontalOptions="CenterAndExpand"  Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
             <StackLayout.Orientation>

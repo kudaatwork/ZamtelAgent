@@ -327,7 +327,7 @@ namespace YomoneyApp.Views.Promotions
 
                         fileUpload.SupplierId = promotion;
 
-                        string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                         var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                         httpWebRequest.ContentType = "application/json";
                         httpWebRequest.Method = "POST";
@@ -356,7 +356,7 @@ namespace YomoneyApp.Views.Promotions
                                 if (serverresult == "Success")
                                 {
                                     await DisplayAlert("Advert Upload Success!", "Advert has been submitted successfully and is up for a review", "OK");
-                                    //await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+                                    //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
 
                                     AdName = null;
                                    // promotionsViewModel.Name = null;
@@ -485,7 +485,7 @@ namespace YomoneyApp.Views.Promotions
 
             ////HttpClient client = new HttpClient();
             ////var myContent = Body;
-            ////string paramlocal = string.Format("http://192.168.100.150:5000/Mobile/Transaction/?{0}", myContent);
+            ////string paramlocal = string.Format("https://www.yomoneyservice.com/Mobile/Transaction/?{0}", myContent);
             ////string resultt = await client.GetStringAsync(paramlocal);
             ////if (resultt != "System.IO.MemoryStream")
             ////{
@@ -505,8 +505,8 @@ namespace YomoneyApp.Views.Promotions
 
             //HttpClient client = new HttpClient();
 
-            //Uri uri = new Uri("http://192.168.100.150:5000/Mobile/FileUploader");
-            ////string url = String.Format("http://192.168.100.150:5000/yoclient/transaction");
+            //Uri uri = new Uri("https://www.yomoneyservice.com/Mobile/FileUploader");
+            ////string url = String.Format("https://www.yomoneyservice.com/yoclient/transaction");
             //var payload = JsonConvert.SerializeObject(fileUpload);
             //HttpContent httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
             //HttpResponseMessage result = await client.PostAsync(uri, httpContent);
@@ -516,7 +516,7 @@ namespace YomoneyApp.Views.Promotions
 
             ////try
             ////{
-            ////    string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+            ////    string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
             ////    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             ////    httpWebRequest.ContentType = "application/json";
             ////    httpWebRequest.Method = "POST";
@@ -571,7 +571,7 @@ namespace YomoneyApp.Views.Promotions
             //if (saved)
             //{
             //    await DisplayAlert("Advert Upload Success!", "Advert has been submitted successfully and is up for a review", "OK");
-            //    //await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+            //    //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
 
             //    MenuItem mn = new YomoneyApp.MenuItem();
             //    mn.Title = "My Promotions";
