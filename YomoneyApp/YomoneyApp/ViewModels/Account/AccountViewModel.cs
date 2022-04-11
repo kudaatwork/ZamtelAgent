@@ -26,6 +26,7 @@ using YomoneyApp.Popups;
 using System.Threading;
 using YomoneyApp.Utils;
 using YomoneyApp.Views.Webview;
+using System.IO;
 
 namespace YomoneyApp
 {
@@ -321,9 +322,7 @@ namespace YomoneyApp
 
                             #endregion
 
-
                             #region Zamtel Home Screen
-
 
                             #region Load Actions
                             //MenuItem menuItem = new MenuItem();
@@ -343,11 +342,26 @@ namespace YomoneyApp
                             #endregion
 
                             #region Load Services
+
+                            //if (!string.IsNullOrEmpty(response.Note))
+                            //{
+                            //    char[] delimite = new char[] { ',' };
+
+                            //    string[] parts = response.Note.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+
+                            //    var accountStatus = parts[0].ToUpper().Trim();
+
+                            //    if (accountStatus.ToUpper() == "ACTIVE")
+                            //    {
+
+                            //    }
+                            //}
+
                             MenuItem menuItem = new MenuItem();
 
                             menuItem.Id = "1";
                             menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
-                            menuItem.Title = "WAFAYA";
+                            menuItem.Title = "ZAMTEL";
                             menuItem.Note = "BANKING";
                             menuItem.TransactionType = 12;
                             menuItem.SupplierId = "5-0001-0001052";
@@ -554,7 +568,17 @@ namespace YomoneyApp
                                         {
                                             await page.DisplayAlert("Success!", "Your YoApp account has been created successfully!", "OK");
 
-                                            await page.Navigation.PushAsync(new HomePage());
+                                            MenuItem menuItem = new MenuItem();
+
+                                            menuItem.Id = "1";
+                                            menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
+                                            menuItem.Title = "ZAMTEL";
+                                            menuItem.Note = "BANKING";
+                                            menuItem.TransactionType = 12;
+                                            menuItem.SupplierId = "5-0001-0001052";
+                                            //menuItem.date = "0001-01-01T00:00:00";
+
+                                            await page.Navigation.PushAsync(new ProviderServices(menuItem));
 
                                             #region Normal SignUp Process
                                             //switch (response.Note.ToUpper().Trim())
@@ -579,21 +603,28 @@ namespace YomoneyApp
                                         {
                                             await page.DisplayAlert("Account Creation", "There is something wrong on creating your account. Contact Customer Support", "OK");
 
+                                            await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@yoapp.tech", "Skype: kaydizzym@outlook.com", "Call: +263 787 800 013");
                                         }
                                     }
                                     catch (Exception e)
                                     {
-                                        await page.DisplayAlert("Account Creation Error", "An error has occured whilst saving the transaction", "OK");
+                                        await page.DisplayAlert("Account Creation Error", "An error has occured whilst saving the transaction. Contact Customer Support", "OK");
+
+                                        await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +260 787 800 013", "Email: support@zamtel.zm", "Call: +260 787 800 013");
                                     }
                                 }
                                 catch (Exception e)
                                 {
-                                    await page.DisplayAlert("Account Creation Error", "An error has occured. Check the application permissions and allow data storage", "OK");
+                                    await page.DisplayAlert("Account Creation Error", "An error has occured. Check the application permissions and allow data storage or Contact Customer Support", "OK");
+
+                                    await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +260 787 800 013", "Email: support@zamtel.zm", "Call: +260 787 800 013");
                                 }
                             }
                             else
                             {
                                 await page.DisplayAlert("Error", response.Description, "OK");
+
+                                await page.DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +260 787 800 013", "Email: support@zamtel.zm", "Call: +260 787 800 013");
                             }
 
                         }
@@ -1515,16 +1546,95 @@ namespace YomoneyApp
 
                         await page.DisplayAlert("Success", "OTP Successfully Verified!", "OK");
 
-                        HomeViewModel.fileUpload.FormId = HomeViewModel.fileUpload.FormId + 1;
+                       // HomeViewModel.fileUpload.FormId = HomeViewModel.fileUpload.FormId + 1;
 
                         if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
                         {
-                            string weblink = "https://www.yomoneyservice.com/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
-                           HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
-                           "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&RecordId=" + HomeViewModel.fileUpload.RecordId +
-                           "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";
+                            //string weblink = "https://www.yomoneyservice.com/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
+                            //HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+                            //"&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&RecordId=" + HomeViewModel.fileUpload.RecordId +
+                            //"&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";
 
-                            await page.Navigation.PushAsync(new WebviewHyubridConfirm(weblink, "OTP Verification", false, null, false));
+                            try
+                            {
+                                AccessSettings accessSettings = new AccessSettings();
+                                string password = acnt.Password;
+                                string username = acnt.UserName;
+
+                                FileUpload fileUpload = new FileUpload();
+
+                                fileUpload.Name = "true";
+                                //fileUpload.Type = "";
+                                fileUpload.PhoneNumber = uname;
+                                //fileUpload.Image = "";
+                                fileUpload.Purpose = "FIELD";
+                                fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
+                                fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
+                                fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
+                                fileUpload.FormId = HomeViewModel.fileUpload.FormId;
+                                fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
+                                fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
+
+                                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                                httpWebRequest.ContentType = "application/json";
+                                httpWebRequest.Method = "POST";
+                                httpWebRequest.Timeout = 120000;
+                                httpWebRequest.CookieContainer = new CookieContainer();
+                                Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                                cookie.Domain = "www.yomoneyservice.com";
+                                httpWebRequest.CookieContainer.Add(cookie);
+
+                                var json = JsonConvert.SerializeObject(fileUpload);
+
+                                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                                {
+                                    streamWriter.Write(json);
+                                    streamWriter.Flush();
+                                    streamWriter.Close();
+
+                                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                                    {
+                                        var serverresult = streamReader.ReadToEnd();
+
+                                        if (serverresult.Contains("/Mobile/"))
+                                        {
+                                            //await page.DisplayAlert("File Upload", "File scanned and saved successfully", "OK");
+                                            IsBusy = false;
+
+                                            Device.BeginInvokeOnMainThread(async () =>
+                                            {
+                                                //viewModel.IsBusy = false;
+                                                //FileImage.Source = null;                                               
+
+                                                //page.Navigation.PopAsync();
+
+                                                await page.Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "OTP Verification", false, null));
+                                            });
+                                        }
+                                        else
+                                        {
+                                            Device.BeginInvokeOnMainThread(async () =>
+                                            {
+                                                await page.DisplayAlert("Error!", "There was an error in verifying you at the server. Could you start again the process.", "OK");
+                                                IsBusy = false;
+
+                                            });
+
+                                        }
+                                    }
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+                                Console.WriteLine(exception.Message);
+
+                                await page.DisplayAlert("Error!", "There was an error in verifying you at the server. Could you start again the process.", "OK");
+                            }
+
+                            //await page.Navigation.PushAsync(new WebviewHyubridConfirm(weblink, "OTP Verification", false, null, false));
                         }
                         else
                         {
@@ -2081,10 +2191,16 @@ namespace YomoneyApp
                 List<MenuItem> mnu = new List<MenuItem>();
                 TransactionRequest trn = new TransactionRequest();
 
-                trn.Narrative = phone + "_" + email + "_" + password;
+                if (string.IsNullOrEmpty(email))
+                {
+                    email = "na";
+                }
+
+                AccessSettings access = new AccessSettings();
+                
+                trn.Narrative = access.UserName + "_" + email + "_" + password;
 
                 string Body = "";
-
 
                 Body += "Narrative=" + trn.Narrative;
 

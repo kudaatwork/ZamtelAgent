@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.Xaml;
 using YomoneyApp.Models.Image;
 using YomoneyApp.Services;
@@ -25,6 +26,11 @@ namespace YomoneyApp.Views.Services
         private MediaFile _mediaFile;
         ServiceViewModel viewModel;
         MenuItem SelectedItem;
+
+        string HostDomain = "https://www.yomoneyservice.com";
+        string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId="+ HomeViewModel.fileUpload.ServiceId +"&ActionId=" + HomeViewModel.fileUpload.ActionId +
+            "&FormNumber="+ HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
+        string title = "";
 
         public TakePhoto(MenuItem mnu)
         {
@@ -86,6 +92,51 @@ namespace YomoneyApp.Views.Services
                 return _mediaFile.GetStream();
             });
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            //Device.BeginInvokeOnMainThread(async () =>
+            //{
+            //    Navigation.PopAsync();
+                
+            //    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+            //});            
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (Device.RuntimePlatform.Equals(Device.UWP))
+            {
+                //OnClosePageRequested();
+                return true;
+            }
+            else
+            {
+                base.OnBackButtonPressed();
+                return false;
+            }
+        }
+
+        //async void OnClosePageRequested()
+        //{
+        //    var tdvm = (TaskDetailsViewModel)BindingContext;
+        //    if (tdvm.CanSaveTask())
+        //    {
+        //        var result = await DisplayAlert("Wait", "You have unsaved changes! Are you sure you want to go back?", "Discard changes", "Cancel");
+
+        //        if (result)
+        //        {
+        //            tdvm.DiscardChanges();
+        //            await Navigation.PopAsync(true);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        await Navigation.PopAsync(true);
+        //    }
+        //}
 
         private async void SavePhoto_Clicked(object sender, EventArgs e)
         {
@@ -316,8 +367,23 @@ namespace YomoneyApp.Views.Services
                                         FileImage.Source = null;
                                         //FileStatus.Text = null;
                                         SavePhoto.IsEnabled = false;
-                                        _mediaFile.Dispose();
+                                        //_mediaFile.Dispose();
+
+                                        //Device.BeginInvokeOnMainThread(async () =>
+                                        //{
+                                        //    await Navigation.PopAsync();
+                                        //    //await Navigation.PopToRootAsync();
+                                        //});
+
+                                        Navigation.PopAsync();
+
                                         await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "Take Photo", false, null));
+
+                                        //await Navigation.PopAsync();
+                                        //await Navigation.PopToRootAsync();
+
+                                        //this.Navigation.RemovePage(this.Navigation.NavigationStack[this.]);
+
                                     }
                                     else
                                     {

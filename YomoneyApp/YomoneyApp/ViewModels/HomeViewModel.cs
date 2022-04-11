@@ -28,6 +28,9 @@ namespace YomoneyApp
     {
         public static FileUpload fileUpload = new FileUpload();
 
+        // string HostDomain = "https://www.yomoneyservice.com";
+
+
         readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
         string Latitude = "";
@@ -35,6 +38,7 @@ namespace YomoneyApp
         public ObservableRangeCollection<MenuItem> myItemsSource { get; set; }
         public ObservableRangeCollection<MenuItem> myButtonSource { get; set; }
         public MenuItem accData { get; set; }
+        public static int FormCounter { get; set; }
 
         public HomeViewModel(Page page) : base(page)
         {
@@ -68,7 +72,7 @@ namespace YomoneyApp
                 return;
 
             IsBusy = false;
-         
+
             try
             {
                 MenuItem menuItem = new MenuItem();
@@ -430,24 +434,24 @@ namespace YomoneyApp
 
                     if (rate >= 0) // Only if Rate is Greater than 0
                     {
-                  //      if (role == "driver" || role == "passenger") // Drivers and Passengers
-                  //      {
-                            Device.BeginInvokeOnMainThread(async () =>
-                            {
-                                await App.Current.MainPage.Navigation.PushAsync(new Directions(RouteId, RouteName, Role, RouteRate, RouteCost, RouteDuration,
-                                   RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
+                        //      if (role == "driver" || role == "passenger") // Drivers and Passengers
+                        //      {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new Directions(RouteId, RouteName, Role, RouteRate, RouteCost, RouteDuration,
+                               RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
 
-                                // await App.Current.MainPage.Navigation.PushAsync(new PolylognView());
-                            });
-            //            }
-            ///           else
-            //            {
-            //                Device.BeginInvokeOnMainThread(async () =>
-            //                {
-            //                    await App.Current.MainPage.Navigation.PushAsync(new Viewers(RouteName, Role, RouteRate, RouteCost, RouteDuration,
-            //                        RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
-            //                });
-            //            }
+                            // await App.Current.MainPage.Navigation.PushAsync(new PolylognView());
+                        });
+                        //            }
+                        ///           else
+                        //            {
+                        //                Device.BeginInvokeOnMainThread(async () =>
+                        //                {
+                        //                    await App.Current.MainPage.Navigation.PushAsync(new Viewers(RouteName, Role, RouteRate, RouteCost, RouteDuration,
+                        //                        RouteDistance, RouteRealTimeDistance, RouteRealTimeInstructions));
+                        //                });
+                        //            }
                     }
                     else
                     {
@@ -500,7 +504,7 @@ namespace YomoneyApp
                 {
                     recordId = parts[7];
                 }
-                
+
                 MenuItem menuItem = new MenuItem();
 
                 switch (purpose)
@@ -513,8 +517,8 @@ namespace YomoneyApp
                         fileUpload.ActionId = Convert.ToInt64(actionId);
                         fileUpload.FormId = formId;
                         fileUpload.FieldId = fieldId;
-                        fileUpload.PhoneNumber = phoneNumber;                       
-                        
+                        fileUpload.PhoneNumber = phoneNumber;
+
                         //await serviceViewModel.ExecuteRenderActionCommand(null);
 
                         menuItem.ActionId = fileUpload.ActionId;
@@ -598,6 +602,34 @@ namespace YomoneyApp
 
                         break;
 
+                    case "VIDEO":
+
+                        fileUpload.Purpose = purpose;
+                        fileUpload.SupplierId = supplier;
+                        fileUpload.ServiceId = Convert.ToInt64(serviceId);
+                        fileUpload.ActionId = Convert.ToInt64(actionId);
+                        fileUpload.FormId = formId;
+                        fileUpload.FieldId = fieldId;
+                        fileUpload.PhoneNumber = phoneNumber;
+
+                        //await serviceViewModel.ExecuteRenderActionCommand(null);
+
+                        menuItem.ActionId = fileUpload.ActionId;
+                        menuItem.ServiceId = fileUpload.ServiceId;
+                        menuItem.SupplierId = fileUpload.SupplierId;
+
+                        if (!string.IsNullOrEmpty(recordId))
+                        {
+                            fileUpload.RecordId = recordId;
+                        }
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new TakePhoto(menuItem));
+                        });
+
+                        break;
+
                     case "OTP":
 
                         fileUpload.Purpose = purpose;
@@ -624,7 +656,7 @@ namespace YomoneyApp
                             await App.Current.MainPage.Navigation.PushAsync(new VerifyOTP(menuItem));
                         });
 
-                        break;                       
+                        break;
 
                     case "SCAN":
 
@@ -666,14 +698,89 @@ namespace YomoneyApp
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await App.Current.MainPage.Navigation.PopAsync();
+                        await page.Navigation.PopAsync();
                     });
+
+                    //string title = "";
+
+                    //if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.FormId))
+                    //{
+                    //    var fmId = long.Parse(HomeViewModel.fileUpload.FormId);
+
+                    //    if (fmId > 1)
+                    //    {
+                    //        fmId = fmId - 1;
+
+                    //        HomeViewModel.fileUpload.FormId = fmId.ToString();
+
+                    //        string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+                    //        "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
+
+                    //        Device.BeginInvokeOnMainThread(async () =>
+                    //        {
+                    //            page.Navigation.PopAsync();
+
+                    //            //Device.BeginInvokeOnMainThread(() => page.Navigation.PopAsync());
+                    //            await page.Navigation.PushAsync(new Views.Webview.WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+                    //        });
+                    //    }
+                    //    else
+                    //    {
+                    //        FormCounter = 1;
+
+                    //        FormCounter = FormCounter + 1;
+
+                    //        if (FormCounter > 1)
+                    //        {
+                    //            //Device.BeginInvokeOnMainThread(async () => await page.Navigation.PopAsync());
+
+                    //            MenuItem menuItem = new MenuItem();
+
+                    //            menuItem.Id = ServiceViewModel.storedId;
+                    //            menuItem.Image = ServiceViewModel.storedImage;
+                    //            menuItem.Title = ServiceViewModel.storedTitle;
+                    //            menuItem.Description = ServiceViewModel.storedDescription;
+                    //            menuItem.Section = ServiceViewModel.storedSection;
+                    //            menuItem.Note = ServiceViewModel.storedNote;
+                    //            menuItem.ServiceId = ServiceViewModel.storedServiceId;
+                    //            menuItem.TransactionType = ServiceViewModel.storedTransactionType;
+                    //            menuItem.SupplierId = ServiceViewModel.storedSupplierId;
+
+                    //            Device.BeginInvokeOnMainThread(async () =>
+                    //            {
+                    //               // await page.Navigation.PopAsync();
+                    //               // await page.Navigation.PopAsync();
+                    //                await page.Navigation.PopAsync();
+                    //                await page.Navigation.PushAsync(new ServiceActions(menuItem));
+                    //            });
+                    //        }
+                    //        else
+                    //        {
+                    //            string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+                    //            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
+
+                    //            Device.BeginInvokeOnMainThread(async () =>
+                    //            {
+                    //               // await page.Navigation.PopAsync();
+                    //               // await page.Navigation.PopAsync();
+                    //                await page.Navigation.PopAsync();
+                    //                await page.Navigation.PushAsync(new Views.Webview.WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+                    //            });
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    Device.BeginInvokeOnMainThread(async () =>
+                    //    {
+                    //        await page.Navigation.PopAsync();
+                    //    });
+                    //}
+
+                    //await page.Navigation.PopAsync();
                 }
             }
-            else
-            {
 
-            }
 
 
         }
@@ -938,7 +1045,7 @@ namespace YomoneyApp
             if (page.Navigation.NavigationStack.Count == 0 ||
                     page.Navigation.NavigationStack.GetType() != typeof(WaletServices))
             {
-                await page.Navigation.PushAsync(new WaletServices(LoyaltySchemes, Services, Tasks,Orders));
+                await page.Navigation.PushAsync(new WaletServices(LoyaltySchemes, Services, Tasks, Orders));
             }
         }
 
@@ -1205,7 +1312,7 @@ namespace YomoneyApp
             get { return routeId; }
             set { SetProperty(ref routeId, value); }
         }
-                
+
         #endregion
     }
 }

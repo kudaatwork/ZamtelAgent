@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MvvmHelpers;
+using Newtonsoft.Json;
 using RetailKing.Models;
 using System;
 using System.Collections.Generic;
@@ -25,11 +26,11 @@ namespace YomoneyApp.ViewModels.Countries
         private CountryModel _selectedCountry;
         CancellationTokenSource cts;
         string HostDomain = "https://www.yomoneyservice.com";
-        //AccountViewModel viewModel;       
+        //AccountViewModel viewModel;
+        
+        public ObservableRangeCollection<CountriesModel> CountriesList { get; set; }
 
         #endregion Fields
-
-
 
         #region Constructors
 
@@ -38,6 +39,7 @@ namespace YomoneyApp.ViewModels.Countries
             Title = "Active Country";
             ShowPopupCommand = new Command(async _ => await ExecuteShowPopupCommand());
             CountrySelectedCommand = new Command(country => ExecuteCountrySelectedCommand(country as CountryModel));
+            CountriesList = new ObservableRangeCollection<CountriesModel>();
             //viewModel = new AccountViewModel(this);
         }
 
@@ -261,6 +263,55 @@ namespace YomoneyApp.ViewModels.Countries
         }
         #endregion
 
+        #region Get Countries
+        private Command getCountriesCommand;
+
+        public Command GetCountriesCommand
+        {
+            get
+            {
+                return getCountriesCommand ??
+                    (getCountriesCommand = new Command(async () => await ExecuteGetCountriesCommand(), () => { return !IsBusy; }));
+            }
+        }
+
+        public async Task ExecuteGetCountriesCommand()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+            Message = "Getting countries...";
+
+            try
+            {               
+                HttpClient client = new HttpClient();
+
+                var myContent = "";
+                string paramlocal = string.Format("https://restcountries.com/v2/all?fields=name,callingCodes,flags,alpha2Code", myContent);
+
+                ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
+                string result = await client.GetStringAsync(paramlocal);
+
+                if (result != "System.IO.MemoryStream")
+                {
+                    var countries = JsonConvert.DeserializeObject<List<CountriesModel>>(result);
+                    CountriesList.ReplaceRange(countries);
+                }
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                Message = "";
+
+                await page.DisplayAlert("Error!", "Sorry, there has been an error in retrieving Countries from the server!", "Ok");
+            }
+        }
+        #endregion
+
         #region Private Methods
 
         public Task ExecuteShowPopupCommand()
@@ -293,6 +344,8 @@ namespace YomoneyApp.ViewModels.Countries
             get { return isCountryUpdated; }
             set { SetProperty(ref isCountryUpdated, value); }
         }
+
+        
 
     }
 }

@@ -3,7 +3,7 @@
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                   xmlns:controls="clr-namespace:YomoneyApp.Controls" 
-                  xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:local="clr-namespace:YomoneyApp.CustomeRenderer"
                   x:Class="YomoneyApp.Popups.ChooseCountryPopup">
     <popups:PopupPage.Animation>
         <popups:MoveAnimation
@@ -49,7 +49,7 @@
                    CornerRadius="8"
                    HasShadow="False"
                    BorderColor="Silver">
-                <SearchBar Placeholder="Search for country"
+                <local:MySearchBar Placeholder="Search for country"
                            Margin="{OnPlatform iOS='-6, -10', Android='2'}"
                            x:Name="SearchBar"
                            PlaceholderColor="Silver"

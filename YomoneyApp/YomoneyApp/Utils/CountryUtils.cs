@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using YomoneyApp.Models;
+using YomoneyApp.Services;
+using YomoneyApp.ViewModels.Countries;
 
 namespace YomoneyApp.Utils
 {
@@ -14,16 +17,31 @@ namespace YomoneyApp.Utils
         /// Gets the list of countries based on ISO 3166-1
         /// </summary>
         /// <returns>Returns the list of countries based on ISO 3166-1</returns>
-        public static List<RegionInfo> GetCountriesByIso3166()
+        public static List<CountriesModel> GetCountriesByIso3166()
         {
-            var countries = new List<RegionInfo>();
-            foreach (var culture in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+            var countries = new List<CountriesModel>();
+
+            CountriesAPIService services = new CountriesAPIService();
+
+            var countriesList = services.GetCountriesList();
+
+            //foreach (var culture in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+            //{
+            //    var info = new RegionInfo(culture.LCID);
+            //    if (countries.All(p => p.Name != info.Name))
+            //        countries.Add(info);
+            //}
+
+            if (countriesList != null)
             {
-                var info = new RegionInfo(culture.LCID);
-                if (countries.All(p => p.Name != info.Name))
-                    countries.Add(info);
+                var countris = countriesList.OrderBy(p => p.name).ToList();
+
+                return countris;
             }
-            return countries.OrderBy(p => p.EnglishName).ToList();
+            else
+            {
+                return null;
+            }            
         }
 
         /// <summary>
@@ -33,15 +51,16 @@ namespace YomoneyApp.Utils
         /// <returns>Complete Country Model with Region, Flag, Name and Code</returns>
         public static CountryModel GetCountryModelByName(string countryName)
         {
-            var phoneNumberUtil = PhoneNumberUtil.GetInstance();
+            //var phoneNumberUtil = PhoneNumberUtil.GetInstance();
             var isoCountries = GetCountriesByIso3166();
-            var regionInfo = isoCountries.FirstOrDefault(c => c.EnglishName == countryName);
-            return regionInfo != null
+            var countryInfo = isoCountries.FirstOrDefault(c => c.name == countryName);
+            
+            return countryInfo != null
                 ? new CountryModel
                 {
-                    CountryCode = phoneNumberUtil.GetCountryCodeForRegion(regionInfo.TwoLetterISORegionName).ToString(),
-                    CountryName = regionInfo.EnglishName,
-                    FlagUrl = $"https://hatscripts.github.io/circle-flags/flags/{regionInfo.TwoLetterISORegionName.ToLower()}.svg",
+                    CountryCode = countryInfo.callingCodes[0],
+                    CountryName = countryInfo.name,
+                    FlagUrl = countryInfo.flags.png,
                 }
                 : new CountryModel
                 {

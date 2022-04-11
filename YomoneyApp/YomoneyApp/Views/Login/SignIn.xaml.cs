@@ -51,9 +51,9 @@ namespace YomoneyApp.ViewModels.Login
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            //await Navigation.PushAsync(new NewAccount());
+            await Navigation.PushAsync(new NewAccount());
 
-            await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+            //await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
         }
         #endregion
 

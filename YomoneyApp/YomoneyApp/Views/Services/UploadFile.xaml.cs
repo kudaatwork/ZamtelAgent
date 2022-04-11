@@ -30,6 +30,11 @@ namespace YomoneyApp.Views.Services
         MenuItem SelectedItem;
         public FileResult fileResult;
 
+        string HostDomain = "https://www.yomoneyservice.com";
+        string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
+        string title = "";
+
         public UploadFile(MenuItem mnu)
         {
             InitializeComponent();
@@ -112,6 +117,17 @@ namespace YomoneyApp.Views.Services
             }
 
             #endregion
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            //Device.BeginInvokeOnMainThread(async () =>
+            //{
+            //    Navigation.PopAsync();
+            //    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+            //});
         }
 
         private async void PickImage_Clicked(object sender, EventArgs e)
@@ -281,7 +297,13 @@ namespace YomoneyApp.Views.Services
                                             FileStatus.Text = null;
                                             SavePhoto.IsEnabled = false;
                                             _mediaFile.Dispose();
+
+                                            Navigation.PopAsync();
+
                                             await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
+                                                                                    
+
+                                            //this.Navigation.RemovePage(this.Navigation.NavigationStack[this.]);
 
                                             //Device.BeginInvokeOnMainThread(async () =>
                                             //{
@@ -422,7 +444,7 @@ namespace YomoneyApp.Views.Services
                                             FileImage.Source = null;
                                             FileStatus.Text = null;
                                             SavePhoto.IsEnabled = false;
-                                            _mediaFile.Dispose();
+                                            //_mediaFile.Dispose();
                                             await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
 
                                             //Device.BeginInvokeOnMainThread(async () =>

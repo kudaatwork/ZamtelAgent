@@ -49,7 +49,7 @@ namespace YomoneyApp
 
                 menuItem.Id = "1";
                 menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
-                menuItem.Title = "WAFAYA";
+                menuItem.Title = "ZAMTEL";
                 menuItem.Note = "BANKING";
                 menuItem.TransactionType = 12;
                 menuItem.SupplierId = "5-0001-0001052";
@@ -71,8 +71,7 @@ namespace YomoneyApp
                 //    BarTextColor = Color.White,
                 //    BarBackgroundColor = Color.FromHex("#22b24c")
                 //};
-
-                Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+                                Device.StartTimer(TimeSpan.FromSeconds(30), () =>
                 {
                     if (!sigChat.IsConnectedOrConnecting)
                         cvm = new ChatViewModel(pg);

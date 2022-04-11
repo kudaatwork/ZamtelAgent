@@ -4,41 +4,38 @@
              xmlns:magic="clr-namespace:MagicGradients;assembly=MagicGradients"
              x:Class="YomoneyApp.Views.Login.AccountMain"
              NavigationPage.HasNavigationBar="False">
-
-    <Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="300"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-        </Grid.RowDefinitions>
-
-
-        <Frame Grid.Row="0" BackgroundColor="#22b24c" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-            <Image Source="image2.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
-        </Frame>
-
-        <Frame Grid.Row="1" Margin="12,-50,12,0" BackgroundColor="White" HasShadow="True" HeightRequest="280" HorizontalOptions="FillAndExpand">
+    
+    <ScrollView>
+        <Grid>
 
             <StackLayout>
-                
-                <StackLayout HorizontalOptions="CenterAndExpand">
-                    <Label Text="Welcome to YoApp" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
-                    <Label Text="Get the best deals with your money" HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
-                </StackLayout>
-
-                <Button Text="SIGN UP" x:Name="ButtonJoin" BackgroundColor="#22b24c" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
-                <Button Text="SIGN IN" x:Name="ButtonLogin" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
-
+                <Frame BackgroundColor="#22b24c" HeightRequest="300" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                    <Image Source="image2.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
+                </Frame>
             </StackLayout>
 
-        </Frame>
+            <StackLayout>
+            <Frame Margin="12,240,12,0" BackgroundColor="White" HasShadow="True" HeightRequest="280" HorizontalOptions="FillAndExpand">
 
+                <StackLayout>
 
-        <StackLayout Grid.Row="2" Margin="0,64,0,0">
-            <Image Source="icon.png" Aspect="AspectFit" Margin="0" HeightRequest="90" WidthRequest="20"></Image>
-        </StackLayout>
+                    <StackLayout HorizontalOptions="CenterAndExpand">
+                        <Label Text="Welcome to Zamtel Agent App" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
+                        <Label Text="A click away from Zamtel " HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                    </StackLayout>
 
-    </Grid>
+                        <Button Text="SIGN UP" x:Name="ButtonJoin" BackgroundColor="#B22288" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+                    <Button Text="SIGN IN" x:Name="ButtonLogin" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
+                </StackLayout>
+
+            </Frame>
+            </StackLayout>
+
+            <StackLayout Margin="0,650,0,0">
+                <Image Source="icon.png" Aspect="AspectFit" Margin="0" HeightRequest="90" WidthRequest="20"></Image>
+            </StackLayout>
+
+        </Grid>
+    </ScrollView>
 </ContentPage>

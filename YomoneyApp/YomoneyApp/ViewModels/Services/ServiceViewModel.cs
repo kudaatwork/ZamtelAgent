@@ -44,6 +44,16 @@ namespace YomoneyApp
 
         public ObservableRangeCollection<MenuItem> Currencies { get; set; }
 
+        public static string storedId { get; set; }
+        public static string storedImage { get; set; }
+        public static string storedTitle { get; set; }
+        public static string storedDescription { get; set; }
+        public static string storedSection { set; get; }
+        public static long storedServiceId { set; get; }
+        public static long storedTransactionType { set; get; }
+        public static string storedNote { get; set; }
+        public static string storedSupplierId { get; set; }
+
         public bool ForceSync { get; set; }
 
         public ServiceViewModel(Page page, MenuItem selected) : base(page)
@@ -147,6 +157,16 @@ namespace YomoneyApp
                 if (ItemSelected == null)
                 {
                     var json = JsonConvert.SerializeObject(selectedService);
+
+                    storedId = selectedService.Id;
+                    storedImage = selectedService.Image;
+                    storedTitle = selectedService.Title;
+                    storedDescription = selectedService.Description;
+                    storedSection = selectedService.Section;
+                    storedNote = selectedService.Note;
+                    storedServiceId = selectedService.ServiceId;
+                    storedTransactionType = selectedService.TransactionType;
+                    storedSupplierId = selectedService.SupplierId;
 
                     page.Navigation.PushAsync(new ServiceActions(selectedService));
                     selectedService = null;
@@ -1292,7 +1312,6 @@ namespace YomoneyApp
 
             if (ItemSelected == null)
             {
-
                 GetServicesCommand.Execute(null);
                 SelectedOption = null;
             }

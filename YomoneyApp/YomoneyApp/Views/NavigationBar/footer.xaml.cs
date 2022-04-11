@@ -59,7 +59,7 @@ namespace YomoneyApp.Views.NavigationBar
 
                 menuItem.Id = "1";
                 menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
-                menuItem.Title = "WAFAYA";
+                menuItem.Title = "ZAMTEL";
                 menuItem.Note = "BANKING";
                 menuItem.TransactionType = 12;
                 menuItem.SupplierId = "5-0001-0001052";

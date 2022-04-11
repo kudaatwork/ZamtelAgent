@@ -29,6 +29,11 @@ namespace YomoneyApp.Views.Services
         private MediaFile _mediaFile;
         ServiceViewModel viewModel;
 
+        //string HostDomain = "https://www.yomoneyservice.com";
+        string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
+        string title = "";
+
         AccountViewModel accountViewModel = new AccountViewModel(null);
 
         public SignaturePage(MenuItem mnu = null)
@@ -285,6 +290,17 @@ namespace YomoneyApp.Views.Services
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            //Device.BeginInvokeOnMainThread(async () =>
+            //{
+            //    Navigation.PopAsync();
+            //    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+            //});
         }
 
         private void SignatureChanged(object sender, EventArgs e)

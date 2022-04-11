@@ -78,14 +78,14 @@ namespace YomoneyApp.Popups
         private void LoadCountries()
         {
             //this is not Task, because it's really fast
-            var phoneNumberUtil = PhoneNumberUtil.GetInstance();
+           // var phoneNumberUtil = PhoneNumberUtil.GetInstance();
             _countries = new List<CountryModel>();
             var isoCountries = CountryUtils.GetCountriesByIso3166();
             _countries.AddRange(isoCountries.Select(c => new CountryModel
             {
-                CountryCode = phoneNumberUtil.GetCountryCodeForRegion(c.TwoLetterISORegionName).ToString(),
-                CountryName = c.EnglishName,
-                FlagUrl = $"https://hatscripts.github.io/circle-flags/flags/{c.TwoLetterISORegionName.ToLower()}.svg",
+                CountryCode = c.callingCodes[0],
+                CountryName = c.name,
+                FlagUrl = c.flags.png,
             }));
         }
 

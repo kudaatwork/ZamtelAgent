@@ -19,6 +19,11 @@ namespace YomoneyApp.Views.QRScan
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Scanner : ContentPage
     {
+        string HostDomain = "https://www.yomoneyservice.com";
+        string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
+            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
+        string title = "";
+
         public Scanner()
         {
             InitializeComponent();
@@ -95,10 +100,12 @@ namespace YomoneyApp.Views.QRScan
                                 
                                 Device.BeginInvokeOnMainThread(async () =>
                                 {
-                                    await DisplayAlert("File Upload", "File scanned and saved successfully", "OK");
-
                                     //viewModel.IsBusy = false;
                                     //FileImage.Source = null;
+
+                                    await DisplayAlert("File Upload", "File scanned and saved successfully", "OK");
+
+                                    Navigation.PopAsync();
 
                                     await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
                                 });
@@ -107,7 +114,6 @@ namespace YomoneyApp.Views.QRScan
                             {
                                 Device.BeginInvokeOnMainThread(async () => 
                                 {
-
                                     await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
                                     //viewModel.IsBusy = false;
 
@@ -134,10 +140,26 @@ namespace YomoneyApp.Views.QRScan
             ScannerView.IsScanning = true;
         }
 
+        //protected override void OnDisappearing()
+        //{
+        //    base.OnDisappearing();
+
+        //    Device.BeginInvokeOnMainThread(async () =>
+        //    {
+        //        await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+        //    });
+        //}
+
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             ScannerView.IsScanning = false;
+
+            //Device.BeginInvokeOnMainThread(async () =>
+            //{
+            //    Navigation.PopAsync();
+            //    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
+            //});
         }
 
         public async void SaveScan(string scanPath)
@@ -161,7 +183,7 @@ namespace YomoneyApp.Views.QRScan
                 //fileUpload.Type = "";
                 fileUpload.PhoneNumber = uname;
                 //fileUpload.Image = "";
-                fileUpload.Purpose = HomeViewModel.fileUpload.Purpose.ToLower();
+                fileUpload.Purpose = "FIELD";
                 fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
                 fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
                 fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
