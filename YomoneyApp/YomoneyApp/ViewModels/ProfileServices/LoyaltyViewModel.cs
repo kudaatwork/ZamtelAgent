@@ -20,7 +20,7 @@ namespace YomoneyApp
 {
     public class LoyaltyViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
        
         public ObservableRangeCollection<MenuItem> Stores { get; set; }
         public ObservableRangeCollection<Grouping<string, MenuItem>> LoyaltyGrouped { get; set; }

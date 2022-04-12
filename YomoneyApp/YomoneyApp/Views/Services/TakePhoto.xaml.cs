@@ -27,7 +27,7 @@ namespace YomoneyApp.Views.Services
         ServiceViewModel viewModel;
         MenuItem SelectedItem;
 
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId="+ HomeViewModel.fileUpload.ServiceId +"&ActionId=" + HomeViewModel.fileUpload.ActionId +
             "&FormNumber="+ HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
         string title = "";
@@ -196,7 +196,7 @@ namespace YomoneyApp.Views.Services
             //    httpWebRequest.Timeout = 120000;
             //    //httpWebRequest.CookieContainer = new CookieContainer();
             //    //Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-            //    //cookie.Domain = "https://www.yomoneyservice.com";
+            //    //cookie.Domain = "http://192.168.100.150:5000";
             //    //httpWebRequest.CookieContainer.Add(cookie);
 
             //    var json = JsonConvert.SerializeObject(fileUpload);
@@ -239,7 +239,7 @@ namespace YomoneyApp.Views.Services
             //if (saved)
             //{
             //    await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
-            //    //await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+            //    //await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
             //    await Navigation.PushAsync(new HomePage());
             //}
             //else
@@ -336,7 +336,7 @@ namespace YomoneyApp.Views.Services
                                 fileUpload.RecordId = "0";
                             }
 
-                            string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                            string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
                             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                             httpWebRequest.ContentType = "application/json";
                             httpWebRequest.Method = "POST";
@@ -377,7 +377,7 @@ namespace YomoneyApp.Views.Services
 
                                         Navigation.PopAsync();
 
-                                        await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "Take Photo", false, null));
+                                        await Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000" + serverresult, "Take Photo", false, null));
 
                                         //await Navigation.PopAsync();
                                         //await Navigation.PopToRootAsync();

@@ -32,7 +32,7 @@ namespace YomoneyApp
 {
     public class AccountViewModel : ViewModelBase
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
         //string ProcessingCode = "350000";
         IDataStore dataStore;
 
@@ -328,7 +328,7 @@ namespace YomoneyApp
                             //MenuItem menuItem = new MenuItem();
 
                             //menuItem.Id = "1";
-                            //menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
+                            //menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
                             //menuItem.Title = "SIM CARD MANAGEMENT";
                             //menuItem.Description = "SIM CARD MANAGEMENT";
                             //menuItem.Section = "Service";
@@ -360,7 +360,7 @@ namespace YomoneyApp
                             MenuItem menuItem = new MenuItem();
 
                             menuItem.Id = "1";
-                            menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
+                            menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
                             menuItem.Title = "ZAMTEL";
                             menuItem.Note = "BANKING";
                             menuItem.TransactionType = 12;
@@ -571,7 +571,7 @@ namespace YomoneyApp
                                             MenuItem menuItem = new MenuItem();
 
                                             menuItem.Id = "1";
-                                            menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
+                                            menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
                                             menuItem.Title = "ZAMTEL";
                                             menuItem.Note = "BANKING";
                                             menuItem.TransactionType = 12;
@@ -1550,7 +1550,7 @@ namespace YomoneyApp
 
                         if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
                         {
-                            //string weblink = "https://www.yomoneyservice.com/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
+                            //string weblink = "http://192.168.100.150:5000/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
                             //HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
                             //"&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&RecordId=" + HomeViewModel.fileUpload.RecordId +
                             //"&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";
@@ -1575,7 +1575,7 @@ namespace YomoneyApp
                                 fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
                                 fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
 
-                                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                                string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
                                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                                 httpWebRequest.ContentType = "application/json";
                                 httpWebRequest.Method = "POST";
@@ -1611,7 +1611,7 @@ namespace YomoneyApp
 
                                                 //page.Navigation.PopAsync();
 
-                                                await page.Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "OTP Verification", false, null));
+                                                await page.Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000" + serverresult, "OTP Verification", false, null));
                                             });
                                         }
                                         else
@@ -1638,7 +1638,7 @@ namespace YomoneyApp
                         }
                         else
                         {
-                            string weblink = "https://www.yomoneyservice.com/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
+                            string weblink = "http://192.168.100.150:5000/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&ServiceId=" +
                            HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
                            "&Customer=" + HomeViewModel.fileUpload.PhoneNumber +
                            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&CallType=FirstTime";

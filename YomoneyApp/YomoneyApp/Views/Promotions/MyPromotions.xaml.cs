@@ -140,9 +140,9 @@ namespace YomoneyApp.Views.Promotions
             AccessSettings acnt = new AccessSettings();
             string pass = acnt.Password;
             string uname = acnt.UserName;
-            //Navigation.PushAsync(new WebviewPage("https://www.yomoneyservice.com/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
+            //Navigation.PushAsync(new WebviewPage("http://192.168.100.150:5000/Mobile/JobProfile?id=" + uname, "My Profile", false,null));
 
-            Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com/Mobile/CustomerLeads/?CustomerId=" + uname + "&iDisplayStart=1&iDisplayLength=50", "My Leads", false, null));
+            Navigation.PushAsync(new WebviewHyubridConfirm("http://192.168.100.150:5000/Mobile/CustomerLeads/?CustomerId=" + uname + "&iDisplayStart=1&iDisplayLength=50", "My Leads", false, null));
         }
 
         private async void Button_Clicked_2(object sender, EventArgs e)

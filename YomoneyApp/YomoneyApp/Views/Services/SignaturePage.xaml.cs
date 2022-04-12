@@ -22,14 +22,14 @@ namespace YomoneyApp.Views.Services
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignaturePage : ContentPage
     {
-        string HostDomain = "https://www.yomoneyservice.com";
+        string HostDomain = "http://192.168.100.150:5000";
 
         MenuItem SelectedItem;
         private Point[] points;
         private MediaFile _mediaFile;
         ServiceViewModel viewModel;
 
-        //string HostDomain = "https://www.yomoneyservice.com";
+        //string HostDomain = "http://192.168.100.150:5000";
         string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
             "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
         string title = "";
@@ -224,7 +224,7 @@ namespace YomoneyApp.Views.Services
 
                         try
                         {
-                            string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                            string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
                             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                             httpWebRequest.ContentType = "application/json";
                             httpWebRequest.Method = "POST";

@@ -31,7 +31,7 @@ namespace YomoneyApp
                 //MenuItem menuItem = new MenuItem();
 
                 //menuItem.Id = "1";
-                //menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
+                //menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
                 //menuItem.Title = "SIM CARD MANAGEMENT";
                 //menuItem.Description = "SIM CARD MANAGEMENT";
                 //menuItem.Section = "Service";
@@ -48,7 +48,7 @@ namespace YomoneyApp
                 MenuItem menuItem = new MenuItem();
 
                 menuItem.Id = "1";
-                menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
+                menuItem.Image = "http://192.168.100.150:5000/Content/Logos/ZAMTEL/zamtel.png";
                 menuItem.Title = "ZAMTEL";
                 menuItem.Note = "BANKING";
                 menuItem.TransactionType = 12;

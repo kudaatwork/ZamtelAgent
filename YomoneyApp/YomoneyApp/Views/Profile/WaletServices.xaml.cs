@@ -60,7 +60,7 @@ namespace YomoneyApp.Views
         {
             AccessSettings acnt = new AccessSettings();
             string uname = acnt.UserName;
-            string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+            string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
 
             Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#22b24c",false));
         }
@@ -71,7 +71,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "My Services";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/myServices.jpg";
             menuItem.Section = "Yomoney";
             menuItem.ServiceId = 11;
             menuItem.SupplierId = "All";
@@ -85,7 +85,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "My Services";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/myServices.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/myServices.jpg";
             menuItem.Section = "Yomoney";
             menuItem.ServiceId = 11;
             menuItem.SupplierId = "All";
@@ -98,7 +98,7 @@ namespace YomoneyApp.Views
         {
             AccessSettings acnt = new AccessSettings();
             string uname = acnt.UserName;
-            string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+            string link = "http://192.168.100.150:5000/Mobile/Projects?Id=" + uname;
 
             Navigation.PushAsync(new WebviewHyubridConfirm(link, "My Tasks", true, "#22b24c",false));
         }
@@ -108,7 +108,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "Loyalty Points";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/Loyalty.jpg";
             menuItem.Section = "Loyalty";
             menuItem.ServiceId = 1;
             menuItem.SupplierId = "All";
@@ -122,7 +122,7 @@ namespace YomoneyApp.Views
             MenuItem menuItem = new MenuItem();
 
             menuItem.Title = "Loyalty Points";
-            menuItem.Image = "https://www.yomoneyservice.com/Content/Spani/Images/Loyalty.jpg";
+            menuItem.Image = "http://192.168.100.150:5000/Content/Spani/Images/Loyalty.jpg";
             menuItem.Section = "Loyalty";
             menuItem.ServiceId = 1;
             menuItem.SupplierId = "All";
@@ -134,7 +134,7 @@ namespace YomoneyApp.Views
         {
             AccessSettings acnt = new AccessSettings();
             string uname = acnt.UserName;
-            string link = "https://www.yomoneyservice.com/Mobile/PurchaseOrders?Id=" + uname;
+            string link = "http://192.168.100.150:5000/Mobile/PurchaseOrders?Id=" + uname;
 
             Navigation.PushAsync(new WebviewHyubridConfirm(link, "Purchase Orders", true, "#22b24c"));
         }
