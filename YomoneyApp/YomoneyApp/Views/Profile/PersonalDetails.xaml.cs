@@ -412,7 +412,7 @@ namespace YomoneyApp.Views.Profile
                 {
                     try
                     {
-                        httpClient.BaseAddress = new Uri("http://102.130.120.163:8058/");
+                        httpClient.BaseAddress = new Uri("https://www.yomoneyservice.com");
                         httpClient.DefaultRequestHeaders.Accept.Clear();
                         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -463,7 +463,7 @@ namespace YomoneyApp.Views.Profile
                             fileUpload.ServiceId = 0;
                             fileUpload.ActionId = 0;                            
 
-                            string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                            string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                             httpWebRequest.ContentType = "application/json";
                             httpWebRequest.Method = "POST";
@@ -564,7 +564,7 @@ namespace YomoneyApp.Views.Profile
 
                 //    try
                 //    {
-                //        string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                //        string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                 //        var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 //        httpWebRequest.ContentType = "application/json";
                 //        httpWebRequest.Method = "POST";
@@ -644,7 +644,7 @@ namespace YomoneyApp.Views.Profile
                 {
                     try
                     {
-                        httpClient.BaseAddress = new Uri("http://102.130.120.163:8058/");
+                        httpClient.BaseAddress = new Uri("https://www.yomoneyservice.com");
                         httpClient.DefaultRequestHeaders.Accept.Clear();
                         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -695,7 +695,7 @@ namespace YomoneyApp.Views.Profile
                             fileUpload.ServiceId = 0;
                             fileUpload.ActionId = 0;
 
-                            string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                            string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                             httpWebRequest.ContentType = "application/json";
                             httpWebRequest.Method = "POST";
@@ -813,7 +813,7 @@ namespace YomoneyApp.Views.Profile
 
                 //try
                 //{
-                //    string url2 = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
+                //    string url2 = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                 //    var httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url2);
                 //    httpWebRequest2.ContentType = "application/json";
                 //    httpWebRequest2.Method = "POST";

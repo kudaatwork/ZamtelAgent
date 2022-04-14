@@ -36,7 +36,7 @@ namespace YomoneyApp.ViewModels.Geo
     {
         public SQLiteConnection conn;
         public DBStorageModel storageModel;
-        readonly string HostDomain = "http://192.168.100.150:5000";
+        readonly string HostDomain = "https://www.yomoneyservice.com";
         bool showAlert = false;
 
         public ObservableRangeCollection<MenuItem> OrderedItems { get; set; }
@@ -63,11 +63,11 @@ namespace YomoneyApp.ViewModels.Geo
 
         public List<MenuItem> packageDetails = new List<MenuItem>()
             {
-                new MenuItem{ Title = "Item1", Description = "Item1 Description", Image = "http://192.168.100.150:5000/Content/Spani/Images/tasks.jpg", IsDelivered= false},
-                new MenuItem{ Title = "Item2", Description = "Item2 Description", Image = "http://192.168.100.150:5000/Content/Spani/Images/tasks.jpg", IsDelivered= false},
-                new MenuItem{ Title = "Item3", Description = "Item3 Description", Image = "http://192.168.100.150:5000/Content/Spani/Images/tasks.jpg", IsDelivered= false},
-                new MenuItem{ Title = "Item4", Description = "Item4 Description", Image = "http://192.168.100.150:5000/Content/Spani/Images/tasks.jpg", IsDelivered= false},
-                new MenuItem{ Title = "Item5", Description = "Item5 Description", Image = "http://192.168.100.150:5000/Content/Spani/Images/tasks.jpg", IsDelivered= false}
+                new MenuItem{ Title = "Item1", Description = "Item1 Description", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", IsDelivered= false},
+                new MenuItem{ Title = "Item2", Description = "Item2 Description", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", IsDelivered= false},
+                new MenuItem{ Title = "Item3", Description = "Item3 Description", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", IsDelivered= false},
+                new MenuItem{ Title = "Item4", Description = "Item4 Description", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", IsDelivered= false},
+                new MenuItem{ Title = "Item5", Description = "Item5 Description", Image = "https://www.yomoneyservice.com/Content/Spani/Images/tasks.jpg", IsDelivered= false}
             };
 
         Command getDemoOrderDetailsCommand;

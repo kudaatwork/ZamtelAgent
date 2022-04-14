@@ -22,14 +22,14 @@ namespace YomoneyApp.Views.Services
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignaturePage : ContentPage
     {
-        string HostDomain = "http://192.168.100.150:5000";
+        string HostDomain = "https://www.yomoneyservice.com";
 
         MenuItem SelectedItem;
         private Point[] points;
         private MediaFile _mediaFile;
         ServiceViewModel viewModel;
 
-        //string HostDomain = "http://192.168.100.150:5000";
+        //string HostDomain = "https://www.yomoneyservice.com";
         string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
             "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
         string title = "";
@@ -89,189 +89,197 @@ namespace YomoneyApp.Views.Services
 
                     #region Upload Signature to server
 
-                    var httpClient = new HttpClient();
+                   // var httpClient = new HttpClient();
 
-                    httpClient.BaseAddress = new Uri("http://102.130.120.163:8058/");
-                    // httpClient.DefaultRequestHeaders.Accept.Clear();
-                    // httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    // var content = new MultipartFormDataContent();
-
-                    // content.Add(new StreamContent(bitmap), "\"file\"", $"\"Content\\Uploads\"");
-
-                    var json1 = JsonConvert.SerializeObject(fileUpload);
-                    var data = new StringContent(json1, Encoding.UTF8, "application/json");
-
-                    var uploadServiceBaseAddress = "api/Signature/Upload";
-
-                    System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                    httpClient.Timeout = TimeSpan.FromMinutes(3);
-
-                    var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, data);
-
-                    var response = httpResponseMessage.Content.ReadAsStringAsync();
-
-                    var result = JsonConvert.DeserializeObject<string>(response.Result);
-
-                    //var result = response.Result;
-
-                    if (response.Result.ToUpper() == "FAILED")
+                    var baseAddress = new Uri("https://www.yomoneyservice.com");
+                    var cookieContainer = new CookieContainer();
+                    using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+                    using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
                     {
-                        await DisplayAlert("File Upload", "There was an error saving the signature.", "OK");
-                        viewModel.IsBusy = false;
-                    }
-                    else
-                    {
-                        AccessSettings acnt = new AccessSettings();
-                        string pass = acnt.Password;
-                        string uname = acnt.UserName;
+                        var json1 = JsonConvert.SerializeObject(fileUpload);
+                        var data = new StringContent(json1, Encoding.UTF8, "application/json");
 
-                        //var bytes = new byte[bitmap.Length];
-                        //await bitmap.ReadAsync(bytes, 0, (int)bitmap.Length);
-                        //string base64 = System.Convert.ToBase64String(bytes);
+                        var uploadServiceBaseAddress = "api/Signature/Upload";
 
-                        char[] delimite = new char[] { '/' };
+                        System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                        client.Timeout = TimeSpan.FromMinutes(3);
 
-                        string[] parts1 = result.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
+                        cookieContainer.Add(baseAddress, new Cookie("AspxAutoDetectCookieSupport", "1", "/", "www.yomoneyservice.com"));
 
-                        var fileName = parts1[2];
+                        var httpResponseMessage = await client.PostAsync(uploadServiceBaseAddress, data);
 
-                        char[] delimiter = new char[] { '.' };
+                        var response = httpResponseMessage.Content.ReadAsStringAsync();
 
-                        string[] parts = fileName.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+                        var result = JsonConvert.DeserializeObject<string>(response.Result);
 
-                        var type = parts[1];
+                        //var result = response.Result;
 
-                        //string regExp = "[^a-zA-Z0-9]";
-
-                        var finalFileName = fileName.Replace(" ", "_");
-
-                        fileUpload.Name = finalFileName;
-                        fileUpload.Type = "png";
-                        fileUpload.PhoneNumber = HomeViewModel.fileUpload.PhoneNumber;
-                        fileUpload.Image = "http://102.130.120.163:8058" + result;                        
-
-                        if (string.IsNullOrEmpty(HomeViewModel.fileUpload.SupplierId))
+                        if (response.Result.ToUpper() == "FAILED")
                         {
-                            var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
-
-                            char[] delimiter2 = new char[] { '&' };
-
-                            string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
-
-                            if (parts2[0].Contains("SupplierId"))
-                            {
-                                var supplierId = parts2[0].Trim().Replace("SupplierId=", "");
-                                fileUpload.SupplierId = supplierId;
-                            }                            
+                            await DisplayAlert("File Upload", "There was an error saving the signature.", "OK");
+                            viewModel.IsBusy = false;
                         }
                         else
                         {
-                            fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
-                        }
+                            AccessSettings acnt = new AccessSettings();
+                            string pass = acnt.Password;
+                            string uname = acnt.UserName;
 
-                        if (HomeViewModel.fileUpload.ActionId == 0)
-                        {
-                            var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
+                            //var bytes = new byte[bitmap.Length];
+                            //await bitmap.ReadAsync(bytes, 0, (int)bitmap.Length);
+                            //string base64 = System.Convert.ToBase64String(bytes);
 
-                            char[] delimiter2 = new char[] { '&' };
+                            char[] delimite = new char[] { '/' };
 
-                            string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+                            string[] parts1 = result.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
 
-                            if (parts2[0].Contains("ActionId"))
+                            var fileName = parts1[2];
+
+                            char[] delimiter = new char[] { '.' };
+
+                            string[] parts = fileName.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+
+                            var type = parts[1];
+
+                            //string regExp = "[^a-zA-Z0-9]";
+
+                            var finalFileName = fileName.Replace(" ", "_");
+
+                            fileUpload.Name = finalFileName;
+                            fileUpload.Type = "png";
+                            fileUpload.PhoneNumber = HomeViewModel.fileUpload.PhoneNumber;
+                            fileUpload.Image = "https://www.yomoneyservice.com" + result;
+
+                            if (string.IsNullOrEmpty(HomeViewModel.fileUpload.SupplierId))
                             {
-                                var actionId = parts2[0].Trim().Replace("ActionId=", "");
-                                fileUpload.ActionId = long.Parse(actionId);
-                            }
-                        }
-                        else
-                        {
-                            fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
-                        }
+                                var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
 
-                        if (string.IsNullOrEmpty(HomeViewModel.fileUpload.FormId))
-                        {
-                            var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
+                                char[] delimiter2 = new char[] { '&' };
 
-                            char[] delimiter2 = new char[] { '&' };
+                                string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
 
-                            string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
-
-                            if (parts2[0].Contains("FormId"))
-                            {
-                                var formId = parts2[0].Trim().Replace("FormId=", "");
-                                fileUpload.FormId = formId;
-                            }
-                        }
-                        else
-                        {
-                            fileUpload.FormId = HomeViewModel.fileUpload.FormId;
-                        }
-
-                        fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
-                        fileUpload.Purpose = "FORMS";
-                        fileUpload.FormId = HomeViewModel.fileUpload.FormId;
-                        fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
-
-                        if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
-                        {
-                            fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
-                        }
-                        else
-                        {
-                            fileUpload.RecordId = "0";
-                        }
-
-                        try
-                        {
-                            string url = String.Format("http://192.168.100.150:5000/Mobile/FileUploader");
-                            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                            httpWebRequest.ContentType = "application/json";
-                            httpWebRequest.Method = "POST";
-                            httpWebRequest.Timeout = 120000;
-                            httpWebRequest.CookieContainer = new CookieContainer();
-                            Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                            cookie.Domain = "www.yomoneyservice.com";
-                            httpWebRequest.CookieContainer.Add(cookie);
-
-                            var json = JsonConvert.SerializeObject(fileUpload);
-
-                            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                            {
-                                streamWriter.Write(json);
-                                streamWriter.Flush();
-                                streamWriter.Close();
-
-                                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-                                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                                if (parts2[0].Contains("SupplierId"))
                                 {
-                                    var result2 = streamReader.ReadToEnd();
+                                    var supplierId = parts2[0].Trim().Replace("SupplierId=", "");
+                                    fileUpload.SupplierId = supplierId;
+                                }
+                            }
+                            else
+                            {
+                                fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
+                            }
 
-                                    //var resultResponse = JsonConvert.DeserializeObject<string>(result2);
+                            if (HomeViewModel.fileUpload.ActionId == 0)
+                            {
+                                var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
 
-                                    if (!result2.Contains("Error"))
+                                char[] delimiter2 = new char[] { '&' };
+
+                                string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+
+                                if (parts2[0].Contains("ActionId"))
+                                {
+                                    var actionId = parts2[0].Trim().Replace("ActionId=", "");
+                                    fileUpload.ActionId = long.Parse(actionId);
+                                }
+                            }
+                            else
+                            {
+                                fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
+                            }
+
+                            if (string.IsNullOrEmpty(HomeViewModel.fileUpload.FormId))
+                            {
+                                var formString = SelectedItem.Section.Replace("/Mobile/Forms?", "");
+
+                                char[] delimiter2 = new char[] { '&' };
+
+                                string[] parts2 = formString.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+
+                                if (parts2[0].Contains("FormId"))
+                                {
+                                    var formId = parts2[0].Trim().Replace("FormId=", "");
+                                    fileUpload.FormId = formId;
+                                }
+                            }
+                            else
+                            {
+                                fileUpload.FormId = HomeViewModel.fileUpload.FormId;
+                            }
+
+                            fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
+                            fileUpload.Purpose = "FORMS";
+                            fileUpload.FormId = HomeViewModel.fileUpload.FormId;
+                            fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
+
+                            if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
+                            {
+                                fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
+                            }
+                            else
+                            {
+                                fileUpload.RecordId = "0";
+                            }
+
+                            try
+                            {
+                                string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
+                                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                                httpWebRequest.ContentType = "application/json";
+                                httpWebRequest.Method = "POST";
+                                httpWebRequest.Timeout = 120000;
+                                httpWebRequest.CookieContainer = new CookieContainer();
+                                Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
+                                cookie.Domain = "www.yomoneyservice.com";
+                                httpWebRequest.CookieContainer.Add(cookie);
+
+                                var json = JsonConvert.SerializeObject(fileUpload);
+
+                                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                                {
+                                    streamWriter.Write(json);
+                                    streamWriter.Flush();
+                                    streamWriter.Close();
+
+                                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                                     {
-                                        viewModel.IsBusy = false;
-                                        await DisplayAlert("Signature Pad", "Signature successfully saved to the photo library!", "OK");
-                                        await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + result2, "Signature Form", false, null, true));
-                                    }
-                                    else
-                                    {                                        
-                                        await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
-                                        viewModel.IsBusy = false;
+                                        var result2 = streamReader.ReadToEnd();
+
+                                        //var resultResponse = JsonConvert.DeserializeObject<string>(result2);
+
+                                        if (!result2.Contains("Error"))
+                                        {
+                                            viewModel.IsBusy = false;
+                                            await DisplayAlert("Signature Pad", "Signature successfully saved to the photo library!", "OK");
+                                            await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + result2, "Signature Form", false, null, true));
+                                        }
+                                        else
+                                        {
+                                            await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                                            viewModel.IsBusy = false;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
 
-                            await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
-                            viewModel.IsBusy = false;
+                                await DisplayAlert("Signature Pad", "There was an error saving the signature.", "OK");
+                                viewModel.IsBusy = false;
+                            }
                         }
                     }
+
+                        // httpClient.DefaultRequestHeaders.Accept.Clear();
+                        // httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        // var content = new MultipartFormDataContent();
+
+                        // content.Add(new StreamContent(bitmap), "\"file\"", $"\"Content\\Uploads\"");
+                       
 
                     #endregion                    
 
