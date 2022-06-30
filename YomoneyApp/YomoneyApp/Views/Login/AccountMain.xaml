@@ -9,19 +9,19 @@
         <Grid>
 
             <StackLayout>
-                <Frame BackgroundColor="#22b24c" HeightRequest="300" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-                    <Image Source="image2.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
+                <Frame BackgroundColor="#FFFFFF" HeightRequest="300" HorizontalOptions="FillAndExpand" HasShadow="False" Padding="0" Margin="0">                   
+                        <Image Source="image2.pngg" Aspect="AspectFill" Margin="0,0,0,0"/>                               
                 </Frame>
-            </StackLayout>
+            </StackLayout>            
 
             <StackLayout>
-            <Frame Margin="12,240,12,0" BackgroundColor="White" HasShadow="True" HeightRequest="280" HorizontalOptions="FillAndExpand">
+            <Frame Margin="12,260,12,0" BackgroundColor="White" HasShadow="True" HeightRequest="290" CornerRadius="12" HorizontalOptions="FillAndExpand">
 
                 <StackLayout>
 
                     <StackLayout HorizontalOptions="CenterAndExpand">
-                        <Label Text="Welcome to Zamtel Agent App" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
-                        <Label Text="A click away from Zamtel " HorizontalTextAlignment="Center" TextColor="#000000" FontSize="Small" FontAttributes="None" Margin="0,0,0,15"></Label>
+                        <Label Text="Welcome to Zamtel" TextColor="#000000" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" Margin="0,15"></Label>
+                            <Label Text="Live Life Today And Connect With Zamtel's Products And Services That Meet All Your Needs." HorizontalTextAlignment="Center" TextColor="#000000" FontSize="12" FontAttributes="None" Margin="0,0,0,15"></Label>
                     </StackLayout>
 
                         <Button Text="SIGN UP" x:Name="ButtonJoin" BackgroundColor="#B22288" Margin="0,10,0,10" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
@@ -32,9 +32,12 @@
             </Frame>
             </StackLayout>
 
-            <StackLayout Margin="0,650,0,0">
-                <Image Source="icon.png" Aspect="AspectFit" Margin="0" HeightRequest="90" WidthRequest="20"></Image>
-            </StackLayout>
+            <!--<StackLayout Margin="0,650,0,0">
+                <Frame BackgroundColor="Transparent" Margin="100, 0, 100, 100">
+                    <Image Source="New_Ingoma_Logo.png" Aspect="AspectFit" Margin="0" HeightRequest="150" WidthRequest="60"></Image>
+                </Frame>
+                
+            </StackLayout>-->
 
         </Grid>
     </ScrollView>

@@ -8,7 +8,7 @@
     x:Class="YomoneyApp.HomePage"
     NavigationPage.HasNavigationBar="True"
     NavigationPage.HasBackButton="false"
-	Title="Zamtel"
+	Title="INGOMA | Home"
 	IsBusy="{Binding IsBusy}"
     BackgroundColor="#FFFFFF">
 
@@ -20,8 +20,7 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="1*"/>
+                    
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -127,14 +126,14 @@
                         </controls:CarouselViewControl>
                     </Frame>
                 </Grid>
-                
-               
-                        <Label Grid.Row="1" Grid.ColumnSpan="4" Text="My Agents" Margin="10,10,5,10" TextColor="Black" FontAttributes="Bold"></Label>
+
+
+                <Label Grid.Row="1" Grid.ColumnSpan="4" Text="Explore Categories" Margin="10,10,5,10" FontSize="16" TextColor="#22b24c" FontAttributes="Bold"></Label>
 
                         <RefreshView  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
                             <CollectionView ItemsSource="{Binding myButtonSource}"
-                 ItemsLayout="HorizontalList"
-                 Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="8,5" >
+                            ItemsLayout="HorizontalList"
+                            Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="8,5" >
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid ColumnSpacing="4">
@@ -148,8 +147,8 @@
                                     </magic:GradientView> -->
                                             <!-- <Frame BorderColor="White" BackgroundColor="White" HasShadow="false" CornerRadius="0" HeightRequest="1" Grid.Row="0" Grid.Column="0" />
                                     <Frame BorderColor="White" BackgroundColor="Transparent" HasShadow="false" CornerRadius="5" HeightRequest="1" Grid.Row="0" Grid.Column="0" />-->
-                                            <Frame BorderColor="White" BackgroundColor="White" HasShadow="True" CornerRadius="10" Margin="5" HeightRequest="1" Grid.Row="0" Grid.Column="0" />
-                                            <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Title}" TextColor="Black" FontSize="13" Margin="7" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+                                    <Frame BorderColor="#f4f4f4" BackgroundColor="#ffffff" HasShadow="True" CornerRadius="10" Margin="5" HeightRequest="1" Grid.Row="0" Grid.Column="0" />
+                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Title}" TextColor="#22b24c" FontSize="13" Margin="7,0,7,7" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
                                             <Button 
                                     Image="{Binding Image}"
 				                    Grid.Row="0"
@@ -166,47 +165,12 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                        </RefreshView>
+                        </RefreshView>            
+               
 
-                        <Label Grid.Row="3" Grid.ColumnSpan="4" Text="My Services" Margin="10,5,5,10" FontAttributes="Bold" TextColor="Black"></Label>
-
-                        <RefreshView  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
-                            <CollectionView ItemsSource="{Binding myButtonSource}" ItemsLayout="HorizontalList" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="8,5" >
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnSpacing="3">
-                                            <!-- <magic:GradientView Grid.Row="0" Grid.Column="0" VerticalOptions="FillAndExpand">
-                                        <magic:GradientView.GradientSource>
-                                            <magic:LinearGradient Angle="0">
-                                                <magic:GradientStop Color="#22b24c" Offset="0" />
-                                                <magic:GradientStop Color="#22b24c" Offset="1" />
-                                            </magic:LinearGradient>
-                                        </magic:GradientView.GradientSource>
-                                    </magic:GradientView>
-                                    <Frame BorderColor="White" BackgroundColor="Transparent" HasShadow="false" CornerRadius="0" HeightRequest="1" Grid.Row="0" Grid.Column="0" />
-                                    <Frame BorderColor="White" BackgroundColor="Transparent" HasShadow="false" CornerRadius="5" HeightRequest="1" Grid.Row="0" Grid.Column="0" />-->
-                                            <Frame BorderColor="White" BackgroundColor="White" CornerRadius="10" HeightRequest="1" Margin="5" Padding="5" HasShadow="True" Grid.Row="0" Grid.Column="0" />
-                                            <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Title}" TextColor="Black" Margin="7" FontSize="13" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
-                                            <Button 
-                                    Image="{Binding Image}"
-				                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    HorizontalOptions="Center"
-				                    BackgroundColor="Transparent"
-                                    FontAttributes="None" 
-				                    BorderRadius="6"
-				                    TextColor="White" 
-                                    CommandParameter ="{Binding}"
-                                    Clicked="Section_Clicked"
-				                  />
-                                        </Grid>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </RefreshView>
-                              
-                    
             </Grid>
-        </StackLayout>
+
+            
+        </StackLayout>      
     </ContentPage.Content>
 </ContentPage>

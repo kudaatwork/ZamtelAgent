@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local1="clr-namespace:YomoneyApp.CustomeRenderer" xmlns:forms="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="YomoneyApp.Views.Login.AgentRegistrationTwo"
+             Title="Agent Sign Up"
+             IsBusy="{Binding IsBusy}"
+             >
+    
+    <ScrollView Orientation="Vertical">
+        <StackLayout Padding="0" BackgroundColor="White">
+
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff">
+                <ActivityIndicator  HorizontalOptions="Center"
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff"/>
+                <Label HorizontalOptions="Center" 
+                       TextColor="#22b24c"
+	    	 VerticalOptions="Center" 
+                       FontSize="12"
+	    	 Text="{Binding Message}"/>
+            </StackLayout>
+
+            <Grid>
+                <StackLayout Padding="0" Margin="0">
+                    <Frame BackgroundColor="#ffffff" HeightRequest="205" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                        <Frame HeightRequest="10" WidthRequest="10" Margin="100,0,100,100" HasShadow="False">
+                            <Image Source="splash_logo.png" Aspect="AspectFit" Margin="0,0,0,0"/>
+                        </Frame>
+                    </Frame>
+                </StackLayout>
+                <StackLayout Margin="12,100,12,0">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="620" CornerRadius="12" HorizontalOptions="FillAndExpand">
+                        <StackLayout>
+                            <StackLayout HorizontalOptions="CenterAndExpand">
+                                <Label Text="AGENT SIGN UP 2" TextColor="#000000" FontSize="Small" FontAttributes="Bold"></Label>
+                            </StackLayout>
+
+                            <StackLayout Margin="0,5,0,0">                                
+
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,3,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="namesure.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <local1:MyCustomeEntry Text="{Binding FormArea}" FontAttributes="None" FontSize="Small" Keyboard="Default" Placeholder="Area" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,3,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="namesure.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <local1:MyCustomeEntry Text="{Binding FormAgentCode}" FontAttributes="None" FontSize="Small" Keyboard="Default" Placeholder="Agent Code (Optional)" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <Frame BackgroundColor="Transparent" BorderColor="#22b24c" Padding="0" Margin="0,3,0,0" CornerRadius="50" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="namesure.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <local1:MyCustomeEntry Text="{Binding FormIdNumber}" FontAttributes="None" FontSize="Small" Keyboard="Default" Placeholder="National Id Number" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <Label FontSize="Small" Text="Province" Margin="10,0,0,0" TextColor="#22b24c"/>
+
+                                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal" >
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="40" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="gender45.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <Picker x:Name="Province" Title="Select Province" FontSize="Small" WidthRequest="280" Grid.Column="0"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <Label FontSize="Small" Text="Town" Margin="10,0,0,0" TextColor="#22b24c"/>
+
+                                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal" >
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="40" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="gender45.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <Picker x:Name="Town" Title="Select Town" FontSize="Small" WidthRequest="280" Grid.Column="0"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <Label FontSize="Small" Text="Supervisor" Margin="10,0,0,0" TextColor="#22b24c"/>
+
+                                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal" >
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="40" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="gender45.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <Picker x:Name="Supervisor" Title="Select Supervisor" FontSize="Small" WidthRequest="280" Grid.Column="0"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <Label FontSize="Small" Text="Nationality" Margin="10,0,0,0" TextColor="#22b24c"/>
+
+                                <Frame BackgroundColor="Transparent" BorderColor="Transparent" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal" >
+                                        <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="40" WidthRequest="50" Padding="0" HorizontalOptions="Start">
+                                            <Image Source="gender45.png" Aspect="AspectFill" Margin="0"/>
+                                        </Frame>
+                                        <Picker x:Name="Nationality" Title="Select Nationality" FontSize="Small" WidthRequest="280" Grid.Column="0"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+
+                            <Button x:Name="ButtonSubmitFeedback" Command="{Binding SecondNextCommand}" Text="NEXT" FontSize="Small" BackgroundColor="#22b24c" Margin="0,5,0,0" Padding="0,13,0,13" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
+
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,0">
+                                <Label Text="Already have an account?" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                                <Label Text="Sign In" TextColor="#22b24c" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+
+                            <!-- <StackLayout>
+                            <Image Source="yoapp.png" Aspect="AspectFit" Margin="0,40,0,0" HeightRequest="90" WidthRequest="20"></Image>
+                        </StackLayout> -->
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -18,6 +18,7 @@ namespace YomoneyApp
             
             AccessSettings ac = new Services.AccessSettings();
             string pass = ac.Password;
+            string rememberMe = ac.RememberMe;
             App.MyLogins  = "";
             string s = ac.SaveValue("dbPath", dbPath).Result;
             //MyLogins = new MyLogins();
@@ -25,58 +26,31 @@ namespace YomoneyApp
             ChatViewModel cvm = new ChatViewModel(pg);
             ChatServices sigChat = new ChatServices();
            
-            if (!string.IsNullOrEmpty(pass))
+            if (!string.IsNullOrEmpty(rememberMe))
             {
-
-                //MenuItem menuItem = new MenuItem();
-
-                //menuItem.Id = "1";
-                //menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
-                //menuItem.Title = "SIM CARD MANAGEMENT";
-                //menuItem.Description = "SIM CARD MANAGEMENT";
-                //menuItem.Section = "Service";
-                //menuItem.Note = "ZAMTEL";
-                //menuItem.ServiceId = 1;
-                //menuItem.TransactionType = 12;
-                //menuItem.SupplierId = "5-0001-0001052";
-                //menuItem.date = "0001-01-01T00:00:00";
-
-                //await page.Navigation.PushAsync(new ServiceActions(menuItem));
-
-
-                #region Load Services
-                MenuItem menuItem = new MenuItem();
-
-                menuItem.Id = "1";
-                menuItem.Image = "https://www.yomoneyservice.com/Content/Logos/ZAMTEL/zamtel.png";
-                menuItem.Title = "ZAMTEL";
-                menuItem.Note = "BANKING";
-                menuItem.TransactionType = 12;
-                menuItem.SupplierId = "5-0001-0001052";
-                //menuItem.date = "0001-01-01T00:00:00";
-
-                //await page.Navigation.PushAsync(new ProviderServices(menuItem));
-                #endregion
-
-
-                // cvm.GetSupportCommand.Execute(null);
-                MainPage = new NavigationPage(new ProviderServices(menuItem))
+                if (rememberMe.ToUpper().Trim() == "REMEMBERME")
                 {
-                    BarTextColor = Color.White,
-                    BarBackgroundColor = Color.FromHex("#22b24c")
-                };
+                    MainPage = new NavigationPage(new HomePage())
+                    {
+                        BarTextColor = Color.White,
+                        BarBackgroundColor = Color.FromHex("#22b24c")
+                    };
 
-                //MainPage = new NavigationPage(new HomePage())
-                //{
-                //    BarTextColor = Color.White,
-                //    BarBackgroundColor = Color.FromHex("#22b24c")
-                //};
-                                Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+                    Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+                    {
+                        if (!sigChat.IsConnectedOrConnecting)
+                            cvm = new ChatViewModel(pg);
+                        return true;
+                    });
+                }
+                else
                 {
-                    if (!sigChat.IsConnectedOrConnecting)
-                        cvm = new ChatViewModel(pg);
-                    return true;
-                });
+                    MainPage = new NavigationPage(new AccountMain())
+                    {
+                        BarTextColor = Color.White,
+                        BarBackgroundColor = Color.FromHex("#22b24c")
+                    };
+                }                
             }
             else
             {               
@@ -92,7 +66,9 @@ namespace YomoneyApp
         public static string MyLogins;
 
         public static string AuthToken;
-                        
+
+        public static string RememberMe;
+
         protected override void OnStart()
         {
             // Handle when your app starts

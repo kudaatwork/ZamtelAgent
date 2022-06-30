@@ -18,7 +18,7 @@ namespace YomoneyApp.Views.Login
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
-            viewModel.ActualPhoneNumber = phone;
+            AccountViewModel.ActualPhoneNumber = phone;
         }
 
        /* private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
@@ -46,7 +46,7 @@ namespace YomoneyApp.Views.Login
             {
                 if (viewModel.PhoneNumber != null)
                 {
-                    viewModel.LoadQuestions();
+                   // viewModel.LoadQuestions();
                 }
                 else
                 {

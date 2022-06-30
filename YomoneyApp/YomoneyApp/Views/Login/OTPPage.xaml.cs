@@ -18,13 +18,34 @@ namespace YomoneyApp.Views.Login
         {
             InitializeComponent();
             BindingContext = viewModel = new AccountViewModel(this);
-            viewModel.PhoneNumber = phone;
+
+            if (string.IsNullOrEmpty(phone))
+            {
+                viewModel.PhoneNumber = phone;
+            }
+            else 
+            {
+                viewModel.PhoneNumber = phone;
+            }
+            
             viewModel.GetVerificationAsync();
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@zamtel.zm", "Skype: zamtel@outlook.com", "Call: +263 787 324 123");
+            string action = await DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +27 79 190 3850");
+
+            if (!string.IsNullOrEmpty(action))
+            {
+                try
+                {
+                    Device.OpenUri(new Uri("https://wa.link/fehh38"));
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Not Installed", "Whatsapp Not Installed", "ok");
+                }
+            }
         }
 
         private void ButtonSignIn_Clicked(object sender, EventArgs e)
@@ -32,6 +53,23 @@ namespace YomoneyApp.Views.Login
             if (sender is Button button)
             {
                 button.IsEnabled = true;
+            }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            base.OnBackButtonPressed();
+
+            return true;
+        }
+
+        private async void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+            var resendCode = await DisplayAlert("Alert!", "Do you really want to resend your verification code?", "Yes", "No");
+
+            if (resendCode)
+            {
+                viewModel.GetVerificationAsync();
             }
         }
     }

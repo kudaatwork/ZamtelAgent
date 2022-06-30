@@ -46,11 +46,13 @@ namespace YomoneyApp.ViewModels.Login
         #region Tap Gestures
         async void OnTapGestureRecognizerTapped(object sender, EventArgs args)
         {
+            //Navigation.PopAsync();
             await Navigation.PushAsync(new PhoneNumberVerificationPage());
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
+            //Navigation.PopAsync();
             await Navigation.PushAsync(new NewAccount());
 
             //await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
@@ -79,6 +81,23 @@ namespace YomoneyApp.ViewModels.Login
         private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (sender is CheckBox checkbox)
+            {
+                if (checkbox.IsChecked == true)
+                {
+                    checkbox.IsChecked = true;
+                    viewModel.IsRememberMe = true;
+                }
+                else
+                {
+                    checkbox.IsChecked = false;
+                    viewModel.IsRememberMe = false;
+                }
+            }
         }
     }
 }

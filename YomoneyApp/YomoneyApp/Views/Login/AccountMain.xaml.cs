@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YomoneyApp.Views.Webview;
+using YomoneyApp.Services;
+using YomoneyApp.Views.Services;
 
 namespace YomoneyApp.Views.Login
 {
@@ -26,6 +28,7 @@ namespace YomoneyApp.Views.Login
 
             ButtonJoin.Clicked += async (sender, e) =>
             {
+                //Navigation.PopAsync();
                 await Navigation.PushAsync(new NewAccount());
 
                 //await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
@@ -35,8 +38,23 @@ namespace YomoneyApp.Views.Login
 
             ButtonLogin.Clicked += async (sender, e) =>
             {
+                //Navigation.PopAsync();
                 await Navigation.PushAsync(new SignIn());
             };
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing(); 
+
+            
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            base.OnBackButtonPressed();
+
+           return true;
         }
     }
 }

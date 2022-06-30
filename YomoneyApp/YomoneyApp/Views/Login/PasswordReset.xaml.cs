@@ -29,5 +29,12 @@ namespace YomoneyApp.Views.Login
                 button.IsEnabled = true;
             }
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            base.OnBackButtonPressed();
+
+            return true;
+        }
     }
 }

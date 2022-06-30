@@ -25,10 +25,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ContentView Padding="1" BackgroundColor="#B8860B">
-                <controls:SignaturePadView
+            <ContentView Padding="1" Grid.ColumnSpan="2" BackgroundColor="#B8860B">
+                <controls:SignaturePadView Grid.ColumnSpan="2"
                 x:Name="signatureView" StrokeCompleted="SignatureChanged" Cleared="SignatureChanged"
-                CaptionTextColor="#B8860B" ClearTextColor="#B8860B" PromptTextColor="#B8860B"
+                CaptionTextColor="#B8860B" ClearTextColor="#B8860B" HeightRequest="200" PromptTextColor="#B8860B"
                 SignatureLineColor="#B8860B" BackgroundColor="#FAFAD2" />
             </ContentView>
         </Grid>

@@ -164,334 +164,7 @@ namespace YomoneyApp.Views.Services
         {
             viewModel.IsBusy = true;
 
-            #region File Upload via Multipart           
-
-            #region Commented Out Code
-            //using (var httpClient = new HttpClient())
-            //{
-            //    try
-            //    {
-            //        httpClient.BaseAddress = new Uri("https://www.yomoneyservice.com");
-            //        httpClient.DefaultRequestHeaders.Accept.Clear();
-            //        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            //        //char[] delimiter = new char[] { '.' };
-
-            //        //string[] strParts = fileResult.FileName.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
-
-            //        string result = string.Empty;
-
-            //        if (fileResult == null) // It's an image
-            //        {
-            //            // var imagePath = CompressImage(_mediaFile.Path, Path.GetFileName(_mediaFile.Path), 40);
-            //            //ImageCompression imageCompression = new ImageCompression();
-
-            //            //FileStream fileStream = new FileStream(_mediaFile.GetStream(), FileMode.Open, FileAccess.Read);
-
-            //            //var bytes = new byte[fileStream.Length];
-
-            //            //var compressedImage = DependencyService.Get<IImageCompressionService>().CompressImage(bytes, fileResult.FullPath, 40);                       
-
-            //            string filePath = _mediaFile.Path;
-
-            //            long fileSizeibBytes = GetFileSize(filePath);
-
-            //            if (fileSizeibBytes > 2097152)
-            //            {
-            //                await DisplayAlert("Error!", "Your image is too large, it has to be less than 2 MB", "OK");
-            //                viewModel.IsBusy = false;
-            //                return;
-            //            }
-            //            else
-            //            {
-            //                var content = new MultipartFormDataContent();
-
-            //                content.Add(new StreamContent(_mediaFile.GetStream()), "\"file\"", $"\"{_mediaFile.Path}\"");
-
-            //                var uploadServiceBaseAddress = "api/ProfileImages/Upload";
-
-            //                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-            //                httpClient.Timeout = TimeSpan.FromMinutes(3);
-
-            //                var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, content);
-
-            //                var response = httpResponseMessage.Content.ReadAsStringAsync();
-
-            //                result = JsonConvert.DeserializeObject<string>(response.Result);
-
-            //                if (result.ToUpper() == "FAILED")
-            //                {
-            //                    await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-            //                    viewModel.IsBusy = false;
-            //                }
-            //                else
-            //                {
-            //                    AccessSettings acnt = new AccessSettings();
-            //                    string pass = acnt.Password;
-            //                    string uname = acnt.UserName;
-
-            //                    FileUpload fileUpload = new FileUpload();
-
-            //                    string strPath = _mediaFile.Path;
-
-            //                    var fileName = Path.GetFileName(strPath); // filename
-
-            //                    char[] delimite = new char[] { '.' };
-
-            //                    string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
-
-            //                    var type = parts[1];
-
-            //                    var finalFileName = fileName.Replace(" ", "_");
-
-            //                    //fileName.Replace(" ", "_");
-
-            //                    fileUpload.Name = finalFileName;
-            //                    fileUpload.Type = type;
-            //                    fileUpload.PhoneNumber = uname;
-            //                    fileUpload.Image = "http://102.130.120.163:8058" + result;
-            //                    fileUpload.Purpose = "FORMS";
-            //                    fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
-            //                    fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
-            //                    fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
-            //                    fileUpload.FormId = HomeViewModel.fileUpload.FormId;
-            //                    fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
-
-            //                    if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
-            //                    {
-            //                        fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
-            //                    }
-            //                    else
-            //                    {
-            //                        fileUpload.RecordId = "0";
-            //                    }
-
-            //                    string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
-            //                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            //                    httpWebRequest.ContentType = "application/json";
-            //                    httpWebRequest.Method = "POST";
-            //                    httpWebRequest.Timeout = 120000;
-            //                    httpWebRequest.CookieContainer = new CookieContainer();
-            //                    Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-            //                    cookie.Domain = "www.yomoneyservice.com";
-            //                    httpWebRequest.CookieContainer.Add(cookie);
-
-            //                    var json = JsonConvert.SerializeObject(fileUpload);
-
-            //                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            //                    {
-            //                        streamWriter.Write(json);
-            //                        streamWriter.Flush();
-            //                        streamWriter.Close();
-
-            //                        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-            //                        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            //                        {
-            //                            var serverresult = streamReader.ReadToEnd();
-
-            //                            if (serverresult.Contains("/Mobile/"))
-            //                            {
-            //                                await DisplayAlert("File Upload", "File uploaded and saved successfully", "OK");
-            //                                viewModel.IsBusy = false;
-            //                                FileImage.Source = null;
-            //                                FileStatus.Text = null;
-            //                                SavePhoto.IsEnabled = false;
-            //                                _mediaFile.Dispose();
-
-            //                                Navigation.PopAsync();
-
-            //                                await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
-
-
-            //                                //this.Navigation.RemovePage(this.Navigation.NavigationStack[this.]);
-
-            //                                //Device.BeginInvokeOnMainThread(async () =>
-            //                                //{
-            //                                //    await App.Current.MainPage.Navigation.PushAsync(new HomePage());
-            //                                //});
-            //                            }
-            //                            else
-            //                            {
-            //                                await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-            //                                viewModel.IsBusy = false;
-            //                            }
-
-            //                            //var stringResult = JsonConvert.DeserializeObject<string>(result);
-
-            //                            //if (stringResult == "Success")
-            //                            //{
-            //                            //    await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
-            //                            //    viewModel.IsBusy = false;
-
-            //                            //    await Navigation.PushAsync(new HomePage());
-            //                            //}
-            //                            //else
-            //                            //{
-            //                            //    await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-            //                            //    viewModel.IsBusy = false;
-            //                            //}
-            //                            //FileImage.Source.ClearValue();
-
-            //                        }
-            //                    }
-            //                }
-            //            }                        
-            //        }
-            //        else
-            //        {
-            //            var content = new MultipartFormDataContent();
-
-            //            FileStream fileStream = new FileStream(fileResult.FullPath, FileMode.Open, FileAccess.Read);
-
-            //            string filePath = fileResult.FullPath;
-
-            //            long fileSizeibBytes = GetFileSize(filePath);
-
-            //            if (fileSizeibBytes > 2097152)
-            //            {
-            //                await DisplayAlert("Error!", "Your image is too large, it has to be less than 2 MB", "OK");
-            //                viewModel.IsBusy = false;
-            //                return;
-            //            }
-            //            else
-            //            {
-            //                content.Add(new StreamContent(fileStream), "\"file\"", $"\"{fileResult.FullPath}\"");
-
-            //                var uploadServiceBaseAddress = "api/ServerFiles/Upload";
-
-            //                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-            //                httpClient.Timeout = TimeSpan.FromMinutes(3);
-
-            //                var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, content);
-
-            //                var response = httpResponseMessage.Content.ReadAsStringAsync();
-
-            //                result = JsonConvert.DeserializeObject<string>(response.Result);
-
-            //                if (result.ToUpper() == "FAILED")
-            //                {
-            //                    await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-            //                    viewModel.IsBusy = false;
-            //                }
-            //                else
-            //                {
-            //                    AccessSettings acnt = new AccessSettings();
-            //                    string pass = acnt.Password;
-            //                    string uname = acnt.UserName;
-
-            //                    FileUpload fileUpload = new FileUpload();
-
-            //                    var fileName = Path.GetFileName(fileResult.FileName); // filename
-
-            //                    char[] delimite = new char[] { '.' };
-
-            //                    string[] parts = fileName.Split(delimite, StringSplitOptions.RemoveEmptyEntries);
-
-            //                    var type = parts[1];
-
-            //                    var finalFileName = fileName.Replace(" ", "_");
-
-            //                    //fileName.Replace(" ", "_");
-
-            //                    fileUpload.Name = finalFileName;
-            //                    fileUpload.Type = type;
-            //                    fileUpload.PhoneNumber = uname;
-            //                    fileUpload.Image = "http://102.130.120.163:8058" + result;
-            //                    fileUpload.Purpose = "FORMS";
-            //                    fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
-            //                    fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
-            //                    fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
-            //                    fileUpload.FormId = HomeViewModel.fileUpload.FormId;
-            //                    fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
-
-            //                    if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
-            //                    {
-            //                        fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
-            //                    }
-            //                    else
-            //                    {
-            //                        fileUpload.RecordId = "0";
-            //                    }
-
-            //                    string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
-            //                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            //                    httpWebRequest.ContentType = "application/json";
-            //                    httpWebRequest.Method = "POST";
-            //                    httpWebRequest.Timeout = 120000;
-            //                    httpWebRequest.CookieContainer = new CookieContainer();
-            //                    Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-            //                    cookie.Domain = "www.yomoneyservice.com";
-            //                    httpWebRequest.CookieContainer.Add(cookie);
-
-            //                    var json = JsonConvert.SerializeObject(fileUpload);
-
-            //                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            //                    {
-            //                        streamWriter.Write(json);
-            //                        streamWriter.Flush();
-            //                        streamWriter.Close();
-
-            //                        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-            //                        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            //                        {
-            //                            var serverresult = streamReader.ReadToEnd();
-
-            //                            if (serverresult.Contains("/Mobile/"))
-            //                            {
-            //                                await DisplayAlert("File Upload", "File uploaded and saved successfully", "OK");
-            //                                viewModel.IsBusy = false;
-            //                                FileImage.Source = null;
-            //                                FileStatus.Text = null;
-            //                                SavePhoto.IsEnabled = false;
-            //                                //_mediaFile.Dispose();
-            //                                await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
-
-            //                                //Device.BeginInvokeOnMainThread(async () =>
-            //                                //{
-            //                                //    await App.Current.MainPage.Navigation.PushAsync(new HomePage());
-            //                                //});
-            //                            }
-            //                            else
-            //                            {
-            //                                await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-            //                                viewModel.IsBusy = false;
-            //                            }
-
-            //                            //var stringResult = JsonConvert.DeserializeObject<string>(result);
-
-            //                            //if (stringResult == "Success")
-            //                            //{
-            //                            //    await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
-            //                            //    viewModel.IsBusy = false;
-
-            //                            //    await Navigation.PushAsync(new HomePage());
-            //                            //}
-            //                            //else
-            //                            //{
-            //                            //    await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-            //                            //    viewModel.IsBusy = false;
-            //                            //}
-            //                            //FileImage.Source.ClearValue();
-
-            //                        }
-            //                    }
-            //                }
-            //            }                        
-            //        }
-
-            //        //var result = response.Result;                    
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine(ex.Message + ex.StackTrace + ex.InnerException);
-
-            //        await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-            //        viewModel.IsBusy = false;
-            //    }
-            //} 
-            #endregion
+            #region File Upload via Multipart            
 
             try
             {
@@ -501,11 +174,7 @@ namespace YomoneyApp.Views.Services
                 using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
                 {
                     client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    char[] delimiter = new char[] { '.' };
-
-                    string[] strParts = fileResult.FileName.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));                    
 
                     string result = string.Empty;
 
@@ -551,6 +220,16 @@ namespace YomoneyApp.Views.Services
                                 string pass = acnt.Password;
                                 string uname = acnt.UserName;
 
+                                if (string.IsNullOrEmpty(pass))
+                                {
+                                    pass = AccountViewModel.Password;
+                                }
+
+                                if (string.IsNullOrEmpty(uname))
+                                {
+                                    uname = AccountViewModel.ActualPhoneNumber;
+                                }
+
                                 FileUpload fileUpload = new FileUpload();
 
                                 string strPath = _mediaFile.Path;
@@ -570,7 +249,7 @@ namespace YomoneyApp.Views.Services
                                 fileUpload.Name = finalFileName;
                                 fileUpload.Type = type;
                                 fileUpload.PhoneNumber = uname;
-                                fileUpload.Image = "http://102.130.120.163:8058" + result;
+                                fileUpload.Image = "https://www.yomoneyservice.com" + result;
                                 fileUpload.Purpose = "FORMS";
                                 fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
                                 fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
@@ -594,7 +273,7 @@ namespace YomoneyApp.Views.Services
                                 httpWebRequest.Timeout = 120000;
                                 httpWebRequest.CookieContainer = new CookieContainer();
                                 Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                                cookie.Domain = "www.yomoneyservice.com";
+                                cookie.Domain = "192.168.100.150";
                                 httpWebRequest.CookieContainer.Add(cookie);
 
                                 var json = JsonConvert.SerializeObject(fileUpload);
@@ -661,6 +340,10 @@ namespace YomoneyApp.Views.Services
                     }
                     else // it's a file
                     {
+                        //char[] delimiter = new char[] { '.' };
+
+                        //string[] strParts = fileResult.FileName.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+
                         var content = new MultipartFormDataContent();
 
                         FileStream fileStream = new FileStream(fileResult.FullPath, FileMode.Open, FileAccess.Read);
@@ -703,6 +386,16 @@ namespace YomoneyApp.Views.Services
                                 string pass = acnt.Password;
                                 string uname = acnt.UserName;
 
+                                if (string.IsNullOrEmpty(pass))
+                                {
+                                    pass = AccountViewModel.Password;
+                                }
+
+                                if (string.IsNullOrEmpty(uname))
+                                {
+                                    uname = AccountViewModel.ActualPhoneNumber;
+                                }
+
                                 FileUpload fileUpload = new FileUpload();
 
                                 var fileName = Path.GetFileName(fileResult.FileName); // filename
@@ -744,7 +437,7 @@ namespace YomoneyApp.Views.Services
                                 httpWebRequest.Timeout = 120000;
                                 httpWebRequest.CookieContainer = new CookieContainer();
                                 Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                                cookie.Domain = "www.yomoneyservice.com";
+                                cookie.Domain = "192.168.100.150";
                                 httpWebRequest.CookieContainer.Add(cookie);
 
                                 var json = JsonConvert.SerializeObject(fileUpload);
@@ -769,6 +462,8 @@ namespace YomoneyApp.Views.Services
                                             FileStatus.Text = null;
                                             SavePhoto.IsEnabled = false;
                                             //_mediaFile.Dispose();
+
+                                            Navigation.PopAsync();
                                             await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
 
                                             //Device.BeginInvokeOnMainThread(async () =>

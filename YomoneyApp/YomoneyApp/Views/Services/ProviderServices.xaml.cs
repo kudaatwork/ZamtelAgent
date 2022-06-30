@@ -37,8 +37,20 @@ namespace YomoneyApp.Views.Services
 
                     px.Title = "Sign Out";
                     AccessSettings ac = new AccessSettings();
-                    ac.DeleteCredentials();
-                    Navigation.PushAsync(new AccountMain());
+
+                    if (string.IsNullOrEmpty(ac.UserName) || string.IsNullOrEmpty(ac.Password))
+                    {
+                        ac.DeleteCredentials();
+
+                        // Navigation.PopAsync();
+
+                        Navigation.PushAsync(new AccountMain());
+                    }
+                    else
+                    {
+                        Navigation.PushAsync(new AccountMain());
+                    }
+                   
                 }),
 
                 Text = "Sign Out",
@@ -46,8 +58,7 @@ namespace YomoneyApp.Views.Services
                 Order = ToolbarItemOrder.Secondary
             };
 
-            ToolbarItems.Add(signOut);
-
+            ToolbarItems.Add(signOut);            
         }
 
         protected override void OnAppearing()
@@ -55,7 +66,14 @@ namespace YomoneyApp.Views.Services
             base.OnAppearing();
             if (viewModel.ServiceOptions.Count > 0 || viewModel.IsBusy)
                 return;
-            viewModel.GetSeledtedProvider(SelectedItem);
+            viewModel.GetSeledtedProvider(SelectedItem);                   
         }
+
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    base.OnBackButtonPressed();
+
+        //    return true;
+        //}
     }
 }

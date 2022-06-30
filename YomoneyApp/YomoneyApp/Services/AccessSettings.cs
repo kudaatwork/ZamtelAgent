@@ -11,18 +11,22 @@ namespace YomoneyApp.Services
     public class AccessSettings
     {
         #region Credentials
-        public async Task<string> SaveCredentials(string userName, string password)
+        public async Task<string> SaveCredentials(string userName, string password, string rememberMe)
         {
             string response = "";
 
-            if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
                 try
                 {
                     App.MyLogins = userName;
                     App.AuthToken = password;
+                    App.RememberMe = rememberMe;
+                   
                     await SecureStorage.SetAsync("oauth_token", password);
                     await SecureStorage.SetAsync("userName", userName);
+                    await SecureStorage.SetAsync("rememberMeOption", rememberMe);
+
                     response = "00000";
                 }
                 catch (Exception ex)
@@ -31,6 +35,8 @@ namespace YomoneyApp.Services
                     {
                         Application.Current.Properties["oauth_token"] = password;
                         Application.Current.Properties["userName"] = userName;
+                        Application.Current.Properties["rememberMeOption"] = userName;
+
                         response = "00000";
                     }
                     catch
@@ -39,18 +45,18 @@ namespace YomoneyApp.Services
                         {
                             App.MyLogins = userName;
                             App.AuthToken = password;
+                            App.RememberMe = rememberMe;
+
                             response = "00000";
                         }
                         catch
                         {
                             response = "12";
-                        }
-                        
-                    }
-                   
+                        }                        
+                    }                   
                 }
-
             }
+
             return response;
         }
 
@@ -178,11 +184,60 @@ namespace YomoneyApp.Services
                 return oauthToken;
             }
         }
-        
-        public  void DeleteCredentials()
+
+        public string RememberMe
+        {
+            get
+            {
+                string rememberMeOption = "";
+
+                try
+                {
+                    rememberMeOption = GetSetting("rememberMeOption").Result;
+
+                    if (string.IsNullOrEmpty(rememberMeOption))
+                    {
+                        try
+                        {
+                            rememberMeOption = Application.Current.Properties["rememberMeOption"].ToString();
+
+                            if (string.IsNullOrEmpty(rememberMeOption))
+                            {
+                                rememberMeOption = App.RememberMe;
+                            }
+                        }
+                        catch
+                        {
+                            rememberMeOption = App.RememberMe;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Possible that device doesn't support secure storage on device.
+                    try
+                    {
+                        rememberMeOption = Application.Current.Properties["rememberMeOption"].ToString();
+
+                        if (string.IsNullOrEmpty(rememberMeOption))
+                        {
+                            rememberMeOption = App.RememberMe;
+                        }
+                    }
+                    catch
+                    {
+                        rememberMeOption = App.AuthToken;
+                    }
+                }
+                return rememberMeOption;
+            }
+        }
+
+        public void DeleteCredentials()
         {            
             SecureStorage.Remove("UserName");
             SecureStorage.Remove("oauth_token");
+            SecureStorage.Remove("rememberMeOption");
         }
 
         public async Task<string> GetSetting(string key)

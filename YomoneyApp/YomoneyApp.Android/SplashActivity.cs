@@ -15,7 +15,7 @@ using YomoneyApp.Droid;
 namespace MyShop.Droid
 {
    // [Activity(Label = "SplashActivity")]
-    [Activity(Label = "Zamtel Agent App", Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true)]
+    [Activity(Label = "Zamtel App", Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true)]
     public class SplashActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

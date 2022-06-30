@@ -194,6 +194,7 @@ namespace YomoneyApp
                 string uname = acnt.UserName;
                 trn.CustomerAccount = uname + ":" + pass;
                 trn.MTI = "0300";
+                trn.TransactionSupplier = "5-0001-0001207";
                 trn.ProcessingCode = "460000";
                 trn.Narrative = "Home";
                 trn.Note = Longitude + "," + Latitude;//"-122.084,37.4219983333333"; //
@@ -211,6 +212,7 @@ namespace YomoneyApp
                 Body += "&TerminalId=" + trn.TerminalId;
                 Body += "&TransactionRef=" + trn.TransactionRef;
                 Body += "&ServiceId=" + trn.ServiceId;
+                Body += "&TransactionSupplier=" + trn.TransactionSupplier;
                 Body += "&Product=" + trn.Product;
                 Body += "&Amount=" + trn.Amount;
                 Body += "&MTI=" + trn.MTI;
@@ -224,25 +226,62 @@ namespace YomoneyApp
 
                 HttpClient client = new HttpClient();
                 var myContent = Body;
-                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
-                string result = await client.GetStringAsync(paramlocal);
-                if (result != "System.IO.MemoryStream")
-                {
-                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                    if (response.ResponseCode == "00000")
-                    {
-                        var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-                        servics.ToArray();
-                        myItemsSource.ReplaceRange(servics);
-                    }
-                    else if (response.ResponseCode == "12")
-                    {
-                        AccessSettings ac = new Services.AccessSettings();
-                        ac.DeleteCredentials();
-                        await page.Navigation.PushAsync(new AccountMain());
 
-                    }
+                WebService webService = new WebService();
+
+                var transactionResponse = await webService.GetResponse("/Mobile/Transaction/?{0}", myContent);
+
+                if (transactionResponse.ResponseCode == "00000")
+                {
+                    var servics = JsonConvert.DeserializeObject<List<MenuItem>>(transactionResponse.Narrative);
+                    servics.ToArray();
+                    myItemsSource.ReplaceRange(servics);
                 }
+                else if (transactionResponse.ResponseCode == "12")
+                {
+                    AccessSettings ac = new Services.AccessSettings();
+                    ac.DeleteCredentials();
+                    await page.Navigation.PushAsync(new AccountMain());
+                }
+
+                //myItemsSource.Clear();
+                //MenuItem menu = new MenuItem();
+
+                ////mnu = new MenuItem();
+                //menu.Title = "Mobilink";
+                //menu.Image = "HomeImage1.png";
+                //menu.Note = "Advert";
+                //menu.TransactionType = 0;
+                //menu.Section = "HOME";
+                //menu.ServiceId = 0;              
+                //myItemsSource.Add(menu);
+
+                //menu = new MenuItem();
+                //menu.Title = "Mobilink2";
+                //menu.Image = "HomeImage2.png";
+                //menu.Note = "Advert";
+                //menu.TransactionType = 0;
+                //menu.Section = "HOME";
+                //menu.ServiceId = 0;
+                //myItemsSource.Add(menu);
+
+                //menu = new MenuItem();
+                //menu.Title = "Mobilink3";
+                //menu.Image = "HomeImage3.png";
+                //menu.Note = "Advert";
+                //menu.TransactionType = 0;
+                //menu.Section = "HOME";
+                //menu.ServiceId = 0;
+                //myItemsSource.Add(menu);
+
+                //menu = new MenuItem();
+                //menu.Title = "Mobilink4";
+                //menu.Image = "HomeImage4.png";
+                //menu.Note = "Advert";
+                //menu.TransactionType = 0;
+                //menu.Section = "HOME";
+                //menu.ServiceId = 0;
+                //myItemsSource.Add(menu);
 
             }
             catch (Exception ex)
@@ -274,40 +313,52 @@ namespace YomoneyApp
             {
                 myButtonSource.Clear();
                 MenuItem mnu = new MenuItem();
-                mnu.Title = "Bill Payments";
-                mnu.Image = "payments_icon.png";
-                mnu.ServiceId = 11;
+
+                //mnu = new MenuItem();
+                mnu.Title = "Voting";
+                mnu.Image = "voting.png";
+                mnu.TransactionType = 12;
+                mnu.Section = "Supplier Services";
+                mnu.ServiceId = 12;
                 mnu.SupplierId = "All";
                 mnu.Section = "Yomoney";
-                mnu.TransactionType = 1;
-
                 myButtonSource.Add(mnu);
+
+                //mnu = new MenuItem();
+                //mnu.Title = "Bill Payments";
+                //mnu.Image = "payments_icon.png";
+                //mnu.ServiceId = 11;
+                //mnu.SupplierId = "All";
+                //mnu.Section = "Yomoney";
+                //mnu.TransactionType = 1;
+
+                //myButtonSource.Add(mnu);
                 mnu = new MenuItem();
-                mnu.Title = "Airtime";
-                mnu.Image = "airtime_icon.png";
+                mnu.Title = "Ticketing";
+                mnu.Image = "ticketing.png";
                 mnu.ServiceId = 7;
                 mnu.SupplierId = "All";
                 mnu.Section = "Yomoney";
                 mnu.TransactionType = 2;
 
                 myButtonSource.Add(mnu);
-                mnu = new MenuItem();
-                mnu.Title = "Jobs";
-                mnu.Image = "jobs_icon.png";
-                mnu.Section = "Yomoney";
-                mnu.TransactionType = 2;
+                //mnu = new MenuItem();
+                //mnu.Title = "Jobs";
+                //mnu.Image = "jobs_icon.png";
+                //mnu.Section = "Yomoney";
+                //mnu.TransactionType = 2;
 
-                myButtonSource.Add(mnu);
+                //myButtonSource.Add(mnu);
                 mnu = new MenuItem();
                 mnu.Title = "Promotions";
-                mnu.Image = "promotions_icon.png";
+                mnu.Image = "promo.png";
                 mnu.TransactionType = 2;
                 mnu.Section = "Yomoney";
                 myButtonSource.Add(mnu);
 
                 mnu = new MenuItem();
-                mnu.Title = "Tasks";
-                mnu.Image = "home_tasks.png";
+                mnu.Title = "Meet The Star";
+                mnu.Image = "staff.png";
                 mnu.ServiceId = 1;
                 mnu.SupplierId = "All";
                 mnu.Section = "5-0001-0000000";
@@ -316,64 +367,63 @@ namespace YomoneyApp
                 myButtonSource.Add(mnu);
 
                 mnu = new MenuItem();
-                mnu.Title = "Services";
-                mnu.Image = "services_icon.png";
-                mnu.TransactionType = 12;
-                mnu.Section = "Supplier Services";
-                mnu.ServiceId = 12;
-                mnu.SupplierId = "All";
+                mnu.Title = "Help";
+                mnu.Image = "whatsapp.png";
+                mnu.TransactionType = 2;
                 mnu.Section = "Yomoney";
                 myButtonSource.Add(mnu);
 
-                TransactionRequest trn = new TransactionRequest();
+                #region Commented Out Code
+                //TransactionRequest trn = new TransactionRequest();
 
-                AccessSettings acnt = new Services.AccessSettings();
-                string pass = acnt.Password;
-                string uname = acnt.UserName;
-                trn.CustomerAccount = uname + ":" + pass;
-                trn.MTI = "0300";
-                trn.ProcessingCode = "490000";
-                trn.Narrative = "Home";
-                trn.Note = Longitude + "," + Latitude;//"-122.084,37.4219983333333"; //
-                trn.AgentCode = "0";
-                trn.Quantity = 0;//redeemSection.Count;
-                trn.ServiceProvider = "HOME";
-                trn.TransactionRef = "Mobile";
-                trn.ServiceId = 0;// redeemSection.ServiceId;
-                trn.Amount = 0;
-                string Body = "";
-                Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
-                Body += "&CustomerAccount=" + trn.CustomerAccount;
-                Body += "&AgentCode=" + trn.AgentCode;
-                Body += "&Action=Mobile";
-                Body += "&TerminalId=" + trn.TerminalId;
-                Body += "&TransactionRef=" + trn.TransactionRef;
-                Body += "&ServiceId=" + trn.ServiceId;
-                Body += "&Product=" + trn.Product;
-                Body += "&Amount=" + trn.Amount;
-                Body += "&MTI=" + trn.MTI;
-                Body += "&ProcessingCode=" + trn.ProcessingCode;
-                Body += "&ServiceProvider=" + trn.ServiceProvider;
-                Body += "&Narrative=" + trn.Narrative;
-                Body += "&CustomerData=" + trn.CustomerData;
-                Body += "&Quantity=" + trn.Quantity;
-                Body += "&Mpin=" + trn.Mpin;
-                Body += "&Note=" + trn.Note;
+                //AccessSettings acnt = new Services.AccessSettings();
+                //string pass = acnt.Password;
+                //string uname = acnt.UserName;
+                //trn.CustomerAccount = uname + ":" + pass;
+                //trn.MTI = "0300";
+                //trn.ProcessingCode = "490000";
+                //trn.Narrative = "Home";
+                //trn.Note = Longitude + "," + Latitude;//"-122.084,37.4219983333333"; //
+                //trn.AgentCode = "0";
+                //trn.Quantity = 0;//redeemSection.Count;
+                //trn.ServiceProvider = "HOME";
+                //trn.TransactionRef = "Mobile";
+                //trn.ServiceId = 0;// redeemSection.ServiceId;
+                //trn.Amount = 0;
+                //string Body = "";
+                //Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
+                //Body += "&CustomerAccount=" + trn.CustomerAccount;
+                //Body += "&AgentCode=" + trn.AgentCode;
+                //Body += "&Action=Mobile";
+                //Body += "&TerminalId=" + trn.TerminalId;
+                //Body += "&TransactionRef=" + trn.TransactionRef;
+                //Body += "&ServiceId=" + trn.ServiceId;
+                //Body += "&Product=" + trn.Product;
+                //Body += "&Amount=" + trn.Amount;
+                //Body += "&MTI=" + trn.MTI;
+                //Body += "&ProcessingCode=" + trn.ProcessingCode;
+                //Body += "&ServiceProvider=" + trn.ServiceProvider;
+                //Body += "&Narrative=" + trn.Narrative;
+                //Body += "&CustomerData=" + trn.CustomerData;
+                //Body += "&Quantity=" + trn.Quantity;
+                //Body += "&Mpin=" + trn.Mpin;
+                //Body += "&Note=" + trn.Note;
 
-                HttpClient client = new HttpClient();
-                var myContent = Body;
-                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
-                string result = await client.GetStringAsync(paramlocal);
-                if (result != "System.IO.MemoryStream")
-                {
-                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                    if (response.ResponseCode == "00000")
-                    {
-                        var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-                        servics.ToArray();
-                        myButtonSource.AddRange(servics);
-                    }
-                }
+                //HttpClient client = new HttpClient();
+                //var myContent = Body;
+                //string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
+                //string result = await client.GetStringAsync(paramlocal);
+                //if (result != "System.IO.MemoryStream")
+                //{
+                //    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+                //    if (response.ResponseCode == "00000")
+                //    {
+                //        var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
+                //        servics.ToArray();
+                //        myButtonSource.AddRange(servics);
+                //    }
+                //} 
+                #endregion
             }
             catch (Exception ex)
             {
@@ -698,86 +748,33 @@ namespace YomoneyApp
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await page.Navigation.PopAsync();
+                        var existingPages = page.Navigation.NavigationStack.ToList();
+
+                        int cnt = existingPages.Count() - 2;
+
+                        foreach (var page in existingPages)
+                        {
+                            if (cnt > 2)
+                            {
+                                this.page.Navigation.RemovePage(page);
+                            }
+                            else
+                            {
+                                await page.Navigation.PopAsync();
+                                break;
+                            }
+
+                            cnt--;
+                        }
+
+                        //this.page.Navigation.RemovePage(this.page.Navigation.NavigationStack[this.page.Navigation.NavigationStack.Count - cnt]);
+
+                        //await this.page.Navigation.PopAsync();
+
+
+                        //await page.Navigation.PopToRootAsync();
+
                     });
-
-                    //string title = "";
-
-                    //if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.FormId))
-                    //{
-                    //    var fmId = long.Parse(HomeViewModel.fileUpload.FormId);
-
-                    //    if (fmId > 1)
-                    //    {
-                    //        fmId = fmId - 1;
-
-                    //        HomeViewModel.fileUpload.FormId = fmId.ToString();
-
-                    //        string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
-                    //        "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
-
-                    //        Device.BeginInvokeOnMainThread(async () =>
-                    //        {
-                    //            page.Navigation.PopAsync();
-
-                    //            //Device.BeginInvokeOnMainThread(() => page.Navigation.PopAsync());
-                    //            await page.Navigation.PushAsync(new Views.Webview.WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
-                    //        });
-                    //    }
-                    //    else
-                    //    {
-                    //        FormCounter = 1;
-
-                    //        FormCounter = FormCounter + 1;
-
-                    //        if (FormCounter > 1)
-                    //        {
-                    //            //Device.BeginInvokeOnMainThread(async () => await page.Navigation.PopAsync());
-
-                    //            MenuItem menuItem = new MenuItem();
-
-                    //            menuItem.Id = ServiceViewModel.storedId;
-                    //            menuItem.Image = ServiceViewModel.storedImage;
-                    //            menuItem.Title = ServiceViewModel.storedTitle;
-                    //            menuItem.Description = ServiceViewModel.storedDescription;
-                    //            menuItem.Section = ServiceViewModel.storedSection;
-                    //            menuItem.Note = ServiceViewModel.storedNote;
-                    //            menuItem.ServiceId = ServiceViewModel.storedServiceId;
-                    //            menuItem.TransactionType = ServiceViewModel.storedTransactionType;
-                    //            menuItem.SupplierId = ServiceViewModel.storedSupplierId;
-
-                    //            Device.BeginInvokeOnMainThread(async () =>
-                    //            {
-                    //               // await page.Navigation.PopAsync();
-                    //               // await page.Navigation.PopAsync();
-                    //                await page.Navigation.PopAsync();
-                    //                await page.Navigation.PushAsync(new ServiceActions(menuItem));
-                    //            });
-                    //        }
-                    //        else
-                    //        {
-                    //            string webviewLink = "/Mobile/Forms?SupplierId=" + HomeViewModel.fileUpload.SupplierId + "&serviceId=" + HomeViewModel.fileUpload.ServiceId + "&ActionId=" + HomeViewModel.fileUpload.ActionId +
-                    //            "&FormNumber=" + HomeViewModel.fileUpload.FormId + "&Customer=" + HomeViewModel.fileUpload.PhoneNumber + "&CallType=FirstTime";
-
-                    //            Device.BeginInvokeOnMainThread(async () =>
-                    //            {
-                    //               // await page.Navigation.PopAsync();
-                    //               // await page.Navigation.PopAsync();
-                    //                await page.Navigation.PopAsync();
-                    //                await page.Navigation.PushAsync(new Views.Webview.WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
-                    //            });
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    Device.BeginInvokeOnMainThread(async () =>
-                    //    {
-                    //        await page.Navigation.PopAsync();
-                    //    });
-                    //}
-
-                    //await page.Navigation.PopAsync();
                 }
             }
 

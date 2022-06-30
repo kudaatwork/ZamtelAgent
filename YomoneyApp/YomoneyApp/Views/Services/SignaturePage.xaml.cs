@@ -125,6 +125,16 @@ namespace YomoneyApp.Views.Services
                             string pass = acnt.Password;
                             string uname = acnt.UserName;
 
+                            if (string.IsNullOrEmpty(pass))
+                            {
+                                pass = AccountViewModel.Password;
+                            }
+
+                            if (string.IsNullOrEmpty(uname))
+                            {
+                                uname = AccountViewModel.ActualPhoneNumber;
+                            }
+
                             //var bytes = new byte[bitmap.Length];
                             //await bitmap.ReadAsync(bytes, 0, (int)bitmap.Length);
                             //string base64 = System.Convert.ToBase64String(bytes);
@@ -230,7 +240,7 @@ namespace YomoneyApp.Views.Services
                                 httpWebRequest.Timeout = 120000;
                                 httpWebRequest.CookieContainer = new CookieContainer();
                                 Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                                cookie.Domain = "www.yomoneyservice.com";
+                                cookie.Domain = "192.168.100.150";
                                 httpWebRequest.CookieContainer.Add(cookie);
 
                                 var json = JsonConvert.SerializeObject(fileUpload);
@@ -252,7 +262,8 @@ namespace YomoneyApp.Views.Services
                                         if (!result2.Contains("Error"))
                                         {
                                             viewModel.IsBusy = false;
-                                            await DisplayAlert("Signature Pad", "Signature successfully saved to the photo library!", "OK");
+                                            //await DisplayAlert("Signature Pad", "Signature successfully saved to the photo library!", "OK");
+                                            Navigation.PopAsync();
                                             await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + "/" + result2, "Signature Form", false, null, true));
                                         }
                                         else

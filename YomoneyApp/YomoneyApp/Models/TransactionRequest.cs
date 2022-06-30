@@ -18,7 +18,8 @@ namespace RetailKing.Models
             public string TerminalId { get; set; }
             public long TransactionType { get; set; }
             public string TransactionRef { get; set; }
-            public string CustomerAccount { get; set; }
+        public string TransactionSupplier { get; set; }
+        public string CustomerAccount { get; set; }
             public string CustomerData { get; set; }
             public string Product { get; set; }
             public string Source { get; set; }

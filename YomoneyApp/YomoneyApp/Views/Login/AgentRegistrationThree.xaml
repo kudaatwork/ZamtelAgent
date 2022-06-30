@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local1="clr-namespace:YomoneyApp.CustomeRenderer" xmlns:controls="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms"
+             x:Class="YomoneyApp.Views.Login.AgentRegistrationThree"
+              NavigationPage.HasBackButton="True"
+             Title="Agent Sign Up - Attachments">
+    <ScrollView Orientation="Vertical">
+        <StackLayout>
+
+            <StackLayout HorizontalOptions="CenterAndExpand"  Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
+                <StackLayout.Orientation>
+                    <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
+                </StackLayout.Orientation>
+                <ActivityIndicator  HorizontalOptions="Center"
+								   IsRunning="{Binding IsBusy}"
+								   IsVisible="{Binding IsBusy}"/>
+                <Label HorizontalOptions="Center"
+			    	 VerticalOptions="Center"
+			    	 Text="Loading..."/>
+            </StackLayout>
+
+            <StackLayout HorizontalOptions="CenterAndExpand" Margin="10,30,10,0">                
+                <Label Text="Notice that all attachments are mandatory *" HorizontalTextAlignment="Center" TextColor="DarkRed" FontSize="13" FontAttributes="None" Margin="0,0,0,15"></Label>
+            </StackLayout>
+
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid.Padding>
+                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,0,10,0" WinPhone="20,25"/>
+                </Grid.Padding>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5*"/>
+                    
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5*"/>
+                    
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5*"/>
+                    
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5*"/>
+                    
+                    <RowDefinition Height="60"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Margin="5,10,5,0" Grid.Row="0" Grid.ColumnSpan="2" x:Name="Portrait" BackgroundColor="#22b24c" BorderRadius="6" TextColor="White" Text="Take Portrait" Clicked="Portrait_Clicked"/>
+                <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="10,0,0,0" FontSize="12" Text="* Image proportionally reduced to : 200 x 200 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
+                <Image x:Name="PortraitImage" Grid.Row="2" Grid.ColumnSpan="2" WidthRequest="200" HeightRequest="200" />
+
+                <Button Margin="5,10,5,0" Grid.Row="3" Grid.ColumnSpan="2" x:Name="NationalIdFront" BackgroundColor="#22b24c" BorderRadius="6" TextColor="White" Text="Take NIC Front" Clicked="NationalIdFront_Clicked"/>
+                <Label Grid.Row="4" Grid.ColumnSpan="2" Margin="10,0,0,0" FontSize="12" Text="* Image proportionally reduced to : 200 x 200 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
+                <Image x:Name="NationalIdFrontImage" Grid.Row="5" Grid.ColumnSpan="2" WidthRequest="200" HeightRequest="200" />
+
+                <Button Margin="5,10,5,0" Grid.Row="6" Grid.ColumnSpan="2" x:Name="NationalIdBack" BackgroundColor="#22b24c" BorderRadius="6" TextColor="White" Text="Take NIC Back" Clicked="NationalIdBack_Clicked"/>
+                <Label Grid.Row="7" Grid.ColumnSpan="2" Margin="10,0,0,0" FontSize="12" Text="* Image proportionally reduced to : 200 x 200 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
+                <Image x:Name="NationalIdBackImage" Grid.Row="8" Grid.ColumnSpan="2" WidthRequest="200" HeightRequest="200" />
+                
+                <Button Margin="5,10,5,0" Grid.Row="9" Grid.ColumnSpan="2" x:Name="Signature" BackgroundColor="#22b24c" BorderRadius="6" TextColor="White" Text="Save Signature" Clicked="Signature_Clicked"/>
+                <Label Grid.Row="10" Grid.ColumnSpan="2" Margin="10,0,0,0" FontSize="12" Text="* Image proportionally reduced to : 200 x 200 (jpg, png)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
+                <ContentView Padding="1" BackgroundColor="#B8860B" Grid.Row="10" Grid.ColumnSpan="2" x:Name="ContentSig" Margin="10,10,10,0">
+                    <controls:SignaturePadView Grid.Row="11" IsEnabled="True" Grid.ColumnSpan="2" HeightRequest="400" x:Name="signatureView" StrokeCompleted="SignatureChanged" Cleared="SignatureChanged"
+                    CaptionTextColor="#B8860B" ClearTextColor="#B8860B" PromptTextColor="#B8860B"
+                    SignatureLineColor="#B8860B" BackgroundColor="#FAFAD2" />
+                </ContentView>
+
+                <Button Margin="5,10,5,0" Grid.Row="12" Grid.ColumnSpan="2" x:Name="AgentContract" BackgroundColor="#22b24c" BorderRadius="6" TextColor="White" Text="Upload Agent Contract" Clicked="AgentContract_Clicked"/>
+                <Label Grid.Row="13" Grid.ColumnSpan="2" Margin="10,0,0,0" FontSize="12" Text="* Uploads should be in the formats: (jpg, png, pdf)." VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" TextColor="#22b24c" />
+                <Image x:Name="AgentContractImage" Grid.Row="14" Grid.ColumnSpan="2" WidthRequest="200" HeightRequest="200" />
+
+                <Button Grid.Row="15" Grid.ColumnSpan="2" Margin="5,0,5,10" x:Name="SavePhoto" IsEnabled="False" BackgroundColor="#22b24c" BorderRadius="6" TextColor="White" Text="Submit" Clicked="SavePhoto_Clicked" />
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

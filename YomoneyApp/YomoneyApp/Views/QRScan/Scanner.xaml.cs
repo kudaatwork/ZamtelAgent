@@ -36,15 +36,18 @@ namespace YomoneyApp.Views.QRScan
                     BarcodeFormat.PDF_417,
                     BarcodeFormat.QR_CODE,
                     BarcodeFormat.MAXICODE,
-                    BarcodeFormat.UPC_EAN_EXTENSION
+                    BarcodeFormat.UPC_EAN_EXTENSION, 
+                    BarcodeFormat.EAN_13,
+                    BarcodeFormat.EAN_8
                 },
+
                 TryHarder = true,
                 AutoRotate = false,
                 TryInverted = true,
                 DelayBetweenContinuousScans = 1000,
             };
 
-            ScannerView.OnScanResult += async (result) =>
+            ScannerView.OnScanResult += (result) =>
             {
                 // var x = 3; // Breakpoint here, never hit
                 if (ScannerView.IsScanning)
@@ -52,11 +55,26 @@ namespace YomoneyApp.Views.QRScan
                     ScannerView.AutoFocus();
                 }
 
+                //Device.BeginInvokeOnMainThread(async () =>
+                //{
+                //    await DisplayAlert("Scanner!", "File scanned successfully!", "OK");
+                //});
+
                 try
                 {
                     AccessSettings acnt = new AccessSettings();
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
+
+                    if (string.IsNullOrEmpty(pass))
+                    {
+                        pass = AccountViewModel.Password;
+                    }
+
+                    if (string.IsNullOrEmpty(uname))
+                    {
+                        uname = AccountViewModel.ActualPhoneNumber;
+                    }
 
                     FileUpload fileUpload = new FileUpload();
 
@@ -64,12 +82,22 @@ namespace YomoneyApp.Views.QRScan
                     //fileUpload.Type = "";
                     fileUpload.PhoneNumber = uname;
                     //fileUpload.Image = "";
-                    fileUpload.Purpose = "FORMS";
+                    fileUpload.Purpose = "FIELD";
                     fileUpload.ServiceId = HomeViewModel.fileUpload.ServiceId;
                     fileUpload.ActionId = HomeViewModel.fileUpload.ActionId;
                     fileUpload.SupplierId = HomeViewModel.fileUpload.SupplierId;
                     fileUpload.FormId = HomeViewModel.fileUpload.FormId;
                     fileUpload.FieldId = HomeViewModel.fileUpload.FieldId;
+                    fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
+
+                    if (!string.IsNullOrEmpty(HomeViewModel.fileUpload.RecordId))
+                    {
+                        fileUpload.RecordId = HomeViewModel.fileUpload.RecordId;
+                    }
+                    else
+                    {
+                        fileUpload.RecordId = "0";
+                    }
 
                     string url = String.Format("https://www.yomoneyservice.com/Mobile/FileUploader");
                     var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -78,7 +106,7 @@ namespace YomoneyApp.Views.QRScan
                     httpWebRequest.Timeout = 120000;
                     httpWebRequest.CookieContainer = new CookieContainer();
                     Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                    cookie.Domain = "www.yomoneyservice.com";
+                    cookie.Domain = "192.168.100.150";
                     httpWebRequest.CookieContainer.Add(cookie);
 
                     var json = JsonConvert.SerializeObject(fileUpload);
@@ -90,21 +118,20 @@ namespace YomoneyApp.Views.QRScan
                         streamWriter.Close();
 
                         var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
+                                               
                         using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                         {
                             var serverresult = streamReader.ReadToEnd();
 
                             if (serverresult.Contains("/Mobile/"))
-                            {
-                                
+                            {                                
                                 Device.BeginInvokeOnMainThread(async () =>
                                 {
                                     //viewModel.IsBusy = false;
                                     //FileImage.Source = null;
-
-                                    await DisplayAlert("File Upload", "File scanned and saved successfully", "OK");
-
+                                    
+                                   // await DisplayAlert("Scannner!", "File scanned has been saved successfully", "OK");
+                                    
                                     Navigation.PopAsync();
 
                                     await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
@@ -134,37 +161,20 @@ namespace YomoneyApp.Views.QRScan
         }
 
         protected override void OnAppearing()
-        {
-            base.OnAppearing();
+        {            
             ScannerView.IsAnalyzing = true;
             ScannerView.IsScanning = true;
+            base.OnAppearing();
         }
-
-        //protected override void OnDisappearing()
-        //{
-        //    base.OnDisappearing();
-
-        //    Device.BeginInvokeOnMainThread(async () =>
-        //    {
-        //        await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
-        //    });
-        //}
-
+                
         protected override void OnDisappearing()
         {
-            base.OnDisappearing();
             ScannerView.IsScanning = false;
-
-            //Device.BeginInvokeOnMainThread(async () =>
-            //{
-            //    Navigation.PopAsync();
-            //    await Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + webviewLink, title, false, null, false));
-            //});
+            base.OnDisappearing();           
         }
 
-        public async void SaveScan(string scanPath)
+        public void SaveScan(string scanPath)
         {
-
             ScannerView.OnScanResult += async (result) =>
             {
                 // var x = 3; // Breakpoint here, never hit
@@ -216,40 +226,19 @@ namespace YomoneyApp.Views.QRScan
 
                         if (serverresult.Contains("/Mobile/"))
                         {
-                            await DisplayAlert("File Upload", "File scanned and saved successfully", "OK");
+                            //await DisplayAlert("File Upload", "File scanned and saved successfully", "OK");
 
                             //viewModel.IsBusy = false;
                             //FileImage.Source = null;
 
                             await Navigation.PushAsync(new WebviewHyubridConfirm("https://www.yomoneyservice.com" + serverresult, "File Upload", false, null));
 
-                            //Device.BeginInvokeOnMainThread(async () =>
-                            //{
-                            //    await App.Current.MainPage.Navigation.PushAsync(new HomePage());
-                            //});
                         }
                         else
                         {
                             await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
                             //viewModel.IsBusy = false;
-                        }
-
-                        //var stringResult = JsonConvert.DeserializeObject<string>(result);
-
-                        //if (stringResult == "Success")
-                        //{
-                        //    await DisplayAlert("File Upload", "Image uploaded and saved successfully", "OK");
-                        //    viewModel.IsBusy = false;
-
-                        //    await Navigation.PushAsync(new HomePage());
-                        //}
-                        //else
-                        //{
-                        //    await DisplayAlert("File Upload", "There was an error saving the image.", "OK");
-                        //    viewModel.IsBusy = false;
-                        //}
-                        //FileImage.Source.ClearValue();
-
+                        }                       
                     }
                 }
             };            

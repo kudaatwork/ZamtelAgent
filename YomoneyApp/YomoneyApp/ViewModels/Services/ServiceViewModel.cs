@@ -520,7 +520,7 @@ namespace YomoneyApp
                             $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
                             $"Thoroughfare:    {placemark.Thoroughfare}\n";
 
-                        SelectedCountry = CountryUtils.GetCountryModelByName(placemark.CountryName);
+                        SelectedCountry = await CountryUtils.GetCountryModelByName(placemark.CountryName);
 
                         IsBusy = false;
 
@@ -1199,8 +1199,8 @@ namespace YomoneyApp
                         string pass = acnt.Password;
                         string uname = acnt.UserName;
 
-                            #region Voucher Data
-                            CustomerService cs = new CustomerService();
+                        #region Voucher Data
+                        CustomerService cs = new CustomerService();
 
                         cs.CustomerMobileNumber = acnt.UserName;
                         cs.ReceiverMobile = ActualPhoneNumber;
@@ -1209,13 +1209,13 @@ namespace YomoneyApp
                         cs.Balance = decimal.Parse(Amount);
                         cs.ReceiversIdentification = id;
                         cs.Currency = Currency;
-                            #endregion
+                        #endregion
 
-                            trn.CustomerAccount = uname + ":" + pass;
+                        trn.CustomerAccount = uname + ":" + pass;
                         trn.MTI = "0200";
                         trn.ProcessingCode = "320000";
-                            //trn.Narrative = JsonConvert.SerializeObject(jp);
-                            trn.Note = "Supplier";
+                        //trn.Narrative = JsonConvert.SerializeObject(jp);
+                        trn.Note = "Supplier";
                         trn.Amount = decimal.Parse(Amount);
                         trn.AgentCode = mnu.SupplierId;
                         trn.ServiceId = mnu.ServiceId;
@@ -1224,8 +1224,8 @@ namespace YomoneyApp
                         trn.Currency = currency;
                         trn.ActionId = mnu.ActionId;
                         trn.CustomerData = JsonConvert.SerializeObject(cs);
-                            // trn.Product = selectedOption.Description;
-                            string Body = "";
+                        // trn.Product = selectedOption.Description;
+                        string Body = "";
                         Body += "CustomerMSISDN=" + trn.CustomerMSISDN;
                         Body += "&CustomerAccount=" + trn.CustomerAccount;
                         Body += "&AgentCode=" + trn.AgentCode;
@@ -1255,11 +1255,11 @@ namespace YomoneyApp
                         if (result != "System.IO.MemoryStream")
                         {
                             var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                                //var servics = JsonConvert.DeserializeObject<MenuItem>(response.Narrative);
-                                if (response.ResponseCode == "00000")
+                            //var servics = JsonConvert.DeserializeObject<MenuItem>(response.Narrative);
+                            if (response.ResponseCode == "00000")
                             {
-                                    //Message = "Job Awarded Successfully";
-                                    await page.DisplayAlert("Success", "You Have successfully Purchased an eVoucher for " + ReceiverName, "OK");
+                                //Message = "Job Awarded Successfully";
+                                await page.DisplayAlert("Success", "You Have successfully Purchased an eVoucher for " + ReceiverName, "OK");
                             }
                             else if (response.ResponseCode == "11102")
                             {
@@ -1272,8 +1272,8 @@ namespace YomoneyApp
                             try
                             {
                                 await App.Current.MainPage.Navigation.PopModalAsync();
-                                    //page.Navigation.PopModalAsync();
-                                }
+                                //page.Navigation.PopModalAsync();
+                            }
                             catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
@@ -1284,8 +1284,8 @@ namespace YomoneyApp
                     {
                         await page.DisplayAlert("Payment Failed", "Unable to Award Job, the 5% commitment fee was not paid.", "OK");
                     }
-                        // MessagingCenter.Unsubscribe<string, string>("PaymentRequest", "NotifyMsg");
-                    });
+                    // MessagingCenter.Unsubscribe<string, string>("PaymentRequest", "NotifyMsg");
+                });
 
             }
             catch (Exception ex)
@@ -1351,6 +1351,17 @@ namespace YomoneyApp
                 AccessSettings acnt = new Services.AccessSettings();
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
+
+                if (string.IsNullOrEmpty(uname))
+                {
+                    uname = AccountViewModel.ActualPhoneNumber;
+                }
+
+                if (string.IsNullOrEmpty(pass))
+                {
+                    pass = AccountViewModel.Password;
+                }
+
                 trn.CustomerAccount = uname + ":" + pass;
 
                 trn.MTI = "0300";
@@ -1389,31 +1400,33 @@ namespace YomoneyApp
                 Body += "&TransactionType=" + trn.TransactionType;
                 HttpClient client = new HttpClient();
                 var myContent = Body;
-                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
-                string result = await client.GetStringAsync(paramlocal);
-                string img = itm.Image;
-                if (result != "System.IO.MemoryStream")
-                {
-                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                    var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-                    var grp = servics.GroupBy(u => u.ServiceId).ToList();
-                    foreach (var serv in servics)
-                    {
-                        if (serv.Image != null)
-                        {
-                            char[] delimiters = new char[] { '~' };
-                            string[] supid = serv.Image.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
-                            serv.Image = HostDomain + supid[0];
-                        }
-                        else if (img != null)
-                        {
-                            serv.Image = img;
-                        }
+                string img = itm.Image;
+
+                WebService webService = new WebService();
+
+                var transactionResponse = await webService.GetResponse("/Mobile/Transaction/?{0}", myContent);
+
+                var servics = JsonConvert.DeserializeObject<List<MenuItem>>(transactionResponse.Narrative);
+
+                var grp = servics.GroupBy(u => u.ServiceId).ToList();
+
+                foreach (var serv in servics)
+                {
+                    if (serv.Image != null)
+                    {
+                        char[] delimiters = new char[] { '~' };
+                        string[] supid = serv.Image.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+                        serv.Image = HostDomain + supid[0];
                     }
-                    ServiceOptions.ReplaceRange(servics);
+                    else if (img != null)
+                    {
+                        serv.Image = img;
+                    }
                 }
 
+                ServiceOptions.ReplaceRange(servics);
             }
             catch (Exception ex)
             {
@@ -1505,6 +1518,17 @@ namespace YomoneyApp
 
                     string pass = acnt.Password;
                     string uname = acnt.UserName;
+
+                    if (string.IsNullOrEmpty(uname))
+                    {
+                        uname = AccountViewModel.ActualPhoneNumber;
+                    }
+
+                    if (string.IsNullOrEmpty(pass))
+                    {
+                        pass = AccountViewModel.Password;
+                    }
+
                     trn.CustomerAccount = uname + ":" + pass;
                     //trn.CustomerAccount = "263774090142:22398";
                     trn.MTI = "0300";
@@ -1556,32 +1580,28 @@ namespace YomoneyApp
 
                     var myContent = Body;
 
-                    string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
-                    string result = await client.GetStringAsync(paramlocal);
+                    WebService webService = new WebService();
 
-                    if (result != "System.IO.MemoryStream")
+                    var transactionResponse = await webService.GetResponse("/Mobile/Transaction/?{0}", myContent);
+
+                    var servics = JsonConvert.DeserializeObject<List<MenuItem>>(transactionResponse.Narrative);
+
+                    foreach (var serv in servics)
                     {
-                        var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
-                        var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-
-                        foreach (var serv in servics)
+                        if (serv.Image != null)
                         {
-                            if (serv.Image != null)
-                            {
-                                char[] delimiters = new char[] { '~' };
-                                string[] supid = serv.Image.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                            char[] delimiters = new char[] { '~' };
+                            string[] supid = serv.Image.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
-                                serv.Image = HostDomain + supid[0];
-                            }
-                            else if (itm.Image != null)
-                            {
-                                serv.Image = itm.Image;
-                            }
+                            serv.Image = HostDomain + supid[0];
                         }
-
-                        ServiceOptions.ReplaceRange(servics);
+                        else if (itm.Image != null)
+                        {
+                            serv.Image = itm.Image;
+                        }
                     }
 
+                    ServiceOptions.ReplaceRange(servics);
                 }
                 catch (Exception ex)
                 {
@@ -1653,10 +1673,21 @@ namespace YomoneyApp
                 AccessSettings acnt = new Services.AccessSettings();
                 string pass = acnt.Password;
                 string uname = acnt.UserName;
+
+                if (string.IsNullOrEmpty(pass))
+                {
+                    pass = AccountViewModel.Password;
+                }
+
+                if (string.IsNullOrEmpty(uname))
+                {
+                    uname = AccountViewModel.ActualPhoneNumber;
+                }
+
                 trn.CustomerAccount = uname + ":" + pass;
                 //trn.CustomerAccount = "263774090142:22398";
 
-                 if (!string.IsNullOrEmpty(itm.WebLink))
+                if (!string.IsNullOrEmpty(itm.WebLink))
                 {
                     if (itm.WebLink.Contains("/Mobile/") || itm.WebLink.Contains("/Mobile//"))
                     {
@@ -1708,113 +1739,110 @@ namespace YomoneyApp
 
                 var myContent = Body;
 
-                string paramlocal = string.Format(HostDomain + "/Mobile/Transaction/?{0}", myContent);
-                string result = await client.GetStringAsync(paramlocal);
+                WebService webService = new WebService();
 
-                if (result != "System.IO.MemoryStream")
+                var transactionResponse = await webService.GetResponse("/Mobile/Transaction/?{0}", myContent);
+                var px = new MenuItem();
+
+                if (transactionResponse.ResponseCode == "00000")
                 {
-                    var px = new MenuItem();
-                    var response = JsonConvert.DeserializeObject<TransactionResponse>(result);
+                    var servics = JsonConvert.DeserializeObject<List<MenuItem>>(transactionResponse.Narrative);
+                    px = servics.FirstOrDefault();
 
-                    if (response.ResponseCode == "00000")
+                    switch (px.TransactionType)
                     {
-                        var servics = JsonConvert.DeserializeObject<List<MenuItem>>(response.Narrative);
-                        px = servics.FirstOrDefault();
-
-                        switch (px.TransactionType)
-                        {
-                            case 10:
-                            case 9: // webview  
-                                if (px.Note == "External")
+                        case 10:
+                        case 9: // webview  
+                            if (px.Note == "External")
+                            {
+                                await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                            }
+                            else
+                            {
+                                await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                            }
+                            break;
+                        case 2:
+                        case 3:// "Payment":
+                            if (px.HasProducts)
+                            {
+                                await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                                //await page.Navigation.PushAsync(new ServiceActionProducts(px));
+                            }
+                            else
+                            {
+                                if (px.Section == "SHOPPING VOUCHERS")
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                                    await page.Navigation.PushAsync(new BuyVoucher(px));
                                 }
                                 else
                                 {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor, px.IsShare));
-                                }
-                                break;
-                            case 2:
-                            case 3:// "Payment":
-                                if (px.HasProducts)
-                                {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
-                                    //await page.Navigation.PushAsync(new ServiceActionProducts(px));
-                                }
-                                else
-                                {
-                                    if (px.Section == "SHOPPING VOUCHERS")
+                                    if (px.Amount == "0" || px.Amount == null)
                                     {
-                                        await page.Navigation.PushAsync(new BuyVoucher(px));
+                                        await page.Navigation.PushAsync(new AmountPopup(px));
                                     }
                                     else
                                     {
-                                        if (px.Amount == "0" || px.Amount == null)
-                                        {
-                                            await page.Navigation.PushAsync(new AmountPopup(px));
-                                        }
-                                        else
-                                        {
-                                            await page.Navigation.PushAsync(new PaymentPage(px));
-                                        }
+                                        await page.Navigation.PushAsync(new PaymentPage(px));
                                     }
                                 }
-                                break;
-                            case 5:
-                                if (px.HasProducts)
-                                {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
-                                    //await page.Navigation.PushAsync(new ServiceActionProducts(px));
-                                }
-                                else
-                                {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
-                                }
-                                break;
-                            case 13: // OTP        
-                                await page.Navigation.PushAsync(new OTPPage(px));
-                                break;
-                            case 14: // file upload       
-                                await page.Navigation.PushAsync(new FileUploadPage(px));
-                                break;
-                            case 15: // Signature 
-                                await page.Navigation.PushAsync(new SignaturePage(px));
-                                break;
-                            case 16: // Signature 
-                                await page.Navigation.PushAsync(new SharePage(px));
-                                break;
-                            case 17: // Signature 
-                                await page.Navigation.PushAsync(new AccountEntry(px));
-                                break;
-                            case 22: // Entertainment 
-                                await page.Navigation.PushAsync(new ServiceActionProducts(px));
-                                break;
-                            default:
-                                if (px.Note == "External")
-                                {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
-                                }
-                                else
-                                {
-                                    await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor, px.IsShare));
-                                }
-                                break;
+                            }
+                            break;
+                        case 5:
+                            if (px.HasProducts)
+                            {
+                                await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                                //await page.Navigation.PushAsync(new ServiceActionProducts(px));
+                            }
+                            else
+                            {
+                                await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                            }
+                            break;
+                        case 13: // OTP        
+                            await page.Navigation.PushAsync(new OTPPage(px));
+                            break;
+                        case 14: // file upload       
+                            await page.Navigation.PushAsync(new FileUploadPage(px));
+                            break;
+                        case 15: // Signature 
+                            await page.Navigation.PushAsync(new SignaturePage(px));
+                            break;
+                        case 16: // Share 
+                            await page.Navigation.PushAsync(new SharePage(px));
+                            break;
+                        case 17: // Signature 
+                            await page.Navigation.PushAsync(new AccountEntry(px));
+                            break;
+                        case 22: // Entertainment 
+                            await page.Navigation.PushAsync(new ServiceActionProducts(px));
+                            break;
+                        default:
+                            if (px.Note == "External")
+                            {
+                                await page.Navigation.PushAsync(new WebviewHyubridConfirm(px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                            }
+                            else
+                            {
+                                await page.Navigation.PushAsync(new WebviewHyubridConfirm(HostDomain + px.Section, px.Title, false, px.ThemeColor, px.IsShare));
+                            }
+                            break;
 
-                        }
+                    }
 
+                }
+                else
+                {
+                    if (transactionResponse.ResponseCode == "11102")
+                    {
+                        await page.DisplayAlert("Service Maintenance!", "Service is under maintenance, please try again later", "OK");
                     }
                     else
                     {
-                        if (response.ResponseCode == "11102")
-                        {
-                            await page.DisplayAlert("Service Maintenance!", "Service is under maintenance, please try again later", "OK");
-                        }
-                        else
-                        {
-                            await page.DisplayAlert("Server Error!", "There has been an error in retrieving the service from the server, please try again later", "OK");
-                        }
+                        await page.DisplayAlert("Server Error!", "There has been an error in retrieving the service from the server, please try again later", "OK");
                     }
                 }
+
 
             }
             catch (Exception ex)

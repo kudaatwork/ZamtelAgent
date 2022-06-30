@@ -5,21 +5,19 @@
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              xmlns:local="clr-namespace:YomoneyApp;assembly=YomoneyApp"
               xmlns:xWebService="clr-namespace:YomoneyApp.Views.NavigationBar;assembly=YomoneyApp" 
-             Title="{Binding Title}"
-             IsBusy="{Binding IsBusy}"
-             NavigationPage.HasBackButton="False">
+             Title="{Binding Title}"             
+             NavigationPage.HasBackButton="True">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" Spacing="10" Padding="10" IsVisible="{Binding IsBusy}">
-                <StackLayout.Orientation>
-                    <OnPlatform x:TypeArguments="StackOrientation" iOS="Horizontal" Android="Horizontal" WinPhone="Vertical"/>
-                </StackLayout.Orientation>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff">
                 <ActivityIndicator  HorizontalOptions="Center"
-								   IsRunning="{Binding IsBusy}"
-								   IsVisible="{Binding IsBusy}"/>
-                <Label HorizontalOptions="Center"
-			    	 VerticalOptions="Center"
-			    	 Text="Loading..."/>
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff"/>
+                <Label HorizontalOptions="Center" 
+                       TextColor="#22b24c"
+	    	 VerticalOptions="Center" 
+                       FontSize="12"
+	    	 Text="Loading..."/>
             </StackLayout>
 
             <Grid VerticalOptions="FillAndExpand">

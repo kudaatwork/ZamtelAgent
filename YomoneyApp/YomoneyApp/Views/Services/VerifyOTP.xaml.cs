@@ -28,7 +28,12 @@ namespace YomoneyApp.Views.Services
             Title = mnu.Title;
 
             AccessSettings acnt = new AccessSettings();           
-            string phoneNumber = acnt.UserName;           
+            string phoneNumber = acnt.UserName;
+
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                phoneNumber = AccountViewModel.ActualPhoneNumber;
+            }
 
             viewModel.PhoneNumber = phoneNumber;
             viewModel.GetVerificationAsync();
@@ -45,6 +50,16 @@ namespace YomoneyApp.Views.Services
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             await DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +263 787 800 013", "Email: sales@zamtel.zm", "Skype: zamtel@outlook.com", "Call: +263 787 324 123");
+        }
+
+        private async void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+            var resendCode = await DisplayAlert("Alert!", "Do you really want to resend your verification code?", "Yes", "No");
+
+            if (resendCode)
+            {
+                viewModel.GetVerificationAsync();
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using YomoneyApp.Models;
 using YomoneyApp.Services;
 using YomoneyApp.ViewModels.Countries;
@@ -49,7 +50,7 @@ namespace YomoneyApp.Utils
         /// </summary>
         /// <param name="countryName">English Name of Country</param>
         /// <returns>Complete Country Model with Region, Flag, Name and Code</returns>
-        public static CountryModel GetCountryModelByName(string countryName)
+        public static async Task<CountryModel> GetCountryModelByName(string countryName)
         {
             //var phoneNumberUtil = PhoneNumberUtil.GetInstance();
             var isoCountries = GetCountriesByIso3166();

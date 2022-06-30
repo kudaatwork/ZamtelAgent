@@ -12,25 +12,28 @@
 
     <ScrollView>
 
-        <StackLayout Padding="0">
-
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+        <StackLayout Padding="0" BackgroundColor="#ffffff">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff">
                 <ActivityIndicator  HorizontalOptions="Center"
 						   IsRunning="{Binding IsBusy}"
-						   IsVisible="{Binding IsBusy}"/>
-                <Label HorizontalOptions="Center"
+						   IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff"/>
+                <Label HorizontalOptions="Center" 
+                       TextColor="#22b24c"
 	    	 VerticalOptions="Center" 
+                       FontSize="12"
 	    	 Text="{Binding Message}"/>
             </StackLayout>
 
             <Grid>
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#22b24c" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-                        <Image Source="image1.jpg" Aspect="AspectFill" Margin="0,0,0,0"/>
+                    <Frame BackgroundColor="#FFFFFF" HeightRequest="280" HorizontalOptions="FillAndExpand" HasShadow="False" Padding="0" Margin="0">
+                        <Frame HeightRequest="50" WidthRequest="10" Margin="90,60,90,90" HasShadow="False">
+                            <Image Source="New_Ingoma_logo.png" Aspect="AspectFit" Margin="0,0,0,0"/>
+                        </Frame>
                     </Frame>
                 </StackLayout>
                 <StackLayout Margin="12,220,12,0">
-                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="350" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="White" HasShadow="True" HeightRequest="350" CornerRadius="12" HorizontalOptions="FillAndExpand">
                         <StackLayout>
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label Text="SIGN IN" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
@@ -87,7 +90,7 @@
                                         <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                             <Image Source="password2.png" Aspect="AspectFill" Margin="0"/>
                                         </Frame>
-                                        <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Default" Placeholder="Password" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                        <local:MyCustomeEntry Text="{Binding Password2}" FontAttributes="None" Keyboard="Default" Placeholder="Password" IsPassword="True" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
@@ -96,7 +99,7 @@
 
 
                             <StackLayout Orientation="Horizontal">
-                                <CheckBox IsChecked="False" Color="#22b24c" Margin="0,15,0,0"></CheckBox>
+                                <CheckBox CheckedChanged="CheckBox_CheckedChanged" IsChecked="False" Color="#22b24c" Margin="0,15,0,0"></CheckBox>
                                 <Label Text="Remember Me" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="0,15,0,0"></Label>
 
                                 <Label Text="Forgot Password?" TextColor="#22b24c" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,15,0,0" HorizontalOptions="EndAndExpand">
@@ -126,9 +129,9 @@
                                 </Label>
                             </StackLayout>-->
 
-                            <StackLayout Grid.Row="2" Margin="0,64,0,0">
-                                <Image Source="icon.png" Aspect="AspectFit" Margin="0" HeightRequest="90" WidthRequest="20"></Image>
-                            </StackLayout>
+                            <!--<StackLayout Grid.Row="2" Margin="0,64,0,0">
+                                <Image Source="icon.png" Aspect="AspectFit" Margin="0" HeightRequest="100" WidthRequest="40"></Image>
+                            </StackLayout>-->
                         </StackLayout>
                     </Frame>
                 </StackLayout>

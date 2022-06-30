@@ -54,6 +54,20 @@ namespace YomoneyApp.Views.Services
             if (viewModel.ServiceOptions.Count > 0 || viewModel.IsBusy)
                 return;
             viewModel.GetServiceActions(SelectedItem);
+
+            //AccessSettings ac = new AccessSettings();
+
+            //if (string.IsNullOrEmpty(ac.Password))
+            //{
+            //    Navigation.PushAsync(new AccountMain());
+            //}
         }
+
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    base.OnBackButtonPressed();
+
+        //    return true;
+        //}
     }
 }

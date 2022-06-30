@@ -25,31 +25,40 @@ namespace YomoneyApp.ViewModels.Login
 
             Gender.SelectedIndexChanged += (sender, e) =>
             {
-                viewModel.Gender = Gender.Items[Gender.SelectedIndex];
+                viewModel.FormGender = Gender.Items[Gender.SelectedIndex];
             };
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
+            //Navigation.PopAsync();
             await Navigation.PushAsync(new SignIn());
             
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
             //viewModel.SelectedCountry = countryPickerViewModel.SelectedCountry;
 
-            viewModel.ExecuteGetCurrentGeolocationCommand();
+             await viewModel.ExecuteGetCurrentGeolocationCommand();
 
-            var genderOptions = new List<string> { "MALE", "FEMALE" };
+            var genderOptions = new List<string> { "Male", "Female" };
 
-            if (string.IsNullOrEmpty(viewModel.Gender))
+            if (string.IsNullOrEmpty(viewModel.FormGender))
             {
                 Gender.Items.Clear();
                 foreach (var genderOption in genderOptions)
                     Gender.Items.Add(genderOption);
+            }
+        }
+
+        private void ButtonSubmitFeedback_Clicked(object sender, EventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.IsEnabled = true;
             }
         }
     }

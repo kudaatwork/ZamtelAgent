@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YomoneyApp.Services;
 
 namespace YomoneyApp.Views.NavigationBar
 {
@@ -35,6 +36,5 @@ namespace YomoneyApp.Views.NavigationBar
             Navigation.PushAsync(new QRScanPage());
         }
 
-       
     }
 }

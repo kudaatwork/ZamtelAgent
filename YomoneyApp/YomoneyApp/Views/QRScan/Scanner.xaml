@@ -5,12 +5,9 @@
              x:Class="YomoneyApp.Views.QRScan.Scanner">
     <ContentPage.Content>
         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <zxing:ZXingScannerView
-                x:Name="ScannerView"/>
-            <zxing:ZXingDefaultOverlay
-                x:Name="ScannerOverlay"
-                TopText="Hold your phone up to the QRCode"
-                BottomText="Scanning will happen automatically"/>
+            <zxing:ZXingScannerView x:Name="ScannerView" VerticalOptions="FillAndExpand"/>
+            
+            <zxing:ZXingDefaultOverlay x:Name="ScannerOverlay" TopText="Hold your phone up to the QRCode or Barcode" BottomText="Scanning will happen automatically within 30 seconds"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

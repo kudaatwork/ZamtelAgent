@@ -113,7 +113,7 @@ namespace YomoneyApp.ViewModels.Countries
                     if (response.Country != null)
                     {
                         SelectedCountry.CountryCode = response.Country;
-                        SelectedCountry = CountryUtils.GetCountryModelByName(SelectedCountry.CountryName);
+                        SelectedCountry = await CountryUtils.GetCountryModelByName(SelectedCountry.CountryName);
 
                         IsBusy = false;
                     }
@@ -145,7 +145,7 @@ namespace YomoneyApp.ViewModels.Countries
                                     $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
                                     $"Thoroughfare:    {placemark.Thoroughfare}\n";
 
-                                 SelectedCountry = CountryUtils.GetCountryModelByName(placemark.CountryName);
+                                 SelectedCountry = await CountryUtils.GetCountryModelByName(placemark.CountryName);
 
                                  IsBusy = false;
                             }

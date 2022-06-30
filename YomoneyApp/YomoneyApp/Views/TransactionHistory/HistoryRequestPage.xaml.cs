@@ -31,6 +31,7 @@ namespace YomoneyApp.Views.TransactionHistory
                 viewModel.Category = PickerStore.Items[PickerStore.SelectedIndex];
             };
         }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();

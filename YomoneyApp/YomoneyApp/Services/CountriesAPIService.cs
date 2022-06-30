@@ -52,29 +52,25 @@ namespace YomoneyApp.Services
                 ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback
                 (
                     delegate { return true; }
-                );                
+                );
 
                 string url = String.Format("https://restcountries.com/v2/all?fields=name,callingCodes,flags,alpha2Code");
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                httpWebRequest.Timeout = 120000;
-                //SetBasicAuthHeader(httpWebRequest, eSolutionsCredentials.Username, eSolutionsCredentials.Password);
-                //httpWebRequest.Headers.Add("Authorization", "Bearer " + token);
+                httpWebRequest.Timeout = 120000;                
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "GET";
                 httpWebRequest.AutomaticDecompression = DecompressionMethods.GZip;
 
-                HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();              
 
-                using (Stream stream = httpResponse.GetResponseStream())
-
-                    if (httpResponse.StatusCode == HttpStatusCode.OK)
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
                     {
-                        using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                        {
-                            var result = streamReader.ReadToEnd();
-                            countries = JsonConvert.DeserializeObject<List<CountriesModel>>(result);
-                        }
+                        var result = streamReader.ReadToEnd();
+                        countries = JsonConvert.DeserializeObject<List<CountriesModel>>(result);
                     }
+                }
             }
             catch (Exception e)
             {

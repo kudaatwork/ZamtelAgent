@@ -6,23 +6,27 @@
              Title="OTP Verification">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Padding="0">
-                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}">
+            <StackLayout Padding="0" BackgroundColor="White">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Padding="10" IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff">
                     <ActivityIndicator  HorizontalOptions="Center"
-						       IsRunning="{Binding IsBusy}"
-						       IsVisible="{Binding IsBusy}"/>
-                    <Label HorizontalOptions="Center"
-	    	     VerticalOptions="Center" 
-	    	     Text="{Binding Message}"/>
+						   IsRunning="{Binding IsBusy}"
+						   IsVisible="{Binding IsBusy}" BackgroundColor="#ffffff"/>
+                    <Label HorizontalOptions="Center" 
+                       TextColor="#22b24c"
+	    	 VerticalOptions="Center" 
+                       FontSize="12"
+	    	 Text="{Binding Message}"/>
                 </StackLayout>
                 <Grid>
                     <StackLayout Padding="0" Margin="0">
-                        <Frame BackgroundColor="#22b24c" HeightRequest="280" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
-                            <Image Source="otp_image.png" Aspect="AspectFill" Margin="0,0,0,0"/>
+                        <Frame BackgroundColor="#FFFFFF" HeightRequest="280" HorizontalOptions="FillAndExpand" HasShadow="False" Padding="0" Margin="0">
+                            <Frame HeightRequest="50" WidthRequest="10" Margin="90,60,90,90" HasShadow="False">
+                                <Image Source="New_Ingoma_logo.png" Aspect="AspectFit" Margin="0,0,0,0"/>
+                            </Frame>
                         </Frame>
                     </StackLayout>
                     <StackLayout Margin="12,240,12,0">
-                        <Frame BackgroundColor="White" HasShadow="True" HeightRequest="280" HorizontalOptions="FillAndExpand">
+                        <Frame BackgroundColor="White" HasShadow="True" CornerRadius="12" HeightRequest="310" HorizontalOptions="FillAndExpand">
                             <StackLayout>
                                 <StackLayout HorizontalOptions="CenterAndExpand">
                                     <Label Text="VERIFICATION CODE" TextColor="#000000" FontSize="Medium" FontAttributes="Bold"></Label>
@@ -39,7 +43,7 @@
                                             <Frame BackgroundColor="#22b24c" CornerRadius="50" HeightRequest="35" WidthRequest="50" Padding="0" HorizontalOptions="Start">
                                                 <Image Source="unloack.png" Aspect="AspectFill" Margin="0"/>
                                             </Frame>
-                                            <local:MyCustomeEntry Text="{Binding Password}" FontAttributes="None" Keyboard="Numeric" Placeholder="Verification Code e.g. 33344" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
+                                            <local:MyCustomeEntry Text="{Binding Password2}" FontAttributes="None" Keyboard="Numeric" Placeholder="Verification Code e.g. 33344" TextColor="Black" HorizontalOptions="FillAndExpand" Margin="0,5,20,0"/>
                                         </StackLayout>
                                     </Frame>
 
@@ -47,6 +51,15 @@
 
                                 <Button Clicked="ButtonSignIn_Clicked" x:Name="ButtonSignIn" Command="{Binding VerifyPhoneOTPCommand}" Text="VERIFY" BackgroundColor="#22b24c" Margin="0,10,0,0" Padding="0,15,0,15" TextColor="White" FontAttributes="Bold" CornerRadius="30"></Button>
 
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                                    <Label Text="Did not receive an SMS? Just tap" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
+                                    <Label Text="Resend Here" TextColor="#22b24c" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                                
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
                                     <Label Text="Want to contact Customer Support? Click " HorizontalTextAlignment="Start" VerticalTextAlignment="Center"></Label>
                                     <Label Text="Here" TextColor="#22b24c" FontSize="14" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,0,0" HorizontalOptions="EndAndExpand">

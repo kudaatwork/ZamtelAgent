@@ -256,7 +256,7 @@ namespace YomoneyApp
                             $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
                             $"Thoroughfare:    {placemark.Thoroughfare}\n";
 
-                        SelectedCountry = CountryUtils.GetCountryModelByName(placemark.CountryName);
+                        SelectedCountry = await CountryUtils.GetCountryModelByName(placemark.CountryName);
 
                         IsBusy = false;
 

@@ -470,7 +470,7 @@ namespace YomoneyApp.Views.Profile
                             httpWebRequest.Timeout = 120000;
                             httpWebRequest.CookieContainer = new CookieContainer();
                             Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                            cookie.Domain = "www.yomoneyservice.com";
+                            cookie.Domain = "www.yomoneyservice.com:5001";
                             httpWebRequest.CookieContainer.Add(cookie);
 
                             var json = JsonConvert.SerializeObject(fileUpload);
@@ -702,7 +702,7 @@ namespace YomoneyApp.Views.Profile
                             httpWebRequest.Timeout = 120000;
                             httpWebRequest.CookieContainer = new CookieContainer();
                             Cookie cookie = new Cookie("AspxAutoDetectCookieSupport", "1");
-                            cookie.Domain = "www.yomoneyservice.com";
+                            cookie.Domain = "www.yomoneyservice.com:5001";
                             httpWebRequest.CookieContainer.Add(cookie);
 
                             var json = JsonConvert.SerializeObject(fileUpload);

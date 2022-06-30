@@ -237,13 +237,13 @@ namespace YomoneyApp
             };
 
             //ToolbarItems.Add(imagep);
-            ToolbarItems.Add(uploadPromotion);
+            //ToolbarItems.Add(uploadPromotion);
             //ToolbarItems.Add(demoOrdersForm);
             //ToolbarItems.Add(activeCountry);
-            ToolbarItems.Add(Dashboard);
-            ToolbarItems.Add(Profile);
-            ToolbarItems.Add(PImage);
-            ToolbarItems.Add(transactionHistory);
+            //ToolbarItems.Add(Dashboard);
+            //ToolbarItems.Add(Profile);
+            //ToolbarItems.Add(PImage);
+            //ToolbarItems.Add(transactionHistory);
             //ToolbarItems.Add(customerSupport);
             ToolbarItems.Add(signOut);
             #endregion
@@ -323,6 +323,7 @@ namespace YomoneyApp
         }
 
         #region Bottom Button Menu
+        [Obsolete]
         private async void Section_Clicked(object sender, EventArgs e)
         {
             try
@@ -331,45 +332,59 @@ namespace YomoneyApp
                 MenuItem mn = new YomoneyApp.MenuItem();
                 var x = JsonConvert.SerializeObject(view.CommandParameter);
                 mn = JsonConvert.DeserializeObject<MenuItem>(x);
-                switch (mn.Title.ToUpper())
+                switch (mn.Title.Trim().ToUpper())
                 {
                     case "AIRTIME":
-                    case "RECHARGE":
-                        await Navigation.PushAsync(new Recharge(mn));
+                    case "TICKETING":
+                        await Navigation.PushAsync(new NotFound());
                         break;
-                    case "BILL PAYMENTS":
-                        await Navigation.PushAsync(new PayBill(mn));
+                    case "HELP":
+
+                        try
+                        {
+                            Device.OpenUri(new Uri("https://wa.link/fehh38"));                           
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Not Installed", "Whatsapp Not Installed", "ok");                            
+                        }
+
                         break;
                     case "PROMOTIONS":
-                        mn.Title = "PROMOTIONS";
-                        mn.TransactionType = 23;
-                        mn.Section = "PROMOTIONS";
-                        mn.SupplierId = "All";
-                        await Navigation.PushAsync(new PromotionHome(mn));
+
+                        await Navigation.PushAsync(new NotFound());
+
+                        //mn.Title = "PROMOTIONS";
+                        //mn.TransactionType = 23;
+                        //mn.Section = "PROMOTIONS";
+                        //mn.SupplierId = "All";
+                        //await Navigation.PushAsync(new PromotionHome(mn));
                         break;
                     case "JOBS":
                         viewModel.CheckUserCommand.Execute(null);
                         break;
-                    case "SERVICES":
+                    case "VOTING":
                         MenuItem mnu = new MenuItem();
                         //mnu.Title = "Investment";
-                        mn.TransactionType = 12;
-                        mn.Section = "Supplier Services";
-                        mn.ServiceId = 12;
-                        mn.SupplierId = "All";
-                        //await Navigation.PushAsync(new ServiceCategories(mnu));
-                        mn.Title = "Services";
-                        await Navigation.PushAsync(new ServiceVariations(mn));
-                        break;
-                    case "TASKS":
-                        AccessSettings acnt = new AccessSettings();
-                        string uname = acnt.UserName;
-                        string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+                        mnu.Image = "https://www.yomoneyservice.com/Content/Logos/INGOMA/ingoma.jpg";
+                        mnu.Note = "MUSIC";
+                        mnu.Title = "INGOMA";
+                        mnu.TransactionType = 12;
+                        mnu.SupplierId = "5-0001-0001207";
                         
-                        string title = "My Tasks";
+                        await Navigation.PushAsync(new ProviderServices(mnu));
+                        break;
+                    case "MEET THE STAR":
+                        //AccessSettings acnt = new AccessSettings();
+                        //string uname = acnt.UserName;
+                        //string link = "https://www.yomoneyservice.com/Mobile/Projects?Id=" + uname;
+
+                        //string title = "My Tasks";
 
 
-                        await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#22b24c", false));
+                        //await Navigation.PushAsync(new WebviewHyubridConfirm(link, title, true, "#22b24c", false));
+
+                        await Navigation.PushAsync(new NotFound());
 
 
                         break;
@@ -443,6 +458,18 @@ namespace YomoneyApp
                 Console.WriteLine(e.Message);
             }
             
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            base.OnBackButtonPressed();
+
+            return true;
+        }
+
+        private void Categories_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -24,8 +24,12 @@ namespace YomoneyApp.Views.Login
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            //await Navigation.PushAsync(new NewAccount());
-            viewModel.GetVerificationAsync();
+            var resendCode = await DisplayAlert("Alert!", "Do you really want to resend your verification code?", "Yes", "No");
+
+            if (resendCode)
+            {
+                viewModel.GetVerificationAsync();
+            }
         }
 
         private void ButtonSignIn_Clicked(object sender, EventArgs e)
@@ -34,6 +38,11 @@ namespace YomoneyApp.Views.Login
             {
                 button.IsEnabled = true;                
             }
+        }
+
+        private async void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+            await DisplayActionSheet("Customer Support Contact Details", "Ok", "Cancel", "WhatsApp: +27 79 190 3850");
         }
     }
 }
